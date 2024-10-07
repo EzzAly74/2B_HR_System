@@ -113,26 +113,24 @@ export class AllEmployeesCovenantComponent {
         ];
         this.getCovenantTypes();
         this.getDropDownEmployee();
-
-        this.defineFormGroups();
+        this.initFormGroups();
     }
-    defineFormGroups() {
-        this.addNewForm = new FormGroup({
-            covenantId: new FormControl('', Validators.required),
-            employeeId: new FormControl('', Validators.required),
-            date: new FormControl('', Validators.required),
-            cost: new FormControl(''),
-            nots: new FormControl('', Validators.required)
-        });
-        this.editForm = new FormGroup({
-            covenantId: new FormControl('', Validators.required),
-            employeeId: new FormControl('', Validators.required),
-            date: new FormControl('', Validators.required),
-            cost: new FormControl('', Validators.required),
-            nots: new FormControl(''),
-            id: new FormControl('', Validators.required)
-        });
 
+    initFormGroups() {
+        let body = {
+            covenantId: new FormControl(1, Validators.required),
+            employeeId: new FormControl(1, Validators.required),
+            date: new FormControl(new Date(), Validators.required),
+            cost: new FormControl(0, Validators.required),
+            nots: new FormControl('')
+        }
+
+        this.addNewForm = new FormGroup(body);
+
+        this.editForm = new FormGroup({
+            ...body,
+            id: new FormControl(1, Validators.required)
+        });
     }
 
     editProduct(rowData: any) {
@@ -189,10 +187,6 @@ export class AllEmployeesCovenantComponent {
             .join(' ');
     }
 
-    startAttendeesTimeClick(event: any) {}
-
-    endAttendeesTimeClick(event: any) {}
-
     confirmDelete(id: number) {
         // perform delete from sending request to api
         this.employeeConvenantService.DeleteRange([id]).subscribe({
@@ -223,31 +217,19 @@ export class AllEmployeesCovenantComponent {
         });
     }
 
-    addNew() {
-        // first convert from date full format to time only
-        // why? because prime ng calender component returned the value as a full Date Format
+    addNew(form: FormGroup) {
 
-        // set body of request
-        // let body = {
-        //     covenantId: this.selectedCovenantType,
-        //     employeeId: this.selectedEmployee?.['id'],
-        //     date: this.convertDate(this.date, 'yyyy-MM-ddTHH:mm:ss'),
-        //     cost: this.cost,
-        //     nots: this.nots,
-        // };
+        form.patchValue({
+            covenantId: this.selectedCovenantType,
+            employeeId: this.selectedEmployee?.['id'],
+            date: this.convertDate(this.date, 'yyyy-MM-ddTHH:mm:ss'),
+            cost: this.cost,
+            nots: this.nots,
+        })
 
-        // console.log(body);
-
-        this.addNewForm =  this.fb.group({
-            covenantId: [this.selectedCovenantType, Validators.required],
-            employeeId: [this.selectedEmployee?.['id'], Validators.required],
-            date: [this.convertDate(this.date, 'yyyy-MM-ddTHH:mm:ss'), Validators.required],
-            cost: [this.cost, Validators.required],
-            nots: [this.nots, Validators.required],
-        });
 
         // Confirm add new
-        this.employeeConvenantService.Register(this.addNewForm).subscribe({
+        this.employeeConvenantService.Register(form.value).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
@@ -379,17 +361,8 @@ export class AllEmployeesCovenantComponent {
 
     saveProduct( product: any , form : FormGroup) {
         this.submitted = true;
-        // console.log(id);;
-        console.log(product);
 
-        // let body = {
-        //     covenantId: this.selectedCovenantEdit.id,
-        //     employeeId: this.selectedEmployeeEdit.id,
-        //     date: this.convertDate(product.date, 'yyyy-MM-ddTHH:mm:ss'),
-        //     cost: product.cost,
-        //     nots: product.nots,
-        //     id: product.id,
-        // };
+        console.log(product);
 
         form.patchValue({
             covenantId: this.selectedCovenantEdit.id,

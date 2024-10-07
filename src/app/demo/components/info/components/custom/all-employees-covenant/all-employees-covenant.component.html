@@ -47,75 +47,85 @@
     class="p-fluid"
 >
     <ng-template pTemplate="content">
-        <div class="field">
-            <label htmlFor="ContractType">{{
-                "Covenant Type" | translate
-            }}</label>
-            <p-dropdown
-                [(ngModel)]="selectedCovenant"
-                [options]="dropdownItemsCovenantType"
-                optionLabel="name"
-                [placeholder]="'Enter Covenant Type' | translate"
-                (onChange)="selectCovenant($event)"
-            ></p-dropdown>
-        </div>
+        <form [formGroup]="addNewForm">
 
-        <div class="field">
-            <label htmlFor="selectEmployee">{{
-                "Select Employee" | translate
-            }}</label>
-            <p-dropdown
-                [(ngModel)]="selectedEmployee"
-                [options]="dropdownItemsEmployee"
-                optionLabel="name"
-                [placeholder]="'Select Employee' | translate"
-            ></p-dropdown>
-        </div>
+            <div class="field">
+                <label htmlFor="ContractType">{{
+                    "Covenant Type" | translate
+                }}</label>
+                <p-dropdown
+                    [(ngModel)]="selectedCovenant"
+                    [options]="dropdownItemsCovenantType"
+                    optionLabel="name"
+                    formControlName="covenantId"
+                    [placeholder]="'Enter Covenant Type' | translate"
+                    (onChange)="selectCovenant($event)"
+                ></p-dropdown>
+            </div>
 
-        <div class="field">
-            <label htmlFor="name-ar">{{ "Date" | translate }} </label>
+            <div class="field">
+                <label htmlFor="selectEmployee">{{
+                    "Select Employee" | translate
+                }}</label>
+                <p-dropdown
+                    [(ngModel)]="selectedEmployee"
+                    [options]="dropdownItemsEmployee"
+                    optionLabel="name"
+                    formControlName="employeeId"
+                    [placeholder]="'Select Employee' | translate"
+                ></p-dropdown>
+            </div>
 
-            <p-calendar
-                [showIcon]="true"
-                [iconDisplay]="'input'"
-                name="date"
-                inputId="date"
-                [(ngModel)]="date"
-                [placeholder]="'Enter Date Here' | translate"
-            ></p-calendar>
-        </div>
+            <div class="field">
+                <label htmlFor="name-ar">{{ "Date" | translate }} </label>
 
-        <div class="field">
-            <label htmlFor="numberOfHours">{{ "Cost" | translate }}</label>
+                <p-calendar
+                    [showIcon]="true"
+                    [iconDisplay]="'input'"
+                    name="date"
+                    inputId="date"
+                    formControlName="date"
+                    [(ngModel)]="date"
+                    [placeholder]="'Enter Date Here' | translate"
+                ></p-calendar>
+            </div>
 
-            <input
-                pInputText
-                [(ngModel)]="cost"
-                [placeholder]="'Enter Cost Here' | translate"
-                id="Cost"
-                type="number"
-            />
-        </div>
+            <div class="field">
+                <label htmlFor="numberOfHours">{{ "Cost" | translate }}</label>
 
-        <div class="field">
-            <label htmlFor="new-notes">{{ "Notes" | translate }}</label>
-            <textarea
-                pInputTextarea
-                [(ngModel)]="nots"
-                id="new-notes"
-                [placeholder]="'Enter Notes Here' | translate"
-                type="text"
-            ></textarea>
-        </div>
+                <input
+                    pInputText
+                    [(ngModel)]="cost"
+                    [placeholder]="'Enter Cost Here' | translate"
+                    id="Cost"
+                    formControlName="cost"
+                    type="number"
+                />
+            </div>
 
-        <div class="field">
-            <button
-                class="w-25"
-                pButton
-                [label]="'Insert New' | translate"
-                (click)="addNew()"
-            ></button>
-        </div>
+            <div class="field">
+                <label htmlFor="new-notes">{{ "Notes" | translate }}</label>
+                <textarea
+                    pInputTextarea
+                    [(ngModel)]="nots"
+                    id="new-notes"
+                    formControlName="nots"
+                    [placeholder]="'Enter Notes Here' | translate"
+                    type="text"
+                ></textarea>
+            </div>
+
+            <div class="field">
+                <button
+                    class="w-25"
+                    pButton
+                    type="submit"
+                    [label]="'Insert New' | translate"
+                    (click)="addNew(addNewForm)"
+                ></button>
+            </div>
+        </form>
+
     </ng-template>
 </p-dialog>
 
