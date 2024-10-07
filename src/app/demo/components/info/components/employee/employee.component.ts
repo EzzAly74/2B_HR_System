@@ -54,7 +54,6 @@ export class EmployeeComponent {
     selectedPhone: any = null;
     selectedEmail: any = null;
     selectedBirthDate: any = null;
-    selectedAttendanceConfiguration: any = null;
     selectedDepartment: any = null;
     selectedBloodType: any = null;
 
@@ -134,7 +133,7 @@ export class EmployeeComponent {
             enum: 'getReligion',
         });
 
-    
+
 
         // get Government Dropdown
         this.getDropDownField({

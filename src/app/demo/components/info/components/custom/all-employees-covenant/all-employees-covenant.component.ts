@@ -8,6 +8,7 @@ import { AllEmployeeCovenantService } from './all-employee-covenant.service';
 import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     standalone: true,
@@ -25,7 +26,8 @@ export class AllEmployeesCovenantComponent {
         private employeeConvenantService: AllEmployeeCovenantService,
         private messageService: MessageService,
         private route: ActivatedRoute,
-        private DatePipe: DatePipe
+        private DatePipe: DatePipe,
+        private fb: FormBuilder
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -64,6 +66,10 @@ export class AllEmployeesCovenantComponent {
     selectedCovenantType!: number;
     selectedCovenant!: any;
     selectedCovenantEdit!: any;
+
+    //edit formGroup
+    addNewForm: FormGroup;
+    editForm: FormGroup;
 
     ngOnInit() {
         this.endPoint = 'EmployeeCovenant';
@@ -107,6 +113,26 @@ export class AllEmployeesCovenantComponent {
         ];
         this.getCovenantTypes();
         this.getDropDownEmployee();
+
+        this.defineFormGroups();
+    }
+    defineFormGroups() {
+        this.addNewForm = new FormGroup({
+            covenantId: new FormControl('', Validators.required),
+            employeeId: new FormControl('', Validators.required),
+            date: new FormControl('', Validators.required),
+            cost: new FormControl(''),
+            nots: new FormControl('', Validators.required)
+        });
+        this.editForm = new FormGroup({
+            covenantId: new FormControl('', Validators.required),
+            employeeId: new FormControl('', Validators.required),
+            date: new FormControl('', Validators.required),
+            cost: new FormControl('', Validators.required),
+            nots: new FormControl(''),
+            id: new FormControl('', Validators.required)
+        });
+
     }
 
     editProduct(rowData: any) {
@@ -134,6 +160,17 @@ export class AllEmployeesCovenantComponent {
                 console.log(res.data.date);
 
                 this.product = { ...res.data };
+
+                this.editForm.patchValue({
+                    covenantId: this.selectedCovenantEdit.id,
+                    employeeId: this.selectedEmployeeEdit.id,
+                    date: this.convertDate(this.product.date, 'yyyy-MM-ddTHH:mm:ss'),
+                    cost: this.product.cost,
+                    nots: this.product.nots,
+                    id: this.product.id,
+                });
+
+
                 this.productDialog = true;
             },
             error: (err) => {
@@ -191,18 +228,26 @@ export class AllEmployeesCovenantComponent {
         // why? because prime ng calender component returned the value as a full Date Format
 
         // set body of request
-        let body = {
-            covenantId: this.selectedCovenantType,
-            employeeId: this.selectedEmployee?.['id'],
-            date: this.convertDate(this.date, 'yyyy-MM-ddTHH:mm:ss'),
-            cost: this.cost,
-            nots: this.nots,
-        };
+        // let body = {
+        //     covenantId: this.selectedCovenantType,
+        //     employeeId: this.selectedEmployee?.['id'],
+        //     date: this.convertDate(this.date, 'yyyy-MM-ddTHH:mm:ss'),
+        //     cost: this.cost,
+        //     nots: this.nots,
+        // };
 
-        console.log(body);
+        // console.log(body);
+
+        this.addNewForm =  this.fb.group({
+            covenantId: [this.selectedCovenantType, Validators.required],
+            employeeId: [this.selectedEmployee?.['id'], Validators.required],
+            date: [this.convertDate(this.date, 'yyyy-MM-ddTHH:mm:ss'), Validators.required],
+            cost: [this.cost, Validators.required],
+            nots: [this.nots, Validators.required],
+        });
 
         // Confirm add new
-        this.employeeConvenantService.Register(body).subscribe({
+        this.employeeConvenantService.Register(this.addNewForm).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
@@ -332,21 +377,31 @@ export class AllEmployeesCovenantComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number, product: any) {
+    saveProduct( product: any , form : FormGroup) {
         this.submitted = true;
-        console.log(id);
+        // console.log(id);;
         console.log(product);
 
-        let body = {
+        // let body = {
+        //     covenantId: this.selectedCovenantEdit.id,
+        //     employeeId: this.selectedEmployeeEdit.id,
+        //     date: this.convertDate(product.date, 'yyyy-MM-ddTHH:mm:ss'),
+        //     cost: product.cost,
+        //     nots: product.nots,
+        //     id: product.id,
+        // };
+
+        form.patchValue({
             covenantId: this.selectedCovenantEdit.id,
             employeeId: this.selectedEmployeeEdit.id,
             date: this.convertDate(product.date, 'yyyy-MM-ddTHH:mm:ss'),
             cost: product.cost,
             nots: product.nots,
             id: product.id,
-        };
+        });
 
-        this.employeeConvenantService.Edit(body).subscribe({
+
+        this.employeeConvenantService.Edit(form.value).subscribe({
             next: () => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.

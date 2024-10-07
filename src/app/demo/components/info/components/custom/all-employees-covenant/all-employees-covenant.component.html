@@ -305,88 +305,98 @@
     [style]="{ width: '450px' }"
     [header]="'Item Details' | translate"
     [modal]="true"
-    class="p-fluid"
->
+    class="p-fluid">
+
     <ng-template pTemplate="content">
-        <div class="field">
-            <label htmlFor="ContractType">{{
-                "Covenant Type" | translate
-            }}</label>
-            <p-dropdown
-                [(ngModel)]="selectedCovenantEdit"
-                [options]="dropdownItemsCovenantType"
-                optionLabel="name"
-                [placeholder]="'Enter Covenant Type' | translate"
-                (onChange)="selectedCovenantEditFun($event)"
-            ></p-dropdown>
-        </div>
+            <form [formGroup]="editForm">
+                <div class="field">
+                    <label htmlFor="ContractType">{{
+                        "Covenant Type" | translate
+                    }}</label>
+                    <p-dropdown
+                        [(ngModel)]="selectedCovenantEdit"
+                        [options]="dropdownItemsCovenantType"
+                        optionLabel="name"
+                        formControlName="covenantId"
+                        [placeholder]="'Enter Covenant Type' | translate"
+                        (onChange)="selectedCovenantEditFun($event)"
+                    ></p-dropdown>
+                </div>
 
-        <div class="field">
-            <label htmlFor="Employee">{{
-                "Select Employee" | translate
-            }}</label>
-            <p-dropdown
-                [(ngModel)]="selectedEmployeeEdit"
-                [options]="dropdownItemsEmployee"
-                optionLabel="name"
-                [placeholder]="'All Employees' | translate"
-            ></p-dropdown>
-        </div>
+                <div class="field">
+                    <label htmlFor="Employee">{{
+                        "Select Employee" | translate
+                    }}</label>
+                    <p-dropdown
+                        [(ngModel)]="selectedEmployeeEdit"
+                        [options]="dropdownItemsEmployee"
+                        formControlName="employeeId"
+                        optionLabel="name"
+                        [placeholder]="'All Employees' | translate"
+                    ></p-dropdown>
+                </div>
 
-        <div class="field">
-            <label htmlFor="name-ar">{{ "Date" | translate }} </label>
+                <div class="field">
+                    <label htmlFor="name-ar">{{ "Date" | translate }} </label>
 
-            <p-calendar
-                [showIcon]="true"
-                [iconDisplay]="'input'"
-                name="date"
-                inputId="date"
-                [(ngModel)]="product.date"
-                [placeholder]="'Enter Date Here' | translate"
-            ></p-calendar>
-        </div>
+                    <p-calendar
+                        [showIcon]="true"
+                        [iconDisplay]="'input'"
+                        name="date"
+                        formControlName="date"
+                        inputId="date"
+                        [(ngModel)]="product.date"
+                        [placeholder]="'Enter Date Here' | translate"
+                    ></p-calendar>
+                </div>
 
-        <div class="field">
-            <label htmlFor="numberOfHours">{{ "Cost" | translate }}</label>
+                <div class="field">
+                    <label htmlFor="numberOfHours">{{ "Cost" | translate }}</label>
 
-            <input
-                pInputText
-                [(ngModel)]="product.cost"
-                [placeholder]="'Enter Cost Here' | translate"
-                id="Cost"
-                type="number"
-            />
-        </div>
+                    <input
+                        pInputText
+                        [(ngModel)]="product.cost"
+                        [placeholder]="'Enter Cost Here' | translate"
+                        id="Cost"
+                        formControlName="cost"
+                        type="number"
+                    />
+                </div>
 
-        <div class="field">
-            <label htmlFor="new-notes">{{ "Notes" | translate }}</label>
-            <textarea
-                pInputTextarea
-                [(ngModel)]="product.nots"
-                id="new-notes"
-                [placeholder]="'Enter Notes Here' | translate"
-                type="text"
-            ></textarea>
-        </div>
-    </ng-template>
+                <div class="field">
+                    <label htmlFor="new-notes">{{ "Notes" | translate }}</label>
+                    <textarea
+                        pInputTextarea
+                        [(ngModel)]="product.nots"
+                        id="new-notes"
+                        formControlName="nots"
+                        [placeholder]="'Enter Notes Here' | translate"
+                        type="text"
+                    ></textarea>
+                </div>
 
-    <ng-template pTemplate="footer">
-        <button
-            pButton
-            pRipple
-            [label]="'Cancel' | translate"
-            icon="pi pi-times"
-            class="p-button-text"
-            (click)="hideDialog()"
-        ></button>
-        <button
-            pButton
-            pRipple
-            [label]="'Save' | translate"
-            icon="pi pi-check"
-            class="p-button-text"
-            (click)="saveProduct(product.id, product)"
-        ></button>
+                <div class="field footer-form">
+                    <button pButton
+                        pRipple
+                        [label]="'Cancel' | translate"
+                        icon="pi pi-times"
+                        class="p-button-text"
+                        (click)="hideDialog()"
+                        type="button">
+                    </button>
+                    <button
+                        pButton
+                        pRipple
+                        [disabled]="editForm.invalid"
+                        [label]="'Save' | translate"
+                        icon="pi pi-check"
+                        class="p-button-text"
+                        (click)="saveProduct(product , editForm)"
+                        type="submit"
+                        >
+                    </button>
+                </div>
+            </form>
     </ng-template>
 </p-dialog>
 

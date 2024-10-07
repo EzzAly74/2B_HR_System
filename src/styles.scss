@@ -309,3 +309,11 @@ html:lang(ar) .pi-sign-out:before
     transform: rotate(180deg);
     margin-right: 5px;
 }
+
+.field.footer-form {
+    display: flex;
+    justify-content: end;
+}
+.field.footer-form button {
+    width: 25%;
+}

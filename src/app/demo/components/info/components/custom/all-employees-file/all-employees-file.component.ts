@@ -1,7 +1,7 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, Input, ViewChild } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -79,6 +79,7 @@ export class AllEmployeesFileComponent {
     selectedRelativeRelationEdit!: any;
     baseUrlFile: string = environment.mediaUrl;
     file!: File;
+    addNewForm: FormGroup;
 
     // for all employees customize
     dropdownItemsEmployee: any;
