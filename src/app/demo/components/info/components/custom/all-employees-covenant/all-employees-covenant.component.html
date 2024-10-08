@@ -120,6 +120,7 @@
                     class="w-25"
                     pButton
                     type="submit"
+                    [disabled]="addNewForm.invalid"
                     [label]="'Insert New' | translate"
                     (click)="addNew(addNewForm)"
                 ></button>
@@ -198,6 +199,7 @@
                 class="w-25"
                 pButton
                 [label]="'Insert New' | translate"
+
                 (click)="addNew()"
             ></button>
         </div>

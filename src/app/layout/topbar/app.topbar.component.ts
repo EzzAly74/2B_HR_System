@@ -37,7 +37,7 @@ export class AppTopBarComponent implements OnInit {
         const lang = localStorage.getItem('currentLang')
             ? localStorage.getItem('currentLang')
             : null;
-        console.log('langggggggggggggggggggg => ', lang);
+        console.log('lang from topbar file => ', lang);
 
         console.log(this.imageUrl);
 
@@ -76,7 +76,11 @@ export class AppTopBarComponent implements OnInit {
         }
         this.theme = localStorage.getItem('theme');
 
-        localStorage.setItem('theme', 'saga-orange');
+        if(this.theme == 'saga-orange')
+            localStorage.setItem('theme', 'saga-orange');
+        else
+            localStorage.setItem('theme', 'arya-orange');
+
 
         if (this.theme == 'arya-orange') {
             this.themeSelected = true;

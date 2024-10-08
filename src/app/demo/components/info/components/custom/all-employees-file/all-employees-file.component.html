@@ -48,76 +48,101 @@
     class="p-fluid"
 >
     <ng-template pTemplate="content">
-        <div class="field">
-            <label htmlFor="selectEmployee">{{
-                "Select Employee" | translate
-            }}</label>
-            <p-dropdown
-                [(ngModel)]="selectedEmployee"
-                [options]="dropdownItemsEmployee"
-                optionLabel="name"
-                [placeholder]="'Select Employee' | translate"
-            ></p-dropdown>
-        </div>
+        <form [formGroup]="addNewForm">
+            <div class="field">
+                <label htmlFor="selectEmployee">{{
+                    "Select Employee" | translate
+                }}</label>
+                <p-dropdown
+                    [(ngModel)]="selectedEmployee"
+                    [options]="dropdownItemsEmployee"
+                    optionLabel="name"
+                    formControlName="EmployeeId"
+                    [placeholder]="'Select Employee' | translate"
+                ></p-dropdown>
+                <div *ngIf="formControls.EmployeeId.invalid && formControls.EmployeeId.touched">
+                    <small class="error">Employee ID is required.</small>
+                </div>
+            </div>
 
-        <div class="field">
-            <label htmlFor="ContractType">{{
-                "Document Required Type" | translate
-            }}</label>
-            <p-dropdown
-                [(ngModel)]="selectedRelativeRelation"
-                [options]="dropdownItemsRelativeRelationType"
-                optionLabel="name"
-                [placeholder]="'Enter Document Required Type' | translate"
-                (onChange)="selectRelativeRelation($event)"
-            ></p-dropdown>
-        </div>
+            <div class="field">
+                <label htmlFor="ContractType">{{
+                    "Document Required Type" | translate
+                }}</label>
+                <p-dropdown
+                    [(ngModel)]="selectedRelativeRelation"
+                    [options]="dropdownItemsRelativeRelationType"
+                    optionLabel="name"
+                    formControlName="DocumentRequiredId"
+                    [placeholder]="'Enter Document Required Type' | translate"
+                    (onChange)="selectRelativeRelation($event)"
+                ></p-dropdown>
+                <div *ngIf="formControls.DocumentRequiredId.invalid && formControls.DocumentRequiredId.touched">
+                    <small class="error">Document Required Id is required.</small>
+                </div>
+            </div>
 
-        <div class="field">
-            <label htmlFor="name-ar">{{ "Date" | translate }}</label>
+            <div class="field">
+                <label htmlFor="name-ar">{{ "Date" | translate }}</label>
 
-            <p-calendar
-                [showIcon]="true"
-                [iconDisplay]="'input'"
-                name="date"
-                inputId="date"
-                [(ngModel)]="date"
-                [placeholder]="'Enter Date Here' | translate"
-            ></p-calendar>
-        </div>
+                <p-calendar
+                    [showIcon]="true"
+                    [iconDisplay]="'input'"
+                    name="date"
+                    formControlName="Date"
+                    inputId="date"
+                    [(ngModel)]="date"
+                    [placeholder]="'Enter Date Here' | translate"
+                ></p-calendar>
+                <div *ngIf="formControls.Date.invalid && formControls.Date.touched">
+                    <small class="error"> Date is required.</small>
+                </div>
+            </div>
 
-        <div class="field">
-            <label htmlFor="new-notes">{{ "Discription" | translate }}</label>
-            <textarea
-                pInputTextarea
-                [(ngModel)]="discreption"
-                id="new-notes"
-                [placeholder]="'Enter Discription Here' | translate"
-                type="text"
-            ></textarea>
-        </div>
-        <div class="field">
-            <label htmlFor="date">{{ "Upload File" | translate }} </label>
-            <p-fileUpload
-                mode="basic"
-                [chooseLabel]="'Choose' | translate"
-                chooseIcon="pi pi-upload"
-                name="demo[]"
-                maxFileSize="1000000"
-                accept=".pdf"
-                (onSelect)="onFileSelect($event)"
-            />
-            <!-- <button (click)="uploadFile()">Upload</button> -->
-        </div>
+            <div class="field">
+                <label htmlFor="new-discription">{{ "Discription" | translate }}</label>
+                <textarea
+                    pInputTextarea
+                    [(ngModel)]="discreption"
+                    formControlName="Discreption"
+                    id="new-discription"
+                    [placeholder]="'Enter Discription Here' | translate"
+                    type="text"
+                ></textarea>
+                <div *ngIf="formControls.Discreption.invalid && formControls.Discreption.touched">
+                    <small class="error">Document Discreption is required.</small>
+                </div>
+            </div>
 
-        <div class="field">
-            <button
-                class="w-25"
-                pButton
-                [label]="'Insert New' | translate"
-                (click)="addNew()"
-            ></button>
-        </div>
+            <div class="field">
+                <label htmlFor="File">{{ "Upload File" | translate }} </label>
+                <p-fileUpload
+                    mode="basic"
+                    [chooseLabel]="'Choose' | translate"
+                    chooseIcon="pi pi-upload"
+                    name="demo[]"
+                    maxFileSize="1000000"
+                    accept=".pdf"
+                    id="File"
+                    (onSelect)="onFileSelect($event)"
+                />
+                <div *ngIf="formControls.File.invalid">
+                    <small class="error">File is required.</small>
+                </div>
+            </div>
+
+            <div class="field footer-form">
+                <button
+                    class="w-25"
+                    pButton
+                    [disabled]="form.invalid"
+                    type="submit"
+                    [label]="'Insert New' | translate"
+                    (click)="addNew()"
+                ></button>
+            </div>
+        </form>
+
     </ng-template>
 </p-dialog>
 
@@ -318,87 +343,94 @@
     class="p-fluid"
 >
     <ng-template pTemplate="content">
-        <div class="field">
-            <label htmlFor="Employee">{{
-                "Select Employee" | translate
-            }}</label>
-            <p-dropdown
-                [(ngModel)]="selectedEmployeeEdit"
-                [options]="dropdownItemsEmployee"
-                optionLabel="name"
-                [placeholder]="'All Employees' | translate"
-                (onChange)="selectedCovenantEditFun($event)"
-            ></p-dropdown>
-        </div>
+       <form [formGroup]="editForm">
+            <div class="field">
+                <label htmlFor="Employee">{{
+                    "Select Employee" | translate
+                }}</label>
+                <p-dropdown
+                    [(ngModel)]="selectedEmployeeEdit"
+                    [options]="dropdownItemsEmployee"
+                    formControlName="EmployeeId"
+                    optionLabel="name"
+                    [placeholder]="'All Employees' | translate"
+                    (onChange)="selectedCovenantEditFun($event)"
+                ></p-dropdown>
+            </div>
 
-        <div class="field">
-            <label htmlFor="ContractType">{{
-                "Document Required Type" | translate
-            }}</label>
-            <p-dropdown
-                [(ngModel)]="selectedRelativeRelationEdit"
-                [options]="dropdownItemsRelativeRelationType"
-                optionLabel="name"
-                [placeholder]="'Enter Document Required Type' | translate"
-                (onChange)="selectedRelativeRelationEditFun($event)"
-            ></p-dropdown>
-        </div>
+            <div class="field">
+                <label htmlFor="ContractType">{{
+                    "Document Required Type" | translate
+                }}</label>
+                <p-dropdown
+                    [(ngModel)]="selectedRelativeRelationEdit"
+                    [options]="dropdownItemsRelativeRelationType"
+                    formControlName="DocumentRequiredId"
+                    optionLabel="name"
+                    [placeholder]="'Enter Document Required Type' | translate"
+                    (onChange)="selectedRelativeRelationEditFun($event)"
+                ></p-dropdown>
+            </div>
 
-        <div class="field">
-            <label htmlFor="name-ar">{{ "Date" | translate }} </label>
+            <div class="field">
+                <label htmlFor="date">{{ "Date" | translate }} </label>
 
-            <p-calendar
-                [showIcon]="true"
-                [iconDisplay]="'input'"
-                name="date"
-                inputId="date"
-                [(ngModel)]="product.date"
-                [placeholder]="'Enter Date Here' | translate"
-            ></p-calendar>
-        </div>
+                <p-calendar
+                    [showIcon]="true"
+                    [iconDisplay]="'input'"
+                    name="date"
+                    formControlName="Date"
+                    inputId="date"
+                    [(ngModel)]="product.date"
+                    [placeholder]="'Enter Date Here' | translate"
+                ></p-calendar>
+            </div>
 
-        <div class="field">
-            <label htmlFor="new-notes">{{ "Discription" | translate }}</label>
-            <textarea
-                pInputTextarea
-                [(ngModel)]="product.discreption"
-                id="new-notes"
-                [placeholder]="'Enter Discription Here' | translate"
-                type="text"
-            ></textarea>
-        </div>
-        <div class="field">
-            <label htmlFor="date"> {{ "Upload File" | translate }} </label>
-            <p-fileUpload
-                mode="basic"
-                [chooseLabel]="'Choose' | translate"
-                chooseIcon="pi pi-upload"
-                name="demo[]"
-                maxFileSize="1000000"
-                accept=".pdf"
-                (onSelect)="onFileSelect($event)"
-            />
-            <!-- <button (click)="uploadFile()">Upload</button> -->
-        </div>
-    </ng-template>
+            <div class="field">
+                <label htmlFor="new-notes">{{ "Discription" | translate }}</label>
+                <textarea
+                    pInputTextarea
+                    [(ngModel)]="product.discreption"
+                    id="new-notes"
+                    formControlName="Discreption"
+                    [placeholder]="'Enter Discription Here' | translate"
+                    type="text"
+                ></textarea>
+            </div>
 
-    <ng-template pTemplate="footer">
-        <button
-            pButton
-            pRipple
-            [label]="'Cancel' | translate"
-            icon="pi pi-times"
-            class="p-button-text"
-            (click)="hideDialog()"
-        ></button>
-        <button
-            pButton
-            pRipple
-            [label]="'Save' | translate"
-            icon="pi pi-check"
-            class="p-button-text"
-            (click)="saveProduct(product.id, product)"
-        ></button>
+            <div class="field">
+                <label htmlFor="file"> {{ "Upload File" | translate }} </label>
+                <p-fileUpload
+                    mode="basic"
+                    [chooseLabel]="'Choose' | translate"
+                    chooseIcon="pi pi-upload"
+                    name="demo[]"
+                    maxFileSize="1000000"
+                    accept=".pdf"
+                    (onSelect)="onFileSelect($event)"
+                />
+            </div>
+
+            <div class="field footer-form">
+                <button
+                    pButton
+                    pRipple
+                    [label]="'Cancel' | translate"
+                    icon="pi pi-times"
+                    class="p-button-text"
+                    type="button"
+                    (click)="hideDialog()"></button>
+                <button
+                    pButton
+                    pRipple
+                    icon="pi pi-check"
+                    class="p-button-text"
+                    type="submit"
+                    [disabled]="editForm.invalid"
+                    [label]="'Save' | translate"
+                    (click)="saveProduct(product.id, product)"></button>
+            </div>
+       </form>
     </ng-template>
 </p-dialog>
 

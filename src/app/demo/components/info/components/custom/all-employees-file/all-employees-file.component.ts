@@ -1,7 +1,7 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, Input, ViewChild } from '@angular/core';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormControlName, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -80,6 +80,7 @@ export class AllEmployeesFileComponent {
     baseUrlFile: string = environment.mediaUrl;
     file!: File;
     addNewForm: FormGroup;
+    editForm: FormGroup;
 
     // for all employees customize
     dropdownItemsEmployee: any;
@@ -88,12 +89,14 @@ export class AllEmployeesFileComponent {
 
     ngOnInit() {
         this.endPoint = 'EmployeeFile';
+
         // this.route.parent?.paramMap.subscribe((params) => {
         //     this.currentId = Number(params.get('id'));
         //     console.log('currentId:', this.currentId);
         // });
 
         // adding this Configurations in each Component Customized
+
         Globals.getMainLangChanges().subscribe((mainLang) => {
             console.log('Main language changed to:', mainLang);
 
@@ -111,27 +114,47 @@ export class AllEmployeesFileComponent {
                 this.sortField,
                 this.sortOrder
             );
+
+
+            this.cols = [
+                // main field
+                { field: 'name', header: 'Name' },
+
+                // personal fields
+
+                { field: 'numberOfHours', header: 'NumberOfHours' },
+
+                // main field
+                { field: 'notes', header: 'Notes' },
+
+                // Generic Fields
+                { field: 'creationTime', header: 'CreationTime' },
+                { field: 'lastModificationTime', header: 'LastModificationTime' },
+                { field: 'creatorName', header: 'CreatorName' },
+                { field: 'lastModifierName', header: 'LastModifierName' },
+            ];
+            this.getRelativeRelationTypes();
+            this.getDropDownEmployee();
+            this.initFormGroups();
         });
 
-        this.cols = [
-            // main field
-            { field: 'name', header: 'Name' },
+    }
 
-            // personal fields
+    initFormGroups() {
+        let body = {
+            DocumentRequiredId: new FormControl(1, Validators.required),
+            EmployeeId: new FormControl(1, Validators.required) ,
+            Date: new FormControl(new Date(), Validators.required),
+            Discreption: new FormControl(''),
+            File:new FormControl(this.file),
+        }
 
-            { field: 'numberOfHours', header: 'NumberOfHours' },
+        this.addNewForm = new FormGroup(body);
 
-            // main field
-            { field: 'notes', header: 'Notes' },
-
-            // Generic Fields
-            { field: 'creationTime', header: 'CreationTime' },
-            { field: 'lastModificationTime', header: 'LastModificationTime' },
-            { field: 'creatorName', header: 'CreatorName' },
-            { field: 'lastModifierName', header: 'LastModifierName' },
-        ];
-        this.getRelativeRelationTypes();
-        this.getDropDownEmployee();
+        this.editForm = new FormGroup({
+            ...body,
+            Id: new FormControl(1, Validators.required)
+        });
     }
 
     editProduct(rowData: any) {
@@ -140,6 +163,8 @@ export class AllEmployeesFileComponent {
         this.employeeFileService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
+
+
                 this.selectedRelativeRelationEdit =
                     this.dropdownItemsRelativeRelationType.find(
                         (item: any) => item.id == res.data.documentRequiredId
@@ -152,10 +177,27 @@ export class AllEmployeesFileComponent {
                 console.log('selectedRelativeRelationEdit => ');
                 console.log(this.selectedRelativeRelationEdit);
 
-                res.data.date = this.convertDate(res.data.date, 'MM/dd/yyyy');
+
                 console.log(res.data.date);
 
                 this.product = { ...res.data };
+                this.product.date = this.convertDate(res.data.date, 'MM/dd/yyyy');
+
+
+                console.log("From Edit Product : ");
+                console.log("Product Date : ")
+                console.log(this.product.date)
+
+                this.editForm.patchValue({
+                    DocumentRequiredId: this.selectedRelativeRelationEdit,
+                    EmployeeId: this.selectedEmployeeEdit ,
+                    Date: this.product.date,
+                    Discreption: this.product.discreption,
+                    File: this.file,
+                    Id: this.product.id
+                });
+
+                console.log("Edited Form => ", this.editForm.value)
                 this.productDialog = true;
             },
             error: (err) => {
@@ -221,66 +263,84 @@ export class AllEmployeesFileComponent {
         });
     }
 
-    addNew() {
-        // first convert from date full format to time only
-        // why? because prime ng calender component returned the value as a full Date Format
+    getFormData(form: FormGroup): any {
+        if (form.valid) {
+          return form.value; // Return the form data if valid
+        } else {
+          return null; // Return null if the form is invalid
+        }
+      }
 
-        // set body of request
-        let body = {
-            DocumentRequiredId: this.selectedRelativeRelationType,
-            EmployeeId: this.selectedEmployee.id,
-            Date: this.convertDate(this.date, 'yyyy-MM-ddTHH:mm:ss'),
-            Discreption: this.discreption,
-            File: this.file,
-        };
-
-        console.log(body);
-
+      mapToFormData(form: FormGroup) {
         const formData: FormData = new FormData();
 
-        for (const key in body) {
-            if (body.hasOwnProperty(key)) {
-                formData.append(key, body[key]);
+        for (const key in form) {
+            if (form.hasOwnProperty(key)) {
+                formData.append(key, form[key]);
             }
         }
 
-        console.log(body);
+        console.log("from mapped => ", formData)
+        return formData;
+      }
 
-        // Confirm add new
-        this.employeeFileService.Register(formData).subscribe({
-            next: (res) => {
-                console.log(res);
-                this.showFormNew = false;
-                // show message for success inserted
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'inserted success',
-                    life: 3000,
-                });
+      get formControls() {
+        return this.addNewForm.controls;
+      }
 
-                // set fields is empty
-                this.setFieldsNulls();
+      get form() {
+        return this.addNewForm;
+      }
 
-                // load data again
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
-            error: (err) => {
-                this.showFormNew = false;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: err,
-                    life: 3000,
-                });
-            },
-        });
+    addNew() {
+        console.log("this.selectedEmployee => ", this.selectedEmployee);
+
+        // this.addNewForm.patchValue({
+        //     DocumentRequiredId: this.addNewForm.get('DocumentRequiredId')?.['id'],
+        //     EmployeeId: this.addNewForm.get('EmployeeId')?.['id'],
+        //     Date: this.convertDate(this.addNewForm.get('Date').value, 'yyyy-MM-ddTHH:mm:ss'),
+        // });
+
+        if(this.addNewForm.valid) {
+            const formData = this.mapToFormData(this.addNewForm.value);
+
+            // Confirm add new
+            this.employeeFileService.Register(formData).subscribe({
+                next: (res) => {
+                    console.log(res);
+                    this.showFormNew = false;
+                    // show message for success inserted
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: 'inserted success',
+                        life: 3000,
+                    });
+
+                    // set fields is empty
+                    this.setFieldsNulls();
+
+                    // load data again
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+                },
+                error: (err) => {
+                    this.showFormNew = false;
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Error',
+                        detail: err,
+                        life: 3000,
+                    });
+                },
+            });
+        }
+
     }
 
     loadFilteredData() {
@@ -382,11 +442,10 @@ export class AllEmployeesFileComponent {
 
         let body = {
             DocumentRequiredId: this.selectedRelativeRelationEdit.id,
-            employeeId: this.selectedEmployeeEdit.id,
-            date: this.convertDate(product.date, 'yyyy-MM-ddTHH:mm:ss'),
-            personName: product.personName,
-            discreption: product.discreption,
-            id: product.id,
+            EmployeeId: this.selectedEmployeeEdit.id,
+            Date: this.convertDate(product.date, 'yyyy-MM-ddTHH:mm:ss'),
+            Discreption: product.discreption,
+            Id: product.id,
             File: this.file,
         };
         const formData: FormData = new FormData();
@@ -424,12 +483,33 @@ export class AllEmployeesFileComponent {
         });
     }
 
+    changeFiles() {
+        console.log(this.addNewForm)
+    }
+
     toggleNew() {
+
         if (this.showFormNew) {
             this.showFormNew = false;
         } else {
             this.showFormNew = true;
+
+            this.addNewForm.patchValue({
+                DocumentRequiredId: this.selectedRelativeRelation,
+                EmployeeId: this.selectedEmployee,
+                Date: this.date,
+                Discreption: this.discreption,
+                File: this.file,
+            });
+
+            console.log("addNewForm => ", this.addNewForm)
         }
+
+    }
+
+    logForm() {
+        console.log("Add New Form : ")
+        console.log(this.addNewForm.value);
     }
 
     exportCSV() {
@@ -507,6 +587,7 @@ export class AllEmployeesFileComponent {
             },
         });
     }
+
     sortById(event: any) {
         this.sortField = 'id';
 
@@ -516,12 +597,15 @@ export class AllEmployeesFileComponent {
             this.sortOrder = 'asc';
         }
     }
+
     sortByName(event: any) {
         this.sortField = 'name';
     }
+
     convertDate(date: any, format: string) {
         return this.DatePipe.transform(date, format);
     }
+
     getRelativeRelationTypes() {
         this.employeeFileService
             .getDropdownField('DocumentRequired')
@@ -536,14 +620,17 @@ export class AllEmployeesFileComponent {
                 },
             });
     }
+
     selectRelativeRelation(event: any) {
         console.log(event);
         this.selectedRelativeRelationType = event.value.id;
         this.selectedRelativeRelation = event.value;
     }
+
     selectedRelativeRelationEditFun(event: any) {
         this.selectedRelativeRelationEdit = event.value;
     }
+
     onFileSelect(event: any) {
         console.log(event);
 
