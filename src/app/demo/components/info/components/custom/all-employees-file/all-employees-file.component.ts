@@ -286,8 +286,6 @@ export class AllEmployeesFileComponent {
             }
         }
 
-        console.log(body);
-
         // Confirm add new
         this.employeeFileService.Register(formData).subscribe({
             next: (res) => {
