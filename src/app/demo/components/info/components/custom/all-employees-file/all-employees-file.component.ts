@@ -1,32 +1,17 @@
-import { CommonModule, DatePipe } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 import { Component, Input, ViewChild } from '@angular/core';
-import { FormControl, FormControlName, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { CalendarModule } from 'primeng/calendar';
-import { DialogModule } from 'primeng/dialog';
-import { DropdownModule } from 'primeng/dropdown';
-import { FileUploadModule } from 'primeng/fileupload';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputSwitchModule } from 'primeng/inputswitch';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { RatingModule } from 'primeng/rating';
-import { RippleModule } from 'primeng/ripple';
-import { Table, TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
-import { ToolbarModule } from 'primeng/toolbar';
+import { Table } from 'primeng/table';
 import { Globals } from 'src/app/class/globals';
 import { environment } from 'src/environments/environment';
 import { AllEmployeeFileService } from './all-employee-file.service';
 import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+
+import * as _ from 'lodash';
 
 @Component({
     selector: 'app-all-employees-file',
@@ -45,7 +30,10 @@ export class AllEmployeesFileComponent {
         private messageService: MessageService,
         private route: ActivatedRoute,
         private DatePipe: DatePipe
-    ) {}
+    ) {
+
+        this.initFormGroups();
+    }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
@@ -79,7 +67,26 @@ export class AllEmployeesFileComponent {
     selectedRelativeRelationEdit!: any;
     baseUrlFile: string = environment.mediaUrl;
     file!: File;
+
+    // addNewForm: FormGroup = new FormGroup( {
+    //     DocumentRequiredId: new FormControl(null, [Validators.required]),
+    //     EmployeeId: new FormControl(null, [Validators.required]) ,
+    //     Date: new FormControl(null, [Validators.required]),
+    //     Discreption: new FormControl(null),
+    //     File:new FormControl(null),
+    // });
+    // editForm: FormGroup = new FormGroup({
+    //     DocumentRequiredId: new FormControl(null, [Validators.required]),
+    //     EmployeeId: new FormControl(null, [Validators.required]) ,
+    //     Date: new FormControl(null, [Validators.required]),
+    //     Discreption: new FormControl(null),
+    //     File:new FormControl(null),
+    //     Id: new FormControl(1, Validators.required)
+    // });
+
+
     addNewForm: FormGroup;
+
     editForm: FormGroup;
 
     // for all employees customize
@@ -135,25 +142,30 @@ export class AllEmployeesFileComponent {
             ];
             this.getRelativeRelationTypes();
             this.getDropDownEmployee();
-            this.initFormGroups();
         });
 
+        // this.initFormGroups();
     }
 
     initFormGroups() {
-        let body = {
-            DocumentRequiredId: new FormControl(1, Validators.required),
-            EmployeeId: new FormControl(1, Validators.required) ,
-            Date: new FormControl(new Date(), Validators.required),
-            Discreption: new FormControl(''),
-            File:new FormControl(this.file),
-        }
+        // Define the initial form controls
+        let addNewControls = {
+            DocumentRequiredId: new FormControl(null, [Validators.required]),
+            EmployeeId: new FormControl(null, [Validators.required]),
+            Date: new FormControl(null, [Validators.required]),
+            Discreption: new FormControl(null),
+            File: new FormControl(null),
+        };
 
-        this.addNewForm = new FormGroup(body);
+        // create new clone from object
+        let editControls = _.cloneDeep(addNewControls);
 
-        this.editForm = new FormGroup({
-            ...body,
-            Id: new FormControl(1, Validators.required)
+        // create from groups itself
+        this.addNewForm = new FormGroup(addNewControls);
+
+        this.editForm = new FormGroup( {
+            ...editControls,
+            Id: new FormControl(null, [Validators.required]),
         });
     }
 
@@ -292,8 +304,20 @@ export class AllEmployeesFileComponent {
         return this.addNewForm;
       }
 
-    addNew() {
+    addNew(form:FormGroup) {
         console.log("this.selectedEmployee => ", this.selectedEmployee);
+
+
+
+        form.patchValue({
+            DocumentRequiredId: this.selectedRelativeRelation.id,
+            EmployeeId: this.selectedEmployee.id,
+            Date: this.date,
+            Discreption: this.discreption,
+            File: this.file,
+        });
+        console.log(form);
+
 
         // this.addNewForm.patchValue({
         //     DocumentRequiredId: this.addNewForm.get('DocumentRequiredId')?.['id'],
@@ -301,45 +325,45 @@ export class AllEmployeesFileComponent {
         //     Date: this.convertDate(this.addNewForm.get('Date').value, 'yyyy-MM-ddTHH:mm:ss'),
         // });
 
-        if(this.addNewForm.valid) {
-            const formData = this.mapToFormData(this.addNewForm.value);
+        // if(this.addNewForm.valid) {
+        //     const formData = this.mapToFormData(this.addNewForm.value);
 
-            // Confirm add new
-            this.employeeFileService.Register(formData).subscribe({
-                next: (res) => {
-                    console.log(res);
-                    this.showFormNew = false;
-                    // show message for success inserted
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Successful',
-                        detail: 'inserted success',
-                        life: 3000,
-                    });
+        //     // Confirm add new
+        //     this.employeeFileService.Register(formData).subscribe({
+        //         next: (res) => {
+        //             console.log(res);
+        //             this.showFormNew = false;
+        //             // show message for success inserted
+        //             this.messageService.add({
+        //                 severity: 'success',
+        //                 summary: 'Successful',
+        //                 detail: 'inserted success',
+        //                 life: 3000,
+        //             });
 
-                    // set fields is empty
-                    this.setFieldsNulls();
+        //             // set fields is empty
+        //             this.setFieldsNulls();
 
-                    // load data again
-                    this.loadData(
-                        this.page,
-                        this.itemsPerPage,
-                        this.nameFilter,
-                        this.sortField,
-                        this.sortOrder
-                    );
-                },
-                error: (err) => {
-                    this.showFormNew = false;
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: 'Error',
-                        detail: err,
-                        life: 3000,
-                    });
-                },
-            });
-        }
+        //             // load data again
+        //             this.loadData(
+        //                 this.page,
+        //                 this.itemsPerPage,
+        //                 this.nameFilter,
+        //                 this.sortField,
+        //                 this.sortOrder
+        //             );
+        //         },
+        //         error: (err) => {
+        //             this.showFormNew = false;
+        //             this.messageService.add({
+        //                 severity: 'error',
+        //                 summary: 'Error',
+        //                 detail: err,
+        //                 life: 3000,
+        //             });
+        //         },
+        //     });
+        // }
 
     }
 
@@ -493,16 +517,9 @@ export class AllEmployeesFileComponent {
             this.showFormNew = false;
         } else {
             this.showFormNew = true;
+            console.log("addNewForm => ", this.addNewForm);
 
-            this.addNewForm.patchValue({
-                DocumentRequiredId: this.selectedRelativeRelation,
-                EmployeeId: this.selectedEmployee,
-                Date: this.date,
-                Discreption: this.discreption,
-                File: this.file,
-            });
 
-            console.log("addNewForm => ", this.addNewForm)
         }
 
     }

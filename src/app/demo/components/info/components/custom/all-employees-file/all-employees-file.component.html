@@ -48,7 +48,7 @@
     class="p-fluid"
 >
     <ng-template pTemplate="content">
-        <form [formGroup]="addNewForm">
+        <form [formGroup]="addNewForm" (submit)="addNew(addNewForm)" >
             <div class="field">
                 <label htmlFor="selectEmployee">{{
                     "Select Employee" | translate
@@ -135,10 +135,10 @@
                 <button
                     class="w-25"
                     pButton
-                    [disabled]="form.invalid"
+                    [disabled]="addNewForm.invalid"
                     type="submit"
                     [label]="'Insert New' | translate"
-                    (click)="addNew()"
+
                 ></button>
             </div>
         </form>
