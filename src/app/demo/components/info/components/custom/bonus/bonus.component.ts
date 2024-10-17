@@ -129,9 +129,7 @@ export class BonusComponent {
                 this.allMonths = res.data;
                 console.log(this.allMonths);
             },
-            error: (err) => {
-                console.log(err);
-            },
+           
         });
 
         this.getDropDowns();
@@ -159,9 +157,7 @@ export class BonusComponent {
                 this.product = { ...res.data };
                 this.productDialog = true;
             },
-            error: (err) => {
-                console.log(err);
-            },
+   
         });
     }
 
@@ -203,9 +199,7 @@ export class BonusComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                console.log(err);
-            },
+     
         });
     }
 
@@ -240,17 +234,7 @@ export class BonusComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                console.log(err);
-
-                this.showFormNew = false;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: err,
-                    life: 3000,
-                });
-            },
+         
         });
 
         console.log(form);
@@ -310,16 +294,7 @@ export class BonusComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-            error: (err) => {
-                console.log(err);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: err,
-                    life: 3000,
-                });
-                this.loading = false;
-            },
+           
         });
     }
 
@@ -393,9 +368,7 @@ export class BonusComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                console.log(err);
-            },
+          
         });
     }
 
@@ -471,15 +444,7 @@ export class BonusComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                this.deleteProductsDialog = false;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Failure',
-                    detail: err.statusText,
-                    life: 3000,
-                });
-            },
+          
         });
     }
     sortById(event: any) {

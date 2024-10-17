@@ -424,5 +424,7 @@
     "Shift Name": "اسم الوردية",
     "An Error Occurred":"حدث خطأ ما",
     "An unexpected error occurred":"حدث خطأ غير متوقع",
-    "Success":"تم بنجاح"
+    "Success":"تم بنجاح",
+    "Status":"الحالة",
+    "Job Description":"وصف الوظيفة"
 }

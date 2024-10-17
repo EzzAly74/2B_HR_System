@@ -12,7 +12,7 @@ export class PartitionService extends LockupsService {
 
     getDropDown(field: string) {
         return this.http.get(
-            `${this.baseurl}/${field}/getDropDown/?culture=${this.culture}`
+            `${this.baseurl}/${field}/getDropDown?culture=${this.culture}`
         );
     }
 }

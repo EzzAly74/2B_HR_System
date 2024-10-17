@@ -381,12 +381,7 @@ export class EmployeeComponent {
 
             error: (err) => {
                 console.error(err);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Failure',
-                    detail: err.statusText,
-                    life: 3000,
-                });
+    
             },
         });
     }

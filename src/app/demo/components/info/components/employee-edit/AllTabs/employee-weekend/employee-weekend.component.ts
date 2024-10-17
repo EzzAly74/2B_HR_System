@@ -193,14 +193,14 @@ export class EmployeeWeekendComponent {
     ) {
         this.loading = true;
         let filteredData = {
-            pageNumber: page,
-            pageSize: size,
-            filterValue: nameFilter,
-            filterType: filterType,
-            sortType: sortType,
-            employeeId: this.currentId,
+            PageNumber: page,
+            PageSize: size,
+            FilterValue: nameFilter,
+            FilterType: filterType,
+            SortType: sortType,
+            EmployeeId: this.currentId,
         };
-        filteredData.sortType = this.sortOrder;
+        filteredData.SortType = this.sortOrder;
         const formData: FormData = new FormData();
 
         for (const key in filteredData) {
@@ -221,12 +221,7 @@ export class EmployeeWeekendComponent {
             },
             error: (err) => {
                 console.log(err);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: err,
-                    life: 3000,
-                });
+         
                 this.loading = false;
             },
         });
@@ -319,7 +314,7 @@ export class EmployeeWeekendComponent {
     }
     submitForm(form: FormGroup) {
         form.patchValue({
-            EmployeeId: this.selectedEmployee?.id ?? null,
+            EmployeeId: this.currentId,
             MangerId: this.selectedManager?.id ?? null,
             LocationId: this.selectedVacationType?.id ?? null,
 
@@ -347,6 +342,7 @@ export class EmployeeWeekendComponent {
             FilterValue: this.nameFilter,
             FilterType: this.sortField,
             SortType: this.sortOrder,
+            EmployeeId :this.currentId
         };
 
         const filteredData = { ...formValueNotNull, ...filterPaginator };

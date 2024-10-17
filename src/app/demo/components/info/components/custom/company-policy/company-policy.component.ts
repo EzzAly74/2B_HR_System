@@ -1,30 +1,19 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, Input, ViewChild } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxPaginationModule } from 'ngx-pagination';
+
 import { MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { CalendarModule } from 'primeng/calendar';
-import { DialogModule } from 'primeng/dialog';
-import { DropdownModule } from 'primeng/dropdown';
-import { FileUploadModule, UploadEvent } from 'primeng/fileupload';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { RatingModule } from 'primeng/rating';
-import { RippleModule } from 'primeng/ripple';
+
 import { Table, TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
-import { ToolbarModule } from 'primeng/toolbar';
-import { TranslateModule } from '@ngx-translate/core';
+
 import { CompanyPolicyService } from './company-policy.service';
 import { environment } from 'src/environments/environment';
 import { Globals } from 'src/app/class/globals';
 import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-company-policy',
@@ -42,7 +31,7 @@ export class CompanyPolicyComponent {
         private companyPolicyService: CompanyPolicyService,
         private messageService: MessageService,
         private DatePipe: DatePipe,
-        private http: HttpClient
+        private translate: TranslateService
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -75,12 +64,30 @@ export class CompanyPolicyComponent {
     url: string;
     selectedShift: string;
     selectedShiftId: number;
-    file: File;
+    fileNew: File;
+    fileEdit: File;
     selectedShiftEdit: string;
     selectedShiftIdEdit: number;
     oldDate: any;
     baseUrlFile: string;
     CompanyPolicyUrl: string;
+
+    addNewForm:FormGroup = new FormGroup({
+        EngName : new FormControl(null,[Validators.required]),
+        Name : new FormControl(null,[Validators.required]),
+        Notes : new FormControl(null),
+        Discreption : new FormControl(null,[Validators.required]),
+        File : new FormControl(null , [Validators.required]),
+    });
+
+    editForm:FormGroup = new FormGroup({
+        EngName : new FormControl(null,[Validators.required]),
+        Name : new FormControl(null,[Validators.required]),
+        Notes : new FormControl(null),
+        Discreption : new FormControl(null,[Validators.required]),
+        File : new FormControl(null),
+        Id : new FormControl(null)
+    })
 
     ngOnInit() {
         this.endPoint = 'CompanyPolicy';
@@ -182,15 +189,15 @@ export class CompanyPolicyComponent {
         let allIds = [id];
         // perform delete from sending request to api
         this.companyPolicyService.DeleteRange(allIds).subscribe({
-            next: () => {
+            next: (res) => {
                 // close dialog
                 this.deleteProductDialog = false;
 
                 // show message for user to show processing of deletion.
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Successful',
-                    detail: 'Product Deleted',
+                    summary: this.translate.instant('Success'),
+                    detail: res.message,
                     life: 3000,
                 });
 
@@ -203,50 +210,42 @@ export class CompanyPolicyComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                console.log(err);
-
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'error field',
-                    detail: 'Product Deleted',
-                    life: 3000,
-                });
-            },
+          
         });
     }
 
-    addNew() {
-        let body = {
-            engName: this.enName,
-            name: this.arName,
-            notes: this.notes,
-            discreption: this.discreption,
-            file: this.file,
-        };
+    addNew(form : FormGroup) {
+      form.patchValue({
+        File : this.fileNew
+      })
         const formData: FormData = new FormData();
+        let body = form.value ;
 
+        console.log(form);
+        
         for (const key in body) {
             if (body.hasOwnProperty(key)) {
                 formData.append(key, body[key]);
             }
         }
-        console.log(formData);
 
         this.companyPolicyService.Register(formData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
                 // show message for success inserted
+                if(res.success)
+                {
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Successful',
-                    detail: 'inserted success',
+                    summary: this.translate.instant('Success'),
+                    detail: res.message,
                     life: 3000,
                 });
+            }
 
                 // set fields is empty
-                this.setFieldsNulls();
+               form.reset()
 
                 // load data again
                 this.loadData(
@@ -256,19 +255,7 @@ export class CompanyPolicyComponent {
                     this.sortField,
                     this.sortOrder
                 );
-            },
-            error: (err) => {
-                // this.showFormNew = false;
-
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'error field',
-                    detail: 'All Fields is required',
-                    life: 3000,
-                });
-
-                console.log(err);
-            },
+            }
         });
     }
 
@@ -355,17 +342,16 @@ export class CompanyPolicyComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number, product: any) {
+    saveProduct(id: number,form:FormGroup) {
         // this.submitted = true;
 
-        let body = {
-            Id: this.currentId,
-            EngName: this.enName,
-            Name: this.arName,
-            Notes: this.notes,
-            Discreption: this.discreption,
-            File: this.file,
-        };
+
+        form.patchValue({
+            Id : id ,
+            File : this.fileEdit ?? null  
+        })
+
+        let body = form.value ;
         const formDataEdit: FormData = new FormData();
 
         for (const key in body) {
@@ -379,16 +365,18 @@ export class CompanyPolicyComponent {
         console.log(body);
 
         this.companyPolicyService.Edit(formDataEdit).subscribe({
-            next: () => {
+            next: (res) => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
+                if(res.success)
+                {
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Successful',
-                    detail: 'You Edit This Item',
+                    summary: this.translate.instant('Success'),
+                    detail: res.message,
                     life: 3000,
                 });
-
+            }
                 // load data again
                 this.loadData(
                     this.page,
@@ -398,9 +386,7 @@ export class CompanyPolicyComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                console.log(err);
-            },
+         
         });
     }
 
@@ -471,8 +457,8 @@ export class CompanyPolicyComponent {
                 this.deleteProductsDialog = false;
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Success',
-                    detail: 'items deleted successfully',
+                    summary: this.translate.instant('Success'),
+                    detail: res.message,
                     life: 3000,
                 });
                 this.selectedItems = [];
@@ -485,22 +471,7 @@ export class CompanyPolicyComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Failure',
-                    detail: err.statusText,
-                    life: 3000,
-                });
-                this.deleteProductsDialog = false;
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
+           
         });
     }
 
@@ -518,9 +489,32 @@ export class CompanyPolicyComponent {
     }
     onFileSelect(event: any) {
         console.log(event);
-
         let file: any = event.currentFiles[0];
-        this.file = file;
-        console.log(file);
+        
+        if(file)
+        {
+        this.fileNew = file;
+        this.addNewForm.patchValue({
+            File: file
+        });
+        this.addNewForm.get('File')?.updateValueAndValidity();
+        }
+    }
+    onFileSelectEdit(event: any)
+    {
+
+        console.log(event);
+        let file: any = event.currentFiles[0];
+        
+        if(file)
+        {
+        this.fileEdit = file;
+        console.log(this.product);
+        
+        this.editForm.patchValue({
+            File: file
+        });
+        this.editForm.get('File')?.updateValueAndValidity();
+        }
     }
 }

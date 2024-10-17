@@ -228,15 +228,7 @@ export class CloseMonthComponent {
                         this.sortOrder
                     );
                 },
-                error: (err) => {
-                    this.showFormNew = false;
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: 'Error',
-                        detail: err,
-                        life: 3000,
-                    });
-                },
+             
             });
         }
     }
@@ -283,16 +275,7 @@ export class CloseMonthComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-            error: (err) => {
-                console.log(err);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: err,
-                    life: 3000,
-                });
-                this.loading = false;
-            },
+     
         });
     }
 
@@ -364,7 +347,7 @@ export class CloseMonthComponent {
             },
             error: (err) => {
                 console.log(err);
-                alert(err);
+         
             },
         });
     }
@@ -441,15 +424,7 @@ export class CloseMonthComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                this.deleteProductsDialog = false;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Failure',
-                    detail: err.statusText,
-                    life: 3000,
-                });
-            },
+        
         });
     }
     sortById(event: any) {

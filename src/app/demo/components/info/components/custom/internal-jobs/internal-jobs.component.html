@@ -20,45 +20,67 @@
 <p-dialog [(visible)]="showFormNew" [style]="{ width: '450px' }" [header]="'Add New' | translate" [modal]="true"
     class="p-fluid">
     <ng-template pTemplate="content">
-        <!-- nameOfJob -->
-        <div class="field">
-            <label htmlFor="nameOfJob">{{ "Name Of Job" | translate }} </label>
-            <input pInputText [(ngModel)]="nameOfJob" [placeholder]="'Enter Name Of Job Here' | translate"
-                id="nameOfJob" type="text" />
-        </div>
+        <form [formGroup]="jobForm" (submit)="addNew(jobForm)">
+            <!-- nameOfJob -->
+            <div class="field">
+                <label htmlFor="nameOfJob">{{ "Name Of Job" | translate }} </label>
+                <input pInputText [placeholder]="'Enter Name Of Job Here' | translate" id="nameOfJob"
+                    formControlName="nameOfJob" type="text" />
+            </div>
 
-        <!-- Date -->
-        <div class="field">
-            <label htmlFor="newDate">{{ "Date" | translate }}</label>
-            <p-calendar [(ngModel)]="newDate" [iconDisplay]="'input'" [showIcon]="true" [showSeconds]="true"
-                [placeholder]="'MM/DD/YYYY' | translate" inputId="newDate">
-            </p-calendar>
-        </div>
 
-        <!-- Description  -->
-        <div class="field">
-            <label htmlFor="description">{{ "Description" | translate }}</label>
-            <textarea pInputTextarea [(ngModel)]="newDescription" id="description"
-                [placeholder]="'Enter Description Here' | translate" type="text"></textarea>
-        </div>
+            <div class="field">
+                <label htmlFor="description">{{ "Job Description" | translate }} </label>
+                <input pInputText [placeholder]="'Enter Description Here' | translate" id="description"
+                    formControlName="description" type="text" />
+            </div>
 
-        <!-- requirements -->
-        <div class="field">
-            <label htmlFor="requirment">{{ "Requirment" | translate }}</label>
-            <textarea pInputTextarea [(ngModel)]="newRequirment" id="requirment"
-                [placeholder]="'Enter Requirment Here' | translate" type="text"></textarea>
-        </div>
+            <div class="field field-switch">
+                <label htmlFor="status">{{ "Status" | translate }} </label>
+                <p-inputSwitch id="status" formControlName="status" />
+            </div>
 
-        <!-- Notes -->
-        <div class="field">
-            <label htmlFor="new-notes">{{ "Notes" | translate }}</label>
-            <textarea pInputTextarea [(ngModel)]="newNotes" id="new-notes"
-                [placeholder]="'Enter Notes Here' | translate" type="text"></textarea>
-        </div>
+            <!-- Date -->
+            <div class="field">
+                <label htmlFor="newDate">{{ "Date" | translate }}</label>
+                <p-calendar formControlName="date" [showTime]="true" [showSeconds]="true" [iconDisplay]="'input'"
+                    [showIcon]="true" [placeholder]="'MM/DD/YYYY' | translate" inputId="newDate">
+                </p-calendar>
+            </div>
 
-        <div class="field">
-            <button class="w-25" pButton [label]="'Insert New' | translate" (click)="addNew()"></button>
-        </div>
+            <div class="requirements-container" formArrayName="jobRequirements">
+                <div *ngFor="let requirement of jobRequirements.controls; let i = index">
+                    <div [formGroupName]="i" class="field">
+                        <label [for]="'requirement-' + i">Requirement {{ i + 1 }}:</label>
+                        <input pInputText [id]="'requirement-' + i" formControlName="requirement"
+                            placeholder="Enter Requirement" />
+
+                        <button pButton pRipple (click)="removeRequirement(i)" type="button" icon="pi pi-minus"
+                            class="p-button p-button-text p-button-danger w-fit" label="Remove"></button>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <button pButton pRipple (click)="addRequirement()" type="button" icon="pi pi-plus"
+                class="p-button p-button-text p-button-success w-fit" label="Add Requirement"></button>
+
+
+
+
+            <!-- Notes -->
+            <div class="field">
+                <label htmlFor="new-notes">{{ "Notes" | translate }}</label>
+                <textarea pInputTextarea formControlName="notes" id="new-notes"
+                    [placeholder]="'Enter Notes Here' | translate" type="text"></textarea>
+            </div>
+
+            <div class="field">
+                <button class="w-25" pButton [label]="'Insert New' | translate" [disabled]="jobForm.invalid"
+                    type="submit"></button>
+            </div>
+        </form>
     </ng-template>
 </p-dialog>
 
@@ -92,9 +114,6 @@
                 {{ "nameOfJob" | translate }}
                 <p-sortIcon field="nameOfJob"></p-sortIcon>
             </th>
-            <th>{{ "Notes" | translate }}</th>
-            <th>{{ "Description" | translate }}</th>
-            <th>{{ "Requirment" | translate }}</th>
             <th>{{ "Date" | translate }}</th>
 
             <!-- custom Fields  -->
@@ -107,9 +126,9 @@
     </ng-template>
 
     <ng-template pTemplate="body" let-rowData>
-        <tr>
+        <tr class="tableRow" (click)="editJob(rowData)">
             <td>
-                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                <p-tableCheckbox (click)="$event.stopPropagation()" [value]="rowData"></p-tableCheckbox>
             </td>
             <td>
                 <span class="p-column-title">Id</span>
@@ -122,21 +141,11 @@
                 {{ rowData.nameOfJob ? rowData.nameOfJob : "" }}
             </td>
 
-            <td [ngClass]="{ 'null-color': !rowData.notes }">
-                <span class="p-column-title">notes</span>
-                {{ rowData.notes ? rowData.notes : "" }}
-            </td>
-
-            <td [ngClass]="{ 'null-color': !rowData.description }">
-                <span class="p-column-title">description</span>
-                {{ rowData.description ? rowData.description : "" }}
-            </td>
-
-            <td class="requirements" [ngClass]="{ 'null-color': !rowData.jobRequirements }">
+            <!-- <td class="requirements" [ngClass]="{ 'null-color': !rowData.jobRequirements }">
                 <span class="p-column-title">jobRequirements</span>
                 <span class="requirement" *ngFor="let jobRequirement of rowData.jobRequirements">{{
                     jobRequirement.requirement }}</span>
-            </td>
+            </td> -->
 
             <td [ngClass]="{ 'null-color': !rowData.date }">
                 <span class="p-column-title">date</span>
@@ -164,17 +173,16 @@
             </td>
 
             <td>
-                <div class="flex crud-operations">
-                    <button pButton pRipple icon="pi pi-pencil"
-                        class="p-button-rounded p-button-info p-button-outlined mr-2"
-                        (click)="editProduct(rowData)"></button>
+                <div class="flex crud-operations justify-content-center">
                     <button pButton pRipple icon="pi pi-trash"
                         class="p-button-rounded p-button-outlined p-button-danger"
-                        (click)="deleteProduct(rowData)"></button>
+                        (click)="deleteProduct(rowData , $event)"></button>
                 </div>
             </td>
         </tr>
     </ng-template>
+
+
 </p-table>
 
 <p-dialog [(visible)]="productDialog" [style]="{ width: '450px' }" header="Product Details" [modal]="true"

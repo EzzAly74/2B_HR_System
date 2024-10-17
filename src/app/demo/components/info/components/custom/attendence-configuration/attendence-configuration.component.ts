@@ -172,9 +172,7 @@ export class AttendenceConfigurationComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                console.log(err);
-            },
+          
         });
     }
 
@@ -203,9 +201,7 @@ export class AttendenceConfigurationComponent {
                         this.sortOrder
                     );
                 },
-                error: (err) => {
-                    console.log(err);
-                },
+               
             });
         }
     }
@@ -255,10 +251,7 @@ export class AttendenceConfigurationComponent {
 
                 console.log(sortType);
             },
-            error: (err) => {
-                console.log(err);
-                this.loading = false;
-            },
+        
         });
     }
 
@@ -328,10 +321,7 @@ export class AttendenceConfigurationComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                console.log(err);
-                alert(err);
-            },
+       
         });
     }
 
@@ -406,22 +396,7 @@ export class AttendenceConfigurationComponent {
                         this.sortOrder
                     );
                 },
-                error: (err) => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: 'Failure',
-                        detail: err.statusText,
-                        life: 3000,
-                    });
-                    this.deleteProductsDialog = false;
-                    this.loadData(
-                        this.page,
-                        this.itemsPerPage,
-                        this.nameFilter,
-                        this.sortField,
-                        this.sortOrder
-                    );
-                },
+              
             });
     }
     sortById(event: any) {
@@ -444,9 +419,7 @@ export class AttendenceConfigurationComponent {
                     console.log(res);
                     this.execuseCalculationTypes = res.data;
                 },
-                error: (err) => {
-                    console.log(err);
-                },
+             
             });
     }
     selectedExecuseCalculationTypeFun(event: any) {

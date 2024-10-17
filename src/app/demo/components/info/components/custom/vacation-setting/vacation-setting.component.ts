@@ -46,12 +46,7 @@ export class VacationSettingComponent {
 				error: (err) => {
 					console.log(err);
 					// show an error msg here
-					this.messageService.add({
-                    severity: 'error',
-                    summary: 'server error',
-                    detail: 'You Edit This Item',
-                    life: 3000,
-                });
+					
             },
         });
     }
@@ -84,12 +79,7 @@ export class VacationSettingComponent {
             error: (err) => {
                 console.log(err);
                 // show an error msg here
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'server error',
-                    detail: 'You Edit This Item',
-                    life: 3000,
-                });
+               
             },
         });
     }

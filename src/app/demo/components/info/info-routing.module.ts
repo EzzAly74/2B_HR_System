@@ -49,6 +49,7 @@ import { KPIComponent } from './components/custom/kpi/kpi.component';
 import { PenaltiesAndDeductionComponent } from './components/custom/penalties-and-deduction/penalties-and-deduction.component';
 import { BonusComponent } from './components/custom/bonus/bonus.component';
 import { TestComponent } from './components/employee-edit/AllTabs/test/test.component';
+import { InternalJobsEditComponent } from './components/custom/internal-jobs-edit/internal-jobs-edit.component';
 
 @NgModule({
     imports: [
@@ -265,13 +266,10 @@ import { TestComponent } from './components/employee-edit/AllTabs/test/test.comp
                     ).then((m) => m.AllTabsModule),
             },
             {
-                path: 'employees/edit/:id',
+                path: 'InternalJobs/edit/:id',
                 canActivate: [authGuard],
-                component: EmployeeEditComponent,
-                loadChildren: () =>
-                    import(
-                        './components/employee-edit/all-tabs-routing/all-tabs.module'
-                    ).then((m) => m.AllTabsModule),
+                pathMatch: 'prefix',
+                component: InternalJobsEditComponent,
             },
 
             {

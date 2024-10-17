@@ -1,0 +1,104 @@
+<p-toast></p-toast>
+
+<form method="post" [formGroup]="editForm" (submit)="submitForm(editForm)">
+    <div class="grid">
+        <div class="col-12">
+            <div class="card">
+                <div class="p-fluid p-formgrid grid">
+                    <div class="field field-id col-12 md:col-4">
+                        <label htmlFor="id">{{ "Id" | translate }}</label>
+                        <input pInputText id="id" formControlName="id" [(ngModel)]="currentId" />
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label htmlFor="nameAr">{{
+                            "Name Of Job" | translate
+                            }}</label>
+                        <input pInputText id="nameAr" formControlName="nameOfJob" [(ngModel)]="nameOfJob" />
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label htmlFor="description">{{
+                            "Description" | translate
+                            }}</label>
+                        <input pInputText id="description" [placeholder]="'Enter Description Here'|translate"
+                            formControlName="description" [(ngModel)]="description" />
+                    </div>
+
+                    <div class="field col-12 md:col-4">
+                        <label htmlFor="notes">{{
+                            "Notes" | translate
+                            }}</label>
+                        <input pInputText id="notes" [placeholder]="'Enter Notes Here'|translate"
+                            formControlName="notes" [(ngModel)]="notes" />
+                    </div>
+
+
+
+
+                    <div class="field col-12 md:col-4">
+                        <label htmlFor="date">{{
+                            "Date" | translate
+                            }}</label>
+                        <p-calendar inputId="date" formControlName="date" [showTime]="true" [(ngModel)]="date"
+                            [showSeconds]="true" [hourFormat]="'12'" [iconDisplay]="'input'" [showIcon]="true"
+                            [placeholder]="'MM/DD/YYYY' | translate"></p-calendar>
+                    </div>
+
+                    <div class="field field-switch col-12 md:col-4">
+                        <label htmlFor="status">{{ "Status" | translate }} </label>
+                        <p-inputSwitch [(ngModel)]="status" id="status" formControlName="status" />
+                    </div>
+
+
+
+                    <div formArrayName="jobRequirements" class="jobRequirements col-12">
+                        <div *ngFor="
+                                let jobRequirement of jobRequirements.controls;
+                                let i = index
+                            " [formGroupName]="i">
+                            <h6>Requirement {{ i + 1 }} :</h6>
+                            <div class="field col-12 md:col-4">
+                                <label>
+                                    Requirement :
+                                    <input formControlName="requirement" pInputText />
+                                </label>
+                            </div>
+
+                            <button pButton pRipple (click)="removeLateSetting(i)" type="button" icon="pi pi-minus"
+                                class="p-button-rounded p-button-text p-button-danger w-fit" label="Remove"></button>
+                        </div>
+
+                        <button pButton pRipple (click)="addLateSetting()" type="button" icon="pi pi-plus"
+                            class="p-button-rounded p-button-text p-button-success w-fit btn-add"
+                            label="Add Requirement"></button>
+                    </div>
+
+                    <div class="btn-filter-submit-container col-12">
+                        <div class="field">
+                            <button [disabled]="editForm.invalid" pButton type="submit" class="btn-submit w-fit">
+                                <i class="pi pi-user-edit"></i>
+                                <span> {{ "Save" | translate }} </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<p-dialog [(visible)]="uploadImageDialog" [style]="{ width: '450px' }" [header]="'Update Profile Image' | translate"
+    [modal]="true" class="p-fluid">
+    <ng-template pTemplate="display">
+        <div class="inline-flex align-items-center">
+            <p-fileUpload mode="basic" [chooseLabel]="'Choose Image' | translate" class="p-button-info p-button-text"
+                chooseIcon="pi pi-image" name="demo[]" accept="image/*" maxFileSize="1000000"
+                (onSelect)="onSelect($event)" />
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple [label]="'Cancel' | translate" icon="pi pi-times" class="p-button-text"
+            (click)="hideDialog()"></button>
+        <button pButton pRipple [label]="'Save' | translate" icon="pi pi-check" class="p-button-text"
+            (click)="updateImage()"></button>
+    </ng-template>
+</p-dialog>

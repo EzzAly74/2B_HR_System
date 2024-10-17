@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-covenant',
@@ -22,7 +23,8 @@ import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 export class CovenantComponent {
     constructor(
         private _CovenantService: CovenantService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private translate : TranslateService
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -54,6 +56,20 @@ export class CovenantComponent {
     selectedCovenantCategoryOnEdit: any;
 
     selectedItemsData: any;
+    addNewForm:FormGroup = new FormGroup({
+        covenantCategoryId : new FormControl(null,[Validators.required]),
+        engName : new FormControl(null,[Validators.required]),
+        name : new FormControl(null,[Validators.required]),
+        notes : new FormControl(null),
+    });
+
+    editForm:FormGroup = new FormGroup({
+        covenantCategoryId : new FormControl(null,[Validators.required]),
+        engName : new FormControl(null,[Validators.required]),
+        name : new FormControl(null,[Validators.required]),
+        notes : new FormControl(null),
+        id : new FormControl(null)
+    })
 
     ngOnInit() {
         this.endPoint = 'Covenant';
@@ -144,15 +160,15 @@ export class CovenantComponent {
     confirmDelete(id: number) {
         // perform delete from sending request to api
         this._CovenantService.DeleteSoftById(id).subscribe({
-            next: () => {
+            next: (res) => {
                 // close dialog
                 this.deleteProductDialog = false;
 
                 // show message for user to show processing of deletion.
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Successful',
-                    detail: 'Product Deleted',
+                    summary: this.translate.instant('Success'),
+                    detail: res.message,
                     life: 3000,
                 });
 
@@ -171,28 +187,28 @@ export class CovenantComponent {
         });
     }
 
-    addNew() {
-        let body = {
-            name: this.newNameAr,
-            notes: this.newNotes,
-            engName: this.newNameEn,
-            covenantCategoryId: this.CovenantCategoryIdSelected,
-        };
+    addNew(form:FormGroup) {
 
-        this._CovenantService.Register(body).subscribe({
+        console.log(form.value);
+        
+       
+        this._CovenantService.Register(form.value).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
                 // show message for success inserted
+                if(res.success)
+                {
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Successful',
-                    detail: 'inserted success',
+                    summary: this.translate.instant('Success'),
+                    detail: res.message,
                     life: 3000,
                 });
+            }
 
                 // set fields is empty
-                this.setFieldsNulls();
+                form.reset() ;
 
                 // load data again
                 this.loadData(
@@ -203,11 +219,7 @@ export class CovenantComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                this.showFormNew = false;
-
-                console.log(err);
-            },
+        
         });
     }
 
@@ -295,30 +307,28 @@ export class CovenantComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number, product: any) {
+    saveProduct(id: number, form:FormGroup) {
         this.submitted = true;
         console.log(id);
-        console.log(product);
-
-        let body = {
-            engName: product.engName,
-            name: product.name,
-            id: product.id,
-            notes: product.notes,
-            covenantCategoryId: this.selectedCovenantCategoryOnEdit.id,
-        };
-
-        this._CovenantService.Edit(body).subscribe({
-            next: () => {
+        form.patchValue({
+            id : id,
+            covenantCategoryId: this.selectedCovenantCategoryOnEdit.id 
+        });
+       console.log(form.value);
+       
+        this._CovenantService.Edit(form.value).subscribe({
+            next: (res) => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
+                if(res.success)
+                {
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Successful',
-                    detail: 'You Edit This Item',
+                    summary: this.translate.instant('Success'),
+                    detail: res.message,
                     life: 3000,
                 });
-
+                }
                 // load data again
                 this.loadData(
                     this.page,
@@ -327,11 +337,7 @@ export class CovenantComponent {
                     this.sortField,
                     this.sortOrder
                 );
-            },
-            error: (err) => {
-                console.log(err);
-                alert(err);
-            },
+            }
         });
     }
 
@@ -396,8 +402,8 @@ export class CovenantComponent {
                 this.deleteProductsDialog = false;
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Success',
-                    detail: 'items deleted successfully',
+                    summary: this.translate.instant('Success'),
+                    detail: res.message,
                     life: 3000,
                 });
                 this.loadData(
@@ -408,22 +414,7 @@ export class CovenantComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Failure',
-                    detail: err.statusText,
-                    life: 3000,
-                });
-                this.deleteProductsDialog = false;
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
+           
         });
     }
 

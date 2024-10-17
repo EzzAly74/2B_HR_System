@@ -212,9 +212,7 @@ export class AllEmployeesFileComponent {
                 console.log("Edited Form => ", this.editForm.value)
                 this.productDialog = true;
             },
-            error: (err) => {
-                console.log(err);
-            },
+
         });
     }
 
@@ -256,9 +254,7 @@ export class AllEmployeesFileComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                console.log(err);
-            },
+
         });
     }
 
@@ -269,9 +265,7 @@ export class AllEmployeesFileComponent {
                 this.dropdownItemsEmployee = res.data;
                 console.log(this.dropdownItemsEmployee);
             },
-            error: (err) => {
-                console.log(err);
-            },
+
         });
     }
 
@@ -292,79 +286,35 @@ export class AllEmployeesFileComponent {
             }
         }
 
-        console.log("from mapped => ", formData)
-        return formData;
-      }
+        console.log(body);
 
-      get formControls() {
-        return this.addNewForm.controls;
-      }
+        // Confirm add new
+        this.employeeFileService.Register(formData).subscribe({
+            next: (res) => {
+                console.log(res);
+                this.showFormNew = false;
+                // show message for success inserted
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Successful',
+                    detail: 'inserted success',
+                    life: 3000,
+                });
 
-      get form() {
-        return this.addNewForm;
-      }
+                // set fields is empty
+                this.setFieldsNulls();
 
-    addNew(form:FormGroup) {
-        console.log("this.selectedEmployee => ", this.selectedEmployee);
+                // load data again
+                this.loadData(
+                    this.page,
+                    this.itemsPerPage,
+                    this.nameFilter,
+                    this.sortField,
+                    this.sortOrder
+                );
+            },
 
-
-
-        form.patchValue({
-            DocumentRequiredId: this.selectedRelativeRelation.id,
-            EmployeeId: this.selectedEmployee.id,
-            Date: this.date,
-            Discreption: this.discreption,
-            File: this.file,
         });
-        console.log(form);
-
-
-        // this.addNewForm.patchValue({
-        //     DocumentRequiredId: this.addNewForm.get('DocumentRequiredId')?.['id'],
-        //     EmployeeId: this.addNewForm.get('EmployeeId')?.['id'],
-        //     Date: this.convertDate(this.addNewForm.get('Date').value, 'yyyy-MM-ddTHH:mm:ss'),
-        // });
-
-        // if(this.addNewForm.valid) {
-        //     const formData = this.mapToFormData(this.addNewForm.value);
-
-        //     // Confirm add new
-        //     this.employeeFileService.Register(formData).subscribe({
-        //         next: (res) => {
-        //             console.log(res);
-        //             this.showFormNew = false;
-        //             // show message for success inserted
-        //             this.messageService.add({
-        //                 severity: 'success',
-        //                 summary: 'Successful',
-        //                 detail: 'inserted success',
-        //                 life: 3000,
-        //             });
-
-        //             // set fields is empty
-        //             this.setFieldsNulls();
-
-        //             // load data again
-        //             this.loadData(
-        //                 this.page,
-        //                 this.itemsPerPage,
-        //                 this.nameFilter,
-        //                 this.sortField,
-        //                 this.sortOrder
-        //             );
-        //         },
-        //         error: (err) => {
-        //             this.showFormNew = false;
-        //             this.messageService.add({
-        //                 severity: 'error',
-        //                 summary: 'Error',
-        //                 detail: err,
-        //                 life: 3000,
-        //             });
-        //         },
-        //     });
-        // }
-
     }
 
     loadFilteredData() {
@@ -412,16 +362,7 @@ export class AllEmployeesFileComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-            error: (err) => {
-                console.log(err);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: err,
-                    life: 3000,
-                });
-                this.loading = false;
-            },
+
         });
     }
 
@@ -500,10 +441,7 @@ export class AllEmployeesFileComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                console.log(err);
-                alert(err);
-            },
+
         });
     }
 
@@ -593,15 +531,7 @@ export class AllEmployeesFileComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                this.deleteProductsDialog = false;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Failure',
-                    detail: err.statusText,
-                    life: 3000,
-                });
-            },
+
         });
     }
 
@@ -632,9 +562,7 @@ export class AllEmployeesFileComponent {
                     this.dropdownItemsRelativeRelationType = res.data;
                     console.log(this.dropdownItemsRelativeRelationType);
                 },
-                error: (err) => {
-                    console.log(err);
-                },
+
             });
     }
 

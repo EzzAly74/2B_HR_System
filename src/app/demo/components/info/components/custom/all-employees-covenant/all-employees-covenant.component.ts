@@ -171,9 +171,7 @@ export class AllEmployeesCovenantComponent {
 
                 this.productDialog = true;
             },
-            error: (err) => {
-                console.log(err);
-            },
+          
         });
     }
 
@@ -211,9 +209,7 @@ export class AllEmployeesCovenantComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                console.log(err);
-            },
+          
         });
     }
 
@@ -253,15 +249,7 @@ export class AllEmployeesCovenantComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                this.showFormNew = false;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: err,
-                    life: 3000,
-                });
-            },
+       
         });
     }
 
@@ -312,16 +300,7 @@ export class AllEmployeesCovenantComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-            error: (err) => {
-                console.log(err);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: err,
-                    life: 3000,
-                });
-                this.loading = false;
-            },
+        
         });
     }
 
@@ -394,10 +373,7 @@ export class AllEmployeesCovenantComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                console.log(err);
-                alert(err);
-            },
+           
         });
     }
 
@@ -473,15 +449,7 @@ export class AllEmployeesCovenantComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                this.deleteProductsDialog = false;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Failure',
-                    detail: err.statusText,
-                    life: 3000,
-                });
-            },
+        
         });
     }
     sortById(event: any) {
@@ -506,9 +474,7 @@ export class AllEmployeesCovenantComponent {
                 this.dropdownItemsCovenantType = res.data;
                 console.log(this.dropdownItemsCovenantType);
             },
-            error: (err) => {
-                console.log(err);
-            },
+    
         });
     }
 
@@ -519,9 +485,7 @@ export class AllEmployeesCovenantComponent {
                 this.dropdownItemsEmployee = res.data;
                 console.log(this.dropdownItemsEmployee);
             },
-            error: (err) => {
-                console.log(err);
-            },
+           
         });
     }
     selectCovenant(event: any) {

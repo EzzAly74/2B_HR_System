@@ -302,7 +302,7 @@ export class LocationComponent {
             },
             error: (err) => {
                 console.log(err);
-                alert(err);
+          
             },
         });
     }
@@ -388,22 +388,7 @@ export class LocationComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Failure',
-                    detail: err.statusText,
-                    life: 3000,
-                });
-                this.deleteProductsDialog = false;
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
+          
         });
     }
     sortById(event: any) {
