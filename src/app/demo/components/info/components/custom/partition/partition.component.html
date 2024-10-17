@@ -20,35 +20,42 @@
 <p-dialog [(visible)]="showFormNew" [style]="{ width: '450px' }" [header]="'Add New' | translate" [modal]="true"
     class="p-fluid">
     <ng-template pTemplate="content">
-        <div class="field">
-            <label htmlFor="name-en">{{ "Name English" | translate }} </label>
-            <input pInputText [(ngModel)]="newNameAr" [placeholder]="'Enter English Name Here' | translate" id="name-en"
-                type="text" />
-        </div>
+        <form action="" [formGroup]="addnewForm" (submit)="addNew(addnewForm)">
 
-        <div class="field">
-            <label htmlFor="name-ar">{{ "Name Arabic" | translate }} </label>
-            <input pInputText [(ngModel)]="newNameEn" [placeholder]="'Enter Arabic Name Here' | translate" id="name-ar"
-                type="text" />
-        </div>
+            <div class="field">
+                <label htmlFor="name-ar">{{ "Name Arabic" | translate }} </label>
+                <input pInputText formControlName="name" [placeholder]="'Enter Arabic Name Here' | translate"
+                    id="name-ar" type="text" />
+            </div>
 
-        <div class="field">
-            <label for="department">{{ "Department" | translate }}</label>
+            <div class="field">
+                <label htmlFor="name-en">{{ "Name English" | translate }} </label>
+                <input pInputText formControlName="engName" [placeholder]="'Enter English Name Here' | translate"
+                    id="name-en" type="text" />
+            </div>
 
-            <p-dropdown [options]="departmentDropDown" id="department" (onChange)="changedSelected($event)"
-                [(ngModel)]="selectedDepartment" [placeholder]="'Select a Department' | translate" [showClear]="true"
-                optionLabel="name" (onClear)="selectedDepartment = null" [filter]="true" filterBy="name"></p-dropdown>
-        </div>
 
-        <div class="field">
-            <label htmlFor="new-notes">{{ "Notes" | translate }}</label>
-            <textarea pInputTextarea [(ngModel)]="newNotes" id="new-notes"
-                [placeholder]="'Enter Notes Here' | translate" type="text"></textarea>
-        </div>
+            <div class="field">
+                <label for="department">{{ "Department" | translate }}</label>
 
-        <div class="field">
-            <button class="w-25" pButton [label]="'Insert New' | translate" (click)="addNew()"></button>
-        </div>
+                <p-dropdown [options]="departmentDropDown" id="department" (onChange)="changedSelected($event)"
+                    [(ngModel)]="selectedDepartment" formControlName="departmentId"
+                    [placeholder]="'Select a Department' | translate" [showClear]="true" optionValue="id"
+                    optionLabel="name" (onClear)="selectedDepartment = null" [filter]="true"
+                    filterBy="name"></p-dropdown>
+            </div>
+
+            <div class="field">
+                <label htmlFor="new-notes">{{ "Notes" | translate }}</label>
+                <textarea pInputTextarea formControlName="notes" id="new-notes"
+                    [placeholder]="'Enter Notes Here' | translate" type="text"></textarea>
+            </div>
+
+            <div class="field">
+                <button [disabled]="addnewForm.invalid" class="w-25" type="submit" pButton
+                    [label]="'Insert New' | translate"></button>
+            </div>
+        </form>
     </ng-template>
 </p-dialog>
 
@@ -143,47 +150,51 @@
 <p-dialog [(visible)]="productDialog" [style]="{ width: '450px' }" [header]="'Item Details' | translate" [modal]="true"
     class="p-fluid">
     <ng-template pTemplate="content">
-        <div class="field">
-            <label for="name">{{ "Arabic Name" | translate }}</label>
-            <input type="text" pInputText id="name" [(ngModel)]="product.name" required autofocus [ngClass]="{
+        <form action="" [formGroup]="editForm" (submit)="saveProduct(product.id , editForm)">
+            <div class="field">
+                <label for="name">{{ "Arabic Name" | translate }}</label>
+                <input type="text" pInputText id="name" [(ngModel)]="product.name" formControlName="name" required
+                    autofocus [ngClass]="{
                     'ng-invalid ng-dirty': submitted && !product.name
                 }" />
-            <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.name">{{ "Arabic Name is required." |
-                translate }}</small>
-        </div>
 
-        <div class="field">
-            <label for="engName">{{ "English Name" | translate }}</label>
-            <input type="text" pInputText id="engName" [(ngModel)]="product.engName" required autofocus [ngClass]="{
+            </div>
+
+            <div class="field">
+                <label for="engName">{{ "English Name" | translate }}</label>
+                <input formControlName="engName" type="text" pInputText id="engName" [(ngModel)]="product.engName"
+                    required autofocus [ngClass]="{
                     'ng-invalid ng-dirty': submitted && !product.engName
                 }" />
-            <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.engName">{{ "English Name is required." |
-                translate }}</small>
-        </div>
 
-        <div class="field">
-            <label for="departmentEdit">{{ "Department" | translate }}</label>
-            <p-dropdown [options]="departmentDropDown" optionLabel="name" id="edit_Dept"
-                [(ngModel)]="selectedEditsDepartment" [placeholder]="'Select a Department' | translate"
-                [showClear]="true"></p-dropdown>
+            </div>
 
-            <small class="ng-dirty ng-invalid" *ngIf="product.departmentId">{{
-                "Department is required." | translate
-                }}</small>
-        </div>
+            <div class="field">
+                <label for="departmentEdit">{{ "Department" | translate }}</label>
+                <p-dropdown formControlName="departmentId" [options]="departmentDropDown" optionLabel="name"
+                    id="edit_Dept" [(ngModel)]="selectedEditsDepartment"
+                    [placeholder]="'Select a Department' | translate" [showClear]="true" [filter]="true"
+                    filterBy="name"></p-dropdown>
 
-        <div class="field">
-            <label for="notes">{{ "Notes" | translate }}</label>
-            <textarea id="notes" pInputTextarea [(ngModel)]="product.notes" required rows="3" cols="20"></textarea>
-        </div>
+
+            </div>
+
+            <div class="field">
+                <label for="notes">{{ "Notes" | translate }}</label>
+                <textarea id="notes" pInputTextarea formControlName="notes" [(ngModel)]="product.notes" rows="3"
+                    cols="20"></textarea>
+            </div>
+
+            <div class="field btns">
+                <button pButton pRipple [label]="'Cancel' | translate" icon="pi pi-times" class="p-button-text"
+                    (click)="hideDialog()" type="button"></button>
+                <button pButton pRipple [label]="'Save' | translate" icon="pi pi-check" class="p-button-text"
+                    [disabled]="editForm.invalid" type="submit"></button>
+            </div>
+        </form>
     </ng-template>
 
-    <ng-template pTemplate="footer">
-        <button pButton pRipple [label]="'Cancel' | translate" icon="pi pi-times" class="p-button-text"
-            (click)="hideDialog()"></button>
-        <button pButton pRipple [label]="'Save' | translate" icon="pi pi-check" class="p-button-text"
-            (click)="saveProduct(product.id, product)"></button>
-    </ng-template>
+
 </p-dialog>
 
 <p-dialog [(visible)]="deleteProductDialog" [header]="'Confirm Delete' | translate" [modal]="true"

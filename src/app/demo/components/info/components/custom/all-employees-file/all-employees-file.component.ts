@@ -212,9 +212,7 @@ export class AllEmployeesFileComponent {
                 console.log("Edited Form => ", this.editForm.value)
                 this.productDialog = true;
             },
-            error: (err) => {
-                console.log(err);
-            },
+           
         });
     }
 
@@ -256,9 +254,7 @@ export class AllEmployeesFileComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                console.log(err);
-            },
+           
         });
     }
 
@@ -269,9 +265,7 @@ export class AllEmployeesFileComponent {
                 this.dropdownItemsEmployee = res.data;
                 console.log(this.dropdownItemsEmployee);
             },
-            error: (err) => {
-                console.log(err);
-            },
+          
         });
     }
 
@@ -307,8 +301,6 @@ export class AllEmployeesFileComponent {
     addNew(form:FormGroup) {
         console.log("this.selectedEmployee => ", this.selectedEmployee);
 
-
-
         form.patchValue({
             DocumentRequiredId: this.selectedRelativeRelation.id,
             EmployeeId: this.selectedEmployee.id,
@@ -316,7 +308,17 @@ export class AllEmployeesFileComponent {
             Discreption: this.discreption,
             File: this.file,
         });
-        console.log(form);
+        // load data again
+        this.loadData(
+            this.page,
+            this.itemsPerPage,
+            this.nameFilter,
+            this.sortField,
+            this.sortOrder
+        );
+             
+},
+
 
 
         // this.addNewForm.patchValue({
@@ -412,16 +414,7 @@ export class AllEmployeesFileComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-            error: (err) => {
-                console.log(err);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: err,
-                    life: 3000,
-                });
-                this.loading = false;
-            },
+            
         });
     }
 
@@ -500,10 +493,7 @@ export class AllEmployeesFileComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                console.log(err);
-                alert(err);
-            },
+         
         });
     }
 
@@ -593,15 +583,7 @@ export class AllEmployeesFileComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                this.deleteProductsDialog = false;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Failure',
-                    detail: err.statusText,
-                    life: 3000,
-                });
-            },
+        
         });
     }
 
@@ -632,9 +614,7 @@ export class AllEmployeesFileComponent {
                     this.dropdownItemsRelativeRelationType = res.data;
                     console.log(this.dropdownItemsRelativeRelationType);
                 },
-                error: (err) => {
-                    console.log(err);
-                },
+                
             });
     }
 

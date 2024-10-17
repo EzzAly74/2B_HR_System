@@ -1,5 +1,7 @@
 import { VacationTypeService } from './vacation-type.service';
 import { Component, Input, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Globals } from 'src/app/class/globals';
@@ -21,7 +23,8 @@ import { itemsPerPageGlobal } from 'src/main';
 export class VacationTypeComponent {
     constructor(
         private vacationTypeService: VacationTypeService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private translate : TranslateService
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -52,6 +55,28 @@ export class VacationTypeComponent {
     mangerApproved: boolean = false;
     hrApproved: boolean = false;
     stockVacation: boolean = false;
+
+    addNewForm:FormGroup = new FormGroup({
+        engName:new FormControl(null,[Validators.required]),
+        name:new FormControl(null,[Validators.required]),
+        notes:new FormControl(null),
+        dayCount:new FormControl(null,[Validators.required]),
+        vacationStart:new FormControl(null,[Validators.required]),
+        mangerApproved:new FormControl(null,[Validators.required]),
+        hrApproved:new FormControl(null,[Validators.required]),
+        stockVacation:new FormControl(null,[Validators.required]),
+    });
+    editForm:FormGroup = new FormGroup({
+        engName:new FormControl(null,[Validators.required]),
+        name:new FormControl(null,[Validators.required]),
+        notes:new FormControl(null),
+        dayCount:new FormControl(null,[Validators.required]),
+        vacationStart:new FormControl(null,[Validators.required]),
+        mangerApproved:new FormControl(null,[Validators.required]),
+        hrApproved:new FormControl(null,[Validators.required]),
+        stockVacation:new FormControl(null,[Validators.required]),
+        id:new FormControl(null)
+    })
 
     ngOnInit() {
         this.endPoint = 'VacationType';
@@ -126,15 +151,15 @@ export class VacationTypeComponent {
     confirmDelete(id: number) {
         // perform delete from sending request to api
         this.vacationTypeService.DeleteSoftById(id).subscribe({
-            next: () => {
+            next: (res) => {
                 // close dialog
                 this.deleteProductDialog = false;
 
                 // show message for user to show processing of deletion.
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Successful',
-                    detail: 'Product Deleted',
+                    summary: this.translate.instant('Success'),
+                    detail: res.message,
                     life: 3000,
                 });
 
@@ -153,39 +178,31 @@ export class VacationTypeComponent {
         });
     }
 
-    addNew() {
+    addNew(form:FormGroup) {
         // first convert from date full format to time only
         // why? because prime ng calender component returned the value as a full Date Format
 
         // set body of request
-        let body = {
-            name: this.newNameAr,
-            notes: this.newNotes,
-            engName: this.newNameEn,
-            dayCount: this.dayCount,
-            vacationStart: this.newVacationStart,
-            mangerApproved: this.mangerApproved,
-            hrApproved: this.hrApproved,
-            stockVacation: this.stockVacation,
-        };
-
-        console.log(body);
+       
+        console.log(form.value);
 
         // Confirm add new
-        this.vacationTypeService.Register(body).subscribe({
+        this.vacationTypeService.Register(form.value).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
                 // show message for success inserted
+                if(res.success)
+                {
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Successful',
-                    detail: 'inserted success',
+                    summary: this.translate.instant('Success'),
+                    detail: res.message,
                     life: 3000,
                 });
-
+            }
                 // set fields is empty
-                this.setFieldsNulls();
+                form.reset();
 
                 // load data again
                 this.loadData(
@@ -196,15 +213,7 @@ export class VacationTypeComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                this.showFormNew = false;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: err,
-                    life: 3000,
-                });
-            },
+           
         });
     }
 
@@ -256,16 +265,7 @@ export class VacationTypeComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-            error: (err) => {
-                console.log(err);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: err,
-                    life: 3000,
-                });
-                this.loading = false;
-            },
+           
         });
     }
 
@@ -303,33 +303,27 @@ export class VacationTypeComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number, product: any) {
+    saveProduct(id: number, form:FormGroup) {
         this.submitted = true;
         console.log(id);
-        console.log(product);
 
-        let body = {
-            engName: product.engName,
-            name: product.name,
-            id: product.id,
-            notes: product.notes,
-            dayCount: product.dayCount,
-            vacationStart: product.vacationStart,
-            mangerApproved: product.mangerApproved,
-            hrApproved: product.hrApproved,
-            stockVacation: product.stockVacation,
-        };
+       form.patchValue({
+        id:id
+       });
 
-        this.vacationTypeService.Edit(body).subscribe({
-            next: () => {
+        this.vacationTypeService.Edit(form.value).subscribe({
+            next: (res) => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
+                if(res.success)
+                {
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Successful',
-                    detail: 'You Edit This Item',
+                    summary: this.translate.instant('Success'),
+                    detail: res.message,
                     life: 3000,
                 });
+                }
 
                 // load data again
                 this.loadData(
@@ -340,10 +334,7 @@ export class VacationTypeComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                console.log(err);
-                alert(err);
-            },
+           
         });
     }
 
@@ -405,8 +396,8 @@ export class VacationTypeComponent {
                 this.deleteProductsDialog = false;
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Success',
-                    detail: 'items deleted successfully',
+                    summary: this.translate.instant('Success'),
+                    detail: res.success,
                     life: 3000,
                 });
                 this.selectedItems = [];
@@ -419,15 +410,7 @@ export class VacationTypeComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                this.deleteProductsDialog = false;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Failure',
-                    detail: err.statusText,
-                    life: 3000,
-                });
-            },
+           
         });
     }
     sortById(event: any) {

@@ -229,15 +229,7 @@ export class PenaltiesAndDeductionComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                console.log(err);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: err.message,
-                    life: 3000,
-                });
-            },
+         
         });
         this.notesAccept = '';
     }
@@ -267,15 +259,7 @@ export class PenaltiesAndDeductionComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                console.log(err);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: err.message,
-                    life: 3000,
-                });
-            },
+         
         });
         this.notesReject = '';
     }

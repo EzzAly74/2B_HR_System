@@ -410,10 +410,7 @@ export class AttendenceConfigEditComponent {
                 // this.machineCode = this.machineCode;
                 // this.email = this.email;
             },
-            error: (err) => {
-                this.editForm.get('Id').disable();
-                console.log(err);
-            },
+           
         });
         console.log(formData.value);
     }

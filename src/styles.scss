@@ -194,13 +194,12 @@ html:lang(ar) .mr-2 {
 }
 
 .p-dialog {
-    width: 500px !important;
-    max-height: 90%;
-    overflow: auto;
+    // width: 500px !important;
+    // max-height: 450px !important;
+    // height: 450px !important;
+    // overflow: auto;
 }
-.p-multiselect-items-wrapper {
-    max-height: 400px !important;
-}
+
 .p-overlay {
     min-width: 100% !important;
 }
@@ -316,4 +315,30 @@ html:lang(ar) .pi-sign-out:before
 }
 .field.footer-form button {
     width: 25%;
+
+ html:lang(ar) .p-dropdown-panel .p-dropdown-header .p-dropdown-filter-icon
+{
+    right: unset;
+    left: 0.5rem;
+}
+html:lang(ar) .p-dropdown-panel .p-dropdown-header .p-dropdown-filter
+{
+    margin-right: 0;
+    padding-right: 0.5rem;
+    padding-left: 1.5rem;
+}
+html:lang(ar) .p-multiselect-panel .p-multiselect-header .p-multiselect-close
+{
+    margin-right: 0.5rem;
+    margin-left: unset;
+}
+html:lang(ar) .mr-3
+{
+    margin-left: 1rem !important;
+    margin-right: unset;
+}
+html:lang(ar) .p-dropdown.p-dropdown-clearable .p-dropdown-label
+{
+    padding-left: 1.5rem;
+    padding-right: 0.5rem;
 }

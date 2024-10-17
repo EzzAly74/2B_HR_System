@@ -384,12 +384,7 @@ export class StdPaginationsWithPopupComponent{
                 );
             },
             error: (err) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Failure',
-                    detail: err.statusText,
-                    life: 3000,
-                });
+    
                 this.deleteProductsDialog = false;
                 this.loadData(
                     this.page,

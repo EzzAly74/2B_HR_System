@@ -182,12 +182,7 @@ export class ShiftVacationComponent {
             error: (err) => {
                 console.log(err);
 
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'error field',
-                    detail: 'Product Deleted',
-                    life: 3000,
-                });
+            
             },
         });
     }
@@ -234,12 +229,6 @@ export class ShiftVacationComponent {
             error: (err) => {
                 // this.showFormNew = false;
 
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'error field',
-                    detail: 'All Fields is required',
-                    life: 3000,
-                });
 
                 console.log(err);
             },
@@ -370,7 +359,7 @@ export class ShiftVacationComponent {
             },
             error: (err) => {
                 console.log(err);
-                alert(err);
+    
             },
         });
     }
@@ -466,22 +455,7 @@ export class ShiftVacationComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Failure',
-                    detail: err.statusText,
-                    life: 3000,
-                });
-                this.deleteProductsDialog = false;
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
+         
         });
     }
 

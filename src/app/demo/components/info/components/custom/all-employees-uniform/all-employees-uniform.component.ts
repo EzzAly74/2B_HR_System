@@ -107,9 +107,7 @@ export class AllEmployeesUniformComponent {
                 this.dropdownItemsEmployee = res.data;
                 console.log(this.dropdownItemsEmployee);
             },
-            error: (err) => {
-                console.log(err);
-            },
+          
         });
     }
 
@@ -120,10 +118,7 @@ export class AllEmployeesUniformComponent {
                 console.log('Drop Down Unifrom Codes from here');
                 console.log(res.data);
             },
-            error: (err) => {
-                console.log('Error in Unifrom Codes DropDown');
-                console.error(err);
-            },
+           
         });
     }
 
@@ -154,9 +149,7 @@ export class AllEmployeesUniformComponent {
                     (code: any) => code.id == this.product.uniformCodeId
                 );
             },
-            error: (err) => {
-                console.log(err);
-            },
+           
         });
     }
 
@@ -186,16 +179,7 @@ export class AllEmployeesUniformComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                console.log(err);
-
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'error field',
-                    detail: 'Product Deleted',
-                    life: 3000,
-                });
-            },
+            
         });
     }
 
@@ -238,18 +222,7 @@ export class AllEmployeesUniformComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                // this.showFormNew = false;
-
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'error field',
-                    detail: 'All Fields is required',
-                    life: 3000,
-                });
-
-                console.log(err);
-            },
+          
         });
     }
 
@@ -295,10 +268,7 @@ export class AllEmployeesUniformComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-            error: (err) => {
-                console.log(err);
-                this.loading = false;
-            },
+         
         });
     }
 
@@ -382,10 +352,7 @@ export class AllEmployeesUniformComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                console.log(err);
-                alert(err);
-            },
+         
         });
     }
 
@@ -472,22 +439,7 @@ export class AllEmployeesUniformComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Failure',
-                    detail: err.statusText,
-                    life: 3000,
-                });
-                this.deleteProductsDialog = false;
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
+          
         });
     }
 

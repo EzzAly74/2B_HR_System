@@ -408,5 +408,9 @@
     "An Error Occurred":"An Error Occurred",
     "An unexpected error occurred":"An unexpected error occurred",
     "Success":"Success",
-    "Logout":"Logout"
+    "Logout":"Logout",
+    "Name Arabic":"Name Arabic",
+    "Name English":"Name English",
+    "Status":"Status",
+    "Job Description": "Job Description"
 }

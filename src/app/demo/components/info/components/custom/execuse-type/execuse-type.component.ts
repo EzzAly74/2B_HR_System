@@ -1,29 +1,14 @@
-import { CommonModule, Time } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+
 import { Component, Input, ViewChild } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { CalendarModule } from 'primeng/calendar';
-import { DialogModule } from 'primeng/dialog';
-import { DropdownModule } from 'primeng/dropdown';
-import { FileUploadModule } from 'primeng/fileupload';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { RatingModule } from 'primeng/rating';
-import { RippleModule } from 'primeng/ripple';
 import { Table, TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
-import { ToolbarModule } from 'primeng/toolbar';
 import { ExecuseTypeService } from './execuse-type.service';
 import { Globals } from 'src/app/class/globals';
 import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-execuse-type',
@@ -39,7 +24,8 @@ import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 export class ExecuseTypeComponent {
     constructor(
         private execuseTypeService: ExecuseTypeService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private translate : TranslateService
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -66,6 +52,22 @@ export class ExecuseTypeComponent {
     newNameAr!: string;
     newNameEn!: string;
     numberOfHours!: number;
+
+
+    addNewForm : FormGroup = new FormGroup({
+        engName: new FormControl(null , [Validators.required])  ,
+        hoursNumber: new FormControl(null , [Validators.required]),
+        name: new FormControl(null , [Validators.required]),
+        notes: new FormControl(null)
+    });
+
+    editForm : FormGroup = new FormGroup({
+        engName: new FormControl(null , [Validators.required])  ,
+        hoursNumber: new FormControl(null , [Validators.required]),
+        name: new FormControl(null , [Validators.required]),
+        notes: new FormControl(null),
+        id: new FormControl(null)
+    });
 
     ngOnInit() {
         this.endPoint = 'ExcuesType';
@@ -140,15 +142,15 @@ export class ExecuseTypeComponent {
     confirmDelete(id: number) {
         // perform delete from sending request to api
         this.execuseTypeService.DeleteSoftById(id).subscribe({
-            next: () => {
+            next: (res) => {
                 // close dialog
                 this.deleteProductDialog = false;
 
                 // show message for user to show processing of deletion.
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Successful',
-                    detail: 'Product Deleted',
+                    summary: this.translate.instant('Success'),
+                    detail: res.message,
                     life: 3000,
                 });
 
@@ -167,35 +169,29 @@ export class ExecuseTypeComponent {
         });
     }
 
-    addNew() {
+    addNew(form:FormGroup) {
         // first convert from date full format to time only
         // why? because prime ng calender component returned the value as a full Date Format
 
         // set body of request
-        let body = {
-            name: this.newNameAr,
-            notes: this.newNotes,
-            engName: this.newNameEn,
-            hoursNumber: this.numberOfHours,
-        };
+   
 
-        console.log(body);
 
         // Confirm add new
-        this.execuseTypeService.Register(body).subscribe({
+        this.execuseTypeService.Register(form.value).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
                 // show message for success inserted
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Successful',
-                    detail: 'inserted success',
+                    summary: this.translate.instant('Success') ,
+                    detail: res.message,
                     life: 3000,
                 });
 
                 // set fields is empty
-                this.setFieldsNulls();
+                form.reset()
 
                 // load data again
                 this.loadData(
@@ -206,15 +202,7 @@ export class ExecuseTypeComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                this.showFormNew = false;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: err,
-                    life: 3000,
-                });
-            },
+          
         });
     }
 
@@ -262,16 +250,7 @@ export class ExecuseTypeComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-            error: (err) => {
-                console.log(err);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: err,
-                    life: 3000,
-                });
-                this.loading = false;
-            },
+          
         });
     }
 
@@ -309,31 +288,28 @@ export class ExecuseTypeComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number, product: any) {
+    saveProduct(id: number, form:FormGroup) {
         this.submitted = true;
         console.log(id);
-        console.log(product);
 
-        let body = {
-            engName: product.engName,
-            name: product.name,
-            id: product.id,
-            notes: product.notes,
-            hoursNumber: product.hoursNumber,
-        };
+        form.patchValue({
+            id: id
+        });
         console.log(' body Data');
-        console.log(body);
 
-        this.execuseTypeService.Edit(body).subscribe({
-            next: () => {
+        this.execuseTypeService.Edit(form.value).subscribe({
+            next: (res) => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
+                if(res.success)
+                {
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Successful',
-                    detail: 'You Edit This Item',
+                    summary: this.translate.instant('Success'),
+                    detail: res.message,
                     life: 3000,
                 });
+                }   
 
                 // load data again
                 this.loadData(
@@ -344,10 +320,7 @@ export class ExecuseTypeComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                console.log(err);
-                alert(err);
-            },
+          
         });
     }
 
@@ -409,8 +382,8 @@ export class ExecuseTypeComponent {
                 this.deleteProductsDialog = false;
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Success',
-                    detail: 'items deleted successfully',
+                    summary: this.translate.instant('Success'),
+                    detail: res.message,
                     life: 3000,
                 });
                 this.selectedItems = [];
@@ -423,15 +396,7 @@ export class ExecuseTypeComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                this.deleteProductsDialog = false;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Failure',
-                    detail: err.statusText,
-                    life: 3000,
-                });
-            },
+        
         });
     }
     sortById(event: any) {

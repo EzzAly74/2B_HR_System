@@ -2,8 +2,20 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    flex-direction: row-reverse;
 }
 .fields-aprrove {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
+    margin-bottom: 24px;
+}
+.btns
+{
+    display: flex;
+    gap: 8px;
+    width: 50%;
+}
+.fields-aprrove label 
+{
+    margin-bottom: 0 ;
 }

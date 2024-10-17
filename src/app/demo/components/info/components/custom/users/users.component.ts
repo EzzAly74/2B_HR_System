@@ -75,8 +75,8 @@ export class UsersComponent {
     selectedYearEdit: number;
     rolesDropdown!: any;
     selectedMulti!: any[];
+
     userId!: number;
-    selectedRolesIds: number[] = [];
     changePassForm: FormGroup = new FormGroup(
         {
             password: new FormControl(null, [
@@ -207,16 +207,7 @@ export class UsersComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-            error: (err) => {
-                console.log(err);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: err,
-                    life: 3000,
-                });
-                this.loading = false;
-            },
+          
         });
     }
 
@@ -349,22 +340,25 @@ export class UsersComponent {
     selectMultiItems(event: any) {
         console.log(event);
         console.log(this.selectedMulti);
-        let arr: any[] = event.value;
-        let arrIds = [];
-        arr.forEach((item) => {
-            arrIds.push(item.id);
-        });
-        this.selectedRolesIds = arrIds;
+    
         this.selectedMulti = event.value;
-        console.log(this.selectedRolesIds);
     }
     saveRoles(id: number) {
         console.clear();
         console.log(id);
-        console.log('this.selectedRolesIds');
-        console.log(this.selectedRolesIds);
+        console.log(this.selectedMulti);
 
-        this.usersService.assignRoles(id, this.selectedRolesIds).subscribe({
+        let selectedIds = [] ;  
+
+        this.selectedMulti.forEach((item)=>{
+            selectedIds.push(item.id); 
+        });
+        console.log(selectedIds);
+        
+
+
+
+        this.usersService.assignRoles(id, selectedIds).subscribe({
             next: (res) => {
                 console.log(res);
                 this.messageService.add({
@@ -381,12 +375,14 @@ export class UsersComponent {
                     this.sortField,
                     this.sortOrder
                 );
+
             },
             error: (err) => {
                 console.log(err);
                 this.productDialog = false;
             },
         });
+        selectedIds = [] ;
     }
     editProductLock(rowData: any) {
         this.usersService.GetById(rowData.id).subscribe({

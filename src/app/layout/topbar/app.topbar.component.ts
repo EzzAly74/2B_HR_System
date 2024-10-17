@@ -159,10 +159,7 @@ export class AppTopBarComponent implements OnInit {
 
                             this.userName = res.data.nameAr;
                         }
-                    },
-                    error: (err) => {
-                        console.log(err);
-                    },
+                    }
                 });
     }
 }

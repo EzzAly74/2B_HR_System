@@ -2,8 +2,8 @@ import { CalendarModule } from 'primeng/calendar';
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, Input, ViewChild } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -24,6 +24,7 @@ import { InternalJobService } from './internal-job.service';
 import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-internal-jobs',
@@ -40,7 +41,11 @@ export class InternalJobsComponent {
     constructor(
         private _InternalJobService: InternalJobService,
         private messageService: MessageService,
-        private DatePipe: DatePipe
+        private DatePipe: DatePipe,
+        private fb:FormBuilder,
+        private translate:TranslateService , 
+        private datePipe : DatePipe , 
+        private router : Router
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -73,6 +78,7 @@ export class InternalJobsComponent {
 
     // for edit fields
     DateEdit: string;
+    jobForm: FormGroup;
 
     ngOnInit() {
         this.endPoint = 'InternalJob';
@@ -107,6 +113,15 @@ export class InternalJobsComponent {
             { field: 'creatorName', header: 'CreatorName' },
             { field: 'lastModifierName', header: 'LastModifierName' },
         ];
+
+        this.jobForm = this.fb.group({
+            nameOfJob: new FormControl(null, Validators.required),
+            description: new FormControl(null, Validators.required),
+            status: new FormControl(false, Validators.required),
+            notes: new FormControl(null),
+            date: new FormControl(null, Validators.required),
+            jobRequirements: this.fb.array([ this.createRequirement() ])  // FormArray for job requirements
+          });
     }
 
     splitCamelCase(str: any) {
@@ -174,32 +189,32 @@ export class InternalJobsComponent {
         });
     }
 
-    addNew() {
-        // convert date format here
+    addNew(form:FormGroup) {
 
-        // set body after conversion
-        let body = {
-            nameOfJob: this.nameOfJob,
-            notes: this.newNotes,
-            description: this.newDescription,
-            requirment: this.newRequirment,
-            date: this.newDate,
-        };
 
-        this._InternalJobService.Register(body).subscribe({
+        form.patchValue({
+            date : this.datePipe.transform(form.get('date').value,'yyyy-MM-ddTHH:mm:ss') ,
+            status : form.get('status').value ? 1 : 0   
+        })
+        
+        console.log(form);
+        
+      
+        this._InternalJobService.Register(form.value).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
                 // show message for success inserted
+                if(res.success)
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Successful',
-                    detail: 'inserted success',
+                    summary: this.translate.instant('Success'),
+                    detail: res.message,
                     life: 3000,
                 });
 
                 // set fields is empty
-                this.setFieldsNulls();
+                form.reset() ;
 
                 // load data again
                 this.loadData(
@@ -210,11 +225,7 @@ export class InternalJobsComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                this.showFormNew = false;
-
-                console.log(err);
-            },
+          
         });
     }
 
@@ -294,9 +305,10 @@ export class InternalJobsComponent {
         this.submitted = false;
     }
 
-    deleteProduct(product: any) {
+    deleteProduct(product: any , event:Event) {
         this.deleteProductDialog = true;
         this.product = { ...product };
+        event.stopPropagation() ;
     }
 
     saveProduct(id: number, product: any) {
@@ -340,7 +352,7 @@ export class InternalJobsComponent {
             },
             error: (err) => {
                 console.log(err);
-                alert(err);
+           
             },
         });
     }
@@ -416,22 +428,7 @@ export class InternalJobsComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Failure',
-                    detail: err.statusText,
-                    life: 3000,
-                });
-                this.deleteProductsDialog = false;
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
+         
         });
     }
     sortById(event: any) {
@@ -446,4 +443,30 @@ export class InternalJobsComponent {
     sortByName(event: any) {
         this.sortField = 'nameOfJob';
     }
+    createRequirement(): FormGroup {
+        return this.fb.group({
+            requirement: new FormControl(null, [Validators.required])
+        });
+      }
+    
+      // Add a new job requirement to the FormArray
+      addRequirement() {
+        (this.jobForm.get('jobRequirements') as FormArray).push(this.createRequirement());
+      }
+    
+      // Remove a job requirement from the FormArray
+      removeRequirement(index: number) {
+        (this.jobForm.get('jobRequirements') as FormArray).removeAt(index);
+      }
+
+      get jobRequirements ():FormArray{
+       return this.jobForm.get('jobRequirements') as FormArray ;
+      }
+
+    editJob(rowData:any)
+    {
+        if(rowData.id)
+        this.router.navigate(['/info/InternalJobs/edit', rowData.id]);
+    }
+    
 }

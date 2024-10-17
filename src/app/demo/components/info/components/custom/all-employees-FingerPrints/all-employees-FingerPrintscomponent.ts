@@ -175,10 +175,7 @@ export class AllEmployeesFingerPrintComponent {
             next: (res) => {
                 this[self.field] = res.data;
             },
-            error: (err) => {
-                console.log(`error in ${self.field}`);
-                console.log(err);
-            },
+          
         });
     }
 
@@ -187,10 +184,7 @@ export class AllEmployeesFingerPrintComponent {
             next: (res) => {
                 this[self.field] = res.data;
             },
-            error: (err) => {
-                console.log(`error in ${self.field}`);
-                console.log(err);
-            },
+           
         });
     }
 
@@ -327,10 +321,7 @@ export class AllEmployeesFingerPrintComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-            error: (err) => {
-                console.log(err);
-                this.loading = false;
-            },
+            
         });
     }
 
@@ -340,9 +331,7 @@ export class AllEmployeesFingerPrintComponent {
             next: (res)=> {
                 this.dropdownItemsPartition = res.data;
             },
-            error: (err) => {
-                console.log(err)
-            }
+            
         })
     }
 
@@ -352,9 +341,8 @@ export class AllEmployeesFingerPrintComponent {
             next: (res)=> {
                 this.dropdownItemsEmployee = res.data;
             },
-            error: (err) => {
-                console.log(err)
-            }
+            
+            
         })
     }
 
