@@ -28,41 +28,6 @@ export class EmployeeComponent {
         private DatePipe: DatePipe
     ) {}
 
-    // selected Items
-    selectedState: any = null;
-    selectedGovernment: any = null;
-    selectedNationalId: any = null;
-    selectedPartitions: any = null;
-    selectedGender: any = null;
-    selectedMaritalStatus: any = null;
-    selectedQualification: any = null;
-    selectedJob: any = null;
-    selectedReligin: any = null;
-    selectedShift: any = null;
-    selectedBank: any = null;
-    selectedGrade: any = null;
-    selectedjobNature: any = null;
-    selectedRecuritmentSource: any = null;
-    selectedContactType: any = null;
-    selectedMachineCode: any = null;
-    selectedNameAr: any = null;
-    selectedEnglishName: any = null;
-    selectedAddress: any = null;
-    selectedJoininDate: any = null;
-    selectedHirDate: any = null;
-    selectedResignationDate: any = null;
-    selectedDiscription: any = null;
-    selectedPhone: any = null;
-    selectedEmail: any = null;
-    selectedBirthDate: any = null;
-    selectedDepartment: any = null;
-    selectedBloodType: any = null;
-
-    selectedIsInsured: boolean = false;
-    selectedIsManager: boolean = false;
-    selectedIsStaticShift:boolean = false;
-    selectedIsStaticVacation:boolean = false ;
-
     // => dropdown Arrays
     // = Enums
     dropdownItemsReligin: any;
@@ -83,9 +48,7 @@ export class EmployeeComponent {
     dropdownItemsRecuritmentSource: any;
     dropdownItemsContractType: any;
     dropdownItemsAttendanceConfiguration:any;
-    file: File = null;
     endPoint: string;
-    selectedDeleteImage: boolean = false;
     // registerForm: FormData = new FormData();
 
     registerForm!: FormGroup;
@@ -115,7 +78,7 @@ export class EmployeeComponent {
 
     initFormGroups() {
         this.registerForm = new FormGroup({
-            File: new FormControl(null), // Assuming File is handled differently
+            File: new FormControl(null),
             NameAr: new FormControl(null, Validators.required),
             EnglishName: new FormControl(null, Validators.required),
             Address: new FormControl(null, Validators.required),
@@ -148,7 +111,7 @@ export class EmployeeComponent {
             StaticShift: new FormControl(false, Validators.required),
             StaticVacation: new FormControl(false, Validators.required),
             IsInsured: new FormControl(false, Validators.required),
-            DeleteImage: new FormControl(null),
+            DeleteImage: new FormControl(false),
         });
     }
 
@@ -275,19 +238,11 @@ export class EmployeeComponent {
 
     onSelect(event: any) {
         console.log('event file');
-        console.log(event);
 
-        // assign file
-        this.file = event.currentFiles[0];
-
-        // this.registerForm.append('File', this.file);
-
+        // override in current Files
         this.registerForm.patchValue({
-            File: this.file
+            File: event.currentFiles[0]
         })
-
-        console.log('File');
-        console.log(this.file);
 
         this.messageService.add({
             severity: 'info',
@@ -323,70 +278,44 @@ export class EmployeeComponent {
         return formData;
     }
 
-    registerSubmit() {
+    registerSubmit(form: FormGroup) {
 
-        console.log(this.registerForm.value)
+        if(form.valid) {
 
-        // const body = {
-        //     NameAr: this.selectedNameAr,
-        //     EnglishName: this.selectedEnglishName,
-        //     Address: this.selectedAddress,
-        //     Email: this.selectedEmail,
-        //     NationalId: this.selectedNationalId,
-        //     Phone: this.selectedPhone,
-        //     MachineCode: this.selectedMachineCode,
-        //     Discription: this.selectedDiscription,
-        //     BloodTypes: this.selectedBloodType?.id,
-        //     GovernmentId: this.selectedGovernment?.id,
-        //     QualificationId: this.selectedQualification?.id,
-        //     AttendanceConfigurationId: this.selectedAttendanceConfiguration?.id,
-        //     Gender: this.selectedGender?.id,
-        //     MaritalStatus: this.selectedMaritalStatus?.id,
-        //     JobId: this.selectedJob?.id,
-        //     JobNatureId: this.selectedjobNature?.id,
-        //     DepartmentId: this.selectedDepartment?.id,
-        //     PartationId: this.selectedPartitions?.id,
-        //     ShiftId: this.selectedShift?.id,
-        //     BankId: this.selectedBank?.id,
-        //     GradeId: this.selectedGrade?.id,
-        //     ContractTypeId: this.selectedContactType?.id,
-        //     RecuritmentSourceId: this.selectedRecuritmentSource?.id,
-        //     Religion: this.selectedReligin?.id,
-        //     JoininDate: this.DatePipe.transform(this.selectedJoininDate, 'yyyy-MM-dd'),
-        //     BirthDate: this.DatePipe.transform(this.selectedBirthDate, 'yyyy-MM-dd'),
-        //     HirDate: this.DatePipe.transform(this.selectedHirDate, 'yyyy-MM-dd'),
-        //     ResignationDate: this.DatePipe.transform(this.selectedResignationDate, 'yyyy-MM-dd'),
-        //     Ismanger: this.selectedIsManager.toString(),
-        //     StaticShift: this.selectedIsStaticShift.toString(),
-        //     StaticVacation: this.selectedIsStaticVacation.toString(),
-        //     IsInsured: this.selectedIsInsured.toString(),
-        // };
+            // override on values
+            const body = {
+                ...form.value,
 
-        // // patch value of fields
-        // this.registerForm.patchValue(body);
+                File: form.get("File").value,
+                DeleteImage: form.get("File").value? true: false,
+                JoininDate: this.DatePipe.transform(form.get("JoininDate").value, 'yyyy-MM-dd'),
+                BirthDate: this.DatePipe.transform(form.get("BirthDate").value, 'yyyy-MM-dd'),
+                HirDate: this.DatePipe.transform(form.get("HirDate").value, 'yyyy-MM-dd'),
+                ResignationDate: this.DatePipe.transform(form.get("ResignationDate").value, 'yyyy-MM-dd'),
+            }
 
+            // convert to formData before send a request
+            const formData = this.mapToFormData(body);
 
-        // if(this.registerForm.valid) {
+            // calling register functions
+            this._EmployeeService.Register(formData).subscribe({
+                    next: (res) => {
+                        console.log(res);
+                        if(res.success)
+                            this.messageService.add({
+                                severity: 'success',
+                                summary: 'Success',
+                                detail: 'item inserted successfully',
+                                life: 3000,
+                            });
+                    },
 
-        //     // convert to formData before send a request
-        //     const formData = this.mapToFormData(this.registerForm.value)
+                    error: (err) => {
+                        console.error(err);
+                    },
+                });
+        }
 
-        //     this._EmployeeService.Register(formData).subscribe({
-        //             next: (res) => {
-        //                 console.log(res);
-        //                 this.messageService.add({
-        //                     severity: 'success',
-        //                     summary: 'Success',
-        //                     detail: 'item inserted successfully',
-        //                     life: 3000,
-        //                 });
-        //             },
-
-        //             error: (err) => {
-        //                 console.error(err);
-        //             },
-        //         });
-        //     }
     }
 
 }
