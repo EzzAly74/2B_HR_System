@@ -8,6 +8,7 @@ import { EmployeeCourseService } from './employee-course.service';
 import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-employee-course',
@@ -57,6 +58,9 @@ export class EmployeeCourseComponent {
     hrApproved: boolean = false;
     stockVacation: boolean = false;
 
+    addNewForm!: FormGroup;
+    editForm!: FormGroup;
+
     ngOnInit() {
         this.endPoint = 'EmployeeCourse';
         this.route.parent?.paramMap.subscribe((params) => {
@@ -101,28 +105,49 @@ export class EmployeeCourseComponent {
             { field: 'creatorName', header: 'CreatorName' },
             { field: 'lastModifierName', header: 'LastModifierName' },
         ];
+
+        this.initFormGroups();
     }
 
-    editProduct(rowData: any) {
+    initFormGroups() {
+        this.addNewForm = new FormGroup({
+            courseName: new FormControl(null, Validators.required),
+            dateFrom: new FormControl(null, Validators.required),
+            dateTo: new FormControl(null, Validators.required),
+            location: new FormControl(null, Validators.required),
+            discription: new FormControl(null, Validators.required),
+        });
+
+        this.editForm = new FormGroup({
+            courseName: new FormControl(null, Validators.required),
+            dateFrom: new FormControl(null, Validators.required),
+            dateTo: new FormControl(null, Validators.required),
+            location: new FormControl(null, Validators.required),
+            discription: new FormControl(null, Validators.required),
+        })
+    }
+
+    editProduct(rowData: any, form: FormGroup) {
         console.log(rowData.id);
+
         rowData.dateFrom = this.convertDate(rowData.dateFrom, 'MM/dd/yyyy');
         rowData.dateTo = this.convertDate(rowData.dateTo, 'MM/dd/yyyy');
+
+
         this.employeeCourseService.GetById(rowData.id).subscribe({
             next: (res) => {
-                console.log(res.data);
-                res.data.dateFrom = this.convertDate(
-                    res.data.dateFrom,
-                    'MM/dd/yyyy'
-                );
-                res.data.dateTo = this.convertDate(
-                    res.data.dateTo,
-                    'MM/dd/yyyy'
-                );
-                console.log(res.data.dateFrom);
-                console.log(res.data.dateTo);
 
                 this.product = { ...res.data };
                 this.productDialog = true;
+
+                this.product.dateFrom = this.convertDate(
+                    this.product.dateFrom,
+                    'MM/dd/yyyy'
+                );
+                this.product.dateTo = this.convertDate(
+                    this.product.dateTo,
+                    'MM/dd/yyyy'
+                );
             },
             error: (err) => {
                 console.log(err);
@@ -174,52 +199,51 @@ export class EmployeeCourseComponent {
         });
     }
 
-    addNew() {
+    addNew(form: FormGroup) {
         // first convert from date full format to time only
         // why? because prime ng calender component returned the value as a full Date Format
 
         // set body of request
         let body = {
-            courseName: this.courseName,
+            ...form.value,
             employeeId: this.currentId,
-            dateFrom: this.convertDate(this.dateFrom, 'yyyy-MM-ddTHH:mm:ss'),
-            dateTo: this.convertDate(this.dateTo, 'yyyy-MM-ddTHH:mm:ss'),
-            location: this.location,
-            discription: this.discription,
+            dateFrom: this.convertDate(form.get('dateFrom').value, 'yyyy-MM-ddTHH:mm:ss'),
+            dateTo: this.convertDate(form.get('dateTo').value, 'yyyy-MM-ddTHH:mm:ss'),
         };
 
-        console.log(body);
-
         // Confirm add new
-        this.employeeCourseService.Register(body).subscribe({
-            next: (res) => {
-                console.log(res);
-                this.showFormNew = false;
-                // show message for success inserted
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'inserted success',
-                    life: 3000,
-                });
+        if(form.valid) {
+            this.employeeCourseService.Register(body).subscribe({
+                next: (res) => {
+                    console.log(res);
+                    this.showFormNew = false;
+                    // show message for success inserted
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: 'inserted success',
+                        life: 3000,
+                    });
 
-                // set fields is empty
-                this.setFieldsNulls();
+                    // set fields is empty
+                    this.setFieldsNulls();
 
-                // load data again
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
-            error: (err) => {
-                this.showFormNew = false;
-          
-            },
-        });
+                    // load data again
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+                },
+                error: (err) => {
+                    this.showFormNew = false;
+
+                },
+            });
+        }
+
     }
 
     loadFilteredData() {
@@ -270,7 +294,7 @@ export class EmployeeCourseComponent {
             },
             error: (err) => {
                 console.log(err);
-              
+
                 this.loading = false;
             },
         });
@@ -310,18 +334,14 @@ export class EmployeeCourseComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number, product: any) {
+    saveProduct(product: any, form: FormGroup) {
         this.submitted = true;
-        console.log(id);
-        console.log(product);
 
         let body = {
-            courseName: product.courseName,
+            ...form.value,
             employeeId: this.currentId,
             dateFrom: this.convertDate(product.dateFrom, 'yyyy-MM-ddTHH:mm:ss'),
             dateTo: this.convertDate(product.dateTo, 'yyyy-MM-ddTHH:mm:ss'),
-            location: product.location,
-            discription: product.discription,
             id: product.id,
         };
 
@@ -426,7 +446,7 @@ export class EmployeeCourseComponent {
             },
             error: (err) => {
                 this.deleteProductsDialog = false;
-               
+
             },
         });
     }
