@@ -1,6 +1,6 @@
 import { environment } from './../../../../../../environments/environment';
 import { DatePipe } from '@angular/common';
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, SimpleChanges, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
@@ -167,7 +167,7 @@ export class EmployeeEditComponent {
 
     // Actions Tabs variable
     Actions: any[] = [];
-    selectedAction?: any;
+    @Input() selectedAction?: any;
 
     ngOnInit() {
         this.currentId = this.route.snapshot.params['id'];
@@ -413,6 +413,16 @@ export class EmployeeEditComponent {
             relativeTo: this.route,
         });
     }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes["selectedAction"]) {
+            console.clear();
+            console.log('selectedAction changed:',  this.selectedAction);
+            alert("hiiiiiiiiiiiiiii")
+            this.selectedAction
+        }
+    }
+
 
     patchFormValues(data: any, transformedDates?: any) {
         // console.clear();
@@ -681,7 +691,7 @@ export class EmployeeEditComponent {
                     this.dropdownItemsQualification
                 );
 
-             
+
 
                 this.selectedJob = this.getObject(
                     this.editForm.get('JobId').value,

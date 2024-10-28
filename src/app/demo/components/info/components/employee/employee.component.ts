@@ -49,10 +49,9 @@ export class EmployeeComponent {
     dropdownItemsContractType: any;
     dropdownItemsAttendanceConfiguration:any;
     endPoint: string;
-    // registerForm: FormData = new FormData();
-
     registerForm!: FormGroup;
 
+    uploadedFiles: any[] = [];
 
     ngOnInit(): void {
         this.endPoint = 'Employee';
@@ -71,7 +70,6 @@ export class EmployeeComponent {
             this.getAllDropDowns();
 
         });
-
 
         this.initFormGroups()
     }
@@ -251,8 +249,6 @@ export class EmployeeComponent {
         });
     }
 
-    uploadedFiles: any[] = [];
-
     onUpload(event: UploadEvent) {
         for (let file of event?.["files"]) {
             this.uploadedFiles.push(file);
@@ -278,6 +274,10 @@ export class EmployeeComponent {
         return formData;
     }
 
+    resetFields() {
+        this.registerForm.reset();
+    }
+
     registerSubmit(form: FormGroup) {
 
         if(form.valid) {
@@ -285,7 +285,6 @@ export class EmployeeComponent {
             // override on values
             const body = {
                 ...form.value,
-
                 File: form.get("File").value,
                 DeleteImage: form.get("File").value? true: false,
                 JoininDate: this.DatePipe.transform(form.get("JoininDate").value, 'yyyy-MM-dd'),
@@ -299,21 +298,24 @@ export class EmployeeComponent {
 
             // calling register functions
             this._EmployeeService.Register(formData).subscribe({
-                    next: (res) => {
-                        console.log(res);
-                        if(res.success)
-                            this.messageService.add({
-                                severity: 'success',
-                                summary: 'Success',
-                                detail: 'item inserted successfully',
-                                life: 3000,
-                            });
-                    },
+                next: (res) => {
+                    console.log(res);
+                    if(res.success) {
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Success',
+                            detail: 'item inserted successfully',
+                            life: 3000,
+                        });
 
-                    error: (err) => {
-                        console.error(err);
-                    },
-                });
+                        this.resetFields();
+                    }
+                },
+
+                error: (err) => {
+                    console.error(err);
+                },
+            });
         }
 
     }

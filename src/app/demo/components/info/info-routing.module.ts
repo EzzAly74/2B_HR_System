@@ -266,6 +266,7 @@ import { ResignationComponent } from './components/custom/resignation/resignatio
                         './components/employee-edit/all-tabs-routing/all-tabs.module'
                     ).then((m) => m.AllTabsModule),
             },
+
             {
                 path: 'InternalJobs/edit/:id',
                 canActivate: [authGuard],

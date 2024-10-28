@@ -48,74 +48,79 @@
     class="p-fluid"
 >
     <ng-template pTemplate="content">
-        <div class="field">
-            <label htmlFor="name-en"
-                >{{ "Certification Name" | translate }}
-            </label>
-            <input
-                pInputText
-                [(ngModel)]="certificatName"
-                [placeholder]="'Enter Certification Name Here' | translate"
-                id="name-en"
-                type="text"
-            />
-        </div>
+        <form [formGroup]="addNewForm">
+            <div class="field">
+                <label htmlFor="name-en"
+                    >{{ "Certification Name" | translate }}
+                </label>
+                <input
+                    pInputText
+                    formControlName="certificatName"
+                    [placeholder]="'Enter Certification Name Here' | translate"
+                    id="name-en"
+                    type="text"
+                />
+            </div>
 
-        <div class="field">
-            <label htmlFor="name-ar">{{ "Year" | translate }} </label>
-            <input
-                pInputText
-                [(ngModel)]="year"
-                [placeholder]="'Enter Year Here' | translate"
-                id="name-ar"
-                type="text"
-            />
-        </div>
+            <div class="field">
+                <label htmlFor="name-ar">{{ "Year" | translate }} </label>
+                <input
+                    pInputText
+                    formControlName="year"
+                    [placeholder]="'Enter Year Here' | translate"
+                    id="name-ar"
+                    type="text"
+                />
+            </div>
 
-        <div class="field">
-            <label htmlFor="numberOfHours">{{ "Degree" | translate }}</label>
+            <div class="field">
+                <label htmlFor="numberOfHours">{{ "Degree" | translate }}</label>
 
-            <input
-                pInputText
-                [(ngModel)]="degree"
-                [placeholder]="'Enter Degree Here' | translate"
-                id="numberOfHours"
-                type="text"
-            />
-        </div>
+                <input
+                    pInputText
+                    formControlName="degree"
+                    [placeholder]="'Enter Degree Here' | translate"
+                    id="numberOfHours"
+                    type="text"
+                />
+            </div>
 
-        <div class="field">
-            <label htmlFor="new-notes">{{ "Discription" | translate }}</label>
-            <textarea
-                pInputTextarea
-                [(ngModel)]="discription"
-                id="new-notes"
-                [placeholder]="'Enter Discription Here' | translate"
-                type="text"
-            ></textarea>
-        </div>
+            <div class="field">
+                <label htmlFor="new-notes">{{ "Discription" | translate }}</label>
+                <textarea
+                    pInputTextarea
+                    formControlName="discription"
+                    id="new-notes"
+                    [placeholder]="'Enter Discription Here' | translate"
+                    type="text"
+                ></textarea>
+            </div>
 
-        <div class="field">
-            <label htmlFor="new-notes">{{
-                "University Name" | translate
-            }}</label>
-            <input
-                pInputText
-                [(ngModel)]="university"
-                id="new-notes"
-                [placeholder]="'Enter University Name Here' | translate"
-                type="text"
-            />
-        </div>
+            <div class="field">
+                <label htmlFor="university">{{
+                    "University Name" | translate
+                }}</label>
+                <input
+                    pInputText
+                    formControlName="university"
+                    id="university"
+                    [placeholder]="'Enter University Name Here' | translate"
+                    type="text"
+                />
+            </div>
 
-        <div class="field">
-            <button
-                class="w-25"
-                pButton
-                [label]="'Insert New' | translate"
-                (click)="addNew()"
-            ></button>
-        </div>
+            <div class="field">
+                <button
+                    class="w-25"
+                    pButton
+                    type="submit"
+                    [label]="'Insert New' | translate"
+                    (click)="addNew(addNewForm)"
+                    [disabled]="!addNewForm.valid"
+                ></button>
+            </div>
+        </form>
+
     </ng-template>
 </p-dialog>
 
@@ -272,85 +277,94 @@
     class="p-fluid"
 >
     <ng-template pTemplate="content">
-        <div class="field">
-            <label htmlFor="name-en"
-                >{{ "Certification Name" | translate }}
-            </label>
-            <input
-                pInputText
-                [(ngModel)]="product.certificatName"
-                [placeholder]="'Enter Certification Name Here' | translate"
-                id="name-en"
-                type="text"
-                required
-                autofocus
-            />
-        </div>
+        <form [formGroup]="editForm">
+            <div class="field">
+                <label htmlFor="name-en"
+                    >{{ "Certification Name" | translate }}
+                </label>
+                <input
+                    pInputText
+                    [(ngModel)]="product.certificatName"
+                    formControlName="certificatName"
+                    [placeholder]="'Enter Certification Name Here' | translate"
+                    id="name-en"
+                    type="text"
+                    required
+                    autofocus
+                />
+            </div>
 
-        <div class="field">
-            <label htmlFor="name-ar">{{ "Year" | translate }} </label>
-            <input
-                pInputText
-                [(ngModel)]="product.year"
-                [placeholder]="'Enter Year Here' | translate"
-                id="name-ar"
-                type="text"
-            />
-        </div>
+            <div class="field">
+                <label htmlFor="name-ar">{{ "Year" | translate }} </label>
+                <input
+                    pInputText
+                    [(ngModel)]="product.year"
+                    formControlName="year"
+                    [placeholder]="'Enter Year Here' | translate"
+                    id="name-ar"
+                    type="text"
+                />
+            </div>
 
-        <div class="field">
-            <label htmlFor="numberOfHours">{{ "Degree" | translate }}</label>
+            <div class="field">
+                <label htmlFor="numberOfHours">{{ "Degree" | translate }}</label>
 
-            <input
-                pInputText
-                [(ngModel)]="product.degree"
-                [placeholder]="'Enter Degree Here' | translate"
-                id="numberOfHours"
-                type="text"
-            />
-        </div>
+                <input
+                    pInputText
+                    [(ngModel)]="product.degree"
+                    formControlName="degree"
+                    [placeholder]="'Enter Degree Here' | translate"
+                    id="numberOfHours"
+                    type="text"
+                />
+            </div>
 
-        <div class="field">
-            <label htmlFor="new-notes">{{ "Discription" | translate }}</label>
-            <textarea
-                pInputTextarea
-                [(ngModel)]="product.discription"
-                id="new-notes"
-                [placeholder]="'Enter Discription Here' | translate"
-                type="text"
-            ></textarea>
-        </div>
+            <div class="field">
+                <label htmlFor="new-notes">{{ "Discription" | translate }}</label>
+                <textarea
+                    pInputTextarea
+                    [(ngModel)]="product.discription"
+                    formControlName="discription"
+                    id="new-notes"
+                    [placeholder]="'Enter Discription Here' | translate"
+                    type="text"
+                ></textarea>
+            </div>
 
-        <div class="field">
-            <label htmlFor="new-notes">{{
-                "University Name" | translate
-            }}</label>
-            <input
-                pInputText
-                [(ngModel)]="product.university"
-                id="new-notes"
-                [placeholder]="'Enter University Name Here' | translate"
-                type="text"
-            />
-        </div>
-    </ng-template>
-    <ng-template pTemplate="footer">
-        <button
-            pButton
-            pRipple
-            [label]="'Cancel' | translate"
-            icon="pi pi-times"
-            class="p-button-text"
-            (click)="hideDialog()"
-        ></button>
-        <button
-            pButton
-            pRipple
-            [label]="'Save' | translate"
-            icon="pi pi-check"
-            class="p-button-text"
-            (click)="saveProduct(product.id, product)"
-        ></button>
+            <div class="field">
+                <label htmlFor="new-notes">{{
+                    "University Name" | translate
+                }}</label>
+                <input
+                    pInputText
+                    [(ngModel)]="product.university"
+                    formControlName="university"
+                    id="new-notes"
+                    [placeholder]="'Enter University Name Here' | translate"
+                    type="text"
+                />
+            </div>
+
+            <div class="field form-footer">
+                <button
+                pButton
+                pRipple
+                [label]="'Cancel' | translate"
+                icon="pi pi-times"
+                class="p-button-text"
+                type="button"
+                (click)="hideDialog()"></button>
+            <button
+                pButton
+                pRipple
+                [label]="'Save' | translate"
+                icon="pi pi-check"
+                class="p-button-text"
+                [disabled]="!editForm.valid"
+                type="submit"
+                (click)="saveProduct(product, editForm)"></button>
+            </div>
+        </form>
     </ng-template>
 </p-dialog>
 
