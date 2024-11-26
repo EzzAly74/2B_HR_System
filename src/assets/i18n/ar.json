@@ -465,5 +465,11 @@
     "Resignations Requests": "طلبات الاستقالة",
     "Add New Document Required": "اضف مستند جديد",
     "Mission Type": "نوع المأمورية",
-    "Enter Mission Type Here": "ادخل نوع المأمورية هنا"
+    "Enter Mission Type Here": "ادخل نوع المأمورية هنا",
+    "Assets Coordinator": "مسؤول العهد",
+    "Assets Category": "تصنيف العهد",
+    "Select Assets Category": "اختر تصنيف العهد",
+    "Assets Coordinators": "مسؤولي العهد",
+    "Select Assets Coordinators": "اختر مسؤولي العهد",
+    "Assign Assets Coordinators": "اعدد مسؤولي العهد"
 }
