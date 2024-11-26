@@ -1,0 +1,65 @@
+<p-toast />
+<div class="grid justify-content-center">
+    <div class="col-10">
+        <div class="card">
+            <h5 class="pt-2 pb-5">{{ "Assign Assets Coordinators" | translate }}</h5>
+            <div class="p-fluid grid">
+
+                <div class="field col-12">
+                    <div class="p-fluid grid">
+                        <div class="field col-12 md:col-6">
+                            <label htmlFor="department">{{
+                                "Assets Category" | translate
+                                }}</label>
+                            <p-dropdown name="DepartmentId" [options]="dropdownItemsDepartment" optionLabel="name"
+                                [(ngModel)]="selectedDepartment" (onChange)="ChangeEmployees(selectedDepartment)"
+                                [placeholder]="'Select Assets Category' | translate"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="field col-12 md:col-12">
+                    <div class="p-fluid p-formgrid grid">
+
+                        <div class="field col-12 md:col-6">
+                            <label htmlFor="employee">{{
+                                "Assets Coordinators" | translate
+                                }}</label>
+
+                            <p-multiSelect name="selectedEmployees" [options]="dropdownItemsEmployee"
+                                optionLabel="employeeName" [(ngModel)]="selectedEmployee" [showToggleAll]="false"
+                                [placeholder]="'Select Assets Coordinators' | translate"
+                                (onChange)="onSelectEmployees($event)">
+                            </p-multiSelect>
+
+                        </div>
+
+
+                        <!-- <div class="field col-12 md:col-6">
+                            <label htmlFor="shift">{{
+                                "Shift" | translate
+                                }}</label>
+                            <p-dropdown name="ShiftId" [options]="dropdownItemsShift" optionLabel="name"
+                                [(ngModel)]="selectedShift" [placeholder]="'Select Shift' | translate"></p-dropdown>
+                        </div> -->
+
+
+                        <div class="field col-12 md:col-12 py-5">
+                            <div class="p-fluid grid">
+                                <div class="col-2">
+                                    <button (click)="registerSubmit()" pButton value="Save"
+                                        class="flex justify-content-center">
+                                        {{ "Save" | translate }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

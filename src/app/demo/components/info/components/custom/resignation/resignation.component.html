@@ -148,17 +148,12 @@
             </td>
 
             <td>
-                <div [ngStyle]="{
-                        cursor:
-                            rowData.status !== 0
-                                ? 'not-allowed'
-                                : 'default'
-                    }" class="flex crud-operations">
-                    <button [disabled]="rowData.status !== 0" pButton pRipple icon="pi pi-check"
+                <div class="flex crud-operations">
+                    <button pButton pRipple icon="pi pi-check"
                         class="p-button-rounded p-button-outlined p-button-success" [label]="'Accept'|translate"
                         (click)="acceptRequest(rowData)"></button>
 
-                    <button [disabled]="rowData.status !== 0" pButton pRipple icon="pi pi-times"
+                    <button pButton pRipple icon="pi pi-times"
                         class="p-button-rounded p-button-hover p-button-outlined p-button-danger"
                         [label]="'Reject'|translate" (click)="rejectRequest(rowData)"></button>
                 </div>

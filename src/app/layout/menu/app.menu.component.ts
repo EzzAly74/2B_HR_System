@@ -55,15 +55,13 @@ export class AppMenuComponent implements OnInit {
                             //     label: this.translate.instant('TESTINPUT'),
                             //     routerLink: ['/info/test'],
                             // },
-                            
-
-
                         ],
                     },
 
                     {
                         label: this.translate.instant('Payroll Overview'),
-                        svg:this.sanitizer.bypassSecurityTrustHtml(`<svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                        svg: this.sanitizer
+                            .bypassSecurityTrustHtml(`<svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                             <path d="M16.6667 4.15145H3.33333C2.40833 4.15145 1.675 4.89312 1.675 5.81812L1.66667 15.8181C1.66667 16.7431 2.40833 17.4848 3.33333 17.4848H16.6667C17.5917 17.4848 18.3333 16.7431 18.3333 15.8181V5.81812C18.3333 4.89312 17.5917 4.15145 16.6667 4.15145ZM16.6667 15.8181H3.33333V10.8181H16.6667V15.8181ZM16.6667 7.48478H3.33333V5.81812H16.6667V7.48478Z" fill="#2D3250"/>
                             </svg>`),
                         items: [
@@ -82,29 +80,11 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/kpi'],
                             },
                             {
-                                label: this.translate.instant('Month End Closure'),
+                                label: this.translate.instant(
+                                    'Month End Closure'
+                                ),
                                 routerLink: ['/info/closeMonth'],
                             },
-                            
-                          
-                          
-                          
-                          
-                          
-                          
-                       
-
-                        
-                           
-                        
-                          
-                           
-                          
-                  
-                         
-                       
-                         
-                           
                         ],
                     },
 
@@ -142,11 +122,11 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/allEmployeesManager'],
                             },
                             {
-                                label: this.translate.instant('Employees Fingerprints'),
+                                label: this.translate.instant(
+                                    'Employees Fingerprints'
+                                ),
                                 routerLink: ['/info/fingerprints'],
                             },
-
-                         
 
                             {
                                 label: this.translate.instant(
@@ -156,29 +136,39 @@ export class AppMenuComponent implements OnInit {
                             },
 
                             {
-                                label: this.translate.instant('Employees Shifts'),
+                                label: this.translate.instant(
+                                    'Employees Shifts'
+                                ),
                                 icon: 'pi pi-fw pi-home',
                                 routerLink: ['/info/setEmployeeShifts'],
                             },
 
-                       
+                            {
+                                label: this.translate.instant(
+                                    'Assets Coordinator'
+                                ),
+                                icon: 'pi pi-fw pi-home',
+                                routerLink: ['/info/setAssetCoordinator'],
+                            },
+
                             {
                                 label: this.translate.instant(
                                     'Employees Uniform'
                                 ),
                                 routerLink: ['/info/allEmployeesUniform'],
                             },
-                        
+
                             {
-                                label: this.translate.instant('Add New Employee'),
+                                label: this.translate.instant(
+                                    'Add New Employee'
+                                ),
                                 routerLink: ['/info/employee'],
                             },
-                        
                         ],
                     },
                     {
                         label: this.translate.instant('Manage Requests'),
-                        svg:this.sanitizer.bypassSecurityTrustHtml(`
+                        svg: this.sanitizer.bypassSecurityTrustHtml(`
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                             <path d="M13.75 16.4333H3.75V6.25H9.58333V4.58333H3.75C2.83333 4.58333 2.08333 5.33333 2.08333 6.25V16.25C2.08333 17.1667 2.83333 17.9167 3.75 17.9167H13.75C14.6667 17.9167 15.4167 17.1667 15.4167 16.25V10.4167H13.75V16.4333Z" fill="#2D3250"/>
                             <path d="M15.4167 2.08333H13.75V4.58333H11.25C11.2583 4.59167 11.25 6.25 11.25 6.25H13.75V8.74166C13.7583 8.75 15.4167 8.74166 15.4167 8.74166V6.25H17.9167V4.58333H15.4167V2.08333Z" fill="#2D3250"/>
@@ -188,7 +178,6 @@ export class AppMenuComponent implements OnInit {
                             </svg>
                             `),
                         items: [
-                           
                             {
                                 label: this.translate.instant(
                                     'Permissions Requests'
@@ -209,19 +198,12 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/vacationRequest'],
                             },
                             {
-                                label: this.translate.instant('Resignations Requests'),
+                                label: this.translate.instant(
+                                    'Resignations Requests'
+                                ),
                                 icon: 'pi pi-fw pi-home',
                                 routerLink: ['/info/resignation'],
                             },
-                       
-                     
-                       
-                         
-                      
-                   
-                          
-                     
-                        
                         ],
                     },
                     {
@@ -233,11 +215,15 @@ export class AppMenuComponent implements OnInit {
                             `),
                         items: [
                             {
-                                label: this.translate.instant('Permissions Types'),
+                                label: this.translate.instant(
+                                    'Permissions Types'
+                                ),
                                 routerLink: ['/info/execuseType'],
                             },
-                               {
-                                label: this.translate.instant('Vacations Types'),
+                            {
+                                label: this.translate.instant(
+                                    'Vacations Types'
+                                ),
                                 routerLink: ['/info/vacationType'],
                             },
                             {
@@ -251,18 +237,11 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/shift'],
                             },
                             {
-                                label: this.translate.instant('Vacations Shift Types'),
+                                label: this.translate.instant(
+                                    'Vacations Shift Types'
+                                ),
                                 routerLink: ['/info/shiftVacation'],
                             },
-                       
-                          
-
-                      
-                          
-                            
-
-                        
-
                         ],
                     },
 
@@ -287,11 +266,15 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/department'],
                             },
                             {
-                                label: this.translate.instant('Administrations'),
+                                label: this.translate.instant(
+                                    'Administrations'
+                                ),
                                 routerLink: ['/info/partition'],
                             },
                             {
-                                label: this.translate.instant('Company Policies'),
+                                label: this.translate.instant(
+                                    'Company Policies'
+                                ),
                                 routerLink: ['/info/companyPolicy'],
                             },
                             {
@@ -300,7 +283,7 @@ export class AppMenuComponent implements OnInit {
                             },
                             {
                                 label: this.translate.instant(
-                                    "Source of Employment"
+                                    'Source of Employment'
                                 ),
                                 routerLink: ['/info/recuritmentSource'],
                             },
@@ -317,7 +300,9 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/contractType'],
                             },
                             {
-                                label: this.translate.instant('Academic Degrees'),
+                                label: this.translate.instant(
+                                    'Academic Degrees'
+                                ),
                                 routerLink: ['/info/grade'],
                             },
                             {
@@ -331,10 +316,12 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/relativeRelation'],
                             },
                             {
-                                label: this.translate.instant('Uniform Guidelines'),
+                                label: this.translate.instant(
+                                    'Uniform Guidelines'
+                                ),
                                 routerLink: ['/info/uniformCodes'],
                             },
-                             {
+                            {
                                 label: this.translate.instant(
                                     'Company Assets Categories'
                                 ),
@@ -344,7 +331,7 @@ export class AppMenuComponent implements OnInit {
                                 label: this.translate.instant('Company Assets'),
                                 routerLink: ['/info/Covenant'],
                             },
-                             {
+                            {
                                 label: this.translate.instant(
                                     'Attendance Policy'
                                 ),
@@ -356,11 +343,11 @@ export class AppMenuComponent implements OnInit {
                                 ),
                                 routerLink: ['/info/vacationSetting'],
                             },
-                             {
+                            {
                                 label: this.translate.instant('Internal Jobs'),
                                 routerLink: ['/info/InternalJobs'],
                             },
-                             
+
                             {
                                 label: this.translate.instant(
                                     'Documents Required'
@@ -368,20 +355,12 @@ export class AppMenuComponent implements OnInit {
                                 icon: 'pi pi-fw pi-home',
                                 routerLink: ['/info/documentRequired'],
                             },
-                            
-                          
 
-                        
-                          
-                           
-
-                         
                             // {
                             //     label: this.translate.instant('Resignation'),
                             //     icon: 'pi pi-fw pi-home',
                             //     routerLink: ['/info/resignation'],
                             // },
-
                         ],
                     },
                 ],

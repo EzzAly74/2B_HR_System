@@ -451,5 +451,11 @@
     "Resignations Requests": "Resignations Requests",
     "Add New Document Required": "Add New Document",
     "Mission Type": "Mission Type",
-    "Enter Mission Type Here": "Enter Mission Type Here"
+    "Enter Mission Type Here": "Enter Mission Type Here",
+    "Assets Coordinator": "Assets Coordinator",
+    "Assets Category": "Assets Category",
+    "Select Assets Category": "Select Assets Category",
+    "Assets Coordinators": "Assets Coordinators",
+    "Select Assets Coordinators": "Select Assets Coordinators",
+    "Assign Assets Coordinators": "Assign Assets Coordinators"
 }
