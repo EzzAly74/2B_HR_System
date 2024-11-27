@@ -12,10 +12,7 @@ import { DatePipe } from '@angular/common';
 @Component({
     selector: 'app-employee-vacation-stock',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService, DatePipe, DayNamePipe],
     templateUrl: './employee-vacation-stock.component.html',
     styleUrl: './employee-vacation-stock.component.scss',
@@ -166,7 +163,6 @@ export class EmployeeVacationStockComponent {
             },
             error: (err) => {
                 console.log(err);
-
             },
         });
     }
@@ -179,11 +175,11 @@ export class EmployeeVacationStockComponent {
         );
 
         let body = {
-            employeeId: this.empId,
-            vacationTypeId: this.selectedVacationType?.['id'],
-            date: this.selectedStartDate,
-            year: this.selectedYear,
-            vacationBalance: this.selectedVacationBalance,
+            EmployeeId: this.empId,
+            VacationTypeId: this.selectedVacationType?.['id'],
+            Date: this.selectedStartDate,
+            Year: this.selectedYear,
+            VacationBalance: this.selectedVacationBalance,
         };
 
         this._EmployeeVacationStockService.Register(body).subscribe({
@@ -213,7 +209,6 @@ export class EmployeeVacationStockComponent {
             },
             error: (err) => {
                 // this.showFormNew = false;
-
 
                 console.log(err);
             },
@@ -246,19 +241,26 @@ export class EmployeeVacationStockComponent {
     ) {
         this.loading = true;
         let filteredData = {
-            pageNumber: page,
+            PageNumber: page,
             pageSize: size,
-            filterValue: nameFilter,
-            filterType: filterType,
-            sortType: sortType,
-            employeeId: employeeId,
+            FilterValue: nameFilter,
+            FilterType: filterType,
+            SortType: sortType,
+            EmployeeId: employeeId,
         };
-        filteredData.sortType = this.sortOrder;
+        filteredData.SortType = this.sortOrder;
 
         console.log('FilteredData');
         console.log(filteredData);
 
-        this._EmployeeVacationStockService.GetPage(filteredData).subscribe({
+        let newFormData: FormData = new FormData();
+        for (const key in filteredData) {
+            if (filteredData.hasOwnProperty(key)) {
+                newFormData.append(key, filteredData[key]);
+            }
+        }
+
+        this._EmployeeVacationStockService.GetPage(newFormData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
@@ -363,7 +365,6 @@ export class EmployeeVacationStockComponent {
             },
             error: (err) => {
                 console.log(err);
-      
             },
         });
     }
@@ -453,7 +454,6 @@ export class EmployeeVacationStockComponent {
                 );
             },
             error: (err) => {
-       
                 this.deleteProductsDialog = false;
                 this.loadData(
                     this.page,
