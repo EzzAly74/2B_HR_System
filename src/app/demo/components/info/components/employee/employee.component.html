@@ -7,8 +7,8 @@
                 <h5>{{ "Add New Employee" | translate }}</h5>
                 <div class="p-fluid p-formgrid grid">
                     <div class="field col-12 md:col-12">
-                        <p-fileUpload (onSelect)="onSelect($event)" (onUpload)="onUpload($event)"
-                            formControlName="File" [multiple]="false" [chooseLabel]="'Insert Personal Image' | translate" accept="image/*"
+                        <p-fileUpload (onSelect)="onSelect($event)" (onUpload)="onUpload($event)" formControlName="File"
+                            [multiple]="false" [chooseLabel]="'Insert Personal Image' | translate" accept="image/*"
                             maxFileSize="1000000">
                             <ng-template pTemplate="content">
                                 <ul *ngIf="uploadedFiles.length">
@@ -22,7 +22,8 @@
 
                     <div class="field col-12 md:col-4">
                         <label for="NameAr">{{ "Full Name with Arabic" | translate }}</label>
-                        <input pInputText formControlName="NameAr" id="NameAr" [placeholder]="'Enter Arabic Name' | translate" />
+                        <input pInputText formControlName="NameAr" id="NameAr"
+                            [placeholder]="'Enter Arabic Name' | translate" />
                     </div>
 
                     <div class="field col-12 md:col-4">
@@ -45,7 +46,8 @@
 
                     <div class="field col-12 md:col-4">
                         <label for="GovernmentId">{{ "Government" | translate }}</label>
-                        <p-dropdown formControlName="GovernmentId" [options]="dropdownItemsGovernment" optionLabel="name" optionValue="id"
+                        <p-dropdown formControlName="GovernmentId" [options]="dropdownItemsGovernment"
+                            optionLabel="name" optionValue="id"
                             [placeholder]="'Select Government' | translate"></p-dropdown>
                     </div>
 
@@ -63,86 +65,90 @@
 
                     <div class="field col-12 md:col-3">
                         <label for="BirthDate">{{ "BirthDate" | translate }}</label>
-                        <p-calendar [showIcon]="true" [iconDisplay]="'input'" formControlName="BirthDate" inputId="BirthDate"
-                            [placeholder]="'Select BirthDate' | translate"></p-calendar>
+                        <p-calendar [showIcon]="true" [iconDisplay]="'input'" formControlName="BirthDate"
+                            inputId="BirthDate" [placeholder]="'Select BirthDate' | translate"></p-calendar>
                     </div>
 
                     <div class="field col-12 md:col-3">
                         <label for="Religion">{{ "Religion" | translate }}</label>
-                        <p-dropdown formControlName="Religion" [options]="dropdownItemsReligin" optionLabel="name" optionValue="id"
-                            [placeholder]="'Select Religion' | translate"></p-dropdown>
+                        <p-dropdown formControlName="Religion" [options]="dropdownItemsReligin" optionLabel="name"
+                            optionValue="id" [placeholder]="'Select Religion' | translate"></p-dropdown>
                     </div>
 
                     <div class="field col-12 md:col-3">
                         <label for="MaritalStatus">{{ "Marital Status" | translate }}</label>
-                        <p-dropdown formControlName="MaritalStatus" [options]="dropdownItemsMaritalStatus" optionLabel="name" optionValue="id"
+                        <p-dropdown formControlName="MaritalStatus" [options]="dropdownItemsMaritalStatus"
+                            optionLabel="name" optionValue="id"
                             [placeholder]="'Select Marital Status' | translate"></p-dropdown>
                     </div>
 
                     <div class="field col-12 md:col-3">
                         <label for="BloodTypes">{{ "Blood Types" | translate }}</label>
-                        <p-dropdown formControlName="BloodTypes" [options]="dropdownItemsBloodTypes" optionLabel="name" optionValue="id"
-                            [placeholder]="'Select Blood Types' | translate"></p-dropdown>
+                        <p-dropdown formControlName="BloodTypes" [options]="dropdownItemsBloodTypes" optionLabel="name"
+                            optionValue="id" [placeholder]="'Select Blood Types' | translate"></p-dropdown>
                     </div>
 
                     <div class="field col-12 md:col-3">
                         <label for="Gender">{{ "Gender" | translate }}</label>
-                        <p-dropdown formControlName="Gender" [options]="dropdownItemsGender" optionLabel="name" optionValue="id"
-                            [placeholder]="'Select Gender' | translate"></p-dropdown>
+                        <p-dropdown formControlName="Gender" [options]="dropdownItemsGender" optionLabel="name"
+                            optionValue="id" [placeholder]="'Select Gender' | translate"></p-dropdown>
                     </div>
 
                     <div class="field col-12 md:col-3">
                         <label for="Qualification">{{ "Qualification" | translate }}</label>
-                        <p-dropdown formControlName="QualificationId" [options]="dropdownItemsQualification" optionLabel="name" optionValue="id"
+                        <p-dropdown formControlName="QualificationId" [options]="dropdownItemsQualification"
+                            optionLabel="name" optionValue="id"
                             [placeholder]="'Select Qualification' | translate"></p-dropdown>
                     </div>
 
                     <div class="field col-12 md:col-3">
                         <label for="AttendanceConfiguration">{{ "Attendance Configuration" | translate }}</label>
-                        <p-dropdown formControlName="AttendanceConfigurationId" [options]="dropdownItemsAttendanceConfiguration"
-                            optionLabel="name" optionValue="id" [placeholder]="'Select Attendance Configuration' | translate"></p-dropdown>
+                        <p-dropdown formControlName="AttendanceConfigurationId"
+                            [options]="dropdownItemsAttendanceConfiguration" optionLabel="name" optionValue="id"
+                            [placeholder]="'Select Attendance Configuration' | translate"></p-dropdown>
                     </div>
 
                     <div class="field col-12 md:col-3">
                         <label for="Job">{{ "Job" | translate }}</label>
-                        <p-dropdown formControlName="JobId" [options]="dropdownItemsJob" optionLabel="name" optionValue="id"
-                            [placeholder]="'Select Job' | translate"></p-dropdown>
+                        <p-dropdown formControlName="JobId" [options]="dropdownItemsJob" optionLabel="name"
+                            optionValue="id" [placeholder]="'Select Job' | translate"></p-dropdown>
                     </div>
 
                     <div class="field col-12 md:col-3">
                         <label for="DepartmentId">{{ "Department" | translate }}</label>
-                        <p-dropdown formControlName="DepartmentId" [options]="dropdownItemsDepartment" optionLabel="name" optionValue="id"
+                        <p-dropdown formControlName="DepartmentId" [options]="dropdownItemsDepartment"
+                            optionLabel="name" optionValue="id"
                             [placeholder]="'Select Department' | translate"></p-dropdown>
                     </div>
 
                     <div class="field col-12 md:col-3">
                         <label for="PartationId">{{ "Partition" | translate }}</label>
-                        <p-dropdown formControlName="PartationId" [options]="dropdownItemsPartition" optionLabel="name" optionValue="id"
-                            [placeholder]="'Select Partition' | translate"></p-dropdown>
+                        <p-dropdown formControlName="PartationId" [options]="dropdownItemsPartition" optionLabel="name"
+                            optionValue="id" [placeholder]="'Select Partition' | translate"></p-dropdown>
                     </div>
 
                     <div class="field col-12 md:col-3">
                         <label for="Shift">{{ "Shift" | translate }}</label>
-                        <p-dropdown formControlName="ShiftId" [options]="dropdownItemsShift" optionLabel="name" optionValue="id"
-                            [placeholder]="'Select Shift' | translate"></p-dropdown>
+                        <p-dropdown formControlName="ShiftId" [options]="dropdownItemsShift" optionLabel="name"
+                            optionValue="id" [placeholder]="'Select Shift' | translate"></p-dropdown>
                     </div>
 
                     <div class="field col-12 md:col-3">
                         <label for="Bank">{{ "Bank" | translate }}</label>
-                        <p-dropdown formControlName="BankId" [options]="dropdownItemsBank" optionLabel="name" optionValue="id"
-                            [placeholder]="'Select Bank' | translate"></p-dropdown>
+                        <p-dropdown formControlName="BankId" [options]="dropdownItemsBank" optionLabel="name"
+                            optionValue="id" [placeholder]="'Select Bank' | translate"></p-dropdown>
                     </div>
 
                     <div class="field col-12 md:col-3">
                         <label for="Grade">{{ "Grade" | translate }}</label>
-                        <p-dropdown formControlName="GradeId" [options]="dropdownItemsGrade" optionLabel="name" optionValue="id"
-                            [placeholder]="'Select Grade' | translate"></p-dropdown>
+                        <p-dropdown formControlName="GradeId" [options]="dropdownItemsGrade" optionLabel="name"
+                            optionValue="id" [placeholder]="'Select Grade' | translate"></p-dropdown>
                     </div>
 
                     <div class="field col-12 md:col-3">
                         <label for="JobNatureId">{{ "Job Nature" | translate }}</label>
-                        <p-dropdown formControlName="JobNatureId" [options]="dropdownItemsJobNature" optionLabel="name" optionValue="id"
-                            [placeholder]="'Select Job Nature' | translate"></p-dropdown>
+                        <p-dropdown formControlName="JobNatureId" [options]="dropdownItemsJobNature" optionLabel="name"
+                            optionValue="id" [placeholder]="'Select Job Nature' | translate"></p-dropdown>
                     </div>
 
                     <div class="field col-12 md:col-3 flex gap-3 align-items-center">
@@ -174,31 +180,33 @@
                     <div class="field col-12 md:col-3">
                         <label for="RecuritmentSourceId">{{ "Recuritment Source" | translate }}</label>
                         <p-dropdown formControlName="RecuritmentSourceId" [options]="dropdownItemsRecuritmentSource"
-                            optionLabel="name" optionValue="id" [placeholder]="'Select Recuritment Source' | translate"></p-dropdown>
+                            optionLabel="name" optionValue="id"
+                            [placeholder]="'Select Recuritment Source' | translate"></p-dropdown>
                     </div>
 
                     <div class="field col-12 md:col-3">
                         <label for="ContractTypeId">{{ "Contract Type" | translate }}</label>
-                        <p-dropdown formControlName="ContractTypeId" [options]="dropdownItemsContractType" optionLabel="name" optionValue="id"
+                        <p-dropdown formControlName="ContractTypeId" [options]="dropdownItemsContractType"
+                            optionLabel="name" optionValue="id"
                             [placeholder]="'Select Contract Type' | translate"></p-dropdown>
                     </div>
 
                     <div class="field col-12 md:col-3">
                         <label for="JoininDate">{{ "Join In Date" | translate }}</label>
-                        <p-calendar formControlName="JoininDate" [iconDisplay]="'input'" [showIcon]="true" inputId="JoininDate"
-                            [placeholder]="'Join In Date' | translate"></p-calendar>
+                        <p-calendar formControlName="JoininDate" [iconDisplay]="'input'" [showIcon]="true"
+                            inputId="JoininDate" [placeholder]="'Join In Date' | translate"></p-calendar>
                     </div>
 
                     <div class="field col-12 md:col-3">
-                        <label for="HirDate">{{ "Hiring Date" | translate }}</label>
-                        <p-calendar formControlName="HirDate" [iconDisplay]="'input'" [showIcon]="true" inputId="HirDate"
-                            [placeholder]="'Hire Date' | translate"></p-calendar>
+                        <label for="HirDate">{{ "Contract Start Date" | translate }}</label>
+                        <p-calendar formControlName="HirDate" [iconDisplay]="'input'" [showIcon]="true"
+                            inputId="HirDate" [placeholder]="'Contract Start Date' | translate"></p-calendar>
                     </div>
 
                     <div class="field col-12 md:col-3">
-                        <label for="ResignationDate">{{ "Resignation Date" | translate }}</label>
+                        <label for="ResignationDate">{{ "Contract End Date" | translate }}</label>
                         <p-calendar formControlName="ResignationDate" [iconDisplay]="'input'" [showIcon]="true"
-                            inputId="ResignationDate" [placeholder]="'Resignation Date' | translate"></p-calendar>
+                            inputId="ResignationDate" [placeholder]="'Contract End Date' | translate"></p-calendar>
                     </div>
 
                     <div class="field col-12 md:col-6">
@@ -212,8 +220,8 @@
                     </div>
 
                     <div class="field col-12 md:col-2 py-5">
-                        <button (click)="registerSubmit(registerForm)" [disabled]="!registerForm.valid"
-                             type="submit" pButton value="Register" class="flex justify-content-center">
+                        <button (click)="registerSubmit(registerForm)" [disabled]="!registerForm.valid" type="submit"
+                            pButton value="Register" class="flex justify-content-center">
                             {{ "Register" | translate }}
                         </button>
                     </div>
