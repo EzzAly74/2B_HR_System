@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { DatePipe } from '@angular/common';
+import { Globals } from 'src/app/class/globals';
 
 @Component({
     selector: 'app-employee-vacation-stock',
@@ -70,6 +71,26 @@ export class EmployeeVacationStockComponent {
         this.endPoint = 'EmployeeVacationStock';
 
         this._EmployeeVacationStockService.setEndPoint(this.endPoint);
+
+        Globals.getMainLangChanges().subscribe((mainLang) => {
+            console.log('Main language changed to:', mainLang);
+
+            // update mainLang at Service
+            this._EmployeeVacationStockService.setCulture(mainLang);
+
+            // update endpoint
+            this._EmployeeVacationStockService.setEndPoint(this.endPoint);
+
+            // then, load data again to lens on the changes of mainLang & endPoints Call
+            this.loadData(
+                this.page,
+                this.itemsPerPage,
+                this.nameFilter,
+                this.sortField,
+                this.sortOrder,
+                this.empId
+            );
+        });
 
         this.cols = [
             // custom fields
