@@ -471,5 +471,7 @@
     "Select Assets Category": "اختر تصنيف العهد",
     "Assets Coordinators": "مسؤولي العهد",
     "Select Assets Coordinators": "اختر مسؤولي العهد",
-    "Assign Assets Coordinators": "اعدد مسؤولي العهد"
+    "Assign Assets Coordinators": "اعدد مسؤولي العهد",
+    "Contract Start Date": "تاريخ بداية العقد",
+    "Contract End Date": "تاريخ نهاية العقد"
 }
