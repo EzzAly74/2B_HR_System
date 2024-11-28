@@ -473,5 +473,12 @@
     "Select Assets Coordinators": "اختر مسؤولي العهد",
     "Assign Assets Coordinators": "اعدد مسؤولي العهد",
     "Contract Start Date": "تاريخ بداية العقد",
-    "Contract End Date": "تاريخ نهاية العقد"
+    "Contract End Date": "تاريخ نهاية العقد",
+    "Notifications": "الاشعارات",
+    "Notify All Employees": "إشعار لجميع الموظفين",
+    "Send": "ارسال",
+    "Title": "عنوان الاشعار",
+    "Body": "مضمون الاشعار",
+    "Enter Title Here": "ادخل العنوان هنا",
+    "Enter Body Here": "ادخل المضمون هنا"
 }

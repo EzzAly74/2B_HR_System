@@ -459,5 +459,12 @@
     "Select Assets Coordinators": "Select Assets Coordinators",
     "Assign Assets Coordinators": "Assign Assets Coordinators",
     "Contract Start Date": "Contract Start Date",
-    "Contract End Date": "Contract End Date"
+    "Contract End Date": "Contract End Date",
+    "Notifications": "Notifications",
+    "Notify All Employees": "Notify All Employees",
+    "Send": "Send",
+    "Title": "Title",
+    "Body": "Body",
+    "Enter Title Here": "Enter Title Here",
+    "Enter Body Here": "Enter Body Here"
 }

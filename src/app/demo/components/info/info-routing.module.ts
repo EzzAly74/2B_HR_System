@@ -52,6 +52,7 @@ import { TestComponent } from './components/employee-edit/AllTabs/test/test.comp
 import { InternalJobsEditComponent } from './components/custom/internal-jobs-edit/internal-jobs-edit.component';
 import { ResignationComponent } from './components/custom/resignation/resignation.component';
 import { SetAssetCoordinatorComponent } from './components/custom/set-asset-coordinator/set-asset-coordinator.component';
+import { SendNotificationToAllComponent } from './components/custom/send-notification-to-all/send-notification-to-all.component';
 
 @NgModule({
     imports: [
@@ -309,6 +310,11 @@ import { SetAssetCoordinatorComponent } from './components/custom/set-asset-coor
                 path: 'setAssetCoordinator',
                 canActivate: [authGuard],
                 component: SetAssetCoordinatorComponent,
+            },
+            {
+                path: 'SendNotificationToAll',
+                canActivate: [authGuard],
+                component: SendNotificationToAllComponent,
             },
 
             {

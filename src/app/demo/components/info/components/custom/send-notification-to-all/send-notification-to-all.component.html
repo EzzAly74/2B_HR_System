@@ -1,0 +1,28 @@
+<p-toast></p-toast>
+<div class="grid justify-content-center">
+    <div class="col-12 lg:col-6">
+        <div class="card">
+            <h5 class="text-center">{{'Notify All Employees' | translate}}</h5>
+            <form class="p-fluid p-formgrid grid" [formGroup]="sendAllNotificationForm"
+                (submit)="sendAllNotification(sendAllNotificationForm)">
+
+                <div class="field col-12">
+                    <label htmlFor="name-ar">{{ "Title" | translate }} </label>
+                    <input pInputText formControlName="title" [placeholder]="'Enter Title Here' | translate"
+                        id="name-ar" type="text" />
+                </div>
+
+                <div class="field col-12">
+                    <label htmlFor="name-en">{{ "Body" | translate }} </label>
+                    <input pInputText formControlName="body" [placeholder]="'Enter Body Here' | translate" id="name-en"
+                        type="text" />
+                </div>
+
+                <div class="field col-12">
+                    <button [disabled]="sendAllNotificationForm.invalid" class="w-25" pButton
+                        [label]="'Send' | translate" type="submit"></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
