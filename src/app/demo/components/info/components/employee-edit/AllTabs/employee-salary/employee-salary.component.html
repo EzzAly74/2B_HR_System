@@ -71,7 +71,7 @@
             />
         </div>
 
-        <div class="field">
+        <!-- <div class="field">
             <label htmlFor="kpi">{{ "KPI" | translate }} </label>
             <input
                 pInputText
@@ -80,9 +80,9 @@
                 id="kpi"
                 type="text"
             />
-        </div>
+        </div> -->
 
-        <div class="field">
+        <!-- <div class="field">
             <label htmlFor="changing">{{ "Changing" | translate }} </label>
             <input
                 pInputText
@@ -91,9 +91,9 @@
                 id="changing"
                 type="text"
             />
-        </div>
+        </div> -->
 
-        <div class="field">
+        <!-- <div class="field">
             <label htmlFor="badal">{{ "Badal" | translate }} </label>
             <input
                 pInputText
@@ -102,7 +102,7 @@
                 id="badal"
                 type="text"
             />
-        </div>
+        </div> -->
 
         <div class="field">
             <label htmlFor="hawafez">{{ "Hawafez" | translate }} </label>
@@ -173,10 +173,10 @@
 
             <!-- Custom fields -->
             <th>{{ "Employee" | translate }}</th>
-            <th>{{ "Badal" | translate }}</th>
+            <!-- <th>{{ "Badal" | translate }}</th> -->
             <th>{{ "Basic Salary" | translate }}</th>
-            <th>{{ "KPI" | translate }}</th>
-            <th>{{ "Changing" | translate }}</th>
+            <!-- <th>{{ "KPI" | translate }}</th> -->
+            <!-- <th>{{ "Changing" | translate }}</th> -->
             <th>{{ "Hawafez" | translate }}</th>
             <th>{{ "Year" | translate }}</th>
 
@@ -206,24 +206,24 @@
                 {{ rowData.employeeName }}
             </td>
 
-            <td>
+            <!-- <td>
                 <span class="p-column-title">badal</span>
                 {{ rowData.badal }}
-            </td>
+            </td> -->
 
             <td>
                 <span class="p-column-title">basicSalry</span>
                 {{ rowData.basicSalry }}
             </td>
-            <td>
+            <!-- <td>
                 <span class="p-column-title">basicSalry</span>
                 {{ rowData.kpi }}
-            </td>
+            </td> -->
 
-            <td>
+            <!-- <td>
                 <span class="p-column-title">changing</span>
                 {{ rowData.changing }}
-            </td>
+            </td> -->
 
             <td>
                 <span class="p-column-title">hawafez</span>
@@ -287,7 +287,7 @@
     class="p-fluid"
 >
     <ng-template pTemplate="content">
-        <div class="field">
+        <!-- <div class="field">
             <label for="badal">{{ "Badal" | translate }}</label>
             <input
                 type="text"
@@ -305,7 +305,7 @@
                 *ngIf="submitted && !product.badal"
                 >{{ "Badal is required." | translate }}</small
             >
-        </div>
+        </div> -->
 
         <div class="field">
             <label for="year">{{ "Year" | translate }}</label>
@@ -347,7 +347,7 @@
             >
         </div>
 
-        <div class="field">
+        <!-- <div class="field">
             <label for="kpi">{{ "KPI" | translate }}</label>
             <input
                 type="text"
@@ -365,7 +365,7 @@
                 *ngIf="submitted && !product.kpi"
                 >{{ "kpi is required." | translate }}</small
             >
-        </div>
+        </div> -->
 
         <div class="field">
             <label for="hawafez">{{ "Hawafez" | translate }}</label>
@@ -387,7 +387,7 @@
             >
         </div>
 
-        <div class="field">
+        <!-- <div class="field">
             <label for="changing">{{ "Changing" | translate }}</label>
             <input
                 type="text"
@@ -405,7 +405,7 @@
                 *ngIf="submitted && !product.changing"
                 >{{ "Changing is required." | translate }}</small
             >
-        </div>
+        </div> -->
     </ng-template>
 
     <ng-template pTemplate="footer">

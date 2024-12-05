@@ -36,8 +36,7 @@ export class AppTopBarComponent implements OnInit {
     ngOnInit() {
         const lang = localStorage.getItem('currentLang')
             ? localStorage.getItem('currentLang')
-            : null;
-        console.log('langggggggggggggggggggg => ', lang);
+            : 'ar';
 
         console.log(this.imageUrl);
 
@@ -84,7 +83,11 @@ export class AppTopBarComponent implements OnInit {
             this.themeSelected = false;
         }
 
-        this.getUserData();
+        Globals.getMainLangChanges().subscribe((mainLang) => {
+            console.log('Main language changed to:', mainLang);
+            this.getUserData(mainLang);
+        });
+      
     }
     set theme(val: string) {
         this.layoutService.config.update((config) => ({
@@ -142,18 +145,24 @@ export class AppTopBarComponent implements OnInit {
             Globals.setMainLang(lang);
         });
     }
-    getUserData() {
+    getUserData(lang: string) {
         if (this.decodedUserToken)
             this.userDataService
                 .getUserData(this.decodedUserToken.EmployeeId)
                 .subscribe({
                     next: (res) => {
                         if (res.data) {
-                            console.log(res);
+                            console.log("Start All Data From Here")
+                            console.log(res.data);
+                            console.log("End All Data From Here")
                             if (res.data.imageUrl)
                                 this.imageUrl = `${this.mediaUrl}/${res.data.imageUrl}`;
 
-                            this.userName = res.data.nameAr;
+                            if(lang == 'ar')
+                                this.userName = res.data.nameAr;
+                            else
+                                this.userName = res.data.englishName;
+                            // alert(this.userName)
                         }
                     }
                 });

@@ -402,6 +402,7 @@
 
     "Employees Fingerprints": "Employees Fingerprints",
     "KPIs": "KPIs",
+    "ALLOWANCE": "Allowance",
     "Penalties & Deductions": "Penalties & Deductions",
     "Response Type": "Response Type",
     "Employee Weekend": "Employee Weekend",
@@ -450,6 +451,7 @@
     "Vacation Policy": "Vacation Policy",
     "Resignations Requests": "Resignations Requests",
     "Add New Document Required": "Add New Document",
+    "Add New Allowance": "Add New Allowance",
     "Mission Type": "Mission Type",
     "Enter Mission Type Here": "Enter Mission Type Here",
     "Assets Coordinator": "Assets Coordinator",
@@ -459,5 +461,16 @@
     "Select Assets Coordinators": "Select Assets Coordinators",
     "Assign Assets Coordinators": "Assign Assets Coordinators",
     "Contract Start Date": "Contract Start Date",
-    "Contract End Date": "Contract End Date"
+    "Contract End Date": "Contract End Date",
+    "COMPANYBASICDATA": "Company Basic Data",
+
+
+    "companyName": "Company Name",
+    "companyAddress": "Company Address",
+    "companyPhone": "Company Phone",
+    "hrEmail": "Hr Email",
+    "payRollAccountantPhone": "PayRoll Accountant Phone",
+    "MONTHLYALLOWANCE": "Monthly Allowance",
+    "Allowance": "Allowance",
+    "Value": "Value"
 }

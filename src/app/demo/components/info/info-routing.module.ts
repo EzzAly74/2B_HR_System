@@ -52,6 +52,9 @@ import { TestComponent } from './components/employee-edit/AllTabs/test/test.comp
 import { InternalJobsEditComponent } from './components/custom/internal-jobs-edit/internal-jobs-edit.component';
 import { ResignationComponent } from './components/custom/resignation/resignation.component';
 import { SetAssetCoordinatorComponent } from './components/custom/set-asset-coordinator/set-asset-coordinator.component';
+import { AllowanceComponent } from './components/custom/allowance/allowance.component';
+import { CompanyBasicDataComponent } from './components/custom/company-basic-data/company-basic-data.component';
+import { MonthlyAllowenceComponent } from './components/custom/monthly-allowence/monthly-allowence.component';
 
 @NgModule({
     imports: [
@@ -179,6 +182,11 @@ import { SetAssetCoordinatorComponent } from './components/custom/set-asset-coor
                 path: 'kpi',
                 canActivate: [authGuard],
                 component: KPIComponent,
+            },
+            {
+                path: 'allowance',
+                canActivate: [authGuard],
+                component: AllowanceComponent,
             },
             {
                 path: 'bonus',
@@ -310,6 +318,20 @@ import { SetAssetCoordinatorComponent } from './components/custom/set-asset-coor
                 canActivate: [authGuard],
                 component: SetAssetCoordinatorComponent,
             },
+
+            {
+                path: 'companyBasicData',
+                canActivate: [authGuard],
+                component: CompanyBasicDataComponent,
+            },
+
+            
+            {
+                path: 'monthlyAllowance',
+                canActivate: [authGuard],
+                component: MonthlyAllowenceComponent,
+            },
+
 
             {
                 path: 'test',
