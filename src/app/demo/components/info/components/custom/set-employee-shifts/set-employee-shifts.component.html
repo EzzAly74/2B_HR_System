@@ -3,79 +3,71 @@
         <div class="col-10">
             <div class="card">
                 <h5 class="pt-2 pb-5">{{ "Assign New Shift For Some Employees" | translate }}</h5>
-                <div class="p-fluid grid">
-
-                    <div class="field col-12">
-                        <div class="p-fluid grid">
-                            <div class="field col-12 md:col-6">
-                                <label htmlFor="department">{{
-                                    "Department" | translate
-                                }}</label>
-                                <p-dropdown
-                                    name="DepartmentId"
-                                    [options]="dropdownItemsDepartment"
-                                    optionLabel="name"
-                                    [(ngModel)]="selectedDepartment"
-                                    (onChange)="ChangeEmployees(selectedDepartment)"
-                                    [placeholder]="'Select Department' | translate"
-                                ></p-dropdown>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <form (ngSubmit)="registerSubmit()" class=" field col-12 md:col-12" >
-                        <div class="p-fluid p-formgrid grid">
-
-                            <div class="field col-12 md:col-6">
-                                <label htmlFor="employee">{{
-                                    "Department Employees" | translate
-                                }}</label>
-
-                                    <p-multiSelect
-                                        formControlName="selectedEmployees"
-                                        [options]="dropdownItemsEmployee"
+                <form (ngSubmit)="registerSubmit()" class=" field col-12 md:col-12" >
+                    <div class="p-fluid p-formgrid grid">
+                        <div class="field col-12">
+                            <div class="p-fluid grid">
+                                <div class="field col-12 md:col-6">
+                                    <label htmlFor="department">{{
+                                        "Department" | translate
+                                    }}</label>
+                                    <p-dropdown
+                                        name="DepartmentId"
+                                        [options]="dropdownItemsDepartment"
                                         optionLabel="name"
-                                        [(ngModel)]="selectedEmployee"
-                                        placeholder="Select Employees"
-                                        (onChange)="onSelectEmployees($event)"/>
-
-                            </div>
-
-
-                            <div class="field col-12 md:col-6">
-                                <label htmlFor="shift">{{
-                                    "Shift" | translate
-                                }}</label>
-                                <p-dropdown
-                                    name="ShiftId"
-                                    [options]="dropdownItemsShift"
-                                    optionLabel="name"
-                                    [(ngModel)]="selectedShift"
-                                    [placeholder]="'Select Shift' | translate"
-                                ></p-dropdown>
-                            </div>
-
-
-                            <div class="field col-12 md:col-12 py-5">
-                                <div class="p-fluid grid">
-                                   <div class="col-2">
-                                       <button
-                                       type="submit"
-                                       pButton
-                                       value="Save"
-                                       class="flex justify-content-center"
-                                   >
-                                       {{ "Save" | translate }}
-                                   </button>
-                                   </div>
+                                        [(ngModel)]="selectedDepartment"
+                                        (onChange)="ChangeEmployees(selectedDepartment)"
+                                        [placeholder]="'Select Department' | translate"
+                                    ></p-dropdown>
                                 </div>
                             </div>
                         </div>
-                    </form>
+
+                        <div class="field col-12 md:col-6">
+                            <label htmlFor="employee">{{
+                                "Department Employees" | translate
+                            }}</label>
+
+                                <p-multiSelect
+                                    [options]="dropdownItemsEmployee"
+                                    optionLabel="name"
+                                    [(ngModel)]="selectedEmployee"
+                                    placeholder="Select Employees"
+                                    (onChange)="onSelectEmployees($event)"/>
+
+                        </div>
 
 
-                </div>
+                        <div class="field col-12 md:col-6">
+                            <label htmlFor="shift">{{
+                                "Shift" | translate
+                            }}</label>
+                            <p-dropdown
+                                [options]="dropdownItemsShift"
+                                optionLabel="name"
+                                [placeholder]="'Select Shift' | translate"
+                                (onChange)="onSelectShift($event)"
+                            ></p-dropdown>
+                        </div>
+
+
+                        <div class="field col-12 md:col-12 py-5">
+                            <div class="p-fluid grid">
+                               <div class="col-2">
+                                   <button
+                                   type="submit"
+                                   pButton
+                                   value="Save"
+                                   class="flex justify-content-center"
+                               >
+                                   {{ "Save" | translate }}
+                               </button>
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>

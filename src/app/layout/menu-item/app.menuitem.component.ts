@@ -45,7 +45,7 @@ import { Globals } from 'src/app/class/globals';
                 tabindex="0"
                 pRipple
             >
-                <i [ngClass]="item.icon" class="layout-menuitem-icon"></i>
+            <span [innerHTML]="item.svg"></span>
                 <span class="layout-menuitem-text">{{
                     item.label | translate
                 }}</span>
@@ -80,7 +80,7 @@ import { Globals } from 'src/app/class/globals';
                 pRipple
                 [id]="item.label"
             >
-                <i [ngClass]="item.icon" class="layout-menuitem-icon"></i>
+            <span [innerHTML]="item.svg"></span>
                 <span class="layout-menuitem-text">{{
                     item.label | translate
                 }}</span>

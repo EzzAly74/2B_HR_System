@@ -41,9 +41,7 @@ import { ExecuseRequestComponent } from './components/custom/execuse-request/exe
 import { InternalJobsComponent } from './components/custom/internal-jobs/internal-jobs.component';
 import { AttendenceConfigurationComponent } from './components/custom/attendence-configuration/attendence-configuration.component';
 import { AttendenceConfigEditComponent } from './components/custom/attendence-config-edit/attendence-config-edit.component';
-import { TestInputComponentComponent } from './components/test-input-component/test-input-component.component';
 import { SetEmployeeShiftsComponent } from './components/custom/set-employee-shifts/set-employee-shifts.component';
-import { AllEmployeeFingerPrintsService } from './components/custom/all-employees-FingerPrints/all-employees-FingerPrints.service';
 import { AllEmployeesFingerPrintComponent } from './components/custom/all-employees-FingerPrints/all-employees-FingerPrintscomponent';
 import { KPIComponent } from './components/custom/kpi/kpi.component';
 import { PenaltiesAndDeductionComponent } from './components/custom/penalties-and-deduction/penalties-and-deduction.component';
@@ -52,6 +50,10 @@ import { TestComponent } from './components/employee-edit/AllTabs/test/test.comp
 import { InternalJobsEditComponent } from './components/custom/internal-jobs-edit/internal-jobs-edit.component';
 import { ResignationComponent } from './components/custom/resignation/resignation.component';
 import { LoanTypesComponent } from './components/standard/loan-types/loan-types.component';
+import { SetAssetCoordinatorComponent } from './components/custom/set-asset-coordinator/set-asset-coordinator.component';
+import { AllowanceComponent } from './components/custom/allowance/allowance.component';
+import { CompanyBasicDataComponent } from './components/custom/company-basic-data/company-basic-data.component';
+import { MonthlyAllowenceComponent } from './components/custom/monthly-allowence/monthly-allowence.component';
 
 @NgModule({
     imports: [
@@ -179,6 +181,11 @@ import { LoanTypesComponent } from './components/standard/loan-types/loan-types.
                 path: 'kpi',
                 canActivate: [authGuard],
                 component: KPIComponent,
+            },
+            {
+                path: 'allowance',
+                canActivate: [authGuard],
+                component: AllowanceComponent,
             },
             {
                 path: 'bonus',
@@ -310,6 +317,24 @@ import { LoanTypesComponent } from './components/standard/loan-types/loan-types.
                 path: 'loanTypes',
                 canActivate: [authGuard],
                 component: LoanTypesComponent,
+            },
+            {
+                path: 'setAssetCoordinator',
+                canActivate: [authGuard],
+                component: SetAssetCoordinatorComponent,
+            },
+
+            {
+                path: 'companyBasicData',
+                canActivate: [authGuard],
+                component: CompanyBasicDataComponent,
+            },
+
+            
+            {
+                path: 'monthlyAllowance',
+                canActivate: [authGuard],
+                component: MonthlyAllowenceComponent,
             },
 
             {

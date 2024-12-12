@@ -6,22 +6,22 @@ import { Globals } from 'src/app/class/globals';
 import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { TranslateService } from '@ngx-translate/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-shift',
     templateUrl: './shift.component.html',
     styleUrl: './shift.component.scss',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService],
 })
 export class ShiftComponent {
     constructor(
         private _ShiftService: ShiftService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private translate: TranslateService
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -54,6 +54,39 @@ export class ShiftComponent {
     checkInBeforeTheShiftStarts: number;
     checkOutAfterTheShiftEnds: number;
     checkOutAfterTheShiftStarts: number;
+
+    addNewForm: FormGroup = new FormGroup({
+        checkInBeforeTheShiftStarts: new FormControl(null, [
+            Validators.required,
+        ]),
+        checkOutAfterTheShiftEnds: new FormControl(null, [Validators.required]),
+        checkOutAfterTheShiftStarts: new FormControl(null, [
+            Validators.required,
+        ]),
+        endAttendeesTime: new FormControl(null, [Validators.required]),
+        engName: new FormControl(null, [Validators.required]),
+        name: new FormControl(null, [Validators.required]),
+        numberOfHours: new FormControl(null, [Validators.required]),
+        startAttendeesTime: new FormControl(null, [Validators.required]),
+        notes: new FormControl(null),
+    });
+
+    editForm: FormGroup = new FormGroup({
+        checkInBeforeTheShiftStarts: new FormControl(null, [
+            Validators.required,
+        ]),
+        checkOutAfterTheShiftEnds: new FormControl(null, [Validators.required]),
+        checkOutAfterTheShiftStarts: new FormControl(null, [
+            Validators.required,
+        ]),
+        endAttendeesTime: new FormControl(null, [Validators.required]),
+        engName: new FormControl(null, [Validators.required]),
+        name: new FormControl(null, [Validators.required]),
+        numberOfHours: new FormControl(null, [Validators.required]),
+        startAttendeesTime: new FormControl(null, [Validators.required]),
+        notes: new FormControl(null),
+        id: new FormControl(null),
+    });
 
     ngOnInit() {
         this.endPoint = 'Shift';
@@ -156,48 +189,38 @@ export class ShiftComponent {
         });
     }
 
-    addNew() {
+    addNew(form: FormGroup) {
         // first convert from date full format to time only
         // why? because prime ng calender component returned the value as a full Date Format
-        let startAttendeesTime = this.startAttendeesTime.toLocaleTimeString(
-            'en-US',
-            { hour12: false }
-        );
-        let endAttendeesTime = this.endAttendeesTime.toLocaleTimeString(
-            'en-US',
-            { hour12: false }
-        );
+        form.patchValue({
+            startAttendeesTime: form
+                .get('startAttendeesTime')
+                .value.toLocaleTimeString('en-US', { hour12: false }),
+            endAttendeesTime: form
+                .get('endAttendeesTime')
+                .value.toLocaleTimeString('en-US', { hour12: false }),
+        });
+
+        console.log(form);
 
         // set body of request
-        let body = {
-            name: this.newNameAr,
-            notes: this.newNotes,
-            engName: this.newNameEn,
-            startAttendeesTime: startAttendeesTime,
-            endAttendeesTime: endAttendeesTime,
-            numberOfHours: this.numberOfHours,
-            checkInBeforeTheShiftStarts: this.checkInBeforeTheShiftStarts,
-            checkOutAfterTheShiftEnds: this.checkOutAfterTheShiftEnds,
-            checkOutAfterTheShiftStarts: this.checkOutAfterTheShiftStarts,
-        };
-
-        console.log(body);
 
         // Confirm add new
-        this._ShiftService.Register(body).subscribe({
+        this._ShiftService.Register(form.value).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
                 // show message for success inserted
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'inserted success',
-                    life: 3000,
-                });
-
+                if (res.success) {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translate.instant('Success'),
+                        detail: res.message,
+                        life: 3000,
+                    });
+                }
                 // set fields is empty
-                this.setFieldsNulls();
+                form.reset();
 
                 // load data again
                 this.loadData(
@@ -208,7 +231,6 @@ export class ShiftComponent {
                     this.sortOrder
                 );
             },
-           
         });
     }
 
@@ -258,7 +280,6 @@ export class ShiftComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-
         });
     }
 
@@ -296,34 +317,36 @@ export class ShiftComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number, product: any) {
+    saveProduct(id: number, form: FormGroup) {
         this.submitted = true;
         console.log(id);
-        console.log(product);
 
-        let body = {
-            engName: product.engName,
-            name: product.name,
-            id: product.id,
-            notes: product.notes,
-            startAttendeesTime: product.startAttendeesTime,
-            endAttendeesTime: product.endAttendeesTime,
-            numberOfHours: product.numberOfHours,
-            checkInBeforeTheShiftStarts: product.checkInBeforeTheShiftStarts,
-            checkOutAfterTheShiftEnds: product.checkOutAfterTheShiftEnds,
-            checkOutAfterTheShiftStarts: product.checkOutAfterTheShiftStarts,
-        };
+        form.patchValue({
+            startAttendeesTime: form
+                .get('startAttendeesTime')
+                .value.toLocaleTimeString('en-US', { hour12: false }),
+            endAttendeesTime: form
+                .get('endAttendeesTime')
+                .value.toLocaleTimeString('en-US', { hour12: false }),
+            id: id,
+        });
 
-        this._ShiftService.Edit(body).subscribe({
-            next: () => {
+        console.log(form);
+
+        this._ShiftService.Edit(form.value).subscribe({
+            next: (res) => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'You Edit This Item',
-                    life: 3000,
-                });
+                if (res.success) {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translate.instant('Success'),
+                        detail: res.message,
+                        life: 3000,
+                    });
+                }
+
+                form.reset();
 
                 // load data again
                 this.loadData(
@@ -336,7 +359,6 @@ export class ShiftComponent {
             },
             error: (err) => {
                 console.log(err);
-                
             },
         });
     }
@@ -413,7 +435,6 @@ export class ShiftComponent {
                     this.sortOrder
                 );
             },
-     
         });
     }
     sortById(event: any) {

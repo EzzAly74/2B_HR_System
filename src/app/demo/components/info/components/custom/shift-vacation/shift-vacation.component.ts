@@ -8,14 +8,13 @@ import { itemsPerPageGlobal } from 'src/main';
 import { Globals } from 'src/app/class/globals';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-shift-vacation',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService, DatePipe, DayNamePipe],
     templateUrl: './shift-vacation.component.html',
     styleUrl: './shift-vacation.component.scss',
@@ -24,7 +23,8 @@ export class ShiftVacationComponent {
     constructor(
         private _ShiftVacationService: ShiftVacationService,
         private messageService: MessageService,
-        private DatePipe: DatePipe
+        private DatePipe: DatePipe,
+        private translate: TranslateService
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -62,6 +62,17 @@ export class ShiftVacationComponent {
     dayEdit: number;
     oldDate: any;
     AllDays: any;
+
+    addNewForm: FormGroup = new FormGroup({
+        day: new FormControl(null, [Validators.required]),
+        shiftId: new FormControl(null, [Validators.required]),
+    });
+
+    editForm: FormGroup = new FormGroup({
+        day: new FormControl(null, [Validators.required]),
+        shiftId: new FormControl(null, [Validators.required]),
+        id: new FormControl(null),
+    });
 
     ngOnInit() {
         this.endPoint = 'ShiftVacation';
@@ -181,8 +192,6 @@ export class ShiftVacationComponent {
             },
             error: (err) => {
                 console.log(err);
-
-            
             },
         });
     }
@@ -196,26 +205,25 @@ export class ShiftVacationComponent {
         this.selectedShiftId = this.selectedShift['id'];
     }
 
-    addNew() {
-        let body = {
-            day: this.day,
-            shiftId: this.selectedShiftId,
-        };
+    addNew(form: FormGroup) {
+        console.log(form);
 
-        this._ShiftVacationService.Register(body).subscribe({
+        this._ShiftVacationService.Register(form.value).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
                 // show message for success inserted
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'inserted success',
-                    life: 3000,
-                });
+                if (res.success) {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translate.instant('Success'),
+                        detail: res.message,
+                        life: 3000,
+                    });
+                }
 
                 // set fields is empty
-                this.setFieldsNulls();
+                form.reset();
 
                 // load data again
                 this.loadData(
@@ -228,7 +236,6 @@ export class ShiftVacationComponent {
             },
             error: (err) => {
                 // this.showFormNew = false;
-
 
                 console.log(err);
             },
@@ -318,35 +325,25 @@ export class ShiftVacationComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number, product: any) {
-        this.submitted = true;
-
-        console.log(id);
-        console.log(product);
-
-        console.log(this.selectedShiftEdit);
-
-        let body = {
-            id: product.id,
+    saveProduct(id: number, form: FormGroup) {
+        form.patchValue({
+            id: id,
             day: this.selectedDayEdit['id'],
             shiftId: this.selectedShiftEdit['id'],
-        };
+        });
 
-        console.clear();
-        console.log('body here for editing..........');
-
-        console.log(body);
-
-        this._ShiftVacationService.Edit(body).subscribe({
-            next: () => {
+        this._ShiftVacationService.Edit(form.value).subscribe({
+            next: (res) => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'You Edit This Item',
-                    life: 3000,
-                });
+                if (res.success) {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translate.instant('Success'),
+                        detail: res.message,
+                        life: 3000,
+                    });
+                }
 
                 // load data again
                 this.loadData(
@@ -359,7 +356,6 @@ export class ShiftVacationComponent {
             },
             error: (err) => {
                 console.log(err);
-    
             },
         });
     }
@@ -455,7 +451,6 @@ export class ShiftVacationComponent {
                     this.sortOrder
                 );
             },
-         
         });
     }
 

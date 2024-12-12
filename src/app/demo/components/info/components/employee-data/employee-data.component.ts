@@ -710,4 +710,8 @@ export class EmployeeDataComponent {
             },
         });
     }
+    navigateTOAddEmployee()
+    {
+        this.router.navigate(['info/employee'])
+    }
 }

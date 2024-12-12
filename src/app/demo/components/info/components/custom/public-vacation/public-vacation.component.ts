@@ -7,6 +7,8 @@ import { Globals } from 'src/app/class/globals';
 import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-public-vacation',
@@ -23,7 +25,8 @@ export class PublicVacationComponent {
     constructor(
         private _PublicVacationService: PublicVacationService,
         private messageService: MessageService,
-        private DatePipe: DatePipe
+        private DatePipe: DatePipe,
+        private translate : TranslateService
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -55,6 +58,19 @@ export class PublicVacationComponent {
 
     selectedShiftEdit: any;
     oldDate: any;
+
+    addNewForm:FormGroup = new FormGroup({
+        date: new FormControl(null , [Validators.required]),
+        shiftId: new FormControl(null , [Validators.required]),
+        reason: new FormControl(null , [Validators.required]),
+    })
+
+    editForm:FormGroup = new FormGroup({
+        date: new FormControl(null , [Validators.required]),
+        shiftId: new FormControl(null , [Validators.required]),
+        reason: new FormControl(null , [Validators.required]),
+        id: new FormControl(null)
+    })
 
     ngOnInit() {
         this.endPoint = 'PublicVacation';
@@ -142,6 +158,8 @@ export class PublicVacationComponent {
                 // extract result inside public vacation
                 this.product = { ...res.data };
                 this.productDialog = true;
+
+                
             },
             error: (err) => {
                 console.log(err);
@@ -153,9 +171,7 @@ export class PublicVacationComponent {
         this.selectedShiftId = this.selectedShift['id'];
     }
 
-    changedSelectedEdit() {
-        this.selectedShiftId = this.selectedShift['id'];
-    }
+   
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
@@ -189,27 +205,27 @@ export class PublicVacationComponent {
         });
     }
 
-    addNew() {
-        let body = {
-            date: this.date,
-            reason: this.reason,
-            shiftId: this.selectedShiftId,
-        };
+    addNew(form:FormGroup) {
 
-        this._PublicVacationService.Register(body).subscribe({
+        form.patchValue({
+            date : this.DatePipe.transform(form.get('date').value , "yyyy-MM-ddTHH:mm:ss")
+        })
+      
+
+        this._PublicVacationService.Register(form.value).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
                 // show message for success inserted
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Successful',
-                    detail: 'inserted success',
+                    summary: this.translate.instant("Success"),
+                    detail: res.message,
                     life: 3000,
                 });
 
                 // set fields is empty
-                this.setFieldsNulls();
+                form.reset();
 
                 // load data again
                 this.loadData(
@@ -313,38 +329,39 @@ export class PublicVacationComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number, product: any) {
-        this.submitted = true;
-        console.log(id);
-        console.log(product);
+    saveProduct(id: number, form:FormGroup) {
+     
+        form.patchValue({
+            date : this.DatePipe.transform(
+                form.get('date').value,
+                'yyyy-MM-ddTHH:mm:ss'
+            ),
+            id : id , 
+            shiftId: this.selectedShiftEdit.id
+        }) ;
+      
 
-        this.product.date = this.DatePipe.transform(
-            this.product.date,
-            'yyyy-MM-ddTHH:mm:ss'
-        );
-
-        let body = {
-            id: product.id,
-            date: product.date,
-            reason: product.reason,
-            shiftId: this.selectedShiftEdit?.['id'],
-        };
+     
 
         console.clear();
         console.log('body here ');
+        console.log(form);
+        
 
-        console.log(body);
 
-        this._PublicVacationService.Edit(body).subscribe({
-            next: () => {
+        this._PublicVacationService.Edit(form.value).subscribe({
+            next: (res) => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
+                if(res.success)
+                {
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Successful',
-                    detail: 'You Edit This Item',
+                    summary: this.translate.instant('Success'),
+                    detail: res.message ,
                     life: 3000,
                 });
+                }
 
                 // load data again
                 this.loadData(

@@ -6,6 +6,8 @@ import { LocationService } from './location.service';
 import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
     selector: 'app-location',
     templateUrl: './location.component.html',
@@ -20,7 +22,8 @@ import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 export class LocationComponent {
     constructor(
         private _LocationService: LocationService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private translate: TranslateService
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -50,6 +53,25 @@ export class LocationComponent {
     newLatitude: DoubleRange;
     newLongitude: DoubleRange;
     newDiscription: string;
+
+    addNewForm : FormGroup = new FormGroup({
+        engName: new FormControl(null , [Validators.required]),
+        latitude: new FormControl(null , [Validators.required]),
+        longitude: new FormControl(null , [Validators.required]),
+        name: new FormControl(null , [Validators.required]),
+        notes: new FormControl(null),
+        discription: new FormControl(null)
+    });
+
+    editForm: FormGroup = new FormGroup({
+        engName: new FormControl(null , [Validators.required]),
+        latitude: new FormControl(null , [Validators.required]),
+        longitude: new FormControl(null , [Validators.required]),
+        name: new FormControl(null , [Validators.required]),
+        notes: new FormControl(null),
+        discription: new FormControl(null),
+        id : new FormControl(null)
+    }) 
 
     ngOnInit() {
         this.endPoint = 'Location';
@@ -136,30 +158,24 @@ export class LocationComponent {
         });
     }
 
-    addNew() {
-        let body = {
-            name: this.newNameAr,
-            notes: this.newNotes,
-            engName: this.newNameEn,
-            latitude: this.newLatitude,
-            longitude: this.newLongitude,
-            discription: this.newDiscription,
-        };
+    addNew(form:FormGroup) {
+        console.log(form);
+        
 
-        this._LocationService.Register(body).subscribe({
+        this._LocationService.Register(form.value).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
                 // show message for success inserted
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Successful',
-                    detail: 'inserted success',
+                    summary: this.translate.instant("Success"),
+                    detail: res.message,
                     life: 3000,
                 });
 
                 // set fields is empty
-                this.setFieldsNulls();
+                form.reset() ;
 
                 // load data again
                 this.loadData(
@@ -265,31 +281,25 @@ export class LocationComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number, product: any) {
+    saveProduct(id: number, form:FormGroup) {
         this.submitted = true;
         console.log(id);
-        console.log(product);
+        form.patchValue({
+            id : id
+        });
+        
 
-        let body = {
-            engName: product.engName,
-            name: product.name,
-            id: product.id,
-            notes: product.notes,
-            latitude: product.latitude,
-            longitude: product.longitude,
-            discription: product.discription,
-        };
-
-        this._LocationService.Edit(body).subscribe({
-            next: () => {
+        this._LocationService.Edit(form.value).subscribe({
+            next: (res) => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Successful',
-                    detail: 'You Edit This Item',
+                    summary: this.translate.instant("Success"),
+                    detail: res.message,
                     life: 3000,
                 });
+                
 
                 // load data again
                 this.loadData(

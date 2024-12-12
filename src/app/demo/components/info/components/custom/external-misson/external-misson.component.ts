@@ -1,6 +1,11 @@
 import { DatePipe } from '@angular/common';
 import { Component, Input, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, ValidatorFn } from '@angular/forms';
+import {
+    FormControl,
+    FormGroup,
+    ValidatorFn,
+    Validators,
+} from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Globals } from 'src/app/class/globals';
@@ -23,10 +28,7 @@ export const dateRangeValidator: ValidatorFn = (formGroup: FormGroup) => {
 @Component({
     selector: 'app-external-misson',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService, DatePipe],
     templateUrl: './external-misson.component.html',
     styleUrl: './external-misson.component.scss',
@@ -84,12 +86,12 @@ export class ExternalMissonComponent {
 
     addNewForm: FormGroup = new FormGroup(
         {
-            employeeId: new FormControl(null),
-            reason: new FormControl(null),
-            fromDay: new FormControl(null),
-            toDay: new FormControl(null),
-            missionType: new FormControl(null),
-            location: new FormControl(null),
+            employeeId: new FormControl(null, [Validators.required]),
+            reason: new FormControl(null, [Validators.required]),
+            fromDay: new FormControl(null, [Validators.required]),
+            toDay: new FormControl(null, [Validators.required]),
+            missionType: new FormControl(null, [Validators.required]),
+            location: new FormControl(null, [Validators.required]),
         },
         { validators: dateRangeValidator }
     );
@@ -336,7 +338,6 @@ export class ExternalMissonComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-           
         });
     }
 
@@ -446,7 +447,6 @@ export class ExternalMissonComponent {
                     this.sortOrder
                 );
             },
-            
         });
     }
     sortById(event: any) {
@@ -465,20 +465,14 @@ export class ExternalMissonComponent {
         return this.DatePipe.transform(date, format);
     }
     submitForm(form: FormGroup) {
-        form.patchValue({
-            EmployeeId: this.selectedEmployee?.id ?? null,
-            MangerId: this.selectedManager?.id ?? null,
-            RequestType: this.selectedRequstType?.id ?? null,
-
+        const apiData = {
+            ...form.value, // other form fields remain unchanged
             DateFrom: this.DatePipe.transform(
-                form.get('DateFrom')?.value ?? null,
+                form.value.DateFrom,
                 'yyyy-MM-dd'
             ),
-            DateTo: this.DatePipe.transform(
-                form.get('DateTo')?.value ?? null,
-                'yyyy-MM-dd'
-            ),
-        });
+            DateTo: this.DatePipe.transform(form.value.DateTo, 'yyyy-MM-dd'),
+        };
 
         console.log(form.value);
         const removeNulls = (obj: any) => {
@@ -486,7 +480,7 @@ export class ExternalMissonComponent {
                 Object.entries(obj).filter(([_, value]) => value !== null)
             );
         };
-        const formValueNotNull = removeNulls(form.value);
+        const formValueNotNull = removeNulls(apiData);
 
         const filterPaginator = {
             PageNumber: this.page,

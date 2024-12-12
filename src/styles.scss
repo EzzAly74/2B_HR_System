@@ -192,12 +192,24 @@ html:lang(ar) .mr-2 {
 .p-datatable .p-datatable-tbody > tr > td {
     text-align: center;
 }
-
 .p-dialog {
-    // width: 500px !important;
-    // max-height: 450px !important;
-    // height: 450px !important;
-    // overflow-y: auto;
+    overflow: auto;
+}
+
+.p-dialog:has(.p-calendar) {
+    transition: height 0.5s ease-in-out; /* Apply transition for height changes */
+    background: #fff;
+    height: auto;
+}
+
+.p-dialog:has(.p-calendar.p-focus:not(.p-calendar-timeonly)) {
+    height: 100%; /* Expand height on focus */
+}
+
+@media screen and (max-width: 992px) {
+    .p-dialog:has(.p-calendar.p-focus:not(.p-calendar-timeonly)) {
+        height: 75%;
+    }
 }
 
 .p-overlay {
@@ -205,9 +217,15 @@ html:lang(ar) .mr-2 {
 }
 .p-dialog-content {
     overflow: unset !important;
+    transition: 5s ease;
+    flex-grow: unset;
 }
 html:lang(ar) .p-multiselect-panel .p-multiselect-header .p-checkbox,
-.p-multiselect-panel .p-multiselect-items .p-multiselect-item .p-checkbox {
+html:lang(ar)
+    .p-multiselect-panel
+    .p-multiselect-items
+    .p-multiselect-item
+    .p-checkbox {
     margin-left: 0.5rem;
     margin-right: unset;
 }
@@ -275,9 +293,22 @@ html:lang(ar) .p-input-icon-right > .p-icon-wrapper,
 html:lang(ar) .p-input-icon-right > .p-inputtext {
     padding-right: 0.5rem;
 }
-// .p-calendar .p-datepicker {
-//     max-width: 100%;
-// }
+html:lang(ar) .p-calendar .p-datepicker {
+    right: 0 !important;
+    left: unset !important;
+}
+html:lang(en) .p-calendar .p-datepicker {
+    right: unset !important;
+    left: 0 !important;
+}
+.p-calendar .p-datepicker {
+    top: 100% !important;
+    min-width: 100%;
+}
+.p-calendar td:not(:first-child),
+.p-calendar th:not(:first-child) {
+    min-width: unset;
+}
 html:lang(ar) .p-panel .p-panel-icons-end {
     margin-left: unset;
     margin-right: auto;
@@ -303,129 +334,133 @@ html:lang(ar) .layout-menu ul ul li a {
     align-items: center;
     gap: 15px;
 }
-html:lang(ar) .pi-sign-out:before
-{
+html:lang(ar) .pi-sign-out:before {
     transform: rotate(180deg);
     margin-right: 5px;
 }
 
-html:lang(ar) .p-dropdown-panel .p-dropdown-header .p-dropdown-filter-icon
-{
+html:lang(ar) .p-dropdown-panel .p-dropdown-header .p-dropdown-filter-icon {
     right: unset;
     left: 0.5rem;
 }
-html:lang(ar) .p-dropdown-panel .p-dropdown-header .p-dropdown-filter
-{
+html:lang(ar) .p-dropdown-panel .p-dropdown-header .p-dropdown-filter {
     margin-right: 0;
     padding-right: 0.5rem;
     padding-left: 1.5rem;
 }
-html:lang(ar) .p-multiselect-panel .p-multiselect-header .p-multiselect-close
-{
+html:lang(ar) .p-multiselect-panel .p-multiselect-header .p-multiselect-close {
     margin-right: 0.5rem;
     margin-left: unset;
 }
-html:lang(ar) .mr-3
-{
+html:lang(ar) .mr-3 {
     margin-left: 1rem !important;
     margin-right: unset;
 }
-html:lang(ar) .p-dropdown.p-dropdown-clearable .p-dropdown-label
-{
+html:lang(ar) .p-dropdown.p-dropdown-clearable .p-dropdown-label {
     padding-left: 1.5rem;
     padding-right: 0.5rem;
 }
 .my-2 .p-button.p-button-info,
-form .p-button[type=submit]
-{
-    background: #f36f28 ;
+form .p-button[type="submit"] {
+    background: #f36f28;
     border: none;
     color: #fcfcfc;
 }
-form .p-button[type=button],
-form .p-button[type=button]:hover
-{
+form .p-button[type="button"],
+form .p-button[type="button"]:hover {
     color: #f36f28;
     border: 1px solid #f36f28;
-    background:transparent;
+    background: transparent;
 }
 
-
-.my-2 .p-button.p-button-info:not(:disabled):hover, .p-buttonset.p-button-info > .p-button:not(:disabled):hover, .p-splitbutton.p-button-info > .p-button:not(:disabled):hover,form .p-button:hover
-{
+.my-2 .p-button.p-button-info:not(:disabled):hover,
+.p-buttonset.p-button-info > .p-button:not(:disabled):hover,
+.p-splitbutton.p-button-info > .p-button:not(:disabled):hover,
+form .p-button:hover {
     background: #c0571f;
 }
-.my-2 .p-button.p-button-danger, .p-buttonset.p-button-danger > .p-button, .p-splitbutton.p-button-danger > .p-button
-{
+form .p-fileupload .p-button:hover {
+    background: transparent;
+}
+.my-2 .p-button.p-button-danger,
+.p-buttonset.p-button-danger > .p-button,
+.p-splitbutton.p-button-danger > .p-button {
     color: #f36f28;
     background: transparent;
     border: none;
 }
-.p-button.p-button-help, .p-buttonset.p-button-help > .p-button, .p-splitbutton.p-button-help > .p-button
-{
+.p-button.p-button-help,
+.p-buttonset.p-button-help > .p-button,
+.p-splitbutton.p-button-help > .p-button {
     color: #f36f28;
     background: transparent;
     border: 1px solid #f36f28;
 }
-.p-checkbox .p-checkbox-box.p-highlight
-{
+.p-checkbox .p-checkbox-box.p-highlight {
     border-color: #f36f28;
     background: #f36f28;
 }
-.p-checkbox .p-checkbox-box .p-checkbox-icon
-{
+.p-checkbox .p-checkbox-box .p-checkbox-icon {
     color: #fff;
 }
-.p-button.p-button-help:not(:disabled):focus, .p-buttonset.p-button-help > .p-button:not(:disabled):focus, .p-splitbutton.p-button-help > .p-button:not(:disabled):focus
-{
+.p-button.p-button-help:not(:disabled):focus,
+.p-buttonset.p-button-help > .p-button:not(:disabled):focus,
+.p-splitbutton.p-button-help > .p-button:not(:disabled):focus {
     box-shadow: 0 0 0 0.1rem #ff9029;
 }
 
-.layout-menu ul a ,
-.layout-menu ul a:hover ,
+.layout-menu ul a,
+.layout-menu ul a:hover,
 .layout-menu ul a:focus,
 .layout-menu ul a:active,
 .layout-menu ul a:focus-within,
-.layout-menu ul a:focus-visible
-
-{
+.layout-menu ul a:focus-visible {
     border: none;
     outline: none;
     box-shadow: none;
     border-radius: 0;
 }
-.layout-menu ul li.active-menuitem>a
-{
+.layout-menu ul li > a {
+    display: flex;
+    gap: 8px;
+    align-items: start;
+}
+.layout-menu ul a .layout-submenu-toggler {
+    align-self: center;
+}
+.layout-menu ul li.active-menuitem > a {
     background: #fff1eb;
     border-inline-start: 5px solid #f36f28;
     border-radius: 0;
-    color: #2d3250 ;
+    color: #2d3250;
     font-weight: 500;
 }
-.ng-trigger-children li.active-menuitem>a
-{
+.ng-trigger-children li.active-menuitem > a {
     background: transparent !important;
-    border-inline-start : 0px !important ;
+    border-inline-start: 0px !important ;
     color: unset !important;
 }
-.layout-menu ul a.active-route
-{
+.layout-menu ul a.active-route {
     color: #f36f28 !important;
 }
-.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider
-{
+.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
     background: #f36f28;
 }
-.p-inputtext:enabled:focus ,
-.p-dropdown:not(.p-disabled).p-focus ,
-.p-calender:not(.p-disabled).p-focus
-{
-border-color: #f36f28 ;
-box-shadow: 0 0 0 0.1rem #ffac28;
-}
 
+.p-inputtext:enabled:focus,
+.p-dropdown:not(.p-disabled).p-focus,
+.p-calender:not(.p-disabled).p-focus {
+    border-color: #f36f28;
+    box-shadow: 0 0 0 0.1rem #ffac28;
+}
 
 .field.form-footer {
     display: flex;
     gap: 10px;
+}
+
+.p-fileupload .p-button {
+    background: transparent;
+    border: 1px solid #f36f28;
+    color: #f36f28;
 }

@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, Input, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Globals } from 'src/app/class/globals';
@@ -10,14 +10,12 @@ import { ExecuseRequestService } from './execuse-request.service';
 import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-execuse-request',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService, DatePipe],
     templateUrl: './execuse-request.component.html',
     styleUrl: './execuse-request.component.scss',
@@ -27,7 +25,8 @@ export class ExecuseRequestComponent {
         private execuseRequestService: ExecuseRequestService,
         private messageService: MessageService,
         private route: ActivatedRoute,
-        private DatePipe: DatePipe
+        private DatePipe: DatePipe,
+        private translate: TranslateService
     ) {}
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
@@ -76,11 +75,11 @@ export class ExecuseRequestComponent {
     });
 
     addNewForm: FormGroup = new FormGroup({
-        employeeId: new FormControl(null),
-        dateOfDay: new FormControl(null),
-        excuesTypeId: new FormControl(null),
-        startTime: new FormControl(null),
-        reason: new FormControl(null),
+        employeeId: new FormControl(null, [Validators.required]),
+        dateOfDay: new FormControl(null, [Validators.required]),
+        excuesTypeId: new FormControl(null, [Validators.required]),
+        startTime: new FormControl(null, [Validators.required]),
+        reason: new FormControl(null, [Validators.required]),
     });
 
     ngOnInit() {
@@ -249,14 +248,17 @@ export class ExecuseRequestComponent {
         if (form.status == 'VALID') {
             this.execuseRequestService.addExecuseRequest(form.value).subscribe({
                 next: (res) => {
-                    console.log(res.data);
-                    this.showFormNew = false;
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Success',
-                        detail: 'Execuse Request Sent Successfully',
-                        life: 3000,
-                    });
+                    if (res.success) {
+                        console.log(res.data);
+                        this.showFormNew = false;
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: this.translate.instant('Success'),
+                            detail: res.message,
+                            life: 3000,
+                        });
+                    }
+                    form.reset();
                     this.loadData(
                         this.page,
                         this.itemsPerPage,
@@ -329,7 +331,6 @@ export class ExecuseRequestComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-       
         });
     }
 
@@ -439,7 +440,6 @@ export class ExecuseRequestComponent {
                     this.sortOrder
                 );
             },
-       
         });
     }
     sortById(event: any) {
@@ -458,20 +458,16 @@ export class ExecuseRequestComponent {
         return this.DatePipe.transform(date, format);
     }
     submitForm(form: FormGroup) {
-        form.patchValue({
-            EmployeeId: this.selectedEmployee?.id ?? null,
-            MangerId: this.selectedManager?.id ?? null,
-            RequestType: this.selectedRequstType?.id ?? null,
-
+        const apiData = {
+            ...form.value, // other form fields remain unchanged
             DateFrom: this.DatePipe.transform(
-                form.get('DateFrom')?.value ?? null,
+                form.value.DateFrom,
                 'yyyy-MM-dd'
             ),
-            DateTo: this.DatePipe.transform(
-                form.get('DateTo')?.value ?? null,
-                'yyyy-MM-dd'
-            ),
-        });
+            DateTo: this.DatePipe.transform(form.value.DateTo, 'yyyy-MM-dd'),
+        };
+
+        console.log(apiData);
 
         console.log(form.value);
         const removeNulls = (obj: any) => {
@@ -479,7 +475,7 @@ export class ExecuseRequestComponent {
                 Object.entries(obj).filter(([_, value]) => value !== null)
             );
         };
-        const formValueNotNull = removeNulls(form.value);
+        const formValueNotNull = removeNulls(apiData);
 
         const filterPaginator = {
             PageNumber: this.page,

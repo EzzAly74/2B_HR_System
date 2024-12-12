@@ -4,6 +4,7 @@ import {
     FormControl,
     FormGroup,
     ValidatorFn,
+    Validators,
 } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
@@ -29,10 +30,7 @@ export const dateRangeValidator: ValidatorFn = (formGroup: FormGroup) => {
 @Component({
     selector: 'app-vacation-request',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService, DatePipe],
     templateUrl: './vacation-request.component.html',
     styleUrl: './vacation-request.component.scss',
@@ -45,6 +43,7 @@ export class VacationRequestComponent {
         private DatePipe: DatePipe
     ) {}
     @ViewChild('dt') dt: Table;
+    @ViewChild('fileUpload') fileUpload: any;
     @Input() endPoint!: string;
     baseUrlFile: string = environment.mediaUrl;
     allData: any = [];
@@ -93,11 +92,11 @@ export class VacationRequestComponent {
 
     addNewForm: FormGroup = new FormGroup(
         {
-            EmployeeId: new FormControl(null),
-            FromDay: new FormControl(null),
-            ToDay: new FormControl(null),
-            VacationTypeId: new FormControl(null),
-            Reason: new FormControl(null),
+            EmployeeId: new FormControl(null, [Validators.required]),
+            FromDay: new FormControl(null, [Validators.required]),
+            ToDay: new FormControl(null, [Validators.required]),
+            VacationTypeId: new FormControl(null, [Validators.required]),
+            Reason: new FormControl(null, [Validators.required]),
             File: new FormControl(null),
         },
         { validators: dateRangeValidator }
@@ -281,20 +280,25 @@ export class VacationRequestComponent {
             this.vacationRequestService.addVacationRequest(formData).subscribe({
                 next: (res) => {
                     console.log(res.data);
-                    this.showFormNew = false;
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Success',
-                        detail: 'Vacation Request Sent Successfully',
-                        life: 3000,
-                    });
-                    this.loadData(
-                        this.page,
-                        this.itemsPerPage,
-                        this.nameFilter,
-                        this.sortField,
-                        this.sortOrder
-                    );
+                    if (res.success) {
+                        this.showFormNew = false;
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Success',
+                            detail: 'Vacation Request Sent Successfully',
+                            life: 3000,
+                        });
+                        form.reset();
+                        this.fileUpload.clear();
+
+                        this.loadData(
+                            this.page,
+                            this.itemsPerPage,
+                            this.nameFilter,
+                            this.sortField,
+                            this.sortOrder
+                        );
+                    }
                 },
                 error: (err) => {
                     console.log(err);
@@ -358,7 +362,7 @@ export class VacationRequestComponent {
             },
             error: (err) => {
                 console.log(err);
-              
+
                 this.loading = false;
             },
         });
@@ -472,7 +476,6 @@ export class VacationRequestComponent {
             },
             error: (err) => {
                 this.deleteProductsDialog = false;
-               
             },
         });
     }
@@ -492,12 +495,8 @@ export class VacationRequestComponent {
         return this.DatePipe.transform(date, format);
     }
     submitForm(form: FormGroup) {
-        form.patchValue({
-            EmployeeId: this.selectedEmployee?.id ?? null,
-            MangerId: this.selectedManager?.id ?? null,
-            RequestType: this.selectedRequstType?.id ?? null,
-            VacationTypeId: this.selectedVacationType?.id ?? null,
-
+        const apiData = {
+            ...form.value,
             DateFrom: this.DatePipe.transform(
                 form.get('DateFrom')?.value ?? null,
                 'yyyy-MM-dd'
@@ -506,15 +505,15 @@ export class VacationRequestComponent {
                 form.get('DateTo')?.value ?? null,
                 'yyyy-MM-dd'
             ),
-        });
+        };
 
-        console.log(form.value);
+        console.log(apiData);
         const removeNulls = (obj: any) => {
             return Object.fromEntries(
                 Object.entries(obj).filter(([_, value]) => value !== null)
             );
         };
-        const formValueNotNull = removeNulls(form.value);
+        const formValueNotNull = removeNulls(apiData);
 
         const filterPaginator = {
             PageNumber: this.page,
@@ -551,7 +550,13 @@ export class VacationRequestComponent {
         console.log(event);
 
         let file: any = event.currentFiles[0];
-        this.file = file;
+        if (file) {
+            this.file = file;
+            this.addNewForm.patchValue({
+                File: file,
+            });
+            this.addNewForm.get('File')?.updateValueAndValidity();
+        }
         console.log(file);
     }
 }

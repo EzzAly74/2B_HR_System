@@ -29,10 +29,7 @@ import { itemsPerPageGlobal } from 'src/main';
 @Component({
     selector: 'app-close-month',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService],
     templateUrl: './close-month.component.html',
     styleUrl: './close-month.component.scss',
@@ -95,6 +92,15 @@ export class CloseMonthComponent {
                 this.sortOrder
             );
             this.generateYearOptions();
+            this.closeMonthService.getMonths().subscribe({
+                next: (res) => {
+                    this.allMonths = res.data;
+                    console.log(this.allMonths);
+                },
+                error: (err) => {
+                    console.log(err);
+                },
+            });
         });
 
         this.cols = [
@@ -114,16 +120,6 @@ export class CloseMonthComponent {
             { field: 'creatorName', header: 'CreatorName' },
             { field: 'lastModifierName', header: 'LastModifierName' },
         ];
-
-        this.closeMonthService.getMonths().subscribe({
-            next: (res) => {
-                this.allMonths = res.data;
-                console.log(this.allMonths);
-            },
-            error: (err) => {
-                console.log(err);
-            },
-        });
     }
 
     editProduct(rowData: any) {
@@ -228,7 +224,6 @@ export class CloseMonthComponent {
                         this.sortOrder
                     );
                 },
-             
             });
         }
     }
@@ -275,7 +270,6 @@ export class CloseMonthComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-     
         });
     }
 
@@ -347,7 +341,6 @@ export class CloseMonthComponent {
             },
             error: (err) => {
                 console.log(err);
-         
             },
         });
     }
@@ -424,7 +417,6 @@ export class CloseMonthComponent {
                     this.sortOrder
                 );
             },
-        
         });
     }
     sortById(event: any) {

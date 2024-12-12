@@ -29,7 +29,7 @@ export class SetEmployeeShiftsComponent {
     dropdownItemsEmployee: any;
 
     selectedDepartment: any;
-    selectedShift: any;
+    selectedShiftId: any;
     selectedEmployee: any;
     selectedEmployeeIds: any[] = [];
 
@@ -99,11 +99,18 @@ export class SetEmployeeShiftsComponent {
             this.selectedEmployeeIds.push(employee.id);
         });
         console.log(this.selectedEmployeeIds);
-      }
+    }
+
+    onSelectShift(event: any) {
+        console.log(event);
+        this.selectedShiftId = event.value.id;
+        console.log(this.selectedShiftId);
+
+    } 
 
     registerSubmit() {
         this.registerForm = {
-            shiftId: this.selectedShift.id,
+            shiftId: this.selectedShiftId,
             employeeIds: this.selectedEmployeeIds
         }
 

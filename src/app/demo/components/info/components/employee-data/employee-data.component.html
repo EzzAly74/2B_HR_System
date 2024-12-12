@@ -183,6 +183,8 @@
 <p-toolbar styleClass="mb-4">
     <ng-template pTemplate="left">
         <div class="my-2">
+            <button pButton pRipple [label]="'Add New Employee' | translate" icon="pi pi-plus"
+                class="p-button-info mx-2 px-5" (click)="navigateTOAddEmployee()"></button>
             <button pButton pRipple [label]="'Delete' | translate" icon="pi pi-trash" class="p-button-danger mx-2 px-5"
                 (click)="deleteSelectedProducts()" [disabled]="!selectedItems || !selectedItems.length"></button>
         </div>
