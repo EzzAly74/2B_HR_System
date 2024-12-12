@@ -51,6 +51,7 @@ import { BonusComponent } from './components/custom/bonus/bonus.component';
 import { TestComponent } from './components/employee-edit/AllTabs/test/test.component';
 import { InternalJobsEditComponent } from './components/custom/internal-jobs-edit/internal-jobs-edit.component';
 import { ResignationComponent } from './components/custom/resignation/resignation.component';
+import { LoanTypesComponent } from './components/standard/loan-types/loan-types.component';
 
 @NgModule({
     imports: [
@@ -304,6 +305,11 @@ import { ResignationComponent } from './components/custom/resignation/resignatio
                 path: 'setEmployeeShifts',
                 canActivate: [authGuard],
                 component: SetEmployeeShiftsComponent,
+            },
+            {
+                path: 'loanTypes',
+                canActivate: [authGuard],
+                component: LoanTypesComponent,
             },
 
             {

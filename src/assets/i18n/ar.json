@@ -434,5 +434,7 @@
     "Manager Approve":"موافقة المدير",
     "HR Approve":"موافقة الاتش ار",
     "Manager Notes":"ملاحظات المدير",
-    "HR Notes":"ملاحظات الاتش ار"
+    "HR Notes":"ملاحظات الاتش ار",
+    "LOANSTYPE": "انواع القروض",
+    "Add New Loan Types": "اضافة نوع قرض جديد"
 }

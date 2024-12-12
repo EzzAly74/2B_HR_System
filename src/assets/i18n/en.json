@@ -421,5 +421,7 @@
     "Manager Notes":"Manager Notes",
     "HR Notes":"HR Notes",
     "Accept":"Accept",
-    "Reject":"Reject"
+    "Reject":"Reject",
+    "LOANSTYPE": "Loans Type",
+    "Add New Loan Types": "Add New Loan Types"
 }

@@ -213,6 +213,11 @@ export class AppMenuComponent implements OnInit {
                                 icon: 'pi pi-fw pi-user',
                                 routerLink: ['/info/fingerprints'],
                             },
+                            {
+                                label: this.translate.instant('LOANSTYPE'),
+                                icon: 'pi pi-fw pi-user',
+                                routerLink: ['/info/loanTypes'],
+                            },
                         ],
                     },
                     {
