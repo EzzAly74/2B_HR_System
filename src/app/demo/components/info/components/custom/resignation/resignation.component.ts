@@ -1,10 +1,7 @@
 import { ResignationService } from './resignation.service';
 import { DatePipe } from '@angular/common';
 import { Component, Input, ViewChild } from '@angular/core';
-import {
-    FormControl,
-    FormGroup,
-} from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
@@ -15,28 +12,24 @@ import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 import { TranslateService } from '@ngx-translate/core';
 
-
 @Component({
-  selector: 'app-resignation',
-  standalone: true,
-  imports: [
-    GlobalsModule,
-    PrimeNgModule,
-],
-providers: [MessageService, DatePipe],
-  templateUrl: './resignation.component.html',
-  styleUrl: './resignation.component.scss'
+    selector: 'app-resignation',
+    standalone: true,
+    imports: [GlobalsModule, PrimeNgModule],
+    providers: [MessageService, DatePipe],
+    templateUrl: './resignation.component.html',
+    styleUrl: './resignation.component.scss',
 })
 export class ResignationComponent {
-  constructor(
-    private resignationService: ResignationService,
-    private messageService: MessageService,
-    private route: ActivatedRoute,
-    private DatePipe: DatePipe,
-    private translate:TranslateService
-) {}
+    constructor(
+        private resignationService: ResignationService,
+        private messageService: MessageService,
+        private route: ActivatedRoute,
+        private DatePipe: DatePipe,
+        private translate: TranslateService
+    ) {}
 
-@ViewChild('dt') dt: Table;
+    @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
     allData: any = [];
     page: number = 1;
@@ -122,7 +115,6 @@ export class ResignationComponent {
                 this.sortOrder
             );
             console.log('Dropdowns data :');
-
         });
 
         this.cols = [
@@ -147,7 +139,6 @@ export class ResignationComponent {
         console.log(this.selectedMonth);
     }
 
-
     splitCamelCase(str: any) {
         return str
             .replace(/([A-Z])/g, ' $1')
@@ -170,19 +161,26 @@ export class ResignationComponent {
             notes: this.notesAccept,
         };
 
-        this.resignationService.updateHrAccept(body).subscribe({
-            next: (res:any) => {
-              if(res.success)
-              {
-                console.log(res);
-                this.messageService.add({
-                    severity: 'success',
-                    summary: this.translate.instant('Success'),
-                    detail: res.message,
-                    life: 3000,
-                });
-              }
-            
+        const formData: FormData = new FormData();
+
+        for (const key in body) {
+            if (body.hasOwnProperty(key)) {
+                formData.append(key, body[key]);
+            }
+        }
+
+        this.resignationService.updateHrAccept(formData).subscribe({
+            next: (res: any) => {
+                if (res.success) {
+                    console.log(res);
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translate.instant('Success'),
+                        detail: res.message,
+                        life: 3000,
+                    });
+                }
+
                 this.acceptRequestDialogue = false;
                 this.loadData(
                     this.page,
@@ -192,7 +190,6 @@ export class ResignationComponent {
                     this.sortOrder
                 );
             },
-         
         });
         this.notesAccept = '';
     }
@@ -204,19 +201,25 @@ export class ResignationComponent {
             isAccepting: false,
             notes: this.notesReject,
         };
-        this.resignationService.updateHrAccept(body).subscribe({
-            next: (res:any) => {
-              if(res.success)
-              {
-                console.log(res);
-                this.messageService.add({
-                  severity: 'success',
-                  summary: this.translate.instant('Success'),
-                  detail: res.message,
-                  life: 3000,
-                });
-              }
-             
+        const formData: FormData = new FormData();
+
+        for (const key in body) {
+            if (body.hasOwnProperty(key)) {
+                formData.append(key, body[key]);
+            }
+        }
+        this.resignationService.updateHrAccept(formData).subscribe({
+            next: (res: any) => {
+                if (res.success) {
+                    console.log(res);
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translate.instant('Success'),
+                        detail: res.message,
+                        life: 3000,
+                    });
+                }
+
                 this.rejectRequestDialogue = false;
                 this.loadData(
                     this.page,
@@ -226,7 +229,6 @@ export class ResignationComponent {
                     this.sortOrder
                 );
             },
-         
         });
         this.notesReject = '';
     }
@@ -493,5 +495,4 @@ export class ResignationComponent {
             this.allYears.push(year);
         }
     }
-
 }

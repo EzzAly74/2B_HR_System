@@ -1,0 +1,57 @@
+<p-toast></p-toast>
+<div class="grid justify-content-center">
+    <div class="col-12 lg:col-6">
+        <div class="card">
+            <h5 class="text-center">{{'Loan Settings' | translate}}</h5>
+            <form class="p-fluid p-formgrid grid" [formGroup]="loansConfigForm" (submit)="onSubmit(loansConfigForm)">
+                <div class="field col-12">
+                    <label for="startVacation">{{'Name Arabic' | translate}}</label>
+                    <input pInputText id="startVacation" name="startVacation" formControlName="name" [min]="0"
+                        [max]="100" />
+                </div>
+
+                <div class="field col-12">
+                    <label for="startVacation">{{'Name English' | translate}}</label>
+                    <input pInputText id="startVacation" name="startVacation" formControlName="engName" [min]="0"
+                        [max]="100" />
+                </div>
+
+
+                <div class="field col-12">
+                    <label for="startVacation">{{'Loans Per Salary' | translate}}</label>
+                    <input pInputText type="number" id="startVacation" name="startVacation"
+                        formControlName="loansPerSalary" [min]="0" [max]="100" />
+                </div>
+                <div class="field col-12">
+                    <label for="regularVacationNumber">{{'Number of Months of Hiring Date' | translate }}</label>
+                    <input pInputText type="number" id="regularVacationNumber" name="regularVacationNumber"
+                        formControlName="numOfMonthsOfHiringDate" mode="decimal" [min]="1" [max]="100" />
+                </div>
+                <div class="field col-12">
+                    <label for="regularVacationNumber">{{'Maximum Loan Amount' | translate }}</label>
+                    <input pInputText type="number" id="regularVacationNumber" name="regularVacationNumber"
+                        formControlName="maximumLoanAmount" mode="decimal" [min]="0" />
+                </div>
+                <div class="field col-12">
+                    <label for="regularVacationNumber">{{'Terms Agreement' | translate }}</label>
+                    <input pInputText id="regularVacationNumber" name="regularVacationNumber"
+                        formControlName="termsAgreement" mode="decimal" [min]="0" [max]="100" />
+                </div>
+
+                <div class="field col-12">
+                    <label for="startVacation">{{'Notes' | translate}}</label>
+                    <input pInputText id="startVacation" name="startVacation" formControlName="notes" />
+                </div>
+
+                <div class="field col-12 btns">
+                    <label>{{'Loan Is Opened' | translate}}</label>
+                    <p-inputSwitch formControlName="loansIsOpened" />
+                </div>
+                <div class="field col-12">
+                    <button pButton pRipple type="submit" [label]="'Update Setting' | translate"
+                        class="p-button-raised p-button-info"></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

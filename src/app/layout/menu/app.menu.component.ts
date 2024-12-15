@@ -204,6 +204,11 @@ export class AppMenuComponent implements OnInit {
                                 icon: 'pi pi-fw pi-home',
                                 routerLink: ['/info/resignation'],
                             },
+                            {
+                                label: this.translate.instant('Loan Requests'),
+                                icon: 'pi pi-fw pi-home',
+                                routerLink: ['/info/loanRequest'],
+                            },
                         ],
                     },
                     {
@@ -272,6 +277,15 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/partition'],
                             },
                             {
+                                label: this.translate.instant('Loan Policies'),
+                                routerLink: ['/info/loanPolicy'],
+                            },
+
+                            {
+                                label: this.translate.instant('Loan Settings'),
+                                routerLink: ['/info/loanSettings'],
+                            },
+                            {
                                 label: this.translate.instant(
                                     'Company Policies'
                                 ),
@@ -323,6 +337,12 @@ export class AppMenuComponent implements OnInit {
                             },
                             {
                                 label: this.translate.instant(
+                                    'Insurance Types'
+                                ),
+                                routerLink: ['/info/insuranceConfig'],
+                            },
+                            {
+                                label: this.translate.instant(
                                     'Company Assets Categories'
                                 ),
                                 routerLink: ['/info/CovenantCategory'],
@@ -342,6 +362,12 @@ export class AppMenuComponent implements OnInit {
                                     'Vacation Policy'
                                 ),
                                 routerLink: ['/info/vacationSetting'],
+                            },
+                            {
+                                label: this.translate.instant(
+                                    'Resignation Settings'
+                                ),
+                                routerLink: ['/info/resignationPolicy'],
                             },
                             {
                                 label: this.translate.instant('Internal Jobs'),
