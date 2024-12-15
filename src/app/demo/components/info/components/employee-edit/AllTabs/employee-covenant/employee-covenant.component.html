@@ -227,6 +227,7 @@
             <!-- generic fields -->
             <th>{{ "Date" | translate }}</th>
             <th>{{ "Cost" | translate }}</th>
+            <th>{{ "SerialNumber" | translate }}</th>
             <th>{{ "Notes" | translate }}</th>
 
             <th>{{ "creationTime" | translate }}</th>
@@ -262,6 +263,12 @@
             <td [ngClass]="{ 'null-color': !rowData.cost }">
                 <span class="p-column-title">cost</span>
                 {{ rowData.cost }}
+            </td>
+
+            
+            <td [ngClass]="{ 'null-color': !rowData.serialNumber }">
+                <span class="p-column-title">serialNumber</span>
+                {{ rowData.serialNumber }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.notes }">

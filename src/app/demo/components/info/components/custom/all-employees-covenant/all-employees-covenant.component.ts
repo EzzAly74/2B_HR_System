@@ -69,6 +69,8 @@ export class AllEmployeesCovenantComponent {
     addNewForm!: FormGroup;
     editForm!: FormGroup;
 
+    serialNumber: any;
+
     ngOnInit() {
         this.endPoint = 'EmployeeCovenant';
 
@@ -122,6 +124,7 @@ export class AllEmployeesCovenantComponent {
             employeeId: new FormControl('', Validators.required),
             date: new FormControl('', Validators.required),
             cost:  new FormControl('', Validators.required),
+            serialNumber:  new FormControl('', Validators.required),
             notes:  new FormControl(''),
         });
 
@@ -131,6 +134,7 @@ export class AllEmployeesCovenantComponent {
             employeeId: new FormControl('', Validators.required),
             date: new FormControl('', Validators.required),
             cost:  new FormControl('', Validators.required),
+            serialNumber:  new FormControl('', Validators.required),
             notes:  new FormControl(''),
         });
     }
@@ -142,12 +146,16 @@ export class AllEmployeesCovenantComponent {
             next: (res) => {
                 console.log('edit here data');
                 console.log(res.data);
+
+                this.product = { ...res.data };
+                this.productDialog = true;
+
                 this.selectedCovenantEdit = this.dropdownItemsCovenantType.find(
-                    (item: any) => item.id == res.data.covenantId
+                    (item: any) => item.id ==  this.product.covenantId
                 );
 
                 this.selectedEmployeeEdit = this.dropdownItemsEmployee.find(
-                    (item: any) => item.id == res.data.employeeId
+                    (item: any) => item.id ==  this.product.employeeId
                 );
 
                 console.log('selectedCovenantEdit => ');
@@ -156,11 +164,9 @@ export class AllEmployeesCovenantComponent {
                 console.log('dropdownItemsEmployee => ');
                 console.log(this.dropdownItemsEmployee);
 
-                res.data.date = this.convertDate(res.data.date, 'MM/dd/yyyy');
-                console.log(res.data.date);
+                 this.product.date = this.convertDate( this.product.date, 'MM/dd/yyyy');
+                console.log( this.product.date);
 
-                this.product = { ...res.data };
-                this.productDialog = true;
             },
 
         });
@@ -211,26 +217,6 @@ export class AllEmployeesCovenantComponent {
     addNew() {
         // first convert from date full format to time only
         // why? because prime ng calender component returned the value as a full Date Format
-
-        // set body of request
-        // let body = {
-        //     covenantId: this.selectedCovenantType,
-        //     employeeId: this.selectedEmployee?.['id'],
-        //     date: this.convertDate(this.date, 'yyyy-MM-ddTHH:mm:ss'),
-        //     cost: this.cost,
-        //     notes: this.notes,
-        // };
-
-        // console.log(body);
-
-
-        this.addNewForm.patchValue({
-            covenantId: this.selectedCovenantType,
-            employeeId: this.selectedEmployee?.['id'],
-            date: this.convertDate(this.date, 'yyyy-MM-ddTHH:mm:ss'),
-            cost: this.cost,
-            notes: this.notes,
-        })
 
 
         if(this.addNewForm.valid) {
@@ -351,29 +337,15 @@ export class AllEmployeesCovenantComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number, product: any) {
+    saveProduct(product: any) {
         this.submitted = true;
-        // console.log(id);
-        // console.log(product);
-
-        // let body = {
-        //     covenantId: this.selectedCovenantEdit.id,
-        //     employeeId: this.selectedEmployeeEdit.id,
-        //     date: this.convertDate(product.date, 'yyyy-MM-ddTHH:mm:ss'),
-        //     cost: product.cost,
-        //     notes: product.notes,
-        //     id: product.id,
-        // };
-
 
         this.editForm.patchValue( {
-            covenantId: this.selectedCovenantEdit.id,
-            employeeId: this.selectedEmployeeEdit.id,
-            date: this.convertDate(product.date, 'yyyy-MM-ddTHH:mm:ss'),
-            cost: product.cost,
-            notes: product.notes,
             id: product.id,
         });
+
+        console.clear();
+        console.log(this.editForm.value)
 
         if(this.editForm.valid) {
             this.employeeConvenantService.Edit(this.editForm.value).subscribe({

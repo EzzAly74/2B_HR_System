@@ -100,7 +100,9 @@ export class EmployeeCovenantComponent {
             { field: 'numberOfHours', header: 'NumberOfHours' },
 
             // main field
+            { field: 'cost', header: 'cost' },
             { field: 'notes', header: 'Notes' },
+            { field: 'serialNumber', header: 'SerialNumber' },
 
             // Generic Fields
             { field: 'creationTime', header: 'CreationTime' },
