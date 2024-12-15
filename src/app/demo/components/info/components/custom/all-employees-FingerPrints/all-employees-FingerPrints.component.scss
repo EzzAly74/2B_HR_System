@@ -1,3 +1,9 @@
 tr[aria-level="1"] {
     background-color: #fcfcfc;
 }
+
+:host :lang(ar) tr[aria-level="1"] td:first-child {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}

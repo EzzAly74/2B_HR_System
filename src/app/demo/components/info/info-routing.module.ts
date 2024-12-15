@@ -54,6 +54,7 @@ import { SetAssetCoordinatorComponent } from './components/custom/set-asset-coor
 import { AllowanceComponent } from './components/custom/allowance/allowance.component';
 import { CompanyBasicDataComponent } from './components/custom/company-basic-data/company-basic-data.component';
 import { MonthlyAllowenceComponent } from './components/custom/monthly-allowence/monthly-allowence.component';
+import { ResignationSettingService } from './components/custom/resignation-setting/resignation-setting.service';
 
 @NgModule({
     imports: [
@@ -335,6 +336,12 @@ import { MonthlyAllowenceComponent } from './components/custom/monthly-allowence
                 path: 'monthlyAllowance',
                 canActivate: [authGuard],
                 component: MonthlyAllowenceComponent,
+            },
+
+            {
+                path: 'resignationSetting',
+                canActivate: [authGuard],
+                component: ResignationSettingService,
             },
 
             {

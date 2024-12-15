@@ -40,7 +40,7 @@ export class AllEmployeeFingerPrintsService extends LockupsService {
 
     override GetPage(body: any): Observable<any> {
         return this.http.post(
-            `${this.baseurl}/${this.endPoint}/GetEmployeeFingerprint`,
+            `${this.baseurl}/${this.endPoint}/GetEmployeeFingerprint/?culture=${this.culture}`,
             body
         );
     }
