@@ -378,11 +378,11 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/documentRequired'],
                             },
 
-                            // {
-                            //     label: this.translate.instant('Resignation'),
-                            //     icon: 'pi pi-fw pi-home',
-                            //     routerLink: ['/info/resignation'],
-                            // },
+                            {
+                                label: this.translate.instant('RESIGNATIONSETTINGS'),
+                                icon: 'pi pi-fw pi-home',
+                                routerLink: ['/info/resignationSetting'],
+                            },
                         ],
                     },
                 ],
