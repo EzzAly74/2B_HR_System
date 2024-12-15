@@ -30,12 +30,12 @@ export class AllEmployeeFingerPrintsService extends LockupsService {
 
     // dropdown of getting Partations by department
     getPartationByDepartmentId(id: number): Observable<any> {
-        return this.http.get(`${this.baseurl}/Partation/GetByDepartmentId?DepartmentId=${id}`);
+        return this.http.get(`${this.baseurl}/Partation/GetByDepartmentId?DepartmentId=${id}&culture=${this.culture}`);
     }
 
     // dropdown of getting Employees By Manager
     GetEmployeeOfMangerDropDown(id: number): Observable<any> {
-        return this.http.get(`${this.baseurl}/Employee/GetEmployeeOfMangerDropDown?MangerId=${id}`);
+        return this.http.get(`${this.baseurl}/Employee/GetEmployeeOfMangerDropDown?MangerId=${id}&culture=${this.culture}`);
     }
 
     override GetPage(body: any): Observable<any> {

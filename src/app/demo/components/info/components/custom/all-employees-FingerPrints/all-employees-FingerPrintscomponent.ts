@@ -8,6 +8,7 @@ import { AllEmployeeFingerPrintsService } from './all-employees-FingerPrints.ser
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 import { Globals } from 'src/app/class/globals';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-all-employees-fingerPrints',
@@ -24,7 +25,8 @@ export class AllEmployeesFingerPrintComponent {
     constructor(
         private _AllEmployeeFingerPrintsService: AllEmployeeFingerPrintsService,
         private messageService: MessageService,
-        private datePipe: DatePipe
+        private datePipe: DatePipe,
+        private translate: TranslateService,
     ) { }
 
     @ViewChild('dt') dt: Table;
@@ -78,8 +80,8 @@ export class AllEmployeesFingerPrintComponent {
         this.isCollapsed = true; // closed
 
 
-        
-        
+
+
         Globals.getMainLangChanges().subscribe((mainLang) => {
             console.log('Main language changed to:', mainLang);
             this._AllEmployeeFingerPrintsService.setEndPoint(this.endPoint);
@@ -133,7 +135,7 @@ export class AllEmployeesFingerPrintComponent {
                 data: {
                     employeeName: raw.employeeName,
                     dateAndTime: this.datePipe.transform(raw.date, 'dd/MM/yyyy'),
-                    locationName: `${locationCount} ${locationCount > 1 ? 'Locations' : 'Location'}`,
+                    locationName: `${locationCount} ${locationCount > 1 ? this.translate.instant("LOCATIONS") : this.translate.instant("LOCATION")}`,
                 },
                 children: []
             };

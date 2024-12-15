@@ -266,6 +266,8 @@
     "Cancel": "Cancel",
     "Year": "Year",
     "Location": "Location",
+    "LOCATION": "Location",
+    "LOCATIONS": "Locations",
     "Date From": "Date From",
     "Date To": "Date To",
     "Add New Employee Course": "Add New Employee Course",
@@ -483,5 +485,11 @@
     "payRollAccountantPhone": "PayRoll Accountant Phone",
     "MONTHLYALLOWANCE": "Monthly Allowance",
     "Allowance": "Allowance",
-    "Value": "Value"
+    "Value": "Value",
+    "Select Department Firstly": "Select Department Firstly",
+    "Employee Managers": "Employee Managers",
+    "Select Employee Manager": "Select Employee Manager",
+    "Filter Finger Print": "Filter Finger Print",
+    "Location Names": "Location Names",
+    "Date And Times": "Dates And Times"
 }

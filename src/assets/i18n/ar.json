@@ -11,6 +11,7 @@
     "JOB": "الوظيفة",
     "Job": "الوظيفة",
     "LOCATION": "الموقع",
+    "LOCATIONS": "المواقع",
     "PARTITION": "الادارات",
     "Qualifications": "المؤهلات",
     "SHIFT": "الوردية",
@@ -499,5 +500,11 @@
     "PayRollAccountantPhone": "هاتف محاسب الرواتب",
     "MONTHLYALLOWANCE": "البدلات كل شهر",
     "Allowance": "البدل",
-    "Value": "القيمة"
+    "Value": "القيمة",
+    "Select Department Firstly": "اختار قسم اولا",
+    "Employee Managers": "مديرى الموظفين",
+    "Select Employee Manager": "اختار مدير",
+    "Filter Finger Print": "فلترة البصمات",
+    "Location Names": "اسماء المواقع",
+    "Date And Times": "التاريخ والوقت"
 }

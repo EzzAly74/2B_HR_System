@@ -2,8 +2,20 @@ tr[aria-level="1"] {
     background-color: #fcfcfc;
 }
 
-:host :lang(ar) tr[aria-level="1"] td:first-child {
+
+.field.action-filter button {
     display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
+    justify-content: center;
+}
+
+:host :lang(ar) {
+    tr[aria-level="1"] td:first-child {
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+    }
+
+    .field.action-filter button {
+        flex-direction: row;
+    }
 }
