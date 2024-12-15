@@ -55,6 +55,7 @@ import { AllowanceComponent } from './components/custom/allowance/allowance.comp
 import { CompanyBasicDataComponent } from './components/custom/company-basic-data/company-basic-data.component';
 import { MonthlyAllowenceComponent } from './components/custom/monthly-allowence/monthly-allowence.component';
 import { ResignationSettingService } from './components/custom/resignation-setting/resignation-setting.service';
+import { ResignationSettingComponent } from './components/custom/resignation-setting/resignation-setting.component';
 
 @NgModule({
     imports: [
@@ -341,7 +342,7 @@ import { ResignationSettingService } from './components/custom/resignation-setti
             {
                 path: 'resignationSetting',
                 canActivate: [authGuard],
-                component: ResignationSettingService,
+                component: ResignationSettingComponent,
             },
 
             {
