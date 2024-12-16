@@ -77,6 +77,14 @@
                         }}</label>
                     <p-checkbox formControlName="stockVacation" binary="true"></p-checkbox>
                 </div>
+
+
+                <div class="field field-approve">
+                    <label for="isAttachementRequired">{{
+                        "Attachement Required" | translate
+                        }}</label>
+                    <p-checkbox formControlName="isAttachementRequired" binary="true"></p-checkbox>
+                </div>
             </div>
 
             <div class="field">
@@ -289,6 +297,14 @@
                         }}</label>
                     <p-checkbox formControlName="stockVacation" binary="true"
                         [(ngModel)]="product.stockVacation"></p-checkbox>
+                </div>
+
+                <div class="field field-approve">
+                    <label for="isAttachementRequired">{{
+                        "Attachement Required" | translate
+                        }}</label>
+                    <p-checkbox formControlName="isAttachementRequired" binary="true"
+                        [(ngModel)]="product.isAttachementRequired"></p-checkbox>
                 </div>
             </div>
             <div class="field btns">
