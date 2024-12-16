@@ -218,6 +218,10 @@ export class AllEmployeesCovenantComponent {
         // first convert from date full format to time only
         // why? because prime ng calender component returned the value as a full Date Format
 
+        this.addNewForm.patchValue({
+            covenantId: this.selectedCovenant?.id,
+            employeeId: this.selectedCovenant?.id,
+        })
 
         if(this.addNewForm.valid) {
             // Confirm add new
