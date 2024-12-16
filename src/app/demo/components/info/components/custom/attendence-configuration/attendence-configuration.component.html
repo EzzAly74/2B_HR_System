@@ -141,7 +141,7 @@
 
         <div class="field col-12 md:col-4">
             <label htmlFor="Employee">{{
-                "Select Execuse Calculation Type" | translate
+                "Execuse Calculation Type" | translate
             }}</label>
             <p-dropdown
                 [(ngModel)]="selectedExecuseCalculationType"
@@ -155,6 +155,36 @@
             ></p-dropdown>
         </div>
 
+
+        <!-- new field -->
+        <div class="field col-12 md:col-4">
+            <label htmlFor="EarlyLeaveCalculationType">{{
+                "Early Leave Calculation Type" | translate
+            }}</label>
+            <p-dropdown
+                [(ngModel)]="selectedEarlyLeaveCalculationType"
+                [options]="earlyLeaveCalculationTypes"
+                optionLabel="name"
+                [placeholder]="'Early Leave Calculation Types' | translate"
+                (onChange)="selectedEarlyLeaveCalculationTypeFun($event)"
+                formControlName="earlyLeaveCalculationType"
+                class="w-fit"
+                [showClear]="true"
+            ></p-dropdown>
+        </div>
+
+        <div class="field col-12 md:col-4">
+            <label>
+                Early Leave Penality In Days For Each Hour
+                <input
+                    formControlName="earlyLeavePenalityInDaysForEachHour"
+                    type="number"
+                    pInputText
+                />
+            </label>
+        </div>
+
+
         <div class="field col-12 md:col-4">
             <label>
                 Max Monthly Late Minutes
@@ -165,6 +195,7 @@
                 />
             </label>
         </div>
+
         <div class="field col-12 md:col-4">
             <label>
                 Max Execuse Duration In Minutes
@@ -267,6 +298,7 @@
                         />
                     </label>
                 </div>
+
                 <div class="field col-12 md:col-4">
                     <label>
                         Deduction To Minutes:
@@ -277,6 +309,7 @@
                         />
                     </label>
                 </div>
+
                 <div class="field col-12 md:col-4">
                     <label>
                         Deduction Factor:
