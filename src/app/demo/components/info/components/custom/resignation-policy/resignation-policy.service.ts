@@ -11,7 +11,7 @@ export class ResignationPolicyService extends LockupsService {
     }
     override GetAll(): Observable<any> {
         return this.http.get(
-            `${this.baseurl}/${this.endPoint}/?culture=${this.culture}`
+            `${this.baseurl}/${this.endPoint}/GetForDashboard/?culture=${this.culture}`
         );
     }
 }
