@@ -139,20 +139,20 @@ export class EmployeeCovenantComponent {
             next: (res) => {
 
                 this.product = { ...res.data };
-                this.productDialog = true;
 
-                this.product.covenantId= this.dropdownItemsCovenantType.find(
-                    (item: any) => item.id == this.product.covenantId
-                );
-
+                this.editForm.patchValue({
+                    covenantId: this.dropdownItemsCovenantType.find(
+                        (item: any) => item.id == this.product.covenantId
+                    )
+                })
 
                 // alert(JSON.stringify(this.product.covenantId));
 
                 this.product.date = this.convertDate(this.product.date, 'MM/dd/yyyy');
                 console.log(this.product.date);
 
-
-                this.editForm 
+            
+                this.productDialog = true;
 
             },
             error: (err) => {
