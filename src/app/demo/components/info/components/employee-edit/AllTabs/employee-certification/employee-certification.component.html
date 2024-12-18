@@ -116,7 +116,7 @@
                     type="submit"
                     [label]="'Insert New' | translate"
                     (click)="addNew(addNewForm)"
-                    [disabled]="!addNewForm.valid"
+                    [disabled]="addNewForm.invalid"
                 ></button>
             </div>
         </form>
