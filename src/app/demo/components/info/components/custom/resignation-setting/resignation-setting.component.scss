@@ -1,0 +1,22 @@
+.bordered-pill {
+    border-radius:50px ;
+}
+
+.field.custom button {
+    padding: 5px 10px;
+    width: fit-content ;
+    gap: 5px;
+}
+
+.field.custom button:hover {
+    background-color: #f36f28;
+    color: #fff;
+    transition: 0.3s;
+}
+
+::ng-deep .field.custom button  {
+    .p-button-icon {
+        padding: 5px 0 0 0;
+        margin: 0;
+    }
+}
