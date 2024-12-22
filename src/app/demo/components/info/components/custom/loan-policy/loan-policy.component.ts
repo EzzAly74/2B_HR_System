@@ -1,31 +1,28 @@
-import { CloseMonthService } from './close-month.service';
-
 import { Component, Input, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-
 import { MessageService } from 'primeng/api';
-
 import { Table } from 'primeng/table';
-
 import { Globals } from 'src/app/class/globals';
+import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
-import { itemsPerPageGlobal } from 'src/main';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { LoanPolicyService } from './loan-policy.service';
 
 @Component({
-    selector: 'app-close-month',
+    selector: 'app-loan-policy',
     standalone: true,
     imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService],
-    templateUrl: './close-month.component.html',
-    styleUrl: './close-month.component.scss',
+    templateUrl: './loan-policy.component.html',
+    styleUrl: './loan-policy.component.scss',
 })
-export class CloseMonthComponent {
+export class LoanPolicyComponent {
     constructor(
-        private closeMonthService: CloseMonthService,
-        private messageService: MessageService
+        private loanPolicyService: LoanPolicyService,
+        private messageService: MessageService,
+        private translate: TranslateService
     ) {}
-
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
     allData: any = [];
@@ -42,45 +39,51 @@ export class CloseMonthComponent {
     productDialog: boolean = false;
     product: any;
     event!: any;
+    newName!: string;
     newNotes!: string;
     showFormNew: boolean = false;
     sortField: string = 'id';
     sortOrder: string = 'asc';
-    allMonths: any = [];
-    month!: number;
-    year!: number;
-    closed: boolean = false;
-    selectedMonth: number;
-    selectedMonthEdit: any;
-    allYears: number[] = [];
-    selectedYear: number;
-    selectedYearEdit: number;
+    newNameAr!: string;
+    newNameEn!: string;
+
+    newLatitude: DoubleRange;
+    newLongitude: DoubleRange;
+    newDiscription: string;
 
     addNewForm: FormGroup = new FormGroup({
-        month: new FormControl(null, [Validators.required]),
-        year: new FormControl(null, [Validators.required]),
-        closed: new FormControl(false, [Validators.required]),
+        engName: new FormControl(null, [Validators.required]),
+        name: new FormControl(null, [Validators.required]),
+        numOFMonths: new FormControl(null, [
+            Validators.required,
+            Validators.min(0),
+        ]),
+        notes: new FormControl(null),
     });
 
     editForm: FormGroup = new FormGroup({
-        month: new FormControl(null, [Validators.required]),
-        year: new FormControl(null, [Validators.required]),
-        closed: new FormControl(false, [Validators.required]),
-        id: new FormControl(null, [Validators.required]),
+        engName: new FormControl(null, [Validators.required]),
+        name: new FormControl(null, [Validators.required]),
+        numOFMonths: new FormControl(null, [
+            Validators.required,
+            Validators.min(0),
+        ]),
+        notes: new FormControl(null),
+        id: new FormControl(null),
     });
 
     ngOnInit() {
-        this.endPoint = 'CloseMonth';
+        this.endPoint = 'RepaymentTerms';
 
         // adding this Configurations in each Component Customized
         Globals.getMainLangChanges().subscribe((mainLang) => {
             console.log('Main language changed to:', mainLang);
 
             // update mainLang at Service
-            this.closeMonthService.setCulture(mainLang);
+            this.loanPolicyService.setCulture(mainLang);
 
             // update endpoint
-            this.closeMonthService.setEndPoint(this.endPoint);
+            this.loanPolicyService.setEndPoint(this.endPoint);
 
             // then, load data again to lens on the changes of mainLang & endPoints Call
             this.loadData(
@@ -90,48 +93,31 @@ export class CloseMonthComponent {
                 this.sortField,
                 this.sortOrder
             );
-            this.generateYearOptions();
-            this.closeMonthService.getMonths().subscribe({
-                next: (res) => {
-                    this.allMonths = res.data;
-                    console.log(this.allMonths);
-                },
-                error: (err) => {
-                    console.log(err);
-                },
-            });
         });
 
         this.cols = [
-            // main field
+            // basic data
             { field: 'name', header: 'Name' },
 
-            // personal fields
-
-            { field: 'numberOfHours', header: 'NumberOfHours' },
-
-            // main field
+            // custom fields
+            { field: 'latitude', header: 'Lotes' },
+            { field: 'longitude', header: 'Longitude' },
+            { field: 'discription', header: 'Discription' },
             { field: 'notes', header: 'Notes' },
 
             // Generic Fields
-            { field: 'creationTime', header: 'CreationTime' },
-            { field: 'lastModificationTime', header: 'LastModificationTime' },
-            { field: 'creatorName', header: 'CreatorName' },
-            { field: 'lastModifierName', header: 'LastModifierName' },
+            { field: 'creationTime', header: 'creationTime' },
+            { field: 'lastModificationTime', header: 'lastModificationTime' },
+            { field: 'creatorName', header: 'creatorName' },
+            { field: 'lastModifierName', header: 'lastModifierName' },
         ];
     }
 
     editProduct(rowData: any) {
-        this.closeMonthService.GetById(rowData.id).subscribe({
+        console.log(rowData.id);
+        this.loanPolicyService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
-                this.selectedMonthEdit = this.allMonths.find(
-                    (month: any) => month.id === res.data.month
-                );
-                this.selectedYearEdit = res.data.year;
-                this.closed = res.data.closed;
-                console.log(this.selectedMonthEdit);
-
                 this.product = { ...res.data };
                 this.productDialog = true;
             },
@@ -141,23 +127,9 @@ export class CloseMonthComponent {
         });
     }
 
-    splitCamelCase(str: any) {
-        return str
-            .replace(/([A-Z])/g, ' $1')
-            .trim()
-            .replace(/\s+/g, ' ')
-            .split(' ')
-            .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(' ');
-    }
-
-    startAttendeesTimeClick(event: any) {}
-
-    endAttendeesTimeClick(event: any) {}
-
     confirmDelete(id: number) {
         // perform delete from sending request to api
-        this.closeMonthService.DeleteSoftById(id).subscribe({
+        this.loanPolicyService.DeleteSoftById(id).subscribe({
             next: () => {
                 // close dialog
                 this.deleteProductDialog = false;
@@ -186,40 +158,36 @@ export class CloseMonthComponent {
     }
 
     addNew(form: FormGroup) {
-        // first convert from date full format to time only
-        // why? because prime ng calender component returned the value as a full Date Format
-        // set body of request
-        // let body = {
-        //     month: this.selectedMonth,
-        //     year: this.selectedYear,
-        //     closed: this.closed,
-        // };
-        // console.log(body);
+        console.log(form);
 
-        // Confirm add new
-        this.closeMonthService.Register(form.value).subscribe({
+        this.loanPolicyService.Register(form.value).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
                 // show message for success inserted
-                if (res.success) {
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Successful',
-                        detail: res.message,
-                        life: 3000,
-                    });
-                    // set fields is empty
-                    form.reset();
-                    // load data again
-                    this.loadData(
-                        this.page,
-                        this.itemsPerPage,
-                        this.nameFilter,
-                        this.sortField,
-                        this.sortOrder
-                    );
-                }
+                this.messageService.add({
+                    severity: 'success',
+                    summary: this.translate.instant('Success'),
+                    detail: res.message,
+                    life: 3000,
+                });
+
+                // set fields is empty
+                form.reset();
+
+                // load data again
+                this.loadData(
+                    this.page,
+                    this.itemsPerPage,
+                    this.nameFilter,
+                    this.sortField,
+                    this.sortOrder
+                );
+            },
+            error: (err) => {
+                this.showFormNew = false;
+
+                console.log(err);
             },
         });
     }
@@ -235,8 +203,12 @@ export class CloseMonthComponent {
     }
 
     setFieldsNulls() {
-        (this.month = null), (this.year = null), (this.newNotes = null);
-        this.closed = false;
+        (this.newNameAr = null),
+            (this.newNameEn = null),
+            (this.newNotes = null),
+            (this.newDiscription = null),
+            (this.newLatitude = null),
+            (this.newLongitude = null);
     }
 
     loadData(
@@ -256,7 +228,7 @@ export class CloseMonthComponent {
         };
         filteredData.sortType = this.sortOrder;
 
-        this.closeMonthService.GetPage(filteredData).subscribe({
+        this.loanPolicyService.GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
@@ -265,6 +237,10 @@ export class CloseMonthComponent {
                 this.totalItems = res.totalItems;
                 this.loading = false;
                 console.log(this.selectedItems);
+            },
+            error: (err) => {
+                console.log(err);
+                this.loading = false;
             },
         });
     }
@@ -306,39 +282,29 @@ export class CloseMonthComponent {
     saveProduct(id: number, form: FormGroup) {
         this.submitted = true;
         console.log(id);
+        form.patchValue({
+            id: id,
+        });
 
-        form.patchValue({ id: id });
-
-        console.log(form.value);
-
-        // let body = {
-        //     id: product.id,
-        //     month: this.selectedMonthEdit.id,
-        //     year: this.selectedYearEdit,
-        //     closed: this.closed,
-        // };
-
-        this.closeMonthService.Edit(form.value).subscribe({
+        this.loanPolicyService.Edit(form.value).subscribe({
             next: (res) => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
-                if (res.success) {
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Successful',
-                        detail: res.message,
-                        life: 3000,
-                    });
+                this.messageService.add({
+                    severity: 'success',
+                    summary: this.translate.instant('Success'),
+                    detail: res.message,
+                    life: 3000,
+                });
 
-                    // load data again
-                    this.loadData(
-                        this.page,
-                        this.itemsPerPage,
-                        this.nameFilter,
-                        this.sortField,
-                        this.sortOrder
-                    );
-                }
+                // load data again
+                this.loadData(
+                    this.page,
+                    this.itemsPerPage,
+                    this.nameFilter,
+                    this.sortField,
+                    this.sortOrder
+                );
             },
             error: (err) => {
                 console.log(err);
@@ -372,6 +338,16 @@ export class CloseMonthComponent {
         link.click();
     }
 
+    splitCamelCase(str: any) {
+        return str
+            .replace(/([A-Z])/g, ' $1')
+            .trim()
+            .replace(/\s+/g, ' ')
+            .split(' ')
+            .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    }
+
     convertToCSV(data: any[]): string {
         if (!data || !data.length) return '';
 
@@ -390,7 +366,6 @@ export class CloseMonthComponent {
         csvContent.unshift(keys.join(separator)); // Add header row
         return csvContent.join('\r\n'); // Join all rows
     }
-
     confirmDeleteSelected() {
         let selectedIds = [];
         console.log('Selected Items :');
@@ -399,7 +374,7 @@ export class CloseMonthComponent {
             selectedIds.push(item.id);
         });
 
-        this.closeMonthService.DeleteRangeSoft(selectedIds).subscribe({
+        this.loanPolicyService.DeleteRangeSoft(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
                 this.messageService.add({
@@ -430,24 +405,6 @@ export class CloseMonthComponent {
         }
     }
     sortByName(event: any) {
-        this.sortField = 'monthName';
-    }
-    generateYearOptions() {
-        const currentYear = new Date().getFullYear();
-        const startYear = currentYear - 3;
-        const endYear = currentYear + 10;
-
-        for (let year = startYear; year <= endYear; year++) {
-            this.allYears.push(year);
-        }
-    }
-    changeMonth(event: any) {
-        console.log(event);
-        this.selectedMonth = event.value.id;
-        console.log(this.selectedMonth);
-    }
-    changeYear(event: any) {
-        console.log('Selected year:', this.selectedYear);
-        // Your logic here
+        this.sortField = 'name';
     }
 }

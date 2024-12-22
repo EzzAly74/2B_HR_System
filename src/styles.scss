@@ -464,3 +464,9 @@ form .p-fileupload .p-button:hover {
     border: 1px solid #f36f28;
     color: #f36f28;
 }
+.p-dropdown-items-wrapper {
+    max-height: unset;
+}
+.flex.crud-operations {
+    justify-content: center;
+}

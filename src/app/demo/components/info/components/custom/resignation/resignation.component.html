@@ -95,9 +95,9 @@
             </td>
 
             <td [ngClass]="{
-                'accepted-request': rowData?.status == 1,
-                'rejected-request': rowData?.status == 2,
-                'pending-request': rowData?.status == 0
+                'accepted-request': rowData?.status == 2,
+                'rejected-request': rowData?.status == 4,
+                'pending-request': rowData?.status !== 4 && rowData?.status !== 2 
             }">
                 <span> {{ rowData.statusValue }} </span>
             </td>

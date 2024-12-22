@@ -52,6 +52,12 @@ import { TestComponent } from './components/employee-edit/AllTabs/test/test.comp
 import { InternalJobsEditComponent } from './components/custom/internal-jobs-edit/internal-jobs-edit.component';
 import { ResignationComponent } from './components/custom/resignation/resignation.component';
 import { SetAssetCoordinatorComponent } from './components/custom/set-asset-coordinator/set-asset-coordinator.component';
+import { SendNotificationToAllComponent } from './components/custom/send-notification-to-all/send-notification-to-all.component';
+import { InsuranceConfigComponent } from './components/custom/insurance-config/insurance-config.component';
+import { LoanPolicyComponent } from './components/custom/loan-policy/loan-policy.component';
+import { LoanSettingsComponent } from './components/custom/loan-settings/loan-settings.component';
+import { LoanRequestComponent } from './components/custom/loan-request/loan-request.component';
+import { ResignationPolicyComponent } from './components/custom/resignation-policy/resignation-policy.component';
 
 @NgModule({
     imports: [
@@ -310,7 +316,37 @@ import { SetAssetCoordinatorComponent } from './components/custom/set-asset-coor
                 canActivate: [authGuard],
                 component: SetAssetCoordinatorComponent,
             },
+            {
+                path: 'SendNotificationToAll',
+                canActivate: [authGuard],
+                component: SendNotificationToAllComponent,
+            },
+            {
+                path: 'loanPolicy',
+                canActivate: [authGuard],
+                component: LoanPolicyComponent,
+            },
+            {
+                path: 'loanSettings',
+                canActivate: [authGuard],
+                component: LoanSettingsComponent,
+            },
+            {
+                path: 'loanRequest',
+                canActivate: [authGuard],
+                component: LoanRequestComponent,
+            },
+            {
+                path: 'resignationPolicy',
+                canActivate: [authGuard],
+                component: ResignationPolicyComponent,
+            },
 
+            {
+                path: 'insuranceConfig',
+                canActivate: [authGuard],
+                component: InsuranceConfigComponent,
+            },
             {
                 path: 'test',
                 canActivate: [authGuard],

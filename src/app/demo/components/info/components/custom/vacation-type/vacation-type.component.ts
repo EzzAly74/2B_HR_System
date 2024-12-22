@@ -12,10 +12,7 @@ import { itemsPerPageGlobal } from 'src/main';
 @Component({
     selector: 'app-vacation-type',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService],
     templateUrl: './vacation-type.component.html',
     styleUrl: './vacation-type.component.scss',
@@ -24,7 +21,7 @@ export class VacationTypeComponent {
     constructor(
         private vacationTypeService: VacationTypeService,
         private messageService: MessageService,
-        private translate : TranslateService
+        private translate: TranslateService
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -56,27 +53,29 @@ export class VacationTypeComponent {
     hrApproved: boolean = false;
     stockVacation: boolean = false;
 
-    addNewForm:FormGroup = new FormGroup({
-        engName:new FormControl(null,[Validators.required]),
-        name:new FormControl(null,[Validators.required]),
-        notes:new FormControl(null),
-        dayCount:new FormControl(null,[Validators.required]),
-        vacationStart:new FormControl(null,[Validators.required]),
-        mangerApproved:new FormControl(null,[Validators.required]),
-        hrApproved:new FormControl(null,[Validators.required]),
-        stockVacation:new FormControl(null,[Validators.required]),
+    addNewForm: FormGroup = new FormGroup({
+        engName: new FormControl(null, [Validators.required]),
+        name: new FormControl(null, [Validators.required]),
+        notes: new FormControl(null),
+        dayCount: new FormControl(null, [Validators.required]),
+        vacationStart: new FormControl(null, [Validators.required]),
+        mangerApproved: new FormControl(false, [Validators.required]),
+        hrApproved: new FormControl(false, [Validators.required]),
+        stockVacation: new FormControl(false, [Validators.required]),
+        isAttachementRequired: new FormControl(false, [Validators.required]),
     });
-    editForm:FormGroup = new FormGroup({
-        engName:new FormControl(null,[Validators.required]),
-        name:new FormControl(null,[Validators.required]),
-        notes:new FormControl(null),
-        dayCount:new FormControl(null,[Validators.required]),
-        vacationStart:new FormControl(null,[Validators.required]),
-        mangerApproved:new FormControl(null,[Validators.required]),
-        hrApproved:new FormControl(null,[Validators.required]),
-        stockVacation:new FormControl(null,[Validators.required]),
-        id:new FormControl(null)
-    })
+    editForm: FormGroup = new FormGroup({
+        engName: new FormControl(null, [Validators.required]),
+        name: new FormControl(null, [Validators.required]),
+        notes: new FormControl(null),
+        dayCount: new FormControl(null, [Validators.required]),
+        vacationStart: new FormControl(null, [Validators.required]),
+        mangerApproved: new FormControl(false, [Validators.required]),
+        hrApproved: new FormControl(false, [Validators.required]),
+        stockVacation: new FormControl(false, [Validators.required]),
+        isAttachementRequired: new FormControl(false, [Validators.required]),
+        id: new FormControl(null),
+    });
 
     ngOnInit() {
         this.endPoint = 'VacationType';
@@ -178,12 +177,12 @@ export class VacationTypeComponent {
         });
     }
 
-    addNew(form:FormGroup) {
+    addNew(form: FormGroup) {
         // first convert from date full format to time only
         // why? because prime ng calender component returned the value as a full Date Format
 
         // set body of request
-       
+
         console.log(form.value);
 
         // Confirm add new
@@ -192,15 +191,14 @@ export class VacationTypeComponent {
                 console.log(res);
                 this.showFormNew = false;
                 // show message for success inserted
-                if(res.success)
-                {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: this.translate.instant('Success'),
-                    detail: res.message,
-                    life: 3000,
-                });
-            }
+                if (res.success) {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translate.instant('Success'),
+                        detail: res.message,
+                        life: 3000,
+                    });
+                }
                 // set fields is empty
                 form.reset();
 
@@ -213,7 +211,6 @@ export class VacationTypeComponent {
                     this.sortOrder
                 );
             },
-           
         });
     }
 
@@ -265,7 +262,6 @@ export class VacationTypeComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-           
         });
     }
 
@@ -303,26 +299,25 @@ export class VacationTypeComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number, form:FormGroup) {
+    saveProduct(id: number, form: FormGroup) {
         this.submitted = true;
         console.log(id);
 
-       form.patchValue({
-        id:id
-       });
+        form.patchValue({
+            id: id,
+        });
 
         this.vacationTypeService.Edit(form.value).subscribe({
             next: (res) => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
-                if(res.success)
-                {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: this.translate.instant('Success'),
-                    detail: res.message,
-                    life: 3000,
-                });
+                if (res.success) {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translate.instant('Success'),
+                        detail: res.message,
+                        life: 3000,
+                    });
                 }
 
                 // load data again
@@ -334,7 +329,6 @@ export class VacationTypeComponent {
                     this.sortOrder
                 );
             },
-           
         });
     }
 
@@ -410,7 +404,6 @@ export class VacationTypeComponent {
                     this.sortOrder
                 );
             },
-           
         });
     }
     sortById(event: any) {

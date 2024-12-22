@@ -3,19 +3,20 @@
     align-items: center;
     gap: 8px;
     flex-direction: row-reverse;
+    width: 50%;
+    justify-content: start;
 }
 .fields-aprrove {
     display: flex;
     justify-content: space-around;
     margin-bottom: 24px;
+    flex-wrap: wrap;
 }
-.btns
-{
+.btns {
     display: flex;
     gap: 8px;
     width: 50%;
 }
-.fields-aprrove label 
-{
-    margin-bottom: 0 ;
+.fields-aprrove label {
+    margin-bottom: 0;
 }

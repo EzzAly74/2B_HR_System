@@ -1,9 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, Input, ViewChild } from '@angular/core';
-import {
-    FormControl,
-    FormGroup,
-} from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
@@ -17,10 +14,7 @@ import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 @Component({
     selector: 'app-penalties-and-deduction',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService, DatePipe],
     templateUrl: './penalties-and-deduction.component.html',
     styleUrl: './penalties-and-deduction.component.scss',
@@ -66,6 +60,7 @@ export class PenaltiesAndDeductionComponent {
     dropdownItemsEmployees!: any;
     dropdownItemsRequestTypes!: any;
     dropdownItemsMissionTypes!: any;
+    ids: number[] = [];
     selectedEmployee: any = null;
     selectedManager: any = null;
     selectedRequstType: any = null;
@@ -229,7 +224,6 @@ export class PenaltiesAndDeductionComponent {
                     this.sortOrder
                 );
             },
-         
         });
         this.notesAccept = '';
     }
@@ -259,7 +253,6 @@ export class PenaltiesAndDeductionComponent {
                     this.sortOrder
                 );
             },
-         
         });
         this.notesReject = '';
     }
@@ -461,19 +454,14 @@ export class PenaltiesAndDeductionComponent {
     }
     submitForm(form: FormGroup) {
         const currentMonthValue = form.get('month')?.value;
-        form.patchValue({
-            employeeId: this.selectedEmployee?.id ?? null,
-            mangerId: this.selectedManager?.id ?? null,
-            requestType: this.selectedRequstType?.id ?? null,
+        const apiData = {
+            ...form.value, // other form fields remain unchanged
             dateFrom: this.DatePipe.transform(
-                this.filterForm.get('dateFrom').value,
+                form.value.dateFrom,
                 'yyyy-MM-dd'
             ),
-            dateTo: this.DatePipe.transform(
-                this.filterForm.get('dateTo').value,
-                'yyyy-MM-dd'
-            ),
-        });
+            dateTo: this.DatePipe.transform(form.value.dateTo, 'yyyy-MM-dd'),
+        };
 
         console.log(form.value);
         const removeNulls = (obj: any) => {
@@ -481,7 +469,7 @@ export class PenaltiesAndDeductionComponent {
                 Object.entries(obj).filter(([_, value]) => value !== null)
             );
         };
-        const formValueNotNull = removeNulls(form.value);
+        const formValueNotNull = removeNulls(apiData);
 
         const filterPaginator = {
             PageNumber: this.page,
@@ -529,14 +517,16 @@ export class PenaltiesAndDeductionComponent {
     confirmAcceptAll() {
         console.log('Accept All');
         console.log(this.selectedItems);
-        const ids: number[] = [];
+        // let ids: number[] = [];
 
         this.selectedItems.forEach((item: any) => {
-            if (item.requestType == 0) ids.push(item.id);
+            if (item.requestType == 0) this.ids.push(item.id);
         });
 
+        console.log(this.ids);
+
         this.penaltiesAndDeductionService
-            .updateRequestTypeRange(ids, 1)
+            .updateRequestTypeRange(this.ids, 1)
             .subscribe({
                 next: (res) => {
                     console.log(res);
@@ -547,6 +537,7 @@ export class PenaltiesAndDeductionComponent {
                         life: 3000,
                     });
                     this.acceptAllDialogue = false;
+                    this.ids = [];
                     this.loadData(
                         this.page,
                         this.itemsPerPage,
@@ -564,14 +555,12 @@ export class PenaltiesAndDeductionComponent {
         console.log('Reject All');
         console.log(this.selectedItems);
 
-        const ids: number[] = [];
-
         this.selectedItems.forEach((item: any) => {
-            if (item.requestType == 0) ids.push(item.id);
+            if (item.requestType == 0) this.ids.push(item.id);
         });
 
         this.penaltiesAndDeductionService
-            .updateRequestTypeRange(ids, 2)
+            .updateRequestTypeRange(this.ids, 2)
             .subscribe({
                 next: (res) => {
                     console.log(res);
@@ -582,6 +571,7 @@ export class PenaltiesAndDeductionComponent {
                         life: 3000,
                     });
                     this.rejectAllDialogue = false;
+                    this.ids = [];
                     this.loadData(
                         this.page,
                         this.itemsPerPage,
@@ -594,5 +584,11 @@ export class PenaltiesAndDeductionComponent {
                     console.log(err);
                 },
             });
+    }
+    isDisabled(): boolean {
+        return (
+            !this.selectedItems?.length ||
+            !this.selectedItems?.some((item) => item.requestType === 0)
+        );
     }
 }
