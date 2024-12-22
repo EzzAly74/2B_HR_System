@@ -9,8 +9,9 @@
                             <label htmlFor="government">{{
                                 "Employee" | translate
                                 }}</label>
-                            <p-dropdown [options]="dropdownItemsEmployees" optionLabel="name" optionValue="id"
-                                formControlName="employeeId" [filter]="true" [filterBy]="'name'" [placeholder]="
+                            <p-dropdown [showClear]="true" [options]="dropdownItemsEmployees" optionLabel="name"
+                                optionValue="id" formControlName="employeeId" [filter]="true" [filterBy]="'name'"
+                                [placeholder]="
                                     'Enter Employee Name Here' | translate
                                 "></p-dropdown>
                         </div>
