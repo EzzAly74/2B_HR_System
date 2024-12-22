@@ -13,10 +13,7 @@ import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 @Component({
     selector: 'app-kpi',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService, DatePipe],
     templateUrl: './kpi.component.html',
     styleUrl: './kpi.component.scss',
@@ -67,7 +64,7 @@ export class KPIComponent {
     filterForm: FormGroup = new FormGroup({
         employeeId: new FormControl(null),
         mangerId: new FormControl(null),
-        year: new FormControl(new Date().getFullYear()),
+        year: new FormControl(null),
         month: new FormControl(null),
         requestType: new FormControl(null),
     });
@@ -222,7 +219,6 @@ export class KPIComponent {
                     this.sortOrder
                 );
             },
-           
         });
         this.notesAccept = '';
     }
@@ -252,7 +248,6 @@ export class KPIComponent {
                     this.sortOrder
                 );
             },
-          
         });
         this.notesReject = '';
     }
@@ -416,12 +411,6 @@ export class KPIComponent {
     }
     submitForm(form: FormGroup) {
         const currentMonthValue = form.get('month')?.value;
-        form.patchValue({
-            employeeId: this.selectedEmployee?.id ?? null,
-            mangerId: this.selectedManager?.id ?? null,
-            requestType: this.selectedRequstType?.id ?? null,
-            month: this.selectedMonth?.id ?? null,
-        });
 
         console.log(form.value);
         const removeNulls = (obj: any) => {
@@ -542,5 +531,11 @@ export class KPIComponent {
                 },
             });
         }
+    }
+    isDisabled(): boolean {
+        return (
+            !this.selectedItems?.length ||
+            !this.selectedItems?.some((item) => item.requestType === 0)
+        );
     }
 }

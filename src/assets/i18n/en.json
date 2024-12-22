@@ -492,5 +492,8 @@
     "Attachement Required": "Attachement Required",
     "Add New Bonus": "Add New Bonus",
     "Value": "Value",
-    "Enter Value Here": "Enter Value Here"
+    "Enter Value Here": "Enter Value Here",
+    "Amount": "Amount",
+    "Basic Amount": "Basic Amount",
+    "Actual Amount": "Actual Amount"
 }

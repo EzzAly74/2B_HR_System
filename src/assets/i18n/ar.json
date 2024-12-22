@@ -506,5 +506,8 @@
     "Attachement Required": "مرفق مطلوب",
     "Add New Bonus": "اضافة بونص جديد",
     "Value": "القيمة",
-    "Enter Value Here": "ادخل القيمة هنا"
+    "Enter Value Here": "ادخل القيمة هنا",
+    "Amount": "المقدار",
+    "Actual Amount": "القيمة الفعلية",
+    "Basic Amount": "القيمة الأساسية"
 }
