@@ -1,6 +1,6 @@
 import { BonusService } from './bonus.service';
 import { Component, Input, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Globals } from 'src/app/class/globals';
@@ -11,10 +11,7 @@ import { itemsPerPageGlobal } from 'src/main';
 @Component({
     selector: 'app-bonus',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService],
     templateUrl: './bonus.component.html',
     styleUrl: './bonus.component.scss',
@@ -60,7 +57,6 @@ export class BonusComponent {
     closed: boolean = false;
     selectedMonth: any = null;
     selectedMonthEdit: any;
-    allYears: any[] = [];
     selectedDepartment: any = null;
     selectedYear: any = null;
     selectedYearEdit: number;
@@ -75,11 +71,28 @@ export class BonusComponent {
         year: new FormControl(null),
     });
     addNewForm: FormGroup = new FormGroup({
-        employeeId: new FormControl(null),
-        month: new FormControl(null),
-        value: new FormControl(null),
-        year: new FormControl(null),
+        employeeId: new FormControl(null, [Validators.required]),
+        month: new FormControl(null, [Validators.required]),
+        value: new FormControl(null, [Validators.required, Validators.min(0)]),
+        year: new FormControl(null, [
+            Validators.required,
+            Validators.min(1900),
+            Validators.max(2199),
+        ]),
         notes: new FormControl(null),
+    });
+
+    editForm: FormGroup = new FormGroup({
+        employeeId: new FormControl(null, [Validators.required]),
+        month: new FormControl(null, [Validators.required]),
+        value: new FormControl(null, [Validators.required, Validators.min(0)]),
+        year: new FormControl(null, [
+            Validators.required,
+            Validators.min(1900),
+            Validators.max(2199),
+        ]),
+        notes: new FormControl(null),
+        id: new FormControl(null),
     });
 
     ngOnInit() {
@@ -95,6 +108,8 @@ export class BonusComponent {
             // update endpoint
             this.bonusService.setEndPoint(this.endPoint);
 
+            this.getDropDowns();
+
             // then, load data again to lens on the changes of mainLang & endPoints Call
             this.loadData(
                 this.page,
@@ -103,7 +118,6 @@ export class BonusComponent {
                 this.sortField,
                 this.sortOrder
             );
-            this.generateYearOptions();
         });
 
         this.cols = [
@@ -129,11 +143,8 @@ export class BonusComponent {
                 this.allMonths = res.data;
                 console.log(this.allMonths);
             },
-           
         });
 
-        this.getDropDowns();
-        console.log(this.allYears);
         this.selectedYear = null;
     }
 
@@ -157,7 +168,6 @@ export class BonusComponent {
                 this.product = { ...res.data };
                 this.productDialog = true;
             },
-   
         });
     }
 
@@ -199,57 +209,37 @@ export class BonusComponent {
                     this.sortOrder
                 );
             },
-     
         });
     }
 
     addNew(form: FormGroup) {
-        form.patchValue({
-            employeeId: this.selectedEmployeeAdd?.id ?? null,
-            month: this.selectedMonthAdd?.id ?? null,
-            year: this.selectedYearAdd?.value ?? null,
-        });
-
         // Confirm add new
         this.bonusService.Register(form.value).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'inserted successfully',
-                    life: 3000,
-                });
+                if (res.success) {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: 'inserted successfully',
+                        life: 3000,
+                    });
 
-                // set fields is empty
-                form.reset();
+                    // set fields is empty
+                    form.reset();
 
-                // load data again
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
+                    // load data again
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+                }
             },
-         
         });
-
-        console.log(form);
-
-        // first convert from date full format to time only
-        // why? because prime ng calender component returned the value as a full Date Format
-
-        // set body of request
-        // let body = {
-        //     month: this.selectedMonth,
-        //     year: this.selectedYear,
-        //     closed: this.closed,
-        // };
-
-        // console.log(body);
     }
 
     loadFilteredData() {
@@ -294,7 +284,6 @@ export class BonusComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-           
         });
     }
 
@@ -332,43 +321,37 @@ export class BonusComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number, product: any) {
+    saveProduct(id: number, form: FormGroup) {
         this.submitted = true;
         console.log(id);
-        console.log(product);
+        form.patchValue({
+            id: id,
+        });
 
-        let body = {
-            id: product.id,
-            month: this.selectedMonthEdit.id,
-            year: this.selectedYearEdit,
-            employeeId: this.selectedEmployeeEdit.id,
-            value: product.value,
-            notes: product.notes,
-        };
+        console.log(form.value);
 
-        console.log(body);
-
-        this.bonusService.Edit(body).subscribe({
-            next: () => {
+        this.bonusService.Edit(form.value).subscribe({
+            next: (res) => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'You Edit This Item',
-                    life: 3000,
-                });
+                if (res.success) {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: res.message,
+                        life: 3000,
+                    });
 
-                // load data again
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
+                    // load data again
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+                }
             },
-          
         });
     }
 
@@ -444,7 +427,6 @@ export class BonusComponent {
                     this.sortOrder
                 );
             },
-          
         });
     }
     sortById(event: any) {
@@ -459,15 +441,7 @@ export class BonusComponent {
     sortByName(event: any) {
         this.sortField = 'employeeName';
     }
-    generateYearOptions() {
-        const currentYear = new Date().getFullYear();
-        const startYear = currentYear - 3;
-        const endYear = currentYear + 10;
 
-        for (let year = startYear; year <= endYear; year++) {
-            this.allYears.push({ label: `${year}`, value: year });
-        }
-    }
     changeMonth(event: any) {
         console.log(event);
         this.selectedMonth = event.value.id;
@@ -478,14 +452,6 @@ export class BonusComponent {
     }
 
     submitForm(form: FormGroup) {
-        form.patchValue({
-            employeeId: this.selectedEmployee?.id ?? null,
-            mangerId: this.selectedManager?.id ?? null,
-            departmentId: this.selectedDepartment?.id ?? null,
-            month: this.selectedMonth?.id ?? null,
-            year: this.selectedYear?.value ?? null,
-        });
-
         console.log(form.value);
         const removeNulls = (obj: any) => {
             return Object.fromEntries(
