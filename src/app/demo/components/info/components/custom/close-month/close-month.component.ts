@@ -1,26 +1,12 @@
 import { CloseMonthService } from './close-month.service';
-import { CommonModule, Time } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+
 import { Component, Input, ViewChild } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
-import { NgxPaginationModule } from 'ngx-pagination';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+
 import { MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { CalendarModule } from 'primeng/calendar';
-import { DialogModule } from 'primeng/dialog';
-import { DropdownModule } from 'primeng/dropdown';
-import { FileUploadModule } from 'primeng/fileupload';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputSwitchModule } from 'primeng/inputswitch';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { RatingModule } from 'primeng/rating';
-import { RippleModule } from 'primeng/ripple';
-import { Table, TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
-import { ToolbarModule } from 'primeng/toolbar';
+
+import { Table } from 'primeng/table';
+
 import { Globals } from 'src/app/class/globals';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
@@ -69,6 +55,19 @@ export class CloseMonthComponent {
     allYears: number[] = [];
     selectedYear: number;
     selectedYearEdit: number;
+
+    addNewForm: FormGroup = new FormGroup({
+        month: new FormControl(null, [Validators.required]),
+        year: new FormControl(null, [Validators.required]),
+        closed: new FormControl(false, [Validators.required]),
+    });
+
+    editForm: FormGroup = new FormGroup({
+        month: new FormControl(null, [Validators.required]),
+        year: new FormControl(null, [Validators.required]),
+        closed: new FormControl(false, [Validators.required]),
+        id: new FormControl(null, [Validators.required]),
+    });
 
     ngOnInit() {
         this.endPoint = 'CloseMonth';
@@ -186,35 +185,32 @@ export class CloseMonthComponent {
         });
     }
 
-    addNew() {
+    addNew(form: FormGroup) {
         // first convert from date full format to time only
         // why? because prime ng calender component returned the value as a full Date Format
-
         // set body of request
-        let body = {
-            month: this.selectedMonth,
-            year: this.selectedYear,
-            closed: this.closed,
-        };
+        // let body = {
+        //     month: this.selectedMonth,
+        //     year: this.selectedYear,
+        //     closed: this.closed,
+        // };
+        // console.log(body);
 
-        console.log(body);
-        if (this.month && this.selectedYear) {
-            // Confirm add new
-            this.closeMonthService.Register(body).subscribe({
-                next: (res) => {
-                    console.log(res);
-                    this.showFormNew = false;
-                    // show message for success inserted
+        // Confirm add new
+        this.closeMonthService.Register(form.value).subscribe({
+            next: (res) => {
+                console.log(res);
+                this.showFormNew = false;
+                // show message for success inserted
+                if (res.success) {
                     this.messageService.add({
                         severity: 'success',
                         summary: 'Successful',
-                        detail: 'inserted success',
+                        detail: res.message,
                         life: 3000,
                     });
-
                     // set fields is empty
-                    this.setFieldsNulls();
-
+                    form.reset();
                     // load data again
                     this.loadData(
                         this.page,
@@ -223,9 +219,9 @@ export class CloseMonthComponent {
                         this.sortField,
                         this.sortOrder
                     );
-                },
-            });
-        }
+                }
+            },
+        });
     }
 
     loadFilteredData() {
@@ -307,37 +303,42 @@ export class CloseMonthComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number, product: any) {
+    saveProduct(id: number, form: FormGroup) {
         this.submitted = true;
         console.log(id);
-        console.log(product);
 
-        let body = {
-            id: product.id,
-            month: this.selectedMonthEdit.id,
-            year: this.selectedYearEdit,
-            closed: this.closed,
-        };
+        form.patchValue({ id: id });
 
-        this.closeMonthService.Edit(body).subscribe({
-            next: () => {
+        console.log(form.value);
+
+        // let body = {
+        //     id: product.id,
+        //     month: this.selectedMonthEdit.id,
+        //     year: this.selectedYearEdit,
+        //     closed: this.closed,
+        // };
+
+        this.closeMonthService.Edit(form.value).subscribe({
+            next: (res) => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'You Edit This Item',
-                    life: 3000,
-                });
+                if (res.success) {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: res.message,
+                        life: 3000,
+                    });
 
-                // load data again
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
+                    // load data again
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+                }
             },
             error: (err) => {
                 console.log(err);
