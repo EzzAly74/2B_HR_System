@@ -24,69 +24,36 @@
 
             <div class="field">
                 <label htmlFor="name-ar">{{ "Name Arabic" | translate }} </label>
-                <input pInputText formControlName="name" id="name-ar" type="text"
-                    [placeholder]="'Enter Arabic Name Here' | translate" />
+                <input pInputText formControlName="name" [placeholder]="'Enter Arabic Name Here' | translate"
+                    id="name-ar" type="text" />
             </div>
+
             <div class="field">
                 <label htmlFor="name-en">{{ "Name English" | translate }} </label>
                 <input pInputText formControlName="engName" [placeholder]="'Enter English Name Here' | translate"
                     id="name-en" type="text" />
             </div>
 
-
+            <div class="field">
+                <label htmlFor="new-longitude">{{ "Employee Percent" | translate }}</label>
+                <input pInputText formControlName="employeePercent" id="new-longitude"
+                    [placeholder]="'Enter Employee Percent Here' | translate" type="number" min=0 max=100 />
+            </div>
 
             <div class="field">
-                <label htmlFor="DayCount">{{ "Day Count" | translate }}</label>
-
-                <input pInputText formControlName="dayCount" [placeholder]="'Enter number Of Days' | translate"
-                    id="DayCount" type="number" />
+                <label htmlFor="new-latitude">{{ "Company Percent" | translate }}</label>
+                <input pInputText formControlName="companyPercent" id="new-latitude"
+                    [placeholder]="'Enter Company Percent Here' | translate" type="number" min=0 max=100 />
             </div>
+
+
+
 
             <div class="field">
                 <label htmlFor="new-notes">{{ "Notes" | translate }}</label>
                 <textarea pInputTextarea formControlName="notes" id="new-notes"
                     [placeholder]="'Enter Notes Here' | translate" type="text"></textarea>
             </div>
-
-            <div class="field">
-                <label htmlFor="new-notes">{{
-                    "Vacation Start After how many months" | translate
-                    }}</label>
-                <input pInputText formControlName="vacationStart" id="new-notes" [placeholder]="
-                    'Enter number of months to start vacation' | translate
-                " type="number" />
-            </div>
-            <div class="fields-aprrove">
-                <div class="field field-approve">
-                    <label for="mangerApproved">{{
-                        "Manger Approved" | translate
-                        }}</label>
-                    <p-checkbox formControlName="mangerApproved" binary="true"></p-checkbox>
-                </div>
-
-                <div class="field field-approve">
-                    <label for="mangerApproved">{{
-                        "Hr Approved" | translate
-                        }}</label>
-                    <p-checkbox formControlName="hrApproved" binary="true"></p-checkbox>
-                </div>
-
-                <div class="field field-approve">
-                    <label for="stockVacation">{{
-                        "Stock Vacation" | translate
-                        }}</label>
-                    <p-checkbox formControlName="stockVacation" binary="true"></p-checkbox>
-                </div>
-
-
-                <div class="field field-approve">
-                    <label for="isAttachementRequired">{{
-                        "Attachement Required" | translate
-                        }}</label>
-                    <p-checkbox formControlName="isAttachementRequired" binary="true"></p-checkbox>
-                </div>
-            </div>
-
             <div class="field">
                 <button [disabled]="addNewForm.invalid" class="w-25" pButton [label]="'Insert New' | translate"
                     type="submit"></button>
@@ -123,15 +90,13 @@
                 {{ "Name" | translate }} <p-sortIcon field="name"></p-sortIcon>
             </th>
 
-            <!-- personal fields -->
-            <th>{{ "dayCount" | translate }}</th>
+            <!-- custom columns -->
+            <th>{{ "Employee Percent" | translate }}</th>
+            <th>{{ "Company Percent" | translate }}</th>
 
-            <!-- generic fields -->
+            <!-- generic columns -->
+
             <th>{{ "Notes" | translate }}</th>
-            <th>{{ "vacation starts after" | translate }}</th>
-            <th>{{ "managerApproved" | translate }}</th>
-            <th>{{ "hrApproved" | translate }}</th>
-            <th>{{ "stockVacation" | translate }}</th>
             <th>{{ "creationTime" | translate }}</th>
             <th>{{ "lastModificationTime" | translate }}</th>
             <th>{{ "creatorName" | translate }}</th>
@@ -145,64 +110,37 @@
             <td>
                 <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
             </td>
-            <td>
-                <span class="p-column-title">Id</span>
-                {{ rowData.id ? rowData.id : "" }}
-            </td>
+            <td><span class="p-column-title">Id</span> {{ rowData.id }}</td>
 
             <td [ngClass]="{ 'null-color': !rowData.name }">
                 <span class="p-column-title">Name</span>
                 {{ rowData.name ? rowData.name : "" }}
             </td>
 
-            <!-- personal fields -->
-
-            <td [ngClass]="{ 'null-color': !rowData.dayCount }">
-                <span class="p-column-title">dayCount</span>
-                {{ rowData.dayCount ? rowData.dayCount : "" }}
+            <!-- custom fields -->
+            <td [ngClass]="{ 'null-color': !rowData.employeePercent }">
+                <span class="p-column-title">employeePercent</span>
+                {{ rowData.employeePercent ? rowData.employeePercent + "%" : "" }}
             </td>
+            <td [ngClass]="{ 'null-color': !rowData.companyPercent }">
+                <span class="p-column-title">companyPercent</span>
+                {{ rowData.companyPercent ? rowData.companyPercent + "%" : "" }}
+            </td>
+
 
             <td [ngClass]="{ 'null-color': !rowData.notes }">
                 <span class="p-column-title">Notes</span>
                 {{ rowData.notes ? rowData.notes : "" }}
             </td>
 
-            <td [ngClass]="{ 'null-color': !rowData.vacationStart }">
-                <span class="p-column-title">vacationStart</span>
-                {{
-                rowData.vacationStart > 1
-                ? rowData.vacationStart + " " + ("Months" | translate)
-                : rowData.vacationStart === 1
-                ? " " + ("MONTH" | translate)
-                : ""
-                }}
-            </td>
-            <td [ngClass]="{ 'null-color': !rowData.mangerApproved }">
-                <span class="p-column-title">mangerApproved</span>
-                {{ rowData.mangerApproved }}
-            </td>
-
-            <td [ngClass]="{ 'null-color': !rowData.hrApproved }">
-                <span class="p-column-title">hrApproved</span>
-                {{ rowData.hrApproved }}
-            </td>
-
-            <td [ngClass]="{ 'null-color': !rowData.stockVacation }">
-                <span class="p-column-title">stockVacation</span>
-                {{ rowData.stockVacation }}
-            </td>
-
             <td [ngClass]="{ 'null-color': !rowData.creationTime }">
                 <span class="p-column-title">creationTime</span>
-                {{ rowData.creationTime ? rowData.creationTime : "" }}
+                {{ rowData.lastModificationTime | date : "dd/MM/YY - h:mm a" }}
             </td>
-
             <td [ngClass]="{ 'null-color': !rowData.lastModificationTime }">
                 <span class="p-column-title">lastModificationTime</span>
                 {{
-                rowData.lastModificationTime
-                ? rowData.lastModificationTime
-                : ""
+                rowData.lastModificationTime | date : "dd/MM/YYYY - h:mm a"
                 }}
             </td>
 
@@ -232,89 +170,68 @@
 <p-dialog [(visible)]="productDialog" [style]="{ width: '450px' }" [header]="'Item Details' | translate" [modal]="true"
     class="p-fluid">
     <ng-template pTemplate="content">
-        <form action="" [formGroup]="editForm" (submit)="saveProduct(product.id,editForm)">
+        <!-- EN Name -->
+        <form action="" [formGroup]="editForm" (submit)="saveProduct(product.id ,editForm)">
             <div class="field">
                 <label for="name">{{ "Arabic Name" | translate }}</label>
-                <input formControlName="name" type="text" pInputText id="name" [(ngModel)]="product.name" required
+                <input type="text" formControlName="name" pInputText id="name" [(ngModel)]="product.name" required
                     autofocus [ngClass]="{
                     'ng-invalid ng-dirty': submitted && !product.name
                 }" />
-
+                <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.name">{{ "Arabic Name is required." |
+                    translate }}</small>
             </div>
 
+            <!-- AR Name -->
             <div class="field">
                 <label for="engName">{{ "English Name" | translate }}</label>
                 <input formControlName="engName" type="text" pInputText id="engName" [(ngModel)]="product.engName"
                     required autofocus [ngClass]="{
                     'ng-invalid ng-dirty': submitted && !product.engName
                 }" />
-
+                <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.engName">{{ "English Name is required."
+                    |
+                    translate }}</small>
             </div>
 
+            <!-- employeePercent -->
             <div class="field">
-                <label htmlFor="numberOfDaysEdit">{{
-                    "number Of Days" | translate
-                    }}</label>
-                <input pInputText formControlName="dayCount" [(ngModel)]="product.dayCount"
-                    [placeholder]="'Enter number Of Days' | translate" id="numberOfDaysEdit" type="number" />
+                <label for="latitude">{{ "Employee Percent" | translate }}</label>
+                <input formControlName="employeePercent" type="number" pInputText id="latitude"
+                    [(ngModel)]="product.employeePercent" required autofocus [ngClass]="{
+                    'ng-invalid ng-dirty': submitted && !product.employeePercent
+                }" />
+
             </div>
 
+            <!-- companyPercent -->
+            <div class="field">
+                <label for="longitude">{{ "Company Percent" | translate }}</label>
+                <input formControlName="companyPercent" type="text" pInputText id="longitude"
+                    [(ngModel)]="product.companyPercent" required autofocus [ngClass]="{
+                    'ng-invalid ng-dirty': submitted && !product.companyPercent
+                }" />
+
+            </div>
+
+            <!-- Notes -->
             <div class="field">
                 <label for="notes">{{ "Notes" | translate }}</label>
-                <textarea formControlName="notes" id="notes" pInputTextarea [(ngModel)]="product.notes" required
-                    rows="3" cols="20"></textarea>
+                <textarea id="notes" formControlName="notes" pInputTextarea [(ngModel)]="product.notes" rows="3"
+                    cols="20"></textarea>
             </div>
 
-            <div class="field">
-                <label htmlFor="numberOfMonthsEdit">{{
-                    "number Of Months to start vacation" | translate
-                    }}</label>
-                <input formControlName="vacationStart" pInputText [(ngModel)]="product.vacationStart" [placeholder]="
-                    'Enter number Of Months to start vacation' | translate
-                " id="numberOfMonthsEdit" type="number" />
-            </div>
 
-            <div class="fields-aprrove">
-                <div class="field field-approve">
-                    <label for="mangerApproved">{{
-                        "Manger Approved" | translate
-                        }}</label>
-                    <p-checkbox formControlName="mangerApproved" [(ngModel)]="product.mangerApproved" binary="true"
-                        [(ngModel)]="product.mangerApproved"></p-checkbox>
-                </div>
-
-                <div class="field field-approve">
-                    <label for="mangerApproved">{{
-                        "Hr Approved" | translate
-                        }}</label>
-                    <p-checkbox formControlName="hrApproved" binary="true"
-                        [(ngModel)]="product.hrApproved"></p-checkbox>
-                </div>
-
-                <div class="field field-approve">
-                    <label for="stockVacation">{{
-                        "Stock Vacation" | translate
-                        }}</label>
-                    <p-checkbox formControlName="stockVacation" binary="true"
-                        [(ngModel)]="product.stockVacation"></p-checkbox>
-                </div>
-
-                <div class="field field-approve">
-                    <label for="isAttachementRequired">{{
-                        "Attachement Required" | translate
-                        }}</label>
-                    <p-checkbox formControlName="isAttachementRequired" binary="true"
-                        [(ngModel)]="product.isAttachementRequired"></p-checkbox>
-                </div>
-            </div>
             <div class="field btns">
+
                 <button pButton pRipple [label]="'Cancel' | translate" icon="pi pi-times" class="p-button-text"
-                    type="button" (click)="hideDialog()"></button>
-                <button pButton pRipple [label]="'Save' | translate" icon="pi pi-check" class="p-button-text"
-                    [disabled]="editForm.invalid" type="submit"></button>
+                    (click)="hideDialog()" type="button"></button>
+                <button [disabled]="editForm.invalid" pButton pRipple [label]="'Save' | translate" icon="pi pi-check"
+                    class="p-button-text" type="submit"></button>
             </div>
         </form>
     </ng-template>
+
 
 </p-dialog>
 
@@ -342,9 +259,9 @@
             }}</span>
     </div>
     <ng-template pTemplate="footer">
-        <button pButton pRipple icon="pi pi-times" class="p-button-text" [label]="'No' | translate"
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
             (click)="deleteProductsDialog = false"></button>
-        <button pButton pRipple icon="pi pi-check" class="p-button-text" [label]="'Yes' | translate"
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
             (click)="confirmDeleteSelected()"></button>
     </ng-template>
 </p-dialog>

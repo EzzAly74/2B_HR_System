@@ -55,6 +55,12 @@ import { AllowanceComponent } from './components/custom/allowance/allowance.comp
 import { CompanyBasicDataComponent } from './components/custom/company-basic-data/company-basic-data.component';
 import { MonthlyAllowenceComponent } from './components/custom/monthly-allowence/monthly-allowence.component';
 import { ResignationSettingComponent } from './components/custom/resignation-setting/resignation-setting.component';
+import { SendNotificationToAllComponent } from './components/custom/send-notification-to-all/send-notification-to-all.component';
+import { InsuranceConfigComponent } from './components/custom/insurance-config/insurance-config.component';
+import { LoanPolicyComponent } from './components/custom/loan-policy/loan-policy.component';
+import { LoanSettingsComponent } from './components/custom/loan-settings/loan-settings.component';
+import { LoanRequestComponent } from './components/custom/loan-request/loan-request.component';
+import { ResignationPolicyComponent } from './components/custom/resignation-policy/resignation-policy.component';
 
 @NgModule({
     imports: [
@@ -324,6 +330,31 @@ import { ResignationSettingComponent } from './components/custom/resignation-set
                 canActivate: [authGuard],
                 component: SetAssetCoordinatorComponent,
             },
+            {
+                path: 'SendNotificationToAll',
+                canActivate: [authGuard],
+                component: SendNotificationToAllComponent,
+            },
+            {
+                path: 'loanPolicy',
+                canActivate: [authGuard],
+                component: LoanPolicyComponent,
+            },
+            {
+                path: 'loanSettings',
+                canActivate: [authGuard],
+                component: LoanSettingsComponent,
+            },
+            {
+                path: 'loanRequest',
+                canActivate: [authGuard],
+                component: LoanRequestComponent,
+            },
+            {
+                path: 'resignationPolicy',
+                canActivate: [authGuard],
+                component: ResignationPolicyComponent,
+            },
 
             {
                 path: 'companyBasicData',
@@ -342,7 +373,12 @@ import { ResignationSettingComponent } from './components/custom/resignation-set
                 canActivate: [authGuard],
                 component: ResignationSettingComponent,
             },
+             {
 
+                path: 'insuranceConfig',
+                canActivate: [authGuard],
+                component: InsuranceConfigComponent,
+            },
             {
                 path: 'test',
                 canActivate: [authGuard],

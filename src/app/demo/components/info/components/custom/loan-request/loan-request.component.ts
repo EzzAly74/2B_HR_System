@@ -1,34 +1,27 @@
-import { BonusService } from './bonus.service';
 import { Component, Input, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Globals } from 'src/app/class/globals';
+import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
-import { itemsPerPageGlobal } from 'src/main';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { LoanRequestService } from './loan-request.service';
 
 @Component({
-    selector: 'app-bonus',
+    selector: 'app-loan-request',
     standalone: true,
     imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService],
-    templateUrl: './bonus.component.html',
-    styleUrl: './bonus.component.scss',
+    templateUrl: './loan-request.component.html',
+    styleUrl: './loan-request.component.scss',
 })
-export class BonusComponent {
-    selectedEmployee: any = null;
-    selectedManager: any = null;
-    selectedVacationType: any = null;
-    dropdownItemsVacationTypes: any;
-    dropdownItemsManagers: any;
-    dropdownItemsEmployees: any;
-    dropdownItemsDepartments: any;
-    selectedEmployeeAdd: any;
-    selectedMonthAdd: any;
+export class LoanRequestComponent {
     constructor(
-        private bonusService: BonusService,
-        private messageService: MessageService
+        private loanRequestService: LoanRequestService,
+        private messageService: MessageService,
+        private translate: TranslateService
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -47,68 +40,61 @@ export class BonusComponent {
     productDialog: boolean = false;
     product: any;
     event!: any;
+    newName!: string;
     newNotes!: string;
     showFormNew: boolean = false;
     sortField: string = 'id';
     sortOrder: string = 'asc';
-    allMonths: any = [];
-    month!: number;
-    year!: number;
-    closed: boolean = false;
-    selectedMonth: any = null;
-    selectedMonthEdit: any;
-    selectedDepartment: any = null;
-    selectedYear: any = null;
-    selectedYearEdit: number;
-    selectedEmployeeEdit: any = null;
+    newNameAr!: string;
+    newNameEn!: string;
 
-    selectedYearAdd: any = null;
-    filterForm: FormGroup = new FormGroup({
-        employeeId: new FormControl(null),
-        mangerId: new FormControl(null),
-        departmentId: new FormControl(null),
-        month: new FormControl(null),
-        year: new FormControl(null),
-    });
+    newLatitude: DoubleRange;
+    newLongitude: DoubleRange;
+    newDiscription: string;
+
+    dropdownItemsEmployees!: any;
+    dropdownItemsLoanTypes!: any;
+    dropdownItemsResponseTypes!: any;
+    dropdownItemsRepaymentTerms!: any;
+
+    acceptRequestDialogue: boolean = false;
+    rejectRequestDialogue: boolean = false;
+    notesAccept: string;
+    notesReject: string;
+    acceptAllDialogue: boolean = false;
+    rejectAllDialogue: boolean = false;
+
     addNewForm: FormGroup = new FormGroup({
-        employeeId: new FormControl(null, [Validators.required]),
-        month: new FormControl(null, [Validators.required]),
-        value: new FormControl(null, [Validators.required, Validators.min(0)]),
-        year: new FormControl(null, [
-            Validators.required,
-            Validators.min(1900),
-            Validators.max(2199),
-        ]),
-        notes: new FormControl(null),
+        EmployeeId: new FormControl(null, [Validators.required]),
+        LoanTypeId: new FormControl(null, [Validators.required]),
+        RepaymentTermId: new FormControl(null, [Validators.required]),
+        Reason: new FormControl(null, [Validators.required]),
+        Amount: new FormControl(null, [Validators.required]),
+        Notes: new FormControl(null),
     });
 
     editForm: FormGroup = new FormGroup({
         employeeId: new FormControl(null, [Validators.required]),
-        month: new FormControl(null, [Validators.required]),
-        value: new FormControl(null, [Validators.required, Validators.min(0)]),
-        year: new FormControl(null, [
-            Validators.required,
-            Validators.min(1900),
-            Validators.max(2199),
-        ]),
+        loanTypeId: new FormControl(null, [Validators.required]),
+        repaymentTermId: new FormControl(null, [Validators.required]),
+        reason: new FormControl(null, [Validators.required]),
+        amount: new FormControl(null, [Validators.required]),
         notes: new FormControl(null),
         id: new FormControl(null),
     });
 
     ngOnInit() {
-        this.endPoint = 'Bouns';
+        this.endPoint = 'LoanRequests';
 
         // adding this Configurations in each Component Customized
         Globals.getMainLangChanges().subscribe((mainLang) => {
             console.log('Main language changed to:', mainLang);
 
             // update mainLang at Service
-            this.bonusService.setCulture(mainLang);
+            this.loanRequestService.setCulture(mainLang);
 
             // update endpoint
-            this.bonusService.setEndPoint(this.endPoint);
-
-            this.getDropDowns();
+            this.loanRequestService.setEndPoint(this.endPoint);
 
             // then, load data again to lens on the changes of mainLang & endPoints Call
             this.loadData(
@@ -119,75 +105,88 @@ export class BonusComponent {
                 this.sortOrder
             );
         });
+        this.getAllDropdowns();
 
         this.cols = [
-            // main field
+            // basic data
             { field: 'name', header: 'Name' },
 
-            // personal fields
-
-            { field: 'numberOfHours', header: 'NumberOfHours' },
-
-            // main field
+            // custom fields
+            { field: 'latitude', header: 'Lotes' },
+            { field: 'longitude', header: 'Longitude' },
+            { field: 'discription', header: 'Discription' },
             { field: 'notes', header: 'Notes' },
 
             // Generic Fields
-            { field: 'creationTime', header: 'CreationTime' },
-            { field: 'lastModificationTime', header: 'LastModificationTime' },
-            { field: 'creatorName', header: 'CreatorName' },
-            { field: 'lastModifierName', header: 'LastModifierName' },
+            { field: 'creationTime', header: 'creationTime' },
+            { field: 'lastModificationTime', header: 'lastModificationTime' },
+            { field: 'creatorName', header: 'creatorName' },
+            { field: 'lastModifierName', header: 'lastModifierName' },
         ];
-
-        this.bonusService.getMonths().subscribe({
+    }
+    getAllDropdowns() {
+        this.loanRequestService.getDropdownEnum('getRequestType').subscribe({
             next: (res) => {
-                this.allMonths = res.data;
-                console.log(this.allMonths);
+                console.log(res.data);
+                this.dropdownItemsResponseTypes = res.data;
+                console.log(this.dropdownItemsResponseTypes);
+            },
+            error: (err) => {
+                console.log(err);
             },
         });
 
-        this.selectedYear = null;
+        this.loanRequestService.getDropdownField('Employee').subscribe({
+            next: (res) => {
+                console.log(res.data);
+                this.dropdownItemsEmployees = res.data;
+                console.log(this.dropdownItemsEmployees);
+            },
+            error: (err) => {
+                console.log(err);
+            },
+        });
+
+        this.loanRequestService.getDropdownField('LoanTypes').subscribe({
+            next: (res) => {
+                console.log(res.data);
+                this.dropdownItemsLoanTypes = res.data;
+                console.log(this.dropdownItemsLoanTypes);
+            },
+            error: (err) => {
+                console.log(err);
+            },
+        });
+
+        this.loanRequestService.getDropdownField('RepaymentTerms').subscribe({
+            next: (res) => {
+                console.log(res.data);
+                this.dropdownItemsRepaymentTerms = res.data;
+                console.log(this.dropdownItemsRepaymentTerms);
+            },
+            error: (err) => {
+                console.log(err);
+            },
+        });
     }
 
     editProduct(rowData: any) {
-        this.bonusService.GetById(rowData.id).subscribe({
+        console.log(rowData.id);
+        this.loanRequestService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
-                this.selectedMonthEdit = this.allMonths.find(
-                    (month: any) => month.id === res.data.month
-                );
-                this.selectedYearEdit = res.data.year;
-                console.log(this.dropdownItemsEmployees);
-                this.selectedEmployeeEdit = this.getObjectById(
-                    res.data.employeeId,
-                    this.dropdownItemsEmployees
-                );
-                console.log(this.selectedEmployeeEdit);
-
-                console.log(this.selectedMonthEdit);
-
                 this.product = { ...res.data };
                 this.productDialog = true;
+            },
+            error: (err) => {
+                console.log(err);
             },
         });
     }
 
-    splitCamelCase(str: any) {
-        return str
-            .replace(/([A-Z])/g, ' $1')
-            .trim()
-            .replace(/\s+/g, ' ')
-            .split(' ')
-            .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(' ');
-    }
-
-    startAttendeesTimeClick(event: any) {}
-
-    endAttendeesTimeClick(event: any) {}
-
     confirmDelete(id: number) {
         // perform delete from sending request to api
-        this.bonusService.deleteById(id).subscribe({
+        this.loanRequestService.DeleteSoftById(id).subscribe({
             next: () => {
                 // close dialog
                 this.deleteProductDialog = false;
@@ -196,7 +195,7 @@ export class BonusComponent {
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Successful',
-                    detail: 'Item Deleted',
+                    detail: 'Product Deleted',
                     life: 3000,
                 });
 
@@ -209,35 +208,52 @@ export class BonusComponent {
                     this.sortOrder
                 );
             },
+            error: (err) => {
+                console.log(err);
+            },
         });
     }
 
     addNew(form: FormGroup) {
-        // Confirm add new
-        this.bonusService.Register(form.value).subscribe({
+        console.log(form);
+
+        const formData: FormData = new FormData();
+
+        for (const key in form.value) {
+            if (form.value.hasOwnProperty(key)) {
+                formData.append(key, form.value[key]);
+            }
+        }
+
+        this.loanRequestService.Register(formData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
                 if (res.success) {
+                    // show message for success inserted
                     this.messageService.add({
                         severity: 'success',
-                        summary: 'Successful',
-                        detail: 'inserted successfully',
+                        summary: this.translate.instant('Success'),
+                        detail: res.message,
                         life: 3000,
                     });
-
                     // set fields is empty
                     form.reset();
-
-                    // load data again
-                    this.loadData(
-                        this.page,
-                        this.itemsPerPage,
-                        this.nameFilter,
-                        this.sortField,
-                        this.sortOrder
-                    );
                 }
+
+                // load data again
+                this.loadData(
+                    this.page,
+                    this.itemsPerPage,
+                    this.nameFilter,
+                    this.sortField,
+                    this.sortOrder
+                );
+            },
+            error: (err) => {
+                this.showFormNew = false;
+
+                console.log(err);
             },
         });
     }
@@ -253,8 +269,12 @@ export class BonusComponent {
     }
 
     setFieldsNulls() {
-        (this.month = null), (this.year = null), (this.newNotes = null);
-        this.closed = false;
+        (this.newNameAr = null),
+            (this.newNameEn = null),
+            (this.newNotes = null),
+            (this.newDiscription = null),
+            (this.newLatitude = null),
+            (this.newLongitude = null);
     }
 
     loadData(
@@ -274,7 +294,7 @@ export class BonusComponent {
         };
         filteredData.sortType = this.sortOrder;
 
-        this.bonusService.GetPage(filteredData).subscribe({
+        this.loanRequestService.GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
@@ -283,6 +303,10 @@ export class BonusComponent {
                 this.totalItems = res.totalItems;
                 this.loading = false;
                 console.log(this.selectedItems);
+            },
+            error: (err) => {
+                console.log(err);
+                this.loading = false;
             },
         });
     }
@@ -328,29 +352,31 @@ export class BonusComponent {
             id: id,
         });
 
-        console.log(form.value);
-
-        this.bonusService.Edit(form.value).subscribe({
+        this.loanRequestService.Edit(form.value).subscribe({
             next: (res) => {
                 this.hideDialog();
-                // show message for user to show processing of deletion.
+
                 if (res.success) {
+                    // show message for user to show processing of deletion.
                     this.messageService.add({
                         severity: 'success',
-                        summary: 'Successful',
+                        summary: this.translate.instant('Success'),
                         detail: res.message,
                         life: 3000,
                     });
-
-                    // load data again
-                    this.loadData(
-                        this.page,
-                        this.itemsPerPage,
-                        this.nameFilter,
-                        this.sortField,
-                        this.sortOrder
-                    );
                 }
+
+                // load data again
+                this.loadData(
+                    this.page,
+                    this.itemsPerPage,
+                    this.nameFilter,
+                    this.sortField,
+                    this.sortOrder
+                );
+            },
+            error: (err) => {
+                console.log(err);
             },
         });
     }
@@ -381,6 +407,16 @@ export class BonusComponent {
         link.click();
     }
 
+    splitCamelCase(str: any) {
+        return str
+            .replace(/([A-Z])/g, ' $1')
+            .trim()
+            .replace(/\s+/g, ' ')
+            .split(' ')
+            .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    }
+
     convertToCSV(data: any[]): string {
         if (!data || !data.length) return '';
 
@@ -399,7 +435,6 @@ export class BonusComponent {
         csvContent.unshift(keys.join(separator)); // Add header row
         return csvContent.join('\r\n'); // Join all rows
     }
-
     confirmDeleteSelected() {
         let selectedIds = [];
         console.log('Selected Items :');
@@ -408,7 +443,7 @@ export class BonusComponent {
             selectedIds.push(item.id);
         });
 
-        this.bonusService.DeleteRange(selectedIds).subscribe({
+        this.loanRequestService.DeleteRangeSoft(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
                 this.messageService.add({
@@ -439,92 +474,73 @@ export class BonusComponent {
         }
     }
     sortByName(event: any) {
-        this.sortField = 'employeeName';
+        this.sortField = 'name';
+    }
+    acceptRequest(product: any) {
+        this.acceptRequestDialogue = true;
+        this.product = { ...product };
+    }
+    rejectRequest(product: any) {
+        this.rejectRequestDialogue = true;
+        this.product = { ...product };
     }
 
-    changeMonth(event: any) {
-        console.log(event);
-        this.selectedMonth = event.value.id;
-        console.log(this.selectedMonth);
-    }
-    changeYear(event: any) {
-        console.log('Selected year:', this.selectedYear);
-    }
-
-    submitForm(form: FormGroup) {
-        console.log(form.value);
-        const removeNulls = (obj: any) => {
-            return Object.fromEntries(
-                Object.entries(obj).filter(([_, value]) => value !== null)
-            );
-        };
-        const formValueNotNull = removeNulls(form.value);
-
-        const filterPaginator = {
-            PageNumber: this.page,
-            PageSize: this.itemsPerPage,
-            FilterValue: this.nameFilter,
-            FilterType: this.sortField,
-            SortType: this.sortOrder,
+    confirmAccept(rowData: any) {
+        console.log(rowData);
+        let body = {
+            id: rowData.id,
+            status: 1,
+            notes: this.notesAccept,
         };
 
-        const filteredData = { ...formValueNotNull, ...filterPaginator };
-        console.log(filteredData);
-
-        if (form.status == 'VALID') {
-            this.bonusService.GetPage(filteredData).subscribe({
-                next: (res) => {
-                    this.allData = res.data;
-                    console.log(res.data);
-                },
-                error: (err) => {
-                    console.log(err);
-                },
-            });
-        }
+        this.loanRequestService.updateRequestType(body).subscribe({
+            next: (res) => {
+                console.log(res);
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Success',
+                    detail: 'Request Accepted Successfully',
+                    life: 3000,
+                });
+                this.acceptRequestDialogue = false;
+                this.loadData(
+                    this.page,
+                    this.itemsPerPage,
+                    this.nameFilter,
+                    this.sortField,
+                    this.sortOrder
+                );
+            },
+        });
+        this.notesAccept = '';
     }
-    getDropDowns() {
-        this.bonusService.getDropdownField('Employee').subscribe({
-            next: (res) => {
-                console.log(res.data);
-                this.dropdownItemsEmployees = res.data;
-            },
-            error: (err) => {
-                console.log(err);
-            },
-        });
+    confirmReject(rowData: any) {
+        console.log(rowData);
 
-        this.bonusService.getDropdownField('Department').subscribe({
+        let body = {
+            id: rowData.id,
+            status: 2,
+            notes: this.notesReject,
+        };
+        this.loanRequestService.updateRequestType(body).subscribe({
             next: (res) => {
-                console.log(res.data);
-                this.dropdownItemsDepartments = res.data;
-            },
-            error: (err) => {
-                console.log(err);
+                console.log(res);
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Success',
+                    detail: 'Request Rejected Successfully',
+                    life: 3000,
+                });
+                this.rejectRequestDialogue = false;
+                this.loadData(
+                    this.page,
+                    this.itemsPerPage,
+                    this.nameFilter,
+                    this.sortField,
+                    this.sortOrder
+                );
             },
         });
-
-        this.bonusService.getManagerDropdown().subscribe({
-            next: (res) => {
-                console.log(res.data);
-                this.dropdownItemsManagers = res.data;
-            },
-            error: (err) => {
-                console.log(err);
-            },
-        });
-
-        this.bonusService.getDropdownField('Location').subscribe({
-            next: (res) => {
-                console.log(res.data);
-                this.dropdownItemsVacationTypes = res.data;
-            },
-            error: (err) => {
-                console.log(err);
-            },
-        });
-    }
-    getObjectById(id: number, arr: any[]) {
-        return arr.find((person) => person.id === id);
+        this.notesReject = '';
     }
 }

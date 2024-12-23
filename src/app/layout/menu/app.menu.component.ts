@@ -217,6 +217,11 @@ export class AppMenuComponent implements OnInit {
                                 icon: 'pi pi-fw pi-home',
                                 routerLink: ['/info/resignation'],
                             },
+                            {
+                                label: this.translate.instant('Loan Requests'),
+                                icon: 'pi pi-fw pi-home',
+                                routerLink: ['/info/loanRequest'],
+                            },
                         ],
                     },
                     {
@@ -285,6 +290,15 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/partition'],
                             },
                             {
+                                label: this.translate.instant('Loan Policies'),
+                                routerLink: ['/info/loanPolicy'],
+                            },
+
+                            {
+                                label: this.translate.instant('Loan Settings'),
+                                routerLink: ['/info/loanSettings'],
+                            },
+                            {
                                 label: this.translate.instant(
                                     'Company Policies'
                                 ),
@@ -345,6 +359,12 @@ export class AppMenuComponent implements OnInit {
                             },
                             {
                                 label: this.translate.instant(
+                                    'Insurance Types'
+                                ),
+                                routerLink: ['/info/insuranceConfig'],
+                            },
+                            {
+                                label: this.translate.instant(
                                     'Company Assets Categories'
                                 ),
                                 routerLink: ['/info/CovenantCategory'],
@@ -366,6 +386,12 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/vacationSetting'],
                             },
                             {
+                                label: this.translate.instant(
+                                    'Resignation Settings'
+                                ),
+                                routerLink: ['/info/resignationPolicy'],
+                            },
+                            {
                                 label: this.translate.instant('Internal Jobs'),
                                 routerLink: ['/info/InternalJobs'],
                             },
@@ -383,6 +409,30 @@ export class AppMenuComponent implements OnInit {
                                 icon: 'pi pi-fw pi-home',
                                 routerLink: ['/info/resignationSetting'],
                             },
+                        ],
+                    },
+
+                    {
+                        label: this.translate.instant('Notifications'),
+                        svg: this.sanitizer.bypassSecurityTrustHtml(`
+                           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 21.75C13.1 21.75 14 20.85 14 19.75H10C10 20.85 10.9 21.75 12 21.75ZM18 15.75V10.75C18 7.68 16.37 5.11 13.5 4.43V3.75C13.5 2.92 12.83 2.25 12 2.25C11.17 2.25 10.5 2.92 10.5 3.75V4.43C7.64 5.11 6 7.67 6 10.75V15.75L4 17.75V18.75H20V17.75L18 15.75ZM16 16.75H8V10.75C8 8.27 9.51 6.25 12 6.25C14.49 6.25 16 8.27 16 10.75V16.75Z" fill="#2D3250"/>
+                            </svg>
+
+                            `),
+                        items: [
+                            {
+                                label: this.translate.instant(
+                                    'Notify All Employees'
+                                ),
+                                routerLink: ['/info/SendNotificationToAll'],
+                            },
+
+                            // {
+                            //     label: this.translate.instant('Resignation'),
+                            //     icon: 'pi pi-fw pi-home',
+                            //     routerLink: ['/info/resignation'],
+                            // },
                         ],
                     },
                 ],

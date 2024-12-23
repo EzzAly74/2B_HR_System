@@ -1,0 +1,61 @@
+<p-toast></p-toast>
+<div class="grid justify-content-center">
+    <div class="col-12 lg:col-6">
+        <div class="card">
+            <h5 class="text-center">{{ 'Resignation Settings' | translate }}</h5>
+            <form class="p-fluid p-formgrid grid" [formGroup]="resignationSettingForm"
+                (ngSubmit)="onSubmit(resignationSettingForm)">
+
+                <!-- Notice Period -->
+                <div class="field col-12">
+                    <label for="noticePeriod">{{ 'Notice Period (Days)' | translate }}</label>
+                    <input pInputText id="noticePeriod" name="noticePeriod" type="number"
+                        formControlName="noticePeriodInDays" [placeholder]="'Enter Notice Period in Days'|translate"
+                        [min]="1" [max]="365" />
+                </div>
+
+                <!-- Resignation Instructions -->
+                <div class="field col-12">
+                    <label>{{ 'Resignation Instructions' | translate }}</label>
+                    <div formArrayName="resignationInstructions">
+                        <div *ngFor="let instruction of resignationInstructions.controls; let i = index"
+                            [formGroupName]="i">
+                            <div class="p-fluid grid">
+                                <!-- Arabic Instruction -->
+                                <div class="field col-5">
+                                    <input pInputText type="text" [placeholder]="'Instruction Arabic'| translate"
+                                        formControlName="instructionArabic" />
+                                </div>
+
+                                <!-- English Instruction -->
+                                <div class="field col-5">
+                                    <input pInputText type="text" [placeholder]="'Instruction English' | translate"
+                                        formControlName="instructionEnglish" />
+                                </div>
+
+                                <!-- Remove Button -->
+                                <div class="field col-2">
+                                    <button pButton icon="pi pi-times" class="p-button-rounded p-button-danger"
+                                        type="button" (click)="removeInstruction(i)">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button pButton type="button" icon="pi pi-plus" class="p-button-sm p-button-success mt-2"
+                        (click)="addInstruction()" [label]="'Add Instruction' | translate">
+                    </button>
+                </div>
+
+
+
+                <!-- Submit Button -->
+                <div class="field col-12">
+                    <button pButton pRipple type="submit" [disabled]="resignationSettingForm.invalid"
+                        [label]="'Update Setting' | translate" class="p-button-raised p-button-info">
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
