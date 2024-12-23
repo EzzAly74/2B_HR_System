@@ -1,0 +1,47 @@
+<p-toast></p-toast>
+<div class="grid justify-content-center">
+    <div class="col-12 lg:col-6">
+        <div class="card">
+            <h5 class="text-center">{{'COMPANYBASICDATA' | translate}}</h5>
+            <form class="p-fluid p-formgrid grid" [formGroup]="companyData"
+                (submit)="registerData(companyData)">
+
+                <div class="field col-12">
+                    <label htmlFor="companyName">{{ "companyName" | translate }} </label>
+                    <input pInputText formControlName="companyName" [placeholder]="'Enter companyName Here' | translate"
+                        id="companyName" type="text"  [(ngModel)]="company.companyName" />
+                </div>
+
+                <div class="field col-12">
+                    <label htmlFor="companyAddress">{{ "companyAddress" | translate }} </label>
+                    <input pInputText formControlName="companyAddress" [placeholder]="'Enter companyAddress Here' | translate"
+                        id="companyAddress" type="text" [(ngModel)]="company.companyAddress" />
+                </div>
+
+                <div class="field col-12">
+                    <label htmlFor="companyPhone">{{ "companyPhone" | translate }} </label>
+                    <input pInputText formControlName="companyPhone" [placeholder]="'Enter companyPhone Here' | translate"
+                        id="companyPhone" type="text" [(ngModel)]="company.companyPhone" />
+                </div>
+
+                <div class="field col-12">
+                    <label htmlFor="hrEmail">{{ "hrEmail" | translate }} </label>
+                    <input pInputText formControlName="hrEmail" [placeholder]="'Enter hrEmail Here' | translate"
+                        id="hrEmail" type="text" [(ngModel)]="company.hrEmail" />
+                </div>
+
+                <div class="field col-12">
+                    <label htmlFor="PayRollAccountantPhone">{{ "PayRollAccountantPhone" | translate }} </label>
+                    <input pInputText formControlName="payRollAccountantPhone" [placeholder]="'Enter PayRollAccountantPhone Here' | translate"
+                        id="PayRollAccountantPhone" type="text" [(ngModel)]="company.payRollAccountantPhone" />
+                </div>
+
+
+                <div class="field col-12">
+                    <button [disabled]="companyData.invalid" class="w-25" pButton
+                        [label]="'Send' | translate" type="submit"></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

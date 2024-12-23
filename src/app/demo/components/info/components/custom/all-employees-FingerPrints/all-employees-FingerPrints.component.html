@@ -25,13 +25,14 @@
                 [(ngModel)]="selectedPartition"
                 optionLabel="name"
                 name="selectedPartition"
+                [disabled]="!selectedDepartment"
                 [showClear]="true"
             >
             <ng-template pTemplate="selectedItem" let-selectedItem>
                 {{
                     selectedItem
                         ? (selectedItem.name | translate)
-                        : ('Select a Partition' | translate)
+                        : ('Select Department Firstly' | translate)
                 }}
             </ng-template>
             </p-dropdown>
@@ -63,6 +64,7 @@
                 [options]="dropdownItemsEmployee"
                 optionLabel="name"
                 [showClear]="true"
+                [disabled]="!selectedEmployeeManager"
                 (onChange)="selectSpecEmployee($event)"
                 name="selectedEmployee">
             <ng-template pTemplate="selectedItem" let-selectedItem>
@@ -96,7 +98,7 @@
                 [(ngModel)]="selectedShift"
                 name="selectedShift"
                 optionLabel="name"
-                [placeholder]="'Select a Shift' | translate"
+                [placeholder]="'Select Shift' | translate"
                 [showClear]="true"
             ></p-dropdown>
         </div>
@@ -109,7 +111,7 @@
                 [(ngModel)]="selectedJob"
                 optionLabel="name"
                 name="selectedJob"
-                [placeholder]="'Select a Job' | translate"
+                [placeholder]="'Select Job' | translate"
                 [showClear]="true"
             ></p-dropdown>
         </div>
@@ -125,7 +127,7 @@
                 name="selectedDateFrom"
                 [iconDisplay]="'input'"
                 [showIcon]="true"
-                [placeholder]="'mm/dd/yyyy' | translate"
+                [placeholder]="'MM/DD/YYYY' | translate"
                 inputId="selectedDateFrom"
                 (onSelect)="selectDateFrom($event)"
             >
@@ -143,7 +145,7 @@
                 name="selectedDateTo"
                 [iconDisplay]="'input'"
                 [showIcon]="true"
-                [placeholder]="'mm/dd/yyyy' | translate"
+                [placeholder]="'MM/DD/YYYY' | translate"
                 inputId="selectedDateTo"
                 (onSelect)="selectDateTo($event)"
             >
@@ -152,7 +154,7 @@
         </div>
 
         <!-- Filter -->
-        <div class="field col-12 lg:col-2">
+        <div class="field action-filter col-12 sm:col-4 md:col-4 xl:col-2">
             <button (click)="onFilterClickButton()" type="submit" class="ms-5 text-center" pButton>
                 <i class="pi pi-filter"></i>
                 <span class="px-2"> {{ "Filter Finger Print" | translate }} </span>
@@ -185,7 +187,7 @@
                     type="text"
                     pInputText
                     [(ngModel)]="nameFilter"
-                    placeholder="Global Search"
+                    [placeholder]="'Search...' | translate"
                     (input)="loadFilteredData()" />
             </div>
         </div>
@@ -193,14 +195,14 @@
     <ng-template pTemplate="header" let-columns>
         <tr>
             <th *ngFor="let col of columns" [ttSortableColumn]="col.field">
-                {{ col.header }}
+                {{ col.header | translate}}
                 <p-treeTableSortIcon [field]="col.field" />
             </th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
         <tr [ttRow]="rowNode">
-            <td *ngFor="let col of columns; let i = index">
+            <td *ngFor="let col of columns; let i = index;">
                 <p-treeTableToggler [rowNode]="rowNode" *ngIf="i === 0" />
                 <span> {{ rowData[col.field]}} </span>
             </td>

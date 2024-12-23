@@ -8,6 +8,10 @@
     border: none;
   }
 
+::ng-deep .p-fluid .p-button-icon-only {
+    border: none !important;
+}
+
 ::ng-deep .p-fileupload-buttonbar .ng-star-inserted {
     display: none;
 }

@@ -15,19 +15,19 @@ import { FormGroup } from '@angular/forms';
 @Component({
     selector: 'app-std-paginations-with-popup',
     standalone: true,
+    templateUrl: './std-paginations-with-popup.component.html',
+    styleUrl: './std-paginations-with-popup.component.scss',
     imports: [
         GlobalsModule,
         PrimeNgModule
     ],
     providers: [MessageService],
-    templateUrl: './std-paginations-with-popup.component.html',
-    styleUrl: './std-paginations-with-popup.component.scss',
 })
 export class StdPaginationsWithPopupComponent{
     constructor(
         private _LockupsService: LockupsService,
         private messageService: MessageService , 
-    private translate : TranslateService) {
+        private translate : TranslateService) {
     }
 
     @ViewChild('dt') dt: Table;

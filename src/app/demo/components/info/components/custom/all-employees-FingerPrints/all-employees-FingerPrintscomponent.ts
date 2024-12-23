@@ -7,6 +7,8 @@ import { itemsPerPageGlobal } from 'src/main';
 import { AllEmployeeFingerPrintsService } from './all-employees-FingerPrints.service';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { Globals } from 'src/app/class/globals';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-all-employees-fingerPrints',
@@ -23,8 +25,9 @@ export class AllEmployeesFingerPrintComponent {
     constructor(
         private _AllEmployeeFingerPrintsService: AllEmployeeFingerPrintsService,
         private messageService: MessageService,
-        private datePipe: DatePipe
-    ) {}
+        private datePipe: DatePipe,
+        private translate: TranslateService,
+    ) { }
 
     @ViewChild('dt') dt: Table;
     id!: number;
@@ -47,7 +50,7 @@ export class AllEmployeesFingerPrintComponent {
     sortOrder: string = 'asc';
 
     locationDropDown: any;
-    isCollapsed: boolean ;
+    isCollapsed: boolean;
 
     // for all employees customize
     dropdownItemsEmployee: any;
@@ -76,26 +79,47 @@ export class AllEmployeesFingerPrintComponent {
         this.endPoint = 'FingerPrint';
         this.isCollapsed = true; // closed
 
-        this._AllEmployeeFingerPrintsService.setEndPoint(this.endPoint);
 
-        this.cols = [
-            { field: 'employeeName', header: 'Employee Name' },
-            { field: 'locationName', header: 'Location Names' },
-            { field: 'dateAndTime', header: 'Date And Times' },
-        ];
 
-        // get DropDowns
-        this.getAllDropDowns();
 
-        // load filtered data at init.
-        this.loadFilteredData();
+        Globals.getMainLangChanges().subscribe((mainLang) => {
+            console.log('Main language changed to:', mainLang);
+            this._AllEmployeeFingerPrintsService.setEndPoint(this.endPoint);
+            this._AllEmployeeFingerPrintsService.setCulture(mainLang);
+
+            this.cols = [
+                { field: 'employeeName', header: 'Employee Name' },
+                { field: 'locationName', header: 'Location Names' },
+                { field: 'dateAndTime', header: 'Date And Times' },
+            ];
+
+            // get DropDowns
+            this.getAllDropDowns();
+
+            // load filtered data at init.
+            this.loadData(
+                this.page,
+                this.itemsPerPage,
+                this.nameFilter,
+                this.sortField,
+                this.sortOrder,
+                this.selectedEmployee,
+                this.selectedDepartment,
+                this.selectedEmployeeManager,
+                this.selectedLocation,
+                this.selectedShift,
+                this.selectedPartition,
+                this.selectedJob,
+            );
+
+        });
 
     }
 
     getDistinctNumberLocations(timelocations: any[]) {
         let allLocations = [];
 
-        timelocations.map(eachOne => allLocations.push( eachOne.locationName ))
+        timelocations.map(eachOne => allLocations.push(eachOne.locationName))
 
         let uniqueValues = [...new Set(allLocations)];
 
@@ -110,8 +134,8 @@ export class AllEmployeesFingerPrintComponent {
             let node = {
                 data: {
                     employeeName: raw.employeeName,
-                    dateAndTime: this.datePipe.transform( raw.date, 'dd/MM/yyyy'),
-                    locationName: `${locationCount} ${ locationCount>1? 'Locations': 'Location'}`,
+                    dateAndTime: this.datePipe.transform(raw.date, 'dd/MM/yyyy'),
+                    locationName: `${locationCount} ${locationCount > 1 ? this.translate.instant("LOCATIONS") : this.translate.instant("LOCATION")}`,
                 },
                 children: []
             };
@@ -156,14 +180,14 @@ export class AllEmployeesFingerPrintComponent {
             enum: 'Department',
         });
 
-         // get Shift Dropdown
-         this.getDropDownField({
+        // get Shift Dropdown
+        this.getDropDownField({
             field: 'dropdownItemsShift',
             enum: 'Shift',
         });
 
-         // get Job Dropdown
-         this.getDropDownField({
+        // get Job Dropdown
+        this.getDropDownField({
             field: 'dropdownItemsJob',
             enum: 'Job',
         });
@@ -175,16 +199,16 @@ export class AllEmployeesFingerPrintComponent {
             next: (res) => {
                 this[self.field] = res.data;
             },
-          
+
         });
     }
 
-    getDropDownFieldManager(self: { field: any;}) {
+    getDropDownFieldManager(self: { field: any; }) {
         this._AllEmployeeFingerPrintsService.getDropDownManager().subscribe({
             next: (res) => {
                 this[self.field] = res.data;
             },
-           
+
         });
     }
 
@@ -199,9 +223,9 @@ export class AllEmployeesFingerPrintComponent {
         let dateFrom: any,
             dateTo: any;
 
-        if(this.selectedDateFrom || this.selectedDateTo) {
+        if (this.selectedDateFrom || this.selectedDateTo) {
             dateFrom = this.datePipe.transform(this.selectedDateFrom, 'yyyy-MM-dd');
-            dateTo = this.datePipe.transform( this.selectedDateTo, 'yyyy-MM-dd');
+            dateTo = this.datePipe.transform(this.selectedDateTo, 'yyyy-MM-dd');
         }
 
         this.loadData(
@@ -310,7 +334,7 @@ export class AllEmployeesFingerPrintComponent {
         console.log('FilteredData From here');
         console.log(filteredData);
 
-        let filteredDataForm:FormData = this.jsonToFormData(filteredData);
+        let filteredDataForm: FormData = this.jsonToFormData(filteredData);
 
         this._AllEmployeeFingerPrintsService.GetPage(filteredDataForm).subscribe({
             next: (res) => {
@@ -321,28 +345,28 @@ export class AllEmployeesFingerPrintComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-            
+
         });
     }
 
     // for dropdown Departments
     whenChangeDepartment() {
         this._AllEmployeeFingerPrintsService.getPartationByDepartmentId(this.selectedDepartment.id).subscribe({
-            next: (res)=> {
+            next: (res) => {
                 this.dropdownItemsPartition = res.data;
             },
-            
+
         })
     }
 
     // for dropdown Managers
     whenChangeManager() {
         this._AllEmployeeFingerPrintsService.GetEmployeeOfMangerDropDown(this.selectedEmployeeManager.id).subscribe({
-            next: (res)=> {
+            next: (res) => {
                 this.dropdownItemsEmployee = res.data;
             },
-            
-            
+
+
         })
     }
 
@@ -410,17 +434,16 @@ export class AllEmployeesFingerPrintComponent {
         return csvContent.join('\r\n'); // Join all rows
     }
 
-    selectSpecEmployee(event:any)
-    {
+    selectSpecEmployee(event: any) {
         this.selectedEmployee = event.value;
     }
 
-    selectDateTo(event:any){
+    selectDateTo(event: any) {
         console.log(event);
-        this.selectedDateTo = event ;
+        this.selectedDateTo = event;
     }
-    selectDateFrom(event:any){
+    selectDateFrom(event: any) {
         console.log(event);
-        this.selectedDateFrom = event ;
+        this.selectedDateFrom = event;
     }
 }

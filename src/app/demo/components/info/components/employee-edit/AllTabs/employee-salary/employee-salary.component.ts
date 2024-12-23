@@ -54,18 +54,12 @@ export class EmployeeSalaryComponent {
     empId: number;
     year: number;
     basicSalry: number;
-    changing: number;
-    badal: number;
     hawafez: number;
-    kpi: number;
 
     // for edit
     yearEdit: number;
     basicSalryEdit: number;
-    changingEdit: number;
-    badalEdit: number;
     hawafezEdit: number;
-    kpiEdit: number;
 
     ngOnInit() {
         this.route.parent?.paramMap.subscribe((params) => {
@@ -80,10 +74,7 @@ export class EmployeeSalaryComponent {
         this.cols = [
             // custom fields
             { field: 'employeeName', header: 'Employee' },
-            { field: 'badal', header: 'Badal' },
             { field: 'basicSalry', header: 'BasicSalry' },
-            { field: 'kpi', header: 'KPI' },
-            { field: 'changing', header: 'Changing' },
             { field: 'hawafez', header: 'Hawafez' },
             { field: 'year', header: 'Year' },
 
@@ -149,16 +140,14 @@ export class EmployeeSalaryComponent {
     addNew() {
         let body = {
             employeeId: this.empId,
-            badal: this.badal,
             basicSalry: this.basicSalry,
-            kpi: this.kpi,
-            changing: this.changing,
             hawafez: this.hawafez,
             year: this.year,
         };
 
         this._EmployeeSalaryService.Register(body).subscribe({
             next: (res) => {
+
                 console.log(res);
                 this.showFormNew = false;
                 // show message for success inserted
@@ -203,7 +192,11 @@ export class EmployeeSalaryComponent {
         );
     }
 
-    setFieldsNulls() {}
+    setFieldsNulls() {
+        this.year = null;
+        this.basicSalry = null;
+        this.hawafez = null;
+    }
 
     loadData(
         page: number,
@@ -434,6 +427,7 @@ export class EmployeeSalaryComponent {
             this.sortOrder = 'asc';
         }
     }
+
     sortByName(event: any) {
         this.sortField = 'name';
     }
