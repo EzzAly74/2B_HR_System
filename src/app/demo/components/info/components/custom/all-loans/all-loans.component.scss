@@ -1,0 +1,39 @@
+.btns {
+    display: flex;
+    gap: 8px;
+    width: 50%;
+}
+.accepted-request span {
+    padding: 8px;
+    background-color: #cde8ce;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.rejected-request span {
+    padding: 8px;
+    background-color: #f8d7da;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.pending-request span {
+    padding: 8px;
+    background-color: #cce5ff;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.notes-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.notes-container .field {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}

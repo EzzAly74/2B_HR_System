@@ -12,8 +12,14 @@
         </div>
     </ng-template>
     <ng-template pTemplate="right">
-        <button pButton pRipple [label]="'Export' | translate" icon="pi pi-upload" class="p-button-help mx-2 px-5"
+        <p-fileUpload mode="basic" [chooseLabel]="'Import File' | translate" chooseIcon="pi pi-upload" name="demo[]"
+            maxFileSize="1000000"
+            accept=".xls, .xlsx, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            (onSelect)="onFileSelect($event)" [auto]="true" />
+
+        <button pButton pRipple [label]="'Export' | translate" icon="pi pi-download" class="p-button-help mx-2 px-5"
             pTooltip="CSV" (click)="exportCSV()" [disabled]="!selectedItems || !selectedItems.length"></button>
+
     </ng-template>
 </p-toolbar>
 

@@ -1,42 +1,35 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import {
-    FormControl,
-    FormsModule,
-    ReactiveFormsModule,
-    Validators,
-} from '@angular/forms';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { LockupsService } from '../../service/lockups.service';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Globals } from 'src/app/class/globals';
-import { GlobalsModule } from '../../modules/globals/globals.module';
-import { PrimeNgModule } from '../../modules/primg-ng/prime-ng.module';
-import { FormGroup } from '@angular/forms';
+import { itemsPerPageGlobal } from 'src/main';
+import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
+import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { AllLoansService } from './all-loans.service';
+import { Router } from '@angular/router';
 
 @Component({
-    selector: 'app-std-paginations-with-popup',
+    selector: 'app-all-loans',
     standalone: true,
     imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService],
-    templateUrl: './std-paginations-with-popup.component.html',
-    styleUrl: './std-paginations-with-popup.component.scss',
+    templateUrl: './all-loans.component.html',
+    styleUrl: './all-loans.component.scss',
 })
-export class StdPaginationsWithPopupComponent {
+export class AllLoansComponent {
     constructor(
-        private _LockupsService: LockupsService,
+        private allLoansService: AllLoansService,
         private messageService: MessageService,
-        private translate: TranslateService
+        private translate: TranslateService,
+        private router: Router
     ) {}
-
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 3;
+    itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
@@ -55,41 +48,54 @@ export class StdPaginationsWithPopupComponent {
     sortOrder: string = 'asc';
     newNameAr!: string;
     newNameEn!: string;
-    fileNew!: File;
+
+    newLatitude: DoubleRange;
+    newLongitude: DoubleRange;
+    newDiscription: string;
+
+    dropdownItemsEmployees!: any;
+    dropdownItemsLoanTypes!: any;
+    dropdownItemsResponseTypes!: any;
+    dropdownItemsRepaymentTerms!: any;
+
+    acceptRequestDialogue: boolean = false;
+    rejectRequestDialogue: boolean = false;
+    notesAccept: string;
+    notesReject: string;
+    acceptAllDialogue: boolean = false;
+    rejectAllDialogue: boolean = false;
+
     addNewForm: FormGroup = new FormGroup({
-        name: new FormControl(null, [
-            Validators.required,
-            Validators.maxLength(50),
-        ]),
-        engName: new FormControl(null, [
-            Validators.required,
-            Validators.maxLength(50),
-        ]),
-        notes: new FormControl(null),
+        EmployeeId: new FormControl(null, [Validators.required]),
+        LoanTypeId: new FormControl(null, [Validators.required]),
+        RepaymentTermId: new FormControl(null, [Validators.required]),
+        Reason: new FormControl(null, [Validators.required]),
+        Amount: new FormControl(null, [Validators.required]),
+        Notes: new FormControl(null),
     });
+
     editForm: FormGroup = new FormGroup({
-        id: new FormControl(null),
-        name: new FormControl(null, [
-            Validators.required,
-            Validators.maxLength(50),
-        ]),
-        engName: new FormControl(null, [
-            Validators.required,
-            Validators.maxLength(50),
-        ]),
+        employeeId: new FormControl(null, [Validators.required]),
+        loanTypeId: new FormControl(null, [Validators.required]),
+        repaymentTermId: new FormControl(null, [Validators.required]),
+        reason: new FormControl(null, [Validators.required]),
+        amount: new FormControl(null, [Validators.required]),
         notes: new FormControl(null),
+        id: new FormControl(null),
     });
 
     ngOnInit() {
+        this.endPoint = 'LoanRequests';
+
         // adding this Configurations in each Component Customized
         Globals.getMainLangChanges().subscribe((mainLang) => {
             console.log('Main language changed to:', mainLang);
 
             // update mainLang at Service
-            this._LockupsService.setCulture(mainLang);
+            this.allLoansService.setCulture(mainLang);
 
             // update endpoint
-            this._LockupsService.setEndPoint(this.endPoint);
+            this.allLoansService.setEndPoint(this.endPoint);
 
             // then, load data again to lens on the changes of mainLang & endPoints Call
             this.loadData(
@@ -100,33 +106,74 @@ export class StdPaginationsWithPopupComponent {
                 this.sortOrder
             );
         });
+        this.getAllDropdowns();
 
         this.cols = [
             // basic data
             { field: 'name', header: 'Name' },
+
+            // custom fields
+            { field: 'latitude', header: 'Lotes' },
+            { field: 'longitude', header: 'Longitude' },
+            { field: 'discription', header: 'Discription' },
             { field: 'notes', header: 'Notes' },
 
             // Generic Fields
-            { field: 'creationTime', header: 'CreationTime' },
-            { field: 'lastModificationTime', header: 'LastModificationTime' },
-            { field: 'creatorName', header: 'CreatorName' },
-            { field: 'lastModifierName', header: 'LastModifierName' },
+            { field: 'creationTime', header: 'creationTime' },
+            { field: 'lastModificationTime', header: 'lastModificationTime' },
+            { field: 'creatorName', header: 'creatorName' },
+            { field: 'lastModifierName', header: 'lastModifierName' },
         ];
     }
+    getAllDropdowns() {
+        this.allLoansService.getDropdownEnum('getRequestType').subscribe({
+            next: (res) => {
+                console.log(res.data);
+                this.dropdownItemsResponseTypes = res.data;
+                console.log(this.dropdownItemsResponseTypes);
+            },
+            error: (err) => {
+                console.log(err);
+            },
+        });
 
-    splitCamelCase(str: any) {
-        return str
-            .replace(/([A-Z])/g, ' $1')
-            .trim()
-            .replace(/\s+/g, ' ')
-            .split(' ')
-            .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(' ');
+        this.allLoansService.getDropdownField('Employee').subscribe({
+            next: (res) => {
+                console.log(res.data);
+                this.dropdownItemsEmployees = res.data;
+                console.log(this.dropdownItemsEmployees);
+            },
+            error: (err) => {
+                console.log(err);
+            },
+        });
+
+        this.allLoansService.getDropdownField('LoanTypes').subscribe({
+            next: (res) => {
+                console.log(res.data);
+                this.dropdownItemsLoanTypes = res.data;
+                console.log(this.dropdownItemsLoanTypes);
+            },
+            error: (err) => {
+                console.log(err);
+            },
+        });
+
+        this.allLoansService.getDropdownField('RepaymentTerms').subscribe({
+            next: (res) => {
+                console.log(res.data);
+                this.dropdownItemsRepaymentTerms = res.data;
+                console.log(this.dropdownItemsRepaymentTerms);
+            },
+            error: (err) => {
+                console.log(err);
+            },
+        });
     }
 
     editProduct(rowData: any) {
         console.log(rowData.id);
-        this._LockupsService.GetById(rowData.id).subscribe({
+        this.allLoansService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
                 this.product = { ...res.data };
@@ -137,19 +184,25 @@ export class StdPaginationsWithPopupComponent {
             },
         });
     }
+    getLoanDetails(rowData: any) {
+        this.product = { ...rowData };
+        this.router.navigate(['/info/loans/details', rowData.id]);
+
+        console.log(rowData);
+    }
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
-        this._LockupsService.DeleteSoftById(id).subscribe({
-            next: (res) => {
+        this.allLoansService.DeleteSoftById(id).subscribe({
+            next: () => {
                 // close dialog
                 this.deleteProductDialog = false;
 
                 // show message for user to show processing of deletion.
                 this.messageService.add({
                     severity: 'success',
-                    summary: this.translate.instant('Success'),
-                    detail: res.message,
+                    summary: 'Successful',
+                    detail: 'Product Deleted',
                     life: 3000,
                 });
 
@@ -162,17 +215,28 @@ export class StdPaginationsWithPopupComponent {
                     this.sortOrder
                 );
             },
+            error: (err) => {
+                console.log(err);
+            },
         });
     }
 
     addNew(form: FormGroup) {
         console.log(form);
 
-        this._LockupsService.Register(form.value).subscribe({
+        const formData: FormData = new FormData();
+
+        for (const key in form.value) {
+            if (form.value.hasOwnProperty(key)) {
+                formData.append(key, form.value[key]);
+            }
+        }
+
+        this.allLoansService.Register(formData).subscribe({
             next: (res) => {
+                console.log(res);
+                this.showFormNew = false;
                 if (res.success) {
-                    console.log(res);
-                    this.showFormNew = false;
                     // show message for success inserted
                     this.messageService.add({
                         severity: 'success',
@@ -180,11 +244,9 @@ export class StdPaginationsWithPopupComponent {
                         detail: res.message,
                         life: 3000,
                     });
+                    // set fields is empty
                     form.reset();
                 }
-
-                // set fields is empty
-                this.setFieldsNulls();
 
                 // load data again
                 this.loadData(
@@ -194,6 +256,11 @@ export class StdPaginationsWithPopupComponent {
                     this.sortField,
                     this.sortOrder
                 );
+            },
+            error: (err) => {
+                this.showFormNew = false;
+
+                console.log(err);
             },
         });
     }
@@ -211,7 +278,10 @@ export class StdPaginationsWithPopupComponent {
     setFieldsNulls() {
         (this.newNameAr = null),
             (this.newNameEn = null),
-            (this.newNotes = null);
+            (this.newNotes = null),
+            (this.newDiscription = null),
+            (this.newLatitude = null),
+            (this.newLongitude = null);
     }
 
     loadData(
@@ -228,10 +298,11 @@ export class StdPaginationsWithPopupComponent {
             filterValue: nameFilter,
             filterType: filterType,
             sortType: sortType,
+            status: 1,
         };
         filteredData.sortType = this.sortOrder;
 
-        this._LockupsService.GetPage(filteredData).subscribe({
+        this.allLoansService.GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
@@ -239,6 +310,7 @@ export class StdPaginationsWithPopupComponent {
 
                 this.totalItems = res.totalItems;
                 this.loading = false;
+                console.log(this.selectedItems);
             },
             error: (err) => {
                 console.log(err);
@@ -263,6 +335,8 @@ export class StdPaginationsWithPopupComponent {
             this.sortField,
             this.sortOrder
         );
+
+        // this.selectedItems = this.allData;
     }
 
     deleteSelectedProducts() {
@@ -279,24 +353,18 @@ export class StdPaginationsWithPopupComponent {
         this.product = { ...product };
     }
 
-    saveProduct(form: FormGroup, product: any) {
+    saveProduct(id: number, form: FormGroup) {
         this.submitted = true;
-
+        console.log(id);
         form.patchValue({
-            id: product.id,
+            id: id,
         });
 
-        // let body = {
-        //     engName: product.engName,
-        //     name: product.name,
-        //     id: product.id,
-        //     notes: product.notes,
-        // };
-
-        this._LockupsService.Edit(form.value).subscribe({
+        this.allLoansService.Edit(form.value).subscribe({
             next: (res) => {
+                this.hideDialog();
+
                 if (res.success) {
-                    this.hideDialog();
                     // show message for user to show processing of deletion.
                     this.messageService.add({
                         severity: 'success',
@@ -315,16 +383,17 @@ export class StdPaginationsWithPopupComponent {
                     this.sortOrder
                 );
             },
+            error: (err) => {
+                console.log(err);
+            },
         });
     }
 
     toggleNew() {
         if (this.showFormNew) {
             this.showFormNew = false;
-            this.addNewForm.reset();
         } else {
             this.showFormNew = true;
-            this.addNewForm.reset();
         }
     }
 
@@ -342,12 +411,21 @@ export class StdPaginationsWithPopupComponent {
         });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = `${this.endPoint}_${new Date().getTime()}.csv`;
+        link.download = 'data_export_' + new Date().getTime() + '.csv';
         link.click();
     }
 
+    splitCamelCase(str: any) {
+        return str
+            .replace(/([A-Z])/g, ' $1')
+            .trim()
+            .replace(/\s+/g, ' ')
+            .split(' ')
+            .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    }
+
     convertToCSV(data: any[]): string {
-        console.log(data);
         if (!data || !data.length) return '';
 
         const separator = ',';
@@ -373,26 +451,17 @@ export class StdPaginationsWithPopupComponent {
             selectedIds.push(item.id);
         });
 
-        this._LockupsService.DeleteRangeSoft(selectedIds).subscribe({
+        this.allLoansService.DeleteRangeSoft(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
                 this.messageService.add({
                     severity: 'success',
-                    summary: this.translate.instant('Success'),
-                    detail: res.message,
+                    summary: 'Success',
+                    detail: 'items deleted successfully',
                     life: 3000,
                 });
-                // this.selectedItems = [];
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
-            error: (err) => {
-                this.deleteProductsDialog = false;
+                this.selectedItems = [];
+
                 this.loadData(
                     this.page,
                     this.itemsPerPage,
@@ -415,38 +484,71 @@ export class StdPaginationsWithPopupComponent {
     sortByName(event: any) {
         this.sortField = 'name';
     }
+    acceptRequest(product: any) {
+        this.acceptRequestDialogue = true;
+        this.product = { ...product };
+    }
+    rejectRequest(product: any) {
+        this.rejectRequestDialogue = true;
+        this.product = { ...product };
+    }
 
-    onFileSelect(event: any) {
-        console.log(event);
-        let file: any = event.currentFiles[0];
+    confirmAccept(rowData: any) {
+        console.log(rowData);
+        let body = {
+            id: rowData.id,
+            status: 1,
+            notes: this.notesAccept,
+        };
 
-        if (file) {
-            this.fileNew = file;
+        this.allLoansService.updateRequestType(body).subscribe({
+            next: (res) => {
+                console.log(res);
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Success',
+                    detail: 'Request Accepted Successfully',
+                    life: 3000,
+                });
+                this.acceptRequestDialogue = false;
+                this.loadData(
+                    this.page,
+                    this.itemsPerPage,
+                    this.nameFilter,
+                    this.sortField,
+                    this.sortOrder
+                );
+            },
+        });
+        this.notesAccept = '';
+    }
+    confirmReject(rowData: any) {
+        console.log(rowData);
 
-            let body = {
-                file: this.fileNew,
-            };
-            const formData: FormData = new FormData();
-
-            for (const key in body) {
-                if (body.hasOwnProperty(key)) {
-                    formData.append(key, body[key]);
-                }
-            }
-            this._LockupsService.importExcel(formData).subscribe({
-                next: (res) => {
-                    console.log(res);
-                    console.log('ezzzz');
-
-                    this.loadData(
-                        this.page,
-                        this.itemsPerPage,
-                        this.nameFilter,
-                        this.sortField,
-                        this.sortOrder
-                    );
-                },
-            });
-        }
+        let body = {
+            id: rowData.id,
+            status: 2,
+            notes: this.notesReject,
+        };
+        this.allLoansService.updateRequestType(body).subscribe({
+            next: (res) => {
+                console.log(res);
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Success',
+                    detail: 'Request Rejected Successfully',
+                    life: 3000,
+                });
+                this.rejectRequestDialogue = false;
+                this.loadData(
+                    this.page,
+                    this.itemsPerPage,
+                    this.nameFilter,
+                    this.sortField,
+                    this.sortOrder
+                );
+            },
+        });
+        this.notesReject = '';
     }
 }

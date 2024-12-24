@@ -88,4 +88,10 @@ export class LockupsService {
             body
         );
     }
+    importExcel(body: any) {
+        return this.http.post(
+            `${this.baseurl}/${this.endPoint}/ImportExcel`,
+            body
+        );
+    }
 }

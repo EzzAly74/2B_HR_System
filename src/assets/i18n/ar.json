@@ -509,5 +509,11 @@
     "Enter Value Here": "ادخل القيمة هنا",
     "Amount": "المقدار",
     "Actual Amount": "القيمة الفعلية",
-    "Basic Amount": "القيمة الأساسية"
+    "Basic Amount": "القيمة الأساسية",
+    "All Loans": "جميع السلف",
+    "Amount Paid": "الكمية المدفوعة",
+    "Remaining Amount": "الكمية المتبقية",
+    "Year:": "السنة:",
+    "Total Amount :": "الاجمالي:",
+    "Import File": "استيراد ملف"
 }

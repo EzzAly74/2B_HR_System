@@ -5,7 +5,7 @@
 export const environment = {
     production: false,
     baseurl: 'https://shantafactory.com/HR/api',
-    mediaUrl: 'https://shantafactory.com/HR/AppMedia'
+    mediaUrl: 'https://shantafactory.com/HR/AppMedia',
 };
 /*
  * For easier debugging in development mode, you can import the following file
