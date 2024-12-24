@@ -525,5 +525,11 @@
     "Enter Value Here": "Enter Value Here",
     "Amount": "Amount",
     "Basic Amount": "Basic Amount",
-    "Actual Amount": "Actual Amount"
+    "Actual Amount": "Actual Amount",
+    "All Loans": "All Loans",
+    "Amount Paid": "Amount Paid",
+    "Remaining Amount": "Remaining Amount",
+    "Year:": "Year:",
+    "Total Amount :": "Total Amount :",
+    "Import File": "Import File"
 }

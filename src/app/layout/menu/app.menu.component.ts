@@ -299,6 +299,10 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/loanSettings'],
                             },
                             {
+                                label: this.translate.instant('All Loans'),
+                                routerLink: ['/info/loans'],
+                            },
+                            {
                                 label: this.translate.instant(
                                     'Company Policies'
                                 ),

@@ -61,6 +61,8 @@ import { LoanPolicyComponent } from './components/custom/loan-policy/loan-policy
 import { LoanSettingsComponent } from './components/custom/loan-settings/loan-settings.component';
 import { LoanRequestComponent } from './components/custom/loan-request/loan-request.component';
 import { ResignationPolicyComponent } from './components/custom/resignation-policy/resignation-policy.component';
+import { AllLoansComponent } from './components/custom/all-loans/all-loans.component';
+import { LoanDetailsComponent } from './components/custom/loan-details/loan-details.component';
 
 @NgModule({
     imports: [
@@ -378,6 +380,16 @@ import { ResignationPolicyComponent } from './components/custom/resignation-poli
                 path: 'insuranceConfig',
                 canActivate: [authGuard],
                 component: InsuranceConfigComponent,
+            },
+            {
+                path: 'loans',
+                canActivate: [authGuard],
+                component: AllLoansComponent,
+            },
+            {
+                path: 'loans/details/:id',
+                canActivate: [authGuard],
+                component: LoanDetailsComponent,
             },
             {
                 path: 'test',
