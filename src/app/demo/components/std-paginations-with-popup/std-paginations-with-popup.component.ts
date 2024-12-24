@@ -1,7 +1,12 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+    FormControl,
+    FormsModule,
+    ReactiveFormsModule,
+    Validators,
+} from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
@@ -15,20 +20,17 @@ import { FormGroup } from '@angular/forms';
 @Component({
     selector: 'app-std-paginations-with-popup',
     standalone: true,
+    imports: [GlobalsModule, PrimeNgModule],
+    providers: [MessageService],
     templateUrl: './std-paginations-with-popup.component.html',
     styleUrl: './std-paginations-with-popup.component.scss',
-    imports: [
-        GlobalsModule,
-        PrimeNgModule
-    ],
-    providers: [MessageService],
 })
-export class StdPaginationsWithPopupComponent{
+export class StdPaginationsWithPopupComponent {
     constructor(
         private _LockupsService: LockupsService,
-        private messageService: MessageService , 
-        private translate : TranslateService) {
-    }
+        private messageService: MessageService,
+        private translate: TranslateService
+    ) {}
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
@@ -53,20 +55,32 @@ export class StdPaginationsWithPopupComponent{
     sortOrder: string = 'asc';
     newNameAr!: string;
     newNameEn!: string;
-    addNewForm : FormGroup = new FormGroup({
-        name:new FormControl(null , [Validators.required , Validators.maxLength(50)]),
-        engName: new FormControl(null ,[Validators.required , Validators.maxLength(50)]),
-        notes:new FormControl(null)
-    })
-    editForm : FormGroup = new FormGroup({
-        id:new FormControl(null),
-        name:new FormControl(null , [Validators.required , Validators.maxLength(50)]),
-        engName: new FormControl(null ,[Validators.required , Validators.maxLength(50)]),
-        notes:new FormControl(null)
-    })
+    fileNew!: File;
+    addNewForm: FormGroup = new FormGroup({
+        name: new FormControl(null, [
+            Validators.required,
+            Validators.maxLength(50),
+        ]),
+        engName: new FormControl(null, [
+            Validators.required,
+            Validators.maxLength(50),
+        ]),
+        notes: new FormControl(null),
+    });
+    editForm: FormGroup = new FormGroup({
+        id: new FormControl(null),
+        name: new FormControl(null, [
+            Validators.required,
+            Validators.maxLength(50),
+        ]),
+        engName: new FormControl(null, [
+            Validators.required,
+            Validators.maxLength(50),
+        ]),
+        notes: new FormControl(null),
+    });
 
     ngOnInit() {
-
         // adding this Configurations in each Component Customized
         Globals.getMainLangChanges().subscribe((mainLang) => {
             console.log('Main language changed to:', mainLang);
@@ -100,13 +114,14 @@ export class StdPaginationsWithPopupComponent{
         ];
     }
 
-    splitCamelCase(str:any) {
-        return str.replace(/([A-Z])/g, ' $1')
-        .trim()
-        .replace(/\s+/g, ' ')
-        .split(' ')
-        .map((word:any) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
+    splitCamelCase(str: any) {
+        return str
+            .replace(/([A-Z])/g, ' $1')
+            .trim()
+            .replace(/\s+/g, ' ')
+            .split(' ')
+            .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
     }
 
     editProduct(rowData: any) {
@@ -134,7 +149,7 @@ export class StdPaginationsWithPopupComponent{
                 this.messageService.add({
                     severity: 'success',
                     summary: this.translate.instant('Success'),
-                    detail: res.message ,
+                    detail: res.message,
                     life: 3000,
                 });
 
@@ -146,18 +161,16 @@ export class StdPaginationsWithPopupComponent{
                     this.sortField,
                     this.sortOrder
                 );
-            }
+            },
         });
     }
 
-    addNew(form:FormGroup) {
+    addNew(form: FormGroup) {
         console.log(form);
-        
 
         this._LockupsService.Register(form.value).subscribe({
             next: (res) => {
-                if(res.success)
-                {
+                if (res.success) {
                     console.log(res);
                     this.showFormNew = false;
                     // show message for success inserted
@@ -167,9 +180,8 @@ export class StdPaginationsWithPopupComponent{
                         detail: res.message,
                         life: 3000,
                     });
-                    form.reset(); 
+                    form.reset();
                 }
-                
 
                 // set fields is empty
                 this.setFieldsNulls();
@@ -183,7 +195,6 @@ export class StdPaginationsWithPopupComponent{
                     this.sortOrder
                 );
             },
-           
         });
     }
 
@@ -199,8 +210,8 @@ export class StdPaginationsWithPopupComponent{
 
     setFieldsNulls() {
         (this.newNameAr = null),
-        (this.newNameEn = null),
-        (this.newNotes = null);
+            (this.newNameEn = null),
+            (this.newNotes = null);
     }
 
     loadData(
@@ -268,13 +279,13 @@ export class StdPaginationsWithPopupComponent{
         this.product = { ...product };
     }
 
-    saveProduct(form:FormGroup , product: any) {
+    saveProduct(form: FormGroup, product: any) {
         this.submitted = true;
-        
+
         form.patchValue({
-            id:product.id
-        })
-        
+            id: product.id,
+        });
+
         // let body = {
         //     engName: product.engName,
         //     name: product.name,
@@ -284,8 +295,7 @@ export class StdPaginationsWithPopupComponent{
 
         this._LockupsService.Edit(form.value).subscribe({
             next: (res) => {
-                if(res.success)
-                {
+                if (res.success) {
                     this.hideDialog();
                     // show message for user to show processing of deletion.
                     this.messageService.add({
@@ -295,7 +305,7 @@ export class StdPaginationsWithPopupComponent{
                         life: 3000,
                     });
                 }
-               
+
                 // load data again
                 this.loadData(
                     this.page,
@@ -305,18 +315,16 @@ export class StdPaginationsWithPopupComponent{
                     this.sortOrder
                 );
             },
-         
         });
     }
 
     toggleNew() {
         if (this.showFormNew) {
             this.showFormNew = false;
-            this.addNewForm.reset()
-
+            this.addNewForm.reset();
         } else {
             this.showFormNew = true;
-            this.addNewForm.reset()
+            this.addNewForm.reset();
         }
     }
 
@@ -339,7 +347,7 @@ export class StdPaginationsWithPopupComponent{
     }
 
     convertToCSV(data: any[]): string {
-        console.log(data)
+        console.log(data);
         if (!data || !data.length) return '';
 
         const separator = ',';
@@ -371,7 +379,7 @@ export class StdPaginationsWithPopupComponent{
                 this.messageService.add({
                     severity: 'success',
                     summary: this.translate.instant('Success'),
-                    detail: res.message ,
+                    detail: res.message,
                     life: 3000,
                 });
                 // this.selectedItems = [];
@@ -384,7 +392,6 @@ export class StdPaginationsWithPopupComponent{
                 );
             },
             error: (err) => {
-    
                 this.deleteProductsDialog = false;
                 this.loadData(
                     this.page,
@@ -407,5 +414,39 @@ export class StdPaginationsWithPopupComponent{
     }
     sortByName(event: any) {
         this.sortField = 'name';
+    }
+
+    onFileSelect(event: any) {
+        console.log(event);
+        let file: any = event.currentFiles[0];
+
+        if (file) {
+            this.fileNew = file;
+
+            let body = {
+                file: this.fileNew,
+            };
+            const formData: FormData = new FormData();
+
+            for (const key in body) {
+                if (body.hasOwnProperty(key)) {
+                    formData.append(key, body[key]);
+                }
+            }
+            this._LockupsService.importExcel(formData).subscribe({
+                next: (res) => {
+                    console.log(res);
+                    console.log('ezzzz');
+
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+                },
+            });
+        }
     }
 }
