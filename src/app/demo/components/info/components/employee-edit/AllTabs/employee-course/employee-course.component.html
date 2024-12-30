@@ -47,74 +47,79 @@
     class="p-fluid"
 >
     <ng-template pTemplate="content">
-        <div class="field">
-            <label htmlFor="name-en">{{ "Course Name" | translate }} </label>
-            <input
-                pInputText
-                [(ngModel)]="courseName"
-                [placeholder]="'Enter Course Name Here' | translate"
-                id="name-en"
-                type="text"
-            />
-        </div>
+        <form [formGroup]="addNewForm">
+            <div class="field">
+                <label htmlFor="name-en">{{ "Course Name" | translate }} </label>
+                <input
+                    pInputText
+                    formControlName="courseName"
+                    [placeholder]="'Enter Course Name Here' | translate"
+                    id="name-en"
+                    type="text"
+                />
+            </div>
 
-        <div class="field">
-            <label htmlFor="name-ar">{{ "Date From" | translate }} </label>
+            <div class="field">
+                <label htmlFor="name-ar">{{ "Date From" | translate }} </label>
 
-            <p-calendar
-                [showIcon]="true"
-                [iconDisplay]="'input'"
-                name="dateFrom"
-                inputId="dateFrom"
-                [(ngModel)]="dateFrom"
-                [placeholder]="'From' | translate"
-            ></p-calendar>
-        </div>
+                <p-calendar
+                    [showIcon]="true"
+                    [iconDisplay]="'input'"
+                    name="dateFrom"
+                    inputId="dateFrom"
+                    formControlName="dateFrom"
+                    [placeholder]="'From' | translate"
+                ></p-calendar>
+            </div>
 
-        <div class="field">
-            <label htmlFor="name-ar">{{ "Date To" | translate }} </label>
+            <div class="field">
+                <label htmlFor="name-ar">{{ "Date To" | translate }} </label>
 
-            <p-calendar
-                [showIcon]="true"
-                [iconDisplay]="'input'"
-                name="dateTo"
-                inputId="dateTo"
-                [(ngModel)]="dateTo"
-                [placeholder]="'To' | translate"
-            ></p-calendar>
-        </div>
+                <p-calendar
+                    [showIcon]="true"
+                    [iconDisplay]="'input'"
+                    name="dateTo"
+                    inputId="dateTo"
+                    formControlName="dateTo"
+                    [placeholder]="'To' | translate"
+                ></p-calendar>
+            </div>
 
-        <div class="field">
-            <label htmlFor="numberOfHours">{{ "Location" | translate }}</label>
+            <div class="field">
+                <label htmlFor="numberOfHours">{{ "Location" | translate }}</label>
 
-            <input
-                pInputText
-                [(ngModel)]="location"
-                [placeholder]="'Enter Location Here' | translate"
-                id="location"
-                type="text"
-            />
-        </div>
+                <input
+                    pInputText
+                    formControlName="location"
+                    [placeholder]="'Enter Location Here' | translate"
+                    id="location"
+                    type="text"
+                />
+            </div>
 
-        <div class="field">
-            <label htmlFor="new-notes">{{ "Discription" | translate }}</label>
-            <textarea
-                pInputTextarea
-                [(ngModel)]="discription"
-                id="new-notes"
-                [placeholder]="'Enter Discription Here' | translate"
-                type="text"
-            ></textarea>
-        </div>
+            <div class="field">
+                <label htmlFor="new-notes">{{ "Discription" | translate }}</label>
+                <textarea
+                    pInputTextarea
+                    formControlName="discription"
+                    id="new-notes"
+                    [placeholder]="'Enter Discription Here' | translate"
+                    type="text"
+                ></textarea>
+            </div>
 
-        <div class="field">
-            <button
-                class="w-25"
-                pButton
-                [label]="'Insert New' | translate"
-                (click)="addNew()"
-            ></button>
-        </div>
+            <div class="field">
+                <button
+                    class="w-25"
+                    pButton
+                    type="submit"
+                    [label]="'Insert New' | translate"
+                    [disabled]="!addNewForm.valid"
+                    (click)="addNew(addNewForm)"
+                ></button>
+            </div>
+        </form>
+
     </ng-template>
 </p-dialog>
 
@@ -270,85 +275,96 @@
     class="p-fluid"
 >
     <ng-template pTemplate="content">
-        <div class="field">
-            <label htmlFor="name-en">{{ "Course Name" | translate }} </label>
-            <input
-                pInputText
-                [(ngModel)]="product.courseName"
-                [placeholder]="'Enter Course Name Here' | translate"
-                id="name-en"
-                type="text"
-                required
-                autofocus
-            />
-        </div>
 
-        <div class="field">
-            <label htmlFor="name-ar">{{ "Date From" | translate }} </label>
+        <form [formGroup]="editForm">
+            <div class="field">
+                <label htmlFor="name-en">{{ "Course Name" | translate }} </label>
+                <input
+                    pInputText
+                    [(ngModel)]="product.courseName"
+                    formControlName="courseName"
+                    [placeholder]="'Enter Course Name Here' | translate"
+                    id="name-en"
+                    type="text"
+                    required
+                    autofocus
+                />
+            </div>
 
-            <p-calendar
-                [showIcon]="true"
-                [iconDisplay]="'input'"
-                name="dateFrom"
-                inputId="dateFrom"
-                [(ngModel)]="product.dateFrom"
-                [placeholder]="'From' | translate"
-            ></p-calendar>
-        </div>
+            <div class="field">
+                <label htmlFor="name-ar">{{ "Date From" | translate }} </label>
 
-        <div class="field">
-            <label htmlFor="name-ar">{{ "Date To" | translate }} </label>
+                <p-calendar
+                    [showIcon]="true"
+                    [iconDisplay]="'input'"
+                    name="dateFrom"
+                    inputId="dateFrom"
+                    [(ngModel)]="product.dateFrom"
+                    formControlName="dateFrom"
+                    [placeholder]="'From' | translate"
+                ></p-calendar>
+            </div>
 
-            <p-calendar
-                [showIcon]="true"
-                [iconDisplay]="'input'"
-                name="dateTo"
-                inputId="dateTo"
-                [(ngModel)]="product.dateTo"
-                [placeholder]="'To' | translate"
-            ></p-calendar>
-        </div>
+            <div class="field">
+                <label htmlFor="name-ar">{{ "Date To" | translate }} </label>
 
-        <div class="field">
-            <label htmlFor="numberOfHours">{{ "Location" | translate }}</label>
+                <p-calendar
+                    [showIcon]="true"
+                    [iconDisplay]="'input'"
+                    name="dateTo"
+                    inputId="dateTo"
+                    [(ngModel)]="product.dateTo"
+                    formControlName="dateTo"
+                    [placeholder]="'To' | translate"
+                ></p-calendar>
+            </div>
 
-            <input
-                pInputText
-                [(ngModel)]="product.location"
-                [placeholder]="'Enter Location Here' | translate"
-                id="location"
-                type="text"
-            />
-        </div>
+            <div class="field">
+                <label htmlFor="numberOfHours">{{ "Location" | translate }}</label>
 
-        <div class="field">
-            <label htmlFor="new-notes">{{ "Discription" | translate }}</label>
-            <textarea
-                pInputTextarea
-                [(ngModel)]="product.discription"
-                id="new-notes"
-                [placeholder]="'Enter Discription Here' | translate"
-                type="text"
-            ></textarea>
-        </div>
-    </ng-template>
-    <ng-template pTemplate="footer">
-        <button
-            pButton
-            pRipple
-            [label]="'Cancel' | translate"
-            icon="pi pi-times"
-            class="p-button-text"
-            (click)="hideDialog()"
-        ></button>
-        <button
-            pButton
-            pRipple
-            [label]="'Save' | translate"
-            icon="pi pi-check"
-            class="p-button-text"
-            (click)="saveProduct(product.id, product)"
-        ></button>
+                <input
+                    pInputText
+                    [(ngModel)]="product.location"
+                    formControlName="location"
+                    [placeholder]="'Enter Location Here' | translate"
+                    id="location"
+                    type="text"
+                />
+            </div>
+
+            <div class="field">
+                <label htmlFor="new-notes">{{ "Discription" | translate }}</label>
+                <textarea
+                    pInputTextarea
+                    [(ngModel)]="product.discription"
+                    formControlName="discription"
+                    id="new-notes"
+                    [placeholder]="'Enter Discription Here' | translate"
+                    type="text"
+                ></textarea>
+            </div>
+
+            <div class="field form-footer">
+                <button
+                    pButton
+                    pRipple
+                    [label]="'Cancel' | translate"
+                    icon="pi pi-times"
+                    class="p-button-text"
+                    (click)="hideDialog()"
+                    type="button"></button>
+                <button
+                    pButton
+                    pRipple
+                    [label]="'Save' | translate"
+                    icon="pi pi-check"
+                    class="p-button-text"
+                    [disabled]="!editForm.valid"
+                    type="submit"
+                    (click)="saveProduct(product, editForm)"></button>
+            </div>
+        </form>
+
     </ng-template>
 </p-dialog>
 

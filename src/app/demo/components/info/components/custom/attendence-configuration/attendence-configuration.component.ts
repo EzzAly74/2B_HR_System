@@ -50,8 +50,14 @@ export class AttendenceConfigurationComponent {
     attendanceForm: FormGroup;
     valCheck: boolean = false;
     execuseCalculationTypes!: any;
+
     selectedExecuseCalculationType!: any;
     selectedExecuseCalculationTypeId!: number;
+    
+    selectedEarlyLeaveCalculationType!: any;
+    selectedEarlyLeaveCalculationTypeId!: any;
+
+    earlyLeaveCalculationTypes: any; // drop down Enum for Early Leave CalculationType
 
     ngOnInit() {
         this.endPoint = 'AttendanceConfiguration';
@@ -90,6 +96,8 @@ export class AttendenceConfigurationComponent {
             calculateLateAttendanceInTime: [false, Validators.required],
             calculateLateAttendancePerMonth: [false, Validators.required],
             excuseCalculationType: [null, Validators.required],
+            earlyLeaveCalculationType: [null, Validators.required],
+            earlyLeavePenalityInDaysForEachHour: [0, Validators.required],
             maxMonthlyLateMinutes: [0, Validators.required],
             maxExuseDurationInMinutes: [0, Validators.required],
             maxNumberOfExcusesPerMonth: [0, Validators.required],
@@ -101,6 +109,7 @@ export class AttendenceConfigurationComponent {
             lateSettingsList: this.fb.array([this.createLateSettingGroup()]),
         });
         this.getExecuseCalculationTypesDropdown();
+        this.getEarlyLeaveCalculationTypeDropDown();
 
         console.log(this.execuseCalculationTypes);
     }
@@ -172,6 +181,7 @@ export class AttendenceConfigurationComponent {
         if (form.valid) {
             form.patchValue({
                 excuseCalculationType: this.selectedExecuseCalculationType?.id,
+                earlyLeaveCalculationType: this.selectedEarlyLeaveCalculationType?.id,
             });
             console.log('Form Data:', form);
 
@@ -408,8 +418,24 @@ export class AttendenceConfigurationComponent {
                 },
             });
     }
+
+    getEarlyLeaveCalculationTypeDropDown() {
+        this.attendenceConfigurationService
+            .getDropdownEnum('getEarlyLeaveCalculationType')
+            .subscribe({
+                next: (res) => {
+                    console.log(res);
+                    this.earlyLeaveCalculationTypes = res.data;
+                },
+             
+            });
+    }
     selectedExecuseCalculationTypeFun(event: any) {
         this.selectedExecuseCalculationType = event.value;
         this.selectedExecuseCalculationTypeId = event.value.id;
+    }
+    selectedEarlyLeaveCalculationTypeFun(event: any) {
+        this.selectedEarlyLeaveCalculationType = event.value;
+        this.selectedEarlyLeaveCalculationTypeId = event.value.id;
     }
 }

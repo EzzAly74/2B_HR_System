@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-employee-certification',
@@ -52,6 +53,9 @@ export class EmployeeCertificationComponent {
     hrApproved: boolean = false;
     stockVacation: boolean = false;
 
+    addNewForm!: FormGroup;
+    editForm!: FormGroup;
+
     ngOnInit() {
         this.endPoint = 'EmployeeCertification';
         this.route.parent?.paramMap.subscribe((params) => {
@@ -96,6 +100,25 @@ export class EmployeeCertificationComponent {
             { field: 'creatorName', header: 'CreatorName' },
             { field: 'lastModifierName', header: 'LastModifierName' },
         ];
+
+        this.initFormGroups();
+    }
+
+    initFormGroups() {
+        this.addNewForm = new FormGroup({
+            certificatName: new FormControl(null, Validators.required),
+            year: new FormControl(null, Validators.required),
+            degree: new FormControl(null, Validators.required),
+            university: new FormControl(null, Validators.required),
+            discription: new FormControl(null),
+        });
+        this.editForm = new FormGroup({
+            certificatName: new FormControl(null, Validators.required),
+            year: new FormControl(null, Validators.required),
+            degree: new FormControl(null, Validators.required),
+            university: new FormControl(null, Validators.required),
+            discription: new FormControl(null),
+        });
     }
 
     editProduct(rowData: any) {
@@ -156,23 +179,15 @@ export class EmployeeCertificationComponent {
         });
     }
 
-    addNew() {
-        // first convert from date full format to time only
-        // why? because prime ng calender component returned the value as a full Date Format
-
+    addNew(form: FormGroup) {
         // set body of request
         let body = {
-            certificatName: this.certificatName,
+            ...form.value,
             employeeId: this.currentId,
-            year: this.year,
-            degree: this.degree,
-            discription: this.discription,
-            university: this.university,
         };
 
-        console.log(body);
-
-        // Confirm add new
+        if(form.valid) {
+            // Confirm add new
         this.employeeCertificationService.Register(body).subscribe({
             next: (res) => {
                 console.log(res);
@@ -200,7 +215,9 @@ export class EmployeeCertificationComponent {
             error: (err) => {
                 this.showFormNew = false;
             },
-        });
+            });
+        }
+
     }
 
     loadFilteredData() {
@@ -291,45 +308,42 @@ export class EmployeeCertificationComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number, product: any) {
+    saveProduct(product: any, form: any) {
         this.submitted = true;
-        console.log(id);
-        console.log(product);
 
         let body = {
-            certificatName: product.certificatName,
-            employeeId: this.currentId,
-            year: product.year,
-            degree: product.degree,
-            discription: product.discription,
-            university: product.university,
+            ...form.value,
             id: product.id,
+            employeeId: this.currentId,
         };
 
-        this.employeeCertificationService.Edit(body).subscribe({
-            next: () => {
-                this.hideDialog();
-                // show message for user to show processing of deletion.
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'You Edit This Item',
-                    life: 3000,
-                });
+        if(form.valid) {
+            this.employeeCertificationService.Edit(body).subscribe({
+                next: () => {
+                    this.hideDialog();
+                    // show message for user to show processing of deletion.
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: 'You Edit This Item',
+                        life: 3000,
+                    });
 
-                // load data again
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
-            error: (err) => {
-                console.log(err);
-            },
-        });
+                    // load data again
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+                },
+                error: (err) => {
+                    console.log(err);
+
+                },
+            });
+        }
     }
 
     toggleNew() {

@@ -8,6 +8,7 @@ import { EmployeeConvenantService } from './employee-convenant.service';
 import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-employee-covenant',
@@ -42,7 +43,7 @@ export class EmployeeCovenantComponent {
     productDialog: boolean = false;
     product: any;
     event!: any;
-    nots!: string;
+    notes!: string;
     showFormNew: boolean = false;
     sortField: string = 'id';
     sortOrder: string = 'asc';
@@ -56,6 +57,9 @@ export class EmployeeCovenantComponent {
     selectedCovenantType!: number;
     selectedCovenant!: any;
     selectedCovenantEdit!: any;
+
+    addNewForm!: FormGroup;
+    editForm!: FormGroup;
 
     ngOnInit() {
         this.endPoint = 'EmployeeCovenant';
@@ -93,7 +97,9 @@ export class EmployeeCovenantComponent {
             { field: 'numberOfHours', header: 'NumberOfHours' },
 
             // main field
+            { field: 'cost', header: 'cost' },
             { field: 'notes', header: 'Notes' },
+            { field: 'serialNumber', header: 'SerialNumber' },
 
             // Generic Fields
             { field: 'creationTime', header: 'CreationTime' },
@@ -102,25 +108,49 @@ export class EmployeeCovenantComponent {
             { field: 'lastModifierName', header: 'LastModifierName' },
         ];
         this.getCovenantTypes();
+
+        this.initFormGroups();
+    }
+
+    initFormGroups() {
+        this.addNewForm = new FormGroup({
+            covenantId: new FormControl(null, Validators.required),
+            date: new FormControl(null, Validators.required),
+            cost: new FormControl(null, Validators.required),
+            notes: new FormControl(null),
+        })
+
+        this.editForm = new FormGroup({
+            covenantId: new FormControl(null, Validators.required),
+            date: new FormControl(null, Validators.required),
+            cost: new FormControl(null, Validators.required),
+            notes: new FormControl(null),
+        })
     }
 
     editProduct(rowData: any) {
         console.log(rowData.id);
         rowData.date = this.convertDate(rowData.date, 'MM/dd/yyyy');
+
         this.employeeConvenantService.GetById(rowData.id).subscribe({
             next: (res) => {
-                console.log(res.data);
-                this.selectedCovenantEdit = this.dropdownItemsCovenantType.find(
-                    (item: any) => item.id == res.data.covenantId
-                );
-                console.log('selectedCovenantEdit => ');
-                console.log(this.selectedCovenantEdit);
-
-                res.data.date = this.convertDate(res.data.date, 'MM/dd/yyyy');
-                console.log(res.data.date);
 
                 this.product = { ...res.data };
+
+                this.editForm.patchValue({
+                    covenantId: this.dropdownItemsCovenantType.find(
+                        (item: any) => item.id == this.product.covenantId
+                    )
+                })
+
+                // alert(JSON.stringify(this.product.covenantId));
+
+                this.product.date = this.convertDate(this.product.date, 'MM/dd/yyyy');
+                console.log(this.product.date);
+
+            
                 this.productDialog = true;
+
             },
             error: (err) => {
                 console.log(err);
@@ -172,22 +202,21 @@ export class EmployeeCovenantComponent {
         });
     }
 
-    addNew() {
+    addNew(form: FormGroup) {
         // first convert from date full format to time only
         // why? because prime ng calender component returned the value as a full Date Format
 
         // set body of request
         let body = {
-            covenantId: this.selectedCovenantType,
+            ...form.value,
             employeeId: this.currentId,
-            date: this.convertDate(this.date, 'yyyy-MM-ddTHH:mm:ss'),
-            cost: this.cost,
-            nots: this.nots,
+            date: this.convertDate(form.get('date').value, 'yyyy-MM-ddTHH:mm:ss'),
         };
 
         console.log(body);
 
-        // Confirm add new
+        if(form.valid) {
+            // Confirm add new
         this.employeeConvenantService.Register(body).subscribe({
             next: (res) => {
                 console.log(res);
@@ -214,8 +243,12 @@ export class EmployeeCovenantComponent {
             },
             error: (err) => {
                 this.showFormNew = false;
+
             },
         });
+        }
+
+
     }
 
     loadFilteredData() {
@@ -232,7 +265,7 @@ export class EmployeeCovenantComponent {
         this.selectedCovenantType = null;
         this.date = null;
         this.cost = null;
-        this.nots = null;
+        this.notes = null;
         this.selectedCovenant = null;
     }
 
@@ -306,19 +339,16 @@ export class EmployeeCovenantComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number, product: any) {
+    saveProduct(product: any, form: FormGroup) {
         this.submitted = true;
-        console.log(id);
-        console.log(product);
 
         let body = {
-            covenantId: this.selectedCovenantEdit.id,
+            ...form.value,
             employeeId: this.currentId,
             date: this.convertDate(product.date, 'yyyy-MM-ddTHH:mm:ss'),
-            cost: product.cost,
-            nots: product.nots,
             id: product.id,
         };
+        if(form.valid) {
 
         this.employeeConvenantService.Edit(body).subscribe({
             next: () => {
@@ -344,6 +374,8 @@ export class EmployeeCovenantComponent {
                 console.log(err);
             },
         });
+        }
+
     }
 
     toggleNew() {

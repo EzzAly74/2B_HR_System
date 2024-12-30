@@ -8,6 +8,7 @@ import { EmployeeExperienceService } from './employee-experience.service';
 import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-employee-experience',
@@ -51,6 +52,10 @@ export class EmployeeExperienceComponent {
     position!: string;
     hrApproved: boolean = false;
     stockVacation: boolean = false;
+
+    // define form groups
+    addNewForm!: FormGroup;
+    editForm!: FormGroup;
 
     ngOnInit() {
         this.endPoint = 'EmployeeExperience';
@@ -96,6 +101,27 @@ export class EmployeeExperienceComponent {
             { field: 'creatorName', header: 'CreatorName' },
             { field: 'lastModifierName', header: 'LastModifierName' },
         ];
+
+        this.initFormGroups()
+    }
+
+
+    initFormGroups() {
+        this.addNewForm = new FormGroup({
+            job: new FormControl(null, Validators.required),
+            dateFrom: new FormControl(null, Validators.required),
+            dateTo: new FormControl(null, Validators.required),
+            position: new FormControl(null, Validators.required),
+            discreption: new FormControl(null, Validators.required),
+        })
+
+        this.editForm = new FormGroup({
+            job: new FormControl(null, Validators.required),
+            dateFrom: new FormControl(null, Validators.required),
+            dateTo: new FormControl(null, Validators.required),
+            position: new FormControl(null, Validators.required),
+            discreption: new FormControl(null, Validators.required),
+        })
     }
 
     editProduct(rowData: any) {
@@ -169,51 +195,48 @@ export class EmployeeExperienceComponent {
         });
     }
 
-    addNew() {
+    addNew(form: FormGroup) {
         // first convert from date full format to time only
         // why? because prime ng calender component returned the value as a full Date Format
 
         // set body of request
         let body = {
-            job: this.job,
             employeeId: this.currentId,
             dateFrom: this.convertDate(this.dateFrom, 'yyyy-MM-ddTHH:mm:ss'),
             dateTo: this.convertDate(this.dateTo, 'yyyy-MM-ddTHH:mm:ss'),
-            position: this.position,
-            discreption: this.discreption,
+            ...form.value
         };
 
         console.log(body);
 
-        // Confirm add new
-        this.employeeExperienceService.Register(body).subscribe({
-            next: (res) => {
-                console.log(res);
-                this.showFormNew = false;
-                // show message for success inserted
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'inserted success',
-                    life: 3000,
-                });
 
-                // set fields is empty
-                this.setFieldsNulls();
-
-                // load data again
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
-            error: (err) => {
-                this.showFormNew = false;
-            },
-        });
+        if(form.valid) {
+            this.employeeExperienceService.Register(body).subscribe({
+                next: (res) => {
+                    console.log(res);
+                    this.showFormNew = false;
+                    // show message for success inserted
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: 'inserted success',
+                        life: 3000,
+                    });
+    
+                    // set fields is empty
+                    this.setFieldsNulls();
+    
+                    // load data again
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+                },
+            });
+        }
     }
 
     loadFilteredData() {
@@ -304,45 +327,48 @@ export class EmployeeExperienceComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number, product: any) {
+    saveProduct(product: any, form: FormGroup) {
         this.submitted = true;
-        console.log(id);
         console.log(product);
 
         let body = {
-            job: product.job,
+            id: product.id,
             employeeId: this.currentId,
             dateFrom: this.convertDate(product.dateFrom, 'yyyy-MM-ddTHH:mm:ss'),
             dateTo: this.convertDate(product.dateTo, 'yyyy-MM-ddTHH:mm:ss'),
-            position: product.position,
-            discreption: product.discreption,
-            id: product.id,
+            ...form.value
         };
 
-        this.employeeExperienceService.Edit(body).subscribe({
-            next: () => {
-                this.hideDialog();
-                // show message for user to show processing of deletion.
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'You Edit This Item',
-                    life: 3000,
-                });
+        if(form.valid) {
+            this.employeeExperienceService.Edit(body).subscribe({
+                next: () => {
+                    this.hideDialog();
+                    // show message for user to show processing of deletion.
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: 'You Edit This Item',
+                        life: 3000,
+                    });
+    
+                    // load data again
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+                },
+                error: (err) => {
+                    console.log(err);
+           
+                },
+            });
+        }
 
-                // load data again
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
-            error: (err) => {
-                console.log(err);
-            },
-        });
+
+
     }
 
     toggleNew() {

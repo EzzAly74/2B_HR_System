@@ -80,6 +80,10 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/kpi'],
                             },
                             {
+                                label: this.translate.instant('ALLOWANCE'),
+                                routerLink: ['/info/allowance'],
+                            },
+                            {
                                 label: this.translate.instant(
                                     'Month End Closure'
                                 ),
@@ -121,6 +125,7 @@ export class AppMenuComponent implements OnInit {
                                 icon: 'pi pi-fw pi-home',
                                 routerLink: ['/info/allEmployeesManager'],
                             },
+
                             {
                                 label: this.translate.instant(
                                     'Employees Fingerprints'
@@ -134,6 +139,14 @@ export class AppMenuComponent implements OnInit {
                                 ),
                                 routerLink: ['/info/allEmployeesLocation'],
                             },
+
+                            {
+                                label: this.translate.instant(
+                                    'MONTHLYALLOWANCE'
+                                ),
+                                routerLink: ['/info/monthlyAllowance'],
+                            },
+
 
                             {
                                 label: this.translate.instant(
@@ -295,10 +308,19 @@ export class AppMenuComponent implements OnInit {
                                 ),
                                 routerLink: ['/info/companyPolicy'],
                             },
+
+                            {
+                                label: this.translate.instant(
+                                    'COMPANYBASICDATA'
+                                ),
+                                routerLink: ['/info/companyBasicData'],
+                            },
+
                             {
                                 label: this.translate.instant('Locations'),
                                 routerLink: ['/info/location'],
                             },
+                            
                             {
                                 label: this.translate.instant(
                                     'Source of Employment'
@@ -386,11 +408,11 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/documentRequired'],
                             },
 
-                            // {
-                            //     label: this.translate.instant('Resignation'),
-                            //     icon: 'pi pi-fw pi-home',
-                            //     routerLink: ['/info/resignation'],
-                            // },
+                            {
+                                label: this.translate.instant('RESIGNATIONSETTINGS'),
+                                icon: 'pi pi-fw pi-home',
+                                routerLink: ['/info/resignationSetting'],
+                            },
                         ],
                     },
 

@@ -101,6 +101,20 @@
                 />
             </div>
 
+            
+            <div class="field">
+                <label htmlFor="numberOfHours">{{ "serialNumber" | translate }}</label>
+
+                <input
+                    pInputText
+                    [(ngModel)]="serialNumber"
+                    formControlName="serialNumber"
+                    [placeholder]="'Enter serialNumber Here' | translate"
+                    id="serialNumber"
+                    type="number"
+                />
+            </div>
+
             <div class="field">
                 <label htmlFor="new-notes">{{ "Notes" | translate }}</label>
                 <textarea
@@ -181,6 +195,18 @@
         </div>
 
         <div class="field">
+            <label htmlFor="numberOfHours">{{ "serialNumber" | translate }}</label>
+
+            <input
+                pInputText
+                [(ngModel)]="serialNumber"
+                [placeholder]="'Enter serialNumber here' | translate"
+                id="serialNumber"
+                type="number"
+            />
+        </div>
+
+        <div class="field">
             <label htmlFor="new-notes">{{ "Notes" | translate }}</label>
             <textarea
                 pInputTextarea
@@ -221,6 +247,7 @@
             <!-- generic fields -->
             <th>{{ "Date" | translate }}</th>
             <th>{{ "Cost" | translate }}</th>
+            <th>{{ "serialNumber" | translate }}</th>
             <th>{{ "Notes" | translate }}</th>
 
             <th>{{ "creationTime" | translate }}</th>
@@ -261,6 +288,11 @@
             <td [ngClass]="{ 'null-color': !rowData.cost }">
                 <span class="p-column-title">cost</span>
                 {{ rowData.cost }}
+            </td>
+            
+            <td [ngClass]="{ 'null-color': !rowData.serialNumber }">
+                <span class="p-column-title">serialNumber</span>
+                {{ rowData.serialNumber }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.notes }">
@@ -322,10 +354,10 @@
                     "Covenant Type" | translate
                 }}</label>
                 <p-dropdown
-                    [(ngModel)]="selectedCovenantEdit"
                     [options]="dropdownItemsCovenantType"
                     formControlName="covenantId"
                     optionLabel="name"
+                    optionValue="id"
                     [placeholder]="'Enter Covenant Type' | translate"
                     (onChange)="selectedCovenantEditFun($event)"
                 ></p-dropdown>
@@ -336,10 +368,10 @@
                     "Select Employee" | translate
                 }}</label>
                 <p-dropdown
-                    [(ngModel)]="selectedEmployeeEdit"
                     [options]="dropdownItemsEmployee"
                     formControlName="employeeId"
                     optionLabel="name"
+                    optionValue="id"
                     [placeholder]="'All Employees' | translate"
                 ></p-dropdown>
             </div>
@@ -367,6 +399,18 @@
                     formControlName="cost"
                     [placeholder]="'Enter Cost Here' | translate"
                     id="Cost"
+                    type="number"
+                />
+            </div>
+
+            <div class="field">
+                <label htmlFor="numberOfHours">{{ "serialNumber" | translate }}</label>
+    
+                <input
+                    pInputText
+                    [(ngModel)]="product.serialNumber"
+                    [placeholder]="'Enter serialNumber here' | translate"
+                    id="serialNumberEdit"
                     type="number"
                 />
             </div>
@@ -400,7 +444,7 @@
                 icon="pi pi-check"
                 class="p-button-text"
                 type="submit"
-                (click)="saveProduct(product.id, product)"
+                (click)="saveProduct(product)"
             ></button>
             </div>
         </form>

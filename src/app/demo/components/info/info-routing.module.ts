@@ -41,9 +41,7 @@ import { ExecuseRequestComponent } from './components/custom/execuse-request/exe
 import { InternalJobsComponent } from './components/custom/internal-jobs/internal-jobs.component';
 import { AttendenceConfigurationComponent } from './components/custom/attendence-configuration/attendence-configuration.component';
 import { AttendenceConfigEditComponent } from './components/custom/attendence-config-edit/attendence-config-edit.component';
-import { TestInputComponentComponent } from './components/test-input-component/test-input-component.component';
 import { SetEmployeeShiftsComponent } from './components/custom/set-employee-shifts/set-employee-shifts.component';
-import { AllEmployeeFingerPrintsService } from './components/custom/all-employees-FingerPrints/all-employees-FingerPrints.service';
 import { AllEmployeesFingerPrintComponent } from './components/custom/all-employees-FingerPrints/all-employees-FingerPrintscomponent';
 import { KPIComponent } from './components/custom/kpi/kpi.component';
 import { PenaltiesAndDeductionComponent } from './components/custom/penalties-and-deduction/penalties-and-deduction.component';
@@ -51,7 +49,12 @@ import { BonusComponent } from './components/custom/bonus/bonus.component';
 import { TestComponent } from './components/employee-edit/AllTabs/test/test.component';
 import { InternalJobsEditComponent } from './components/custom/internal-jobs-edit/internal-jobs-edit.component';
 import { ResignationComponent } from './components/custom/resignation/resignation.component';
+import { LoanTypesComponent } from './components/standard/loan-types/loan-types.component';
 import { SetAssetCoordinatorComponent } from './components/custom/set-asset-coordinator/set-asset-coordinator.component';
+import { AllowanceComponent } from './components/custom/allowance/allowance.component';
+import { CompanyBasicDataComponent } from './components/custom/company-basic-data/company-basic-data.component';
+import { MonthlyAllowenceComponent } from './components/custom/monthly-allowence/monthly-allowence.component';
+import { ResignationSettingComponent } from './components/custom/resignation-setting/resignation-setting.component';
 import { SendNotificationToAllComponent } from './components/custom/send-notification-to-all/send-notification-to-all.component';
 import { InsuranceConfigComponent } from './components/custom/insurance-config/insurance-config.component';
 import { LoanPolicyComponent } from './components/custom/loan-policy/loan-policy.component';
@@ -189,6 +192,11 @@ import { LoanDetailsComponent } from './components/custom/loan-details/loan-deta
                 component: KPIComponent,
             },
             {
+                path: 'allowance',
+                canActivate: [authGuard],
+                component: AllowanceComponent,
+            },
+            {
                 path: 'bonus',
                 canActivate: [authGuard],
                 component: BonusComponent,
@@ -275,6 +283,7 @@ import { LoanDetailsComponent } from './components/custom/loan-details/loan-deta
                         './components/employee-edit/all-tabs-routing/all-tabs.module'
                     ).then((m) => m.AllTabsModule),
             },
+
             {
                 path: 'InternalJobs/edit/:id',
                 canActivate: [authGuard],
@@ -314,6 +323,11 @@ import { LoanDetailsComponent } from './components/custom/loan-details/loan-deta
                 component: SetEmployeeShiftsComponent,
             },
             {
+                path: 'loanTypes',
+                canActivate: [authGuard],
+                component: LoanTypesComponent,
+            },
+            {
                 path: 'setAssetCoordinator',
                 canActivate: [authGuard],
                 component: SetAssetCoordinatorComponent,
@@ -345,6 +359,24 @@ import { LoanDetailsComponent } from './components/custom/loan-details/loan-deta
             },
 
             {
+                path: 'companyBasicData',
+                canActivate: [authGuard],
+                component: CompanyBasicDataComponent,
+            },
+           
+            {
+                path: 'monthlyAllowance',
+                canActivate: [authGuard],
+                component: MonthlyAllowenceComponent,
+            },
+            
+            {
+                path: 'resignationSetting',
+                canActivate: [authGuard],
+                component: ResignationSettingComponent,
+            },
+             {
+
                 path: 'insuranceConfig',
                 canActivate: [authGuard],
                 component: InsuranceConfigComponent,
