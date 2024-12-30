@@ -147,7 +147,6 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/monthlyAllowance'],
                             },
 
-
                             {
                                 label: this.translate.instant(
                                     'Employees Shifts'
@@ -320,7 +319,7 @@ export class AppMenuComponent implements OnInit {
                                 label: this.translate.instant('Locations'),
                                 routerLink: ['/info/location'],
                             },
-                            
+
                             {
                                 label: this.translate.instant(
                                     'Source of Employment'
