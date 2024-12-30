@@ -26,10 +26,7 @@ export const passwordMatchValidator: ValidatorFn = (formGroup: FormGroup) => {
 @Component({
     selector: 'app-users',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService],
     templateUrl: './users.component.html',
     styleUrl: './users.component.scss',
@@ -167,7 +164,7 @@ export class UsersComponent {
 
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
@@ -207,7 +204,6 @@ export class UsersComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-          
         });
     }
 
@@ -340,7 +336,7 @@ export class UsersComponent {
     selectMultiItems(event: any) {
         console.log(event);
         console.log(this.selectedMulti);
-    
+
         this.selectedMulti = event.value;
     }
     saveRoles(id: number) {
@@ -348,15 +344,12 @@ export class UsersComponent {
         console.log(id);
         console.log(this.selectedMulti);
 
-        let selectedIds = [] ;  
+        let selectedIds = [];
 
-        this.selectedMulti.forEach((item)=>{
-            selectedIds.push(item.id); 
+        this.selectedMulti.forEach((item) => {
+            selectedIds.push(item.id);
         });
         console.log(selectedIds);
-        
-
-
 
         this.usersService.assignRoles(id, selectedIds).subscribe({
             next: (res) => {
@@ -375,14 +368,13 @@ export class UsersComponent {
                     this.sortField,
                     this.sortOrder
                 );
-
             },
             error: (err) => {
                 console.log(err);
                 this.productDialog = false;
             },
         });
-        selectedIds = [] ;
+        selectedIds = [];
     }
     editProductLock(rowData: any) {
         this.usersService.GetById(rowData.id).subscribe({

@@ -12,10 +12,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
     selector: 'app-employee-certification',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService],
 
     templateUrl: './employee-certification.component.html',
@@ -225,7 +222,7 @@ export class EmployeeCertificationComponent {
 
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
@@ -347,7 +344,6 @@ export class EmployeeCertificationComponent {
                 },
             });
         }
-
     }
 
     toggleNew() {
@@ -424,7 +420,6 @@ export class EmployeeCertificationComponent {
             },
             error: (err) => {
                 this.deleteProductsDialog = false;
-
             },
         });
     }
@@ -441,4 +436,3 @@ export class EmployeeCertificationComponent {
         this.sortField = 'name';
     }
 }
-

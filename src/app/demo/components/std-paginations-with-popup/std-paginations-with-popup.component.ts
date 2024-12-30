@@ -31,7 +31,7 @@ export class StdPaginationsWithPopupComponent {
     @Input() endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 3;
+    itemsPerPage = 5;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
@@ -195,7 +195,7 @@ export class StdPaginationsWithPopupComponent {
 
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,

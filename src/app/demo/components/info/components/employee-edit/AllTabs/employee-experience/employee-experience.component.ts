@@ -13,10 +13,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
     selector: 'app-employee-experience',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService, DatePipe],
     templateUrl: './employee-experience.component.html',
     styleUrl: './employee-experience.component.scss',
@@ -212,7 +209,7 @@ export class EmployeeExperienceComponent {
 
         console.log(body);
 
-        // Confirm add new
+
         if(form.valid) {
             this.employeeExperienceService.Register(body).subscribe({
                 next: (res) => {
@@ -244,7 +241,7 @@ export class EmployeeExperienceComponent {
 
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
@@ -290,7 +287,7 @@ export class EmployeeExperienceComponent {
             },
             error: (err) => {
                 console.log(err);
-                
+
                 this.loading = false;
             },
         });
@@ -371,6 +368,7 @@ export class EmployeeExperienceComponent {
         }
 
 
+
     }
 
     toggleNew() {
@@ -447,7 +445,6 @@ export class EmployeeExperienceComponent {
             },
             error: (err) => {
                 this.deleteProductsDialog = false;
-               
             },
         });
     }

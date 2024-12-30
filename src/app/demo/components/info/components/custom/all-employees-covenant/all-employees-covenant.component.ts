@@ -13,10 +13,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
     standalone: true,
     selector: 'app-all-employees-covenant',
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService, DatePipe],
     templateUrl: './all-employees-covenant.component.html',
     styleUrl: './all-employees-covenant.component.scss',
@@ -114,8 +111,7 @@ export class AllEmployeesCovenantComponent {
         this.getCovenantTypes();
         this.getDropDownEmployee();
 
-        this.initFormGroups()
-
+        this.initFormGroups();
     }
 
     initFormGroups() {
@@ -123,6 +119,7 @@ export class AllEmployeesCovenantComponent {
             covenantId: new FormControl('', Validators.required),
             employeeId: new FormControl('', Validators.required),
             date: new FormControl('', Validators.required),
+
             cost:  new FormControl('', Validators.required),
             serialNumber:  new FormControl('', Validators.required),
             notes:  new FormControl(''),
@@ -133,6 +130,7 @@ export class AllEmployeesCovenantComponent {
             covenantId: new FormControl('', Validators.required),
             employeeId: new FormControl('', Validators.required),
             date: new FormControl('', Validators.required),
+
             cost:  new FormControl('', Validators.required),
             serialNumber:  new FormControl('', Validators.required),
             notes:  new FormControl(''),
@@ -168,7 +166,6 @@ export class AllEmployeesCovenantComponent {
                 console.log( this.product.date);
 
             },
-
         });
     }
 
@@ -210,7 +207,6 @@ export class AllEmployeesCovenantComponent {
                     this.sortOrder
                 );
             },
-
         });
     }
 
@@ -225,40 +221,40 @@ export class AllEmployeesCovenantComponent {
 
         if(this.addNewForm.valid) {
             // Confirm add new
-            this.employeeConvenantService.Register(this.addNewForm.value).subscribe({
-                next: (res) => {
-                    console.log(res);
-                    this.showFormNew = false;
-                    // show message for success inserted
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Successful',
-                        detail: 'inserted success',
-                        life: 3000,
-                    });
+            this.employeeConvenantService
+                .Register(this.addNewForm.value)
+                .subscribe({
+                    next: (res) => {
+                        console.log(res);
+                        this.showFormNew = false;
+                        // show message for success inserted
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Successful',
+                            detail: 'inserted success',
+                            life: 3000,
+                        });
 
-                    this.addNewForm.clearValidators();
-                    // set fields is empty
-                    this.setFieldsNulls();
+                        this.addNewForm.clearValidators();
+                        // set fields is empty
+                        this.setFieldsNulls();
 
-                    // load data again
-                    this.loadData(
-                        this.page,
-                        this.itemsPerPage,
-                        this.nameFilter,
-                        this.sortField,
-                        this.sortOrder
-                    );
-                },
-
-            });
+                        // load data again
+                        this.loadData(
+                            this.page,
+                            this.itemsPerPage,
+                            this.nameFilter,
+                            this.sortField,
+                            this.sortOrder
+                        );
+                    },
+                });
         }
-
     }
 
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
@@ -303,7 +299,6 @@ export class AllEmployeesCovenantComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-
         });
     }
 
@@ -372,7 +367,6 @@ export class AllEmployeesCovenantComponent {
                         this.sortOrder
                     );
                 },
-
             });
         }
     }
@@ -449,7 +443,6 @@ export class AllEmployeesCovenantComponent {
                     this.sortOrder
                 );
             },
-
         });
     }
     sortById(event: any) {
@@ -474,7 +467,6 @@ export class AllEmployeesCovenantComponent {
                 this.dropdownItemsCovenantType = res.data;
                 console.log(this.dropdownItemsCovenantType);
             },
-
         });
     }
 
@@ -485,7 +477,6 @@ export class AllEmployeesCovenantComponent {
                 this.dropdownItemsEmployee = res.data;
                 console.log(this.dropdownItemsEmployee);
             },
-
         });
     }
     selectCovenant(event: any) {

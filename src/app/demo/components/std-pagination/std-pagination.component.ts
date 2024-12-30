@@ -23,29 +23,29 @@ import { LockupsService } from '../../service/lockups.service';
     selector: 'app-std-pagination',
     standalone: true,
     imports: [
-    CommonModule,
-    NgxPaginationModule,
-    ToolbarModule,
-    TableModule,
-    RippleModule,
-    FileUploadModule,
-    HttpClientModule,
-    ButtonModule,
-    FormsModule,
-    DialogModule,
-    ToastModule,
-    RatingModule,
-    InputTextModule,
-    InputTextareaModule,
-    DropdownModule,
-    RadioButtonModule,
-    InputNumberModule,
-    ReactiveFormsModule,
+        CommonModule,
+        NgxPaginationModule,
+        ToolbarModule,
+        TableModule,
+        RippleModule,
+        FileUploadModule,
+        HttpClientModule,
+        ButtonModule,
+        FormsModule,
+        DialogModule,
+        ToastModule,
+        RatingModule,
+        InputTextModule,
+        InputTextareaModule,
+        DropdownModule,
+        RadioButtonModule,
+        InputNumberModule,
+        ReactiveFormsModule,
     ],
 
     providers: [MessageService],
     templateUrl: './std-pagination.component.html',
-    styleUrl: './std-pagination.component.scss'
+    styleUrl: './std-pagination.component.scss',
 })
 export class StdPaginationComponent {
     constructor(
@@ -77,10 +77,9 @@ export class StdPaginationComponent {
     sortOrder: string = 'asc';
 
     ngOnInit() {
+        this.endPoint = 'Employee';
 
-        this.endPoint = "Employee";
-
-       this._LockupsService.setEndPoint(this.endPoint);
+        this._LockupsService.setEndPoint(this.endPoint);
 
         this.cols = [
             { field: 'name', header: 'Name' },
@@ -118,7 +117,7 @@ export class StdPaginationComponent {
         let body = {
             name: this.newNameAr,
             notes: this.newNotes,
-            engName: this.newNameEn
+            engName: this.newNameEn,
         };
 
         this._LockupsService.Register(body).subscribe({
@@ -152,7 +151,7 @@ export class StdPaginationComponent {
 
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
@@ -161,7 +160,9 @@ export class StdPaginationComponent {
     }
 
     setFieldsNulls() {
-        (this.newNameAr = null), (this.newNameEn = null), (this.newNotes = null);
+        (this.newNameAr = null),
+            (this.newNameEn = null),
+            (this.newNotes = null);
     }
 
     loadData(
@@ -169,7 +170,7 @@ export class StdPaginationComponent {
         size: number,
         nameFilter: string,
         filterType: string,
-        sortType: string ="asc"
+        sortType: string = 'asc'
     ) {
         this.loading = true;
         let filteredData = {
@@ -180,8 +181,6 @@ export class StdPaginationComponent {
             sortType: sortType,
         };
         filteredData.sortType = this.sortOrder;
-
-
 
         this._LockupsService.GetPage(filteredData).subscribe({
             next: (res) => {
@@ -194,8 +193,7 @@ export class StdPaginationComponent {
                 // this.selectedItems = this.allData;
                 console.log(this.selectedItems);
 
-
-                console.log(sortType)
+                console.log(sortType);
             },
             error: (err) => {
                 console.log(err);
@@ -271,7 +269,6 @@ export class StdPaginationComponent {
             },
             error: (err) => {
                 console.log(err);
-     
             },
         });
     }
@@ -346,7 +343,6 @@ export class StdPaginationComponent {
                 );
             },
             error: (err) => {
-           
                 this.deleteProductsDialog = false;
                 this.loadData(
                     this.page,

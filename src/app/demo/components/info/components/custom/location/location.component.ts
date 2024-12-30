@@ -13,10 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
     templateUrl: './location.component.html',
     styleUrl: './location.component.scss',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService],
 })
 export class LocationComponent {
@@ -54,24 +51,24 @@ export class LocationComponent {
     newLongitude: DoubleRange;
     newDiscription: string;
 
-    addNewForm : FormGroup = new FormGroup({
-        engName: new FormControl(null , [Validators.required]),
-        latitude: new FormControl(null , [Validators.required]),
-        longitude: new FormControl(null , [Validators.required]),
-        name: new FormControl(null , [Validators.required]),
+    addNewForm: FormGroup = new FormGroup({
+        engName: new FormControl(null, [Validators.required]),
+        latitude: new FormControl(null, [Validators.required]),
+        longitude: new FormControl(null, [Validators.required]),
+        name: new FormControl(null, [Validators.required]),
         notes: new FormControl(null),
-        discription: new FormControl(null)
+        discription: new FormControl(null),
     });
 
     editForm: FormGroup = new FormGroup({
-        engName: new FormControl(null , [Validators.required]),
-        latitude: new FormControl(null , [Validators.required]),
-        longitude: new FormControl(null , [Validators.required]),
-        name: new FormControl(null , [Validators.required]),
+        engName: new FormControl(null, [Validators.required]),
+        latitude: new FormControl(null, [Validators.required]),
+        longitude: new FormControl(null, [Validators.required]),
+        name: new FormControl(null, [Validators.required]),
         notes: new FormControl(null),
         discription: new FormControl(null),
-        id : new FormControl(null)
-    }) 
+        id: new FormControl(null),
+    });
 
     ngOnInit() {
         this.endPoint = 'Location';
@@ -158,9 +155,8 @@ export class LocationComponent {
         });
     }
 
-    addNew(form:FormGroup) {
+    addNew(form: FormGroup) {
         console.log(form);
-        
 
         this._LocationService.Register(form.value).subscribe({
             next: (res) => {
@@ -169,13 +165,13 @@ export class LocationComponent {
                 // show message for success inserted
                 this.messageService.add({
                     severity: 'success',
-                    summary: this.translate.instant("Success"),
+                    summary: this.translate.instant('Success'),
                     detail: res.message,
                     life: 3000,
                 });
 
                 // set fields is empty
-                form.reset() ;
+                form.reset();
 
                 // load data again
                 this.loadData(
@@ -196,7 +192,7 @@ export class LocationComponent {
 
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
@@ -281,13 +277,12 @@ export class LocationComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number, form:FormGroup) {
+    saveProduct(id: number, form: FormGroup) {
         this.submitted = true;
         console.log(id);
         form.patchValue({
-            id : id
+            id: id,
         });
-        
 
         this._LocationService.Edit(form.value).subscribe({
             next: (res) => {
@@ -295,11 +290,10 @@ export class LocationComponent {
                 // show message for user to show processing of deletion.
                 this.messageService.add({
                     severity: 'success',
-                    summary: this.translate.instant("Success"),
+                    summary: this.translate.instant('Success'),
                     detail: res.message,
                     life: 3000,
                 });
-                
 
                 // load data again
                 this.loadData(
@@ -312,7 +306,6 @@ export class LocationComponent {
             },
             error: (err) => {
                 console.log(err);
-          
             },
         });
     }
@@ -398,7 +391,6 @@ export class LocationComponent {
                     this.sortOrder
                 );
             },
-          
         });
     }
     sortById(event: any) {
