@@ -14,10 +14,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
     selector: 'app-all-employees-file',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService, DatePipe],
     templateUrl: './all-employees-file.component.html',
     styleUrl: './all-employees-file.component.scss',
@@ -118,7 +115,7 @@ export class AllEmployeesFileComponent {
         this.getRelativeRelationTypes();
         this.getDropDownEmployee();
 
-        this.initFormGroups()
+        this.initFormGroups();
     }
 
     initFormGroups() {
@@ -128,7 +125,7 @@ export class AllEmployeesFileComponent {
             Date: new FormControl(null, Validators.required),
             Discreption: new FormControl(null, Validators.required),
             File: new FormControl(null),
-        })
+        });
 
         this.editForm = new FormGroup({
             Id: new FormControl(null, Validators.required),
@@ -137,7 +134,7 @@ export class AllEmployeesFileComponent {
             Date: new FormControl(null, Validators.required),
             Discreption: new FormControl(null, Validators.required),
             File: new FormControl(null),
-        })
+        });
     }
 
     editProduct(rowData: any) {
@@ -164,7 +161,6 @@ export class AllEmployeesFileComponent {
                 this.product = { ...res.data };
                 this.productDialog = true;
             },
-
         });
     }
 
@@ -206,7 +202,6 @@ export class AllEmployeesFileComponent {
                     this.sortOrder
                 );
             },
-
         });
     }
 
@@ -217,21 +212,19 @@ export class AllEmployeesFileComponent {
                 this.dropdownItemsEmployee = res.data;
                 console.log(this.dropdownItemsEmployee);
             },
-
         });
     }
 
     addNew() {
-
-       this.addNewForm.patchValue({
+        this.addNewForm.patchValue({
             DocumentRequiredId: this.selectedRelativeRelationType,
             EmployeeId: this.selectedEmployee.id,
             Date: this.convertDate(this.date, 'yyyy-MM-ddTHH:mm:ss'),
             Discreption: this.discreption,
             File: this.file,
-        })
+        });
 
-        if(this.addNewForm.valid) {
+        if (this.addNewForm.valid) {
             // map To Form Data
             const formData = this.mapToFormData(this.addNewForm.value);
 
@@ -260,14 +253,9 @@ export class AllEmployeesFileComponent {
                         this.sortOrder
                     );
                 },
-
             });
         }
-
-
     }
-
-
 
     mapToFormData(body: any) {
         const formData: FormData = new FormData();
@@ -283,7 +271,7 @@ export class AllEmployeesFileComponent {
 
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
@@ -326,7 +314,6 @@ export class AllEmployeesFileComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-
         });
     }
 
@@ -375,9 +362,9 @@ export class AllEmployeesFileComponent {
             PersonName: product.personName,
             Discreption: product.discreption,
             File: this.file,
-        })
+        });
 
-        if(this.editForm.valid) {
+        if (this.editForm.valid) {
             const formData = this.mapToFormData(this.editForm.value);
 
             this.employeeFileService.Edit(formData).subscribe({
@@ -400,7 +387,6 @@ export class AllEmployeesFileComponent {
                         this.sortOrder
                     );
                 },
-
             });
         }
     }
@@ -477,7 +463,6 @@ export class AllEmployeesFileComponent {
                     this.sortOrder
                 );
             },
-
         });
     }
     sortById(event: any) {
@@ -504,7 +489,6 @@ export class AllEmployeesFileComponent {
                     this.dropdownItemsRelativeRelationType = res.data;
                     console.log(this.dropdownItemsRelativeRelationType);
                 },
-
             });
     }
     selectRelativeRelation(event: any) {

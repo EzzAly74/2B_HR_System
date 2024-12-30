@@ -14,10 +14,7 @@ import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 @Component({
     selector: 'app-employee',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService, DatePipe],
     templateUrl: './employee-data.component.html',
     styleUrl: './employee-data.component.scss',
@@ -184,8 +181,6 @@ export class EmployeeDataComponent {
             enum: 'getReligion',
         });
 
-     
-
         // get Government Dropdown
         this.getDropDownField({
             field: 'dropdownItemsGovernment',
@@ -329,7 +324,6 @@ export class EmployeeDataComponent {
             },
             error: (err) => {
                 console.log(err);
-               
             },
         });
     }
@@ -419,7 +413,7 @@ export class EmployeeDataComponent {
 
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
@@ -533,7 +527,6 @@ export class EmployeeDataComponent {
             },
             error: (err) => {
                 console.log(err);
-          
             },
         });
     }
@@ -609,7 +602,6 @@ export class EmployeeDataComponent {
                 );
             },
             error: (err) => {
-              
                 this.deleteProductsDialog = false;
                 this.loadData(
                     this.page,
@@ -710,8 +702,7 @@ export class EmployeeDataComponent {
             },
         });
     }
-    navigateTOAddEmployee()
-    {
-        this.router.navigate(['info/employee'])
+    navigateTOAddEmployee() {
+        this.router.navigate(['info/employee']);
     }
 }

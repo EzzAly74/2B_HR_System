@@ -12,10 +12,7 @@ import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 @Component({
     selector: 'app-employee-experience',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService, DatePipe],
     templateUrl: './employee-experience.component.html',
     styleUrl: './employee-experience.component.scss',
@@ -215,14 +212,13 @@ export class EmployeeExperienceComponent {
             },
             error: (err) => {
                 this.showFormNew = false;
-       
             },
         });
     }
 
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
@@ -268,7 +264,7 @@ export class EmployeeExperienceComponent {
             },
             error: (err) => {
                 console.log(err);
-                
+
                 this.loading = false;
             },
         });
@@ -345,7 +341,6 @@ export class EmployeeExperienceComponent {
             },
             error: (err) => {
                 console.log(err);
-       
             },
         });
     }
@@ -424,7 +419,6 @@ export class EmployeeExperienceComponent {
             },
             error: (err) => {
                 this.deleteProductsDialog = false;
-               
             },
         });
     }

@@ -12,10 +12,7 @@ import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 @Component({
     selector: 'app-employee-covenant',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService, DatePipe],
 
     templateUrl: './employee-covenant.component.html',
@@ -217,14 +214,13 @@ export class EmployeeCovenantComponent {
             },
             error: (err) => {
                 this.showFormNew = false;
-              
             },
         });
     }
 
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
@@ -270,7 +266,7 @@ export class EmployeeCovenantComponent {
             },
             error: (err) => {
                 console.log(err);
-               
+
                 this.loading = false;
             },
         });
@@ -346,7 +342,7 @@ export class EmployeeCovenantComponent {
             },
             error: (err) => {
                 console.log(err);
-                   },
+            },
         });
     }
 
@@ -424,7 +420,6 @@ export class EmployeeCovenantComponent {
             },
             error: (err) => {
                 this.deleteProductsDialog = false;
-              
             },
         });
     }

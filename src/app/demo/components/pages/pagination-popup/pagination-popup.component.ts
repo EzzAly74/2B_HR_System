@@ -113,7 +113,7 @@ export class PaginationPopupComponent {
 
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
@@ -227,7 +227,6 @@ export class PaginationPopupComponent {
             },
             error: (err) => {
                 console.log(err);
-         
             },
         });
     }
@@ -302,7 +301,6 @@ export class PaginationPopupComponent {
                 );
             },
             error: (err) => {
-             
                 this.deleteProductsDialog = false;
                 this.loadData(
                     this.page,

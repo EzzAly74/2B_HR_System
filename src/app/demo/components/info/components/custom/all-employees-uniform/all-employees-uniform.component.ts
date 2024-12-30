@@ -13,10 +13,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
     selector: 'app-all-employees-uniform',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService, DatePipe, DayNamePipe],
     templateUrl: './all-employees-uniform.component.html',
     styleUrl: './all-employees-uniform.component.scss',
@@ -70,7 +67,6 @@ export class AllEmployeesUniformComponent {
     selectedEmployee: any;
     selectedEmployeeEdit: any;
 
-
     addNewForm!: FormGroup;
     editForm!: FormGroup;
 
@@ -103,7 +99,7 @@ export class AllEmployeesUniformComponent {
         this.getDropDown();
 
         this.getDropDownEmployee();
-        this.initFormGroups()
+        this.initFormGroups();
     }
 
     initFormGroups() {
@@ -113,7 +109,7 @@ export class AllEmployeesUniformComponent {
             date: new FormControl(null, Validators.required),
             cost: new FormControl(null, Validators.required),
             nots: new FormControl(null),
-        })
+        });
 
         this.editForm = new FormGroup({
             id: new FormControl(null, Validators.required),
@@ -122,7 +118,7 @@ export class AllEmployeesUniformComponent {
             date: new FormControl(null, Validators.required),
             cost: new FormControl(null, Validators.required),
             nots: new FormControl(null),
-        })
+        });
     }
 
     getDropDownEmployee() {
@@ -132,7 +128,6 @@ export class AllEmployeesUniformComponent {
                 this.dropdownItemsEmployee = res.data;
                 console.log(this.dropdownItemsEmployee);
             },
-
         });
     }
 
@@ -143,7 +138,6 @@ export class AllEmployeesUniformComponent {
                 console.log('Drop Down Unifrom Codes from here');
                 console.log(res.data);
             },
-
         });
     }
 
@@ -174,7 +168,6 @@ export class AllEmployeesUniformComponent {
                     (code: any) => code.id == this.product.uniformCodeId
                 );
 
-
                 this.editForm.patchValue({
                     id: this.product.id,
                     employeeId: this.selectedEmployeeEdit.id,
@@ -182,10 +175,8 @@ export class AllEmployeesUniformComponent {
                     date: this.product.date,
                     cost: this.product.cost,
                     nots: this.product.nots,
-                })
-
+                });
             },
-
         });
     }
 
@@ -215,7 +206,6 @@ export class AllEmployeesUniformComponent {
                     this.sortOrder
                 );
             },
-
         });
     }
 
@@ -232,42 +222,42 @@ export class AllEmployeesUniformComponent {
             date: this.selectedDate,
             cost: this.selectedCost,
             nots: this.selectedNotes,
-        })
+        });
 
-        if(this.addNewForm.valid) {
-                this._EmployeeUniformService.Register(this.addNewForm.value).subscribe({
-                next: (res) => {
-                    console.log(res);
-                    this.showFormNew = false;
-                    // show message for success inserted
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Successful',
-                        detail: 'inserted success',
-                        life: 3000,
-                    });
+        if (this.addNewForm.valid) {
+            this._EmployeeUniformService
+                .Register(this.addNewForm.value)
+                .subscribe({
+                    next: (res) => {
+                        console.log(res);
+                        this.showFormNew = false;
+                        // show message for success inserted
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Successful',
+                            detail: 'inserted success',
+                            life: 3000,
+                        });
 
-                    // set fields is empty
-                    this.setFieldsNulls();
+                        // set fields is empty
+                        this.setFieldsNulls();
 
-                    // load data again
-                    this.loadData(
-                        this.page,
-                        this.itemsPerPage,
-                        this.nameFilter,
-                        this.sortField,
-                        this.sortOrder
-                    );
-                },
-
-            });
+                        // load data again
+                        this.loadData(
+                            this.page,
+                            this.itemsPerPage,
+                            this.nameFilter,
+                            this.sortField,
+                            this.sortOrder
+                        );
+                    },
+                });
         }
-
     }
 
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
@@ -307,7 +297,6 @@ export class AllEmployeesUniformComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-
         });
     }
 
@@ -364,7 +353,7 @@ export class AllEmployeesUniformComponent {
             date: this.product.date,
             cost: this.product.cost,
             nots: this.product.nots,
-        })
+        });
 
         if (this.editForm.valid) {
             this._EmployeeUniformService.Edit(this.editForm.value).subscribe({
@@ -387,11 +376,8 @@ export class AllEmployeesUniformComponent {
                         this.sortOrder
                     );
                 },
-
             });
         }
-
-
     }
 
     toggleNew() {
@@ -477,7 +463,6 @@ export class AllEmployeesUniformComponent {
                     this.sortOrder
                 );
             },
-
         });
     }
 

@@ -9,7 +9,6 @@ import { Table } from 'primeng/table';
     styleUrl: './pagination.component.scss',
 })
 export class PaginationComponent {
-
     constructor(
         private _PaginationService: PaginationService,
         private messageService: MessageService
@@ -39,9 +38,7 @@ export class PaginationComponent {
     sortOrder: string = 'asc';
 
     ngOnInit() {
-      
-
-       this._PaginationService.setEndPoint(this.endPoint);
+        this._PaginationService.setEndPoint(this.endPoint);
 
         this.cols = [
             { field: 'name', header: 'Name' },
@@ -79,7 +76,7 @@ export class PaginationComponent {
         let body = {
             name: this.newNameAr,
             notes: this.newNotes,
-            engName: this.newNameEn
+            engName: this.newNameEn,
         };
 
         this._PaginationService.Register(body).subscribe({
@@ -113,7 +110,7 @@ export class PaginationComponent {
 
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
@@ -122,7 +119,9 @@ export class PaginationComponent {
     }
 
     setFieldsNulls() {
-        (this.newNameAr = null), (this.newNameEn = null), (this.newNotes = null);
+        (this.newNameAr = null),
+            (this.newNameEn = null),
+            (this.newNotes = null);
     }
 
     loadData(
@@ -130,7 +129,7 @@ export class PaginationComponent {
         size: number,
         nameFilter: string,
         filterType: string,
-        sortType: string ="asc"
+        sortType: string = 'asc'
     ) {
         this.loading = true;
         let filteredData = {
@@ -141,8 +140,6 @@ export class PaginationComponent {
             sortType: sortType,
         };
         filteredData.sortType = this.sortOrder;
-
-
 
         this._PaginationService.GetPage(filteredData).subscribe({
             next: (res) => {
@@ -155,8 +152,7 @@ export class PaginationComponent {
                 // this.selectedItems = this.allData;
                 console.log(this.selectedItems);
 
-
-                console.log(sortType)
+                console.log(sortType);
             },
             error: (err) => {
                 console.log(err);
@@ -232,7 +228,6 @@ export class PaginationComponent {
             },
             error: (err) => {
                 console.log(err);
-          
             },
         });
     }
@@ -307,7 +302,6 @@ export class PaginationComponent {
                 );
             },
             error: (err) => {
-        
                 this.deleteProductsDialog = false;
                 this.loadData(
                     this.page,

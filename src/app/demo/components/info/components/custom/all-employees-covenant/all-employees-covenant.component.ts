@@ -13,10 +13,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
     standalone: true,
     selector: 'app-all-employees-covenant',
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService, DatePipe],
     templateUrl: './all-employees-covenant.component.html',
     styleUrl: './all-employees-covenant.component.scss',
@@ -112,8 +109,7 @@ export class AllEmployeesCovenantComponent {
         this.getCovenantTypes();
         this.getDropDownEmployee();
 
-        this.initFormGroups()
-
+        this.initFormGroups();
     }
 
     initFormGroups() {
@@ -121,8 +117,8 @@ export class AllEmployeesCovenantComponent {
             covenantId: new FormControl('', Validators.required),
             employeeId: new FormControl('', Validators.required),
             date: new FormControl('', Validators.required),
-            cost:  new FormControl('', Validators.required),
-            notes:  new FormControl(''),
+            cost: new FormControl('', Validators.required),
+            notes: new FormControl(''),
         });
 
         this.editForm = new FormGroup({
@@ -130,8 +126,8 @@ export class AllEmployeesCovenantComponent {
             covenantId: new FormControl('', Validators.required),
             employeeId: new FormControl('', Validators.required),
             date: new FormControl('', Validators.required),
-            cost:  new FormControl('', Validators.required),
-            notes:  new FormControl(''),
+            cost: new FormControl('', Validators.required),
+            notes: new FormControl(''),
         });
     }
 
@@ -162,7 +158,6 @@ export class AllEmployeesCovenantComponent {
                 this.product = { ...res.data };
                 this.productDialog = true;
             },
-
         });
     }
 
@@ -204,7 +199,6 @@ export class AllEmployeesCovenantComponent {
                     this.sortOrder
                 );
             },
-
         });
     }
 
@@ -223,52 +217,50 @@ export class AllEmployeesCovenantComponent {
 
         // console.log(body);
 
-
         this.addNewForm.patchValue({
             covenantId: this.selectedCovenantType,
             employeeId: this.selectedEmployee?.['id'],
             date: this.convertDate(this.date, 'yyyy-MM-ddTHH:mm:ss'),
             cost: this.cost,
             notes: this.notes,
-        })
+        });
 
-
-        if(this.addNewForm.valid) {
+        if (this.addNewForm.valid) {
             // Confirm add new
-            this.employeeConvenantService.Register(this.addNewForm.value).subscribe({
-                next: (res) => {
-                    console.log(res);
-                    this.showFormNew = false;
-                    // show message for success inserted
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Successful',
-                        detail: 'inserted success',
-                        life: 3000,
-                    });
+            this.employeeConvenantService
+                .Register(this.addNewForm.value)
+                .subscribe({
+                    next: (res) => {
+                        console.log(res);
+                        this.showFormNew = false;
+                        // show message for success inserted
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Successful',
+                            detail: 'inserted success',
+                            life: 3000,
+                        });
 
-                    this.addNewForm.clearValidators();
-                    // set fields is empty
-                    this.setFieldsNulls();
+                        this.addNewForm.clearValidators();
+                        // set fields is empty
+                        this.setFieldsNulls();
 
-                    // load data again
-                    this.loadData(
-                        this.page,
-                        this.itemsPerPage,
-                        this.nameFilter,
-                        this.sortField,
-                        this.sortOrder
-                    );
-                },
-
-            });
+                        // load data again
+                        this.loadData(
+                            this.page,
+                            this.itemsPerPage,
+                            this.nameFilter,
+                            this.sortField,
+                            this.sortOrder
+                        );
+                    },
+                });
         }
-
     }
 
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
@@ -313,7 +305,6 @@ export class AllEmployeesCovenantComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-
         });
     }
 
@@ -365,8 +356,7 @@ export class AllEmployeesCovenantComponent {
         //     id: product.id,
         // };
 
-
-        this.editForm.patchValue( {
+        this.editForm.patchValue({
             covenantId: this.selectedCovenantEdit.id,
             employeeId: this.selectedEmployeeEdit.id,
             date: this.convertDate(product.date, 'yyyy-MM-ddTHH:mm:ss'),
@@ -375,7 +365,7 @@ export class AllEmployeesCovenantComponent {
             id: product.id,
         });
 
-        if(this.editForm.valid) {
+        if (this.editForm.valid) {
             this.employeeConvenantService.Edit(this.editForm.value).subscribe({
                 next: () => {
                     this.hideDialog();
@@ -396,7 +386,6 @@ export class AllEmployeesCovenantComponent {
                         this.sortOrder
                     );
                 },
-
             });
         }
     }
@@ -473,7 +462,6 @@ export class AllEmployeesCovenantComponent {
                     this.sortOrder
                 );
             },
-
         });
     }
     sortById(event: any) {
@@ -498,7 +486,6 @@ export class AllEmployeesCovenantComponent {
                 this.dropdownItemsCovenantType = res.data;
                 console.log(this.dropdownItemsCovenantType);
             },
-
         });
     }
 
@@ -509,7 +496,6 @@ export class AllEmployeesCovenantComponent {
                 this.dropdownItemsEmployee = res.data;
                 console.log(this.dropdownItemsEmployee);
             },
-
         });
     }
     selectCovenant(event: any) {

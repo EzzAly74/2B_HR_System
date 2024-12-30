@@ -18,10 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
     selector: 'app-company-policy',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService, DatePipe],
     templateUrl: './company-policy.component.html',
     styleUrl: './company-policy.component.scss',
@@ -72,22 +69,22 @@ export class CompanyPolicyComponent {
     baseUrlFile: string;
     CompanyPolicyUrl: string;
 
-    addNewForm:FormGroup = new FormGroup({
-        EngName : new FormControl(null,[Validators.required]),
-        Name : new FormControl(null,[Validators.required]),
-        Notes : new FormControl(null),
-        Discreption : new FormControl(null,[Validators.required]),
-        File : new FormControl(null , [Validators.required]),
+    addNewForm: FormGroup = new FormGroup({
+        EngName: new FormControl(null, [Validators.required]),
+        Name: new FormControl(null, [Validators.required]),
+        Notes: new FormControl(null),
+        Discreption: new FormControl(null, [Validators.required]),
+        File: new FormControl(null, [Validators.required]),
     });
 
-    editForm:FormGroup = new FormGroup({
-        EngName : new FormControl(null,[Validators.required]),
-        Name : new FormControl(null,[Validators.required]),
-        Notes : new FormControl(null),
-        Discreption : new FormControl(null,[Validators.required]),
-        File : new FormControl(null),
-        Id : new FormControl(null)
-    })
+    editForm: FormGroup = new FormGroup({
+        EngName: new FormControl(null, [Validators.required]),
+        Name: new FormControl(null, [Validators.required]),
+        Notes: new FormControl(null),
+        Discreption: new FormControl(null, [Validators.required]),
+        File: new FormControl(null),
+        Id: new FormControl(null),
+    });
 
     ngOnInit() {
         this.endPoint = 'CompanyPolicy';
@@ -210,19 +207,18 @@ export class CompanyPolicyComponent {
                     this.sortOrder
                 );
             },
-          
         });
     }
 
-    addNew(form : FormGroup) {
-      form.patchValue({
-        File : this.fileNew
-      })
+    addNew(form: FormGroup) {
+        form.patchValue({
+            File: this.fileNew,
+        });
         const formData: FormData = new FormData();
-        let body = form.value ;
+        let body = form.value;
 
         console.log(form);
-        
+
         for (const key in body) {
             if (body.hasOwnProperty(key)) {
                 formData.append(key, body[key]);
@@ -234,18 +230,17 @@ export class CompanyPolicyComponent {
                 console.log(res);
                 this.showFormNew = false;
                 // show message for success inserted
-                if(res.success)
-                {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: this.translate.instant('Success'),
-                    detail: res.message,
-                    life: 3000,
-                });
-            }
+                if (res.success) {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translate.instant('Success'),
+                        detail: res.message,
+                        life: 3000,
+                    });
+                }
 
                 // set fields is empty
-               form.reset()
+                form.reset();
 
                 // load data again
                 this.loadData(
@@ -255,13 +250,13 @@ export class CompanyPolicyComponent {
                     this.sortField,
                     this.sortOrder
                 );
-            }
+            },
         });
     }
 
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
@@ -342,16 +337,15 @@ export class CompanyPolicyComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number,form:FormGroup) {
+    saveProduct(id: number, form: FormGroup) {
         // this.submitted = true;
 
-
         form.patchValue({
-            Id : id ,
-            File : this.fileEdit ?? null  
-        })
+            Id: id,
+            File: this.fileEdit ?? null,
+        });
 
-        let body = form.value ;
+        let body = form.value;
         const formDataEdit: FormData = new FormData();
 
         for (const key in body) {
@@ -368,15 +362,14 @@ export class CompanyPolicyComponent {
             next: (res) => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
-                if(res.success)
-                {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: this.translate.instant('Success'),
-                    detail: res.message,
-                    life: 3000,
-                });
-            }
+                if (res.success) {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translate.instant('Success'),
+                        detail: res.message,
+                        life: 3000,
+                    });
+                }
                 // load data again
                 this.loadData(
                     this.page,
@@ -386,7 +379,6 @@ export class CompanyPolicyComponent {
                     this.sortOrder
                 );
             },
-         
         });
     }
 
@@ -471,7 +463,6 @@ export class CompanyPolicyComponent {
                     this.sortOrder
                 );
             },
-           
         });
     }
 
@@ -490,31 +481,27 @@ export class CompanyPolicyComponent {
     onFileSelect(event: any) {
         console.log(event);
         let file: any = event.currentFiles[0];
-        
-        if(file)
-        {
-        this.fileNew = file;
-        this.addNewForm.patchValue({
-            File: file
-        });
-        this.addNewForm.get('File')?.updateValueAndValidity();
+
+        if (file) {
+            this.fileNew = file;
+            this.addNewForm.patchValue({
+                File: file,
+            });
+            this.addNewForm.get('File')?.updateValueAndValidity();
         }
     }
-    onFileSelectEdit(event: any)
-    {
-
+    onFileSelectEdit(event: any) {
         console.log(event);
         let file: any = event.currentFiles[0];
-        
-        if(file)
-        {
-        this.fileEdit = file;
-        console.log(this.product);
-        
-        this.editForm.patchValue({
-            File: file
-        });
-        this.editForm.get('File')?.updateValueAndValidity();
+
+        if (file) {
+            this.fileEdit = file;
+            console.log(this.product);
+
+            this.editForm.patchValue({
+                File: file,
+            });
+            this.editForm.get('File')?.updateValueAndValidity();
         }
     }
 }

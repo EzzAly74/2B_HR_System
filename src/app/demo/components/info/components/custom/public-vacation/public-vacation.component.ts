@@ -13,10 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
     selector: 'app-public-vacation',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService, DatePipe],
     templateUrl: './public-vacation.component.html',
     styleUrl: './public-vacation.component.scss',
@@ -26,7 +23,7 @@ export class PublicVacationComponent {
         private _PublicVacationService: PublicVacationService,
         private messageService: MessageService,
         private DatePipe: DatePipe,
-        private translate : TranslateService
+        private translate: TranslateService
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -59,18 +56,18 @@ export class PublicVacationComponent {
     selectedShiftEdit: any;
     oldDate: any;
 
-    addNewForm:FormGroup = new FormGroup({
-        date: new FormControl(null , [Validators.required]),
-        shiftId: new FormControl(null , [Validators.required]),
-        reason: new FormControl(null , [Validators.required]),
-    })
+    addNewForm: FormGroup = new FormGroup({
+        date: new FormControl(null, [Validators.required]),
+        shiftId: new FormControl(null, [Validators.required]),
+        reason: new FormControl(null, [Validators.required]),
+    });
 
-    editForm:FormGroup = new FormGroup({
-        date: new FormControl(null , [Validators.required]),
-        shiftId: new FormControl(null , [Validators.required]),
-        reason: new FormControl(null , [Validators.required]),
-        id: new FormControl(null)
-    })
+    editForm: FormGroup = new FormGroup({
+        date: new FormControl(null, [Validators.required]),
+        shiftId: new FormControl(null, [Validators.required]),
+        reason: new FormControl(null, [Validators.required]),
+        id: new FormControl(null),
+    });
 
     ngOnInit() {
         this.endPoint = 'PublicVacation';
@@ -158,8 +155,6 @@ export class PublicVacationComponent {
                 // extract result inside public vacation
                 this.product = { ...res.data };
                 this.productDialog = true;
-
-                
             },
             error: (err) => {
                 console.log(err);
@@ -170,8 +165,6 @@ export class PublicVacationComponent {
     changedSelected() {
         this.selectedShiftId = this.selectedShift['id'];
     }
-
-   
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
@@ -199,18 +192,17 @@ export class PublicVacationComponent {
             },
             error: (err) => {
                 console.log(err);
-
-              
             },
         });
     }
 
-    addNew(form:FormGroup) {
-
+    addNew(form: FormGroup) {
         form.patchValue({
-            date : this.DatePipe.transform(form.get('date').value , "yyyy-MM-ddTHH:mm:ss")
-        })
-      
+            date: this.DatePipe.transform(
+                form.get('date').value,
+                'yyyy-MM-ddTHH:mm:ss'
+            ),
+        });
 
         this._PublicVacationService.Register(form.value).subscribe({
             next: (res) => {
@@ -219,7 +211,7 @@ export class PublicVacationComponent {
                 // show message for success inserted
                 this.messageService.add({
                     severity: 'success',
-                    summary: this.translate.instant("Success"),
+                    summary: this.translate.instant('Success'),
                     detail: res.message,
                     life: 3000,
                 });
@@ -239,8 +231,6 @@ export class PublicVacationComponent {
             error: (err) => {
                 // this.showFormNew = false;
 
-         
-
                 console.log(err);
             },
         });
@@ -248,7 +238,7 @@ export class PublicVacationComponent {
 
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
@@ -329,38 +319,31 @@ export class PublicVacationComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number, form:FormGroup) {
-     
+    saveProduct(id: number, form: FormGroup) {
         form.patchValue({
-            date : this.DatePipe.transform(
+            date: this.DatePipe.transform(
                 form.get('date').value,
                 'yyyy-MM-ddTHH:mm:ss'
             ),
-            id : id , 
-            shiftId: this.selectedShiftEdit.id
-        }) ;
-      
-
-     
+            id: id,
+            shiftId: this.selectedShiftEdit.id,
+        });
 
         console.clear();
         console.log('body here ');
         console.log(form);
-        
-
 
         this._PublicVacationService.Edit(form.value).subscribe({
             next: (res) => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
-                if(res.success)
-                {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: this.translate.instant('Success'),
-                    detail: res.message ,
-                    life: 3000,
-                });
+                if (res.success) {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translate.instant('Success'),
+                        detail: res.message,
+                        life: 3000,
+                    });
                 }
 
                 // load data again
@@ -374,7 +357,6 @@ export class PublicVacationComponent {
             },
             error: (err) => {
                 console.log(err);
-                
             },
         });
     }
@@ -460,7 +442,6 @@ export class PublicVacationComponent {
                     this.sortOrder
                 );
             },
-       
         });
     }
 

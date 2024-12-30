@@ -1,10 +1,5 @@
 import { AttendenceConfigurationService } from './attendence-configuration.service';
-import {
-    FormGroup,
-    FormBuilder,
-    Validators,
-    FormArray,
-} from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Component, Input, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
 import { MessageService } from 'primeng/api';
@@ -16,10 +11,7 @@ import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
     selector: 'app-attendence-configuration',
     standalone: true,
 
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
 
     providers: [MessageService],
     templateUrl: './attendence-configuration.component.html',
@@ -172,7 +164,6 @@ export class AttendenceConfigurationComponent {
                     this.sortOrder
                 );
             },
-          
         });
     }
 
@@ -201,13 +192,12 @@ export class AttendenceConfigurationComponent {
                         this.sortOrder
                     );
                 },
-               
             });
         }
     }
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
@@ -251,7 +241,6 @@ export class AttendenceConfigurationComponent {
 
                 console.log(sortType);
             },
-        
         });
     }
 
@@ -321,7 +310,6 @@ export class AttendenceConfigurationComponent {
                     this.sortOrder
                 );
             },
-       
         });
     }
 
@@ -396,7 +384,6 @@ export class AttendenceConfigurationComponent {
                         this.sortOrder
                     );
                 },
-              
             });
     }
     sortById(event: any) {
@@ -419,7 +406,6 @@ export class AttendenceConfigurationComponent {
                     console.log(res);
                     this.execuseCalculationTypes = res.data;
                 },
-             
             });
     }
     selectedExecuseCalculationTypeFun(event: any) {

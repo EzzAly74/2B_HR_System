@@ -11,10 +11,7 @@ import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 @Component({
     selector: 'app-employee-certification',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService],
 
     templateUrl: './employee-certification.component.html',
@@ -202,14 +199,13 @@ export class EmployeeCertificationComponent {
             },
             error: (err) => {
                 this.showFormNew = false;
-               
             },
         });
     }
 
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
@@ -255,7 +251,7 @@ export class EmployeeCertificationComponent {
             },
             error: (err) => {
                 console.log(err);
-               
+
                 this.loading = false;
             },
         });
@@ -332,7 +328,6 @@ export class EmployeeCertificationComponent {
             },
             error: (err) => {
                 console.log(err);
-             
             },
         });
     }
@@ -411,7 +406,6 @@ export class EmployeeCertificationComponent {
             },
             error: (err) => {
                 this.deleteProductsDialog = false;
-             
             },
         });
     }
@@ -428,4 +422,3 @@ export class EmployeeCertificationComponent {
         this.sortField = 'name';
     }
 }
-
