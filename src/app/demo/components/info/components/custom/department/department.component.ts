@@ -1,34 +1,33 @@
 import { Component, Input, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { ShiftService } from './shift.service';
 import { Globals } from 'src/app/class/globals';
-import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
-import { TranslateService } from '@ngx-translate/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DepartmentService } from './department.service';
 
 @Component({
-    selector: 'app-shift',
-    templateUrl: './shift.component.html',
-    styleUrl: './shift.component.scss',
+    selector: 'app-department',
+    templateUrl: './department.component.html',
+    styleUrl: './department.component.scss',
+    providers: [MessageService],
     standalone: true,
     imports: [GlobalsModule, PrimeNgModule],
-    providers: [MessageService],
 })
-export class ShiftComponent {
+export class DepartmentComponent {
     constructor(
-        private _ShiftService: ShiftService,
+        private _DepartmentService: DepartmentService,
         private messageService: MessageService,
         private translate: TranslateService
     ) {}
-
+    
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = itemsPerPageGlobal;
+    itemsPerPage = 3;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
@@ -40,68 +39,52 @@ export class ShiftComponent {
     productDialog: boolean = false;
     product: any;
     event!: any;
+    newName!: string;
     newNotes!: string;
     showFormNew: boolean = false;
     sortField: string = 'id';
     sortOrder: string = 'asc';
-
     newNameAr!: string;
     newNameEn!: string;
-    numberOfHours!: number;
-    startAttendeesTime: Date;
-    endAttendeesTime: Date;
-
-    checkInBeforeTheShiftStarts: number;
-    checkOutAfterTheShiftEnds: number;
-    checkOutAfterTheShiftStarts: number;
-
     fileNew!: File;
-
     addNewForm: FormGroup = new FormGroup({
-        checkInBeforeTheShiftStarts: new FormControl(null, [
+        name: new FormControl(null, [
             Validators.required,
+            Validators.maxLength(50),
         ]),
-        checkOutAfterTheShiftEnds: new FormControl(null, [Validators.required]),
-        checkOutAfterTheShiftStarts: new FormControl(null, [
+        engName: new FormControl(null, [
             Validators.required,
+            Validators.maxLength(50),
         ]),
-        endAttendeesTime: new FormControl(null, [Validators.required]),
-        engName: new FormControl(null, [Validators.required]),
-        name: new FormControl(null, [Validators.required]),
-        numberOfHours: new FormControl(null, [Validators.required]),
-        startAttendeesTime: new FormControl(null, [Validators.required]),
+        departmentCode: new FormControl(null),
         notes: new FormControl(null),
     });
-
     editForm: FormGroup = new FormGroup({
-        checkInBeforeTheShiftStarts: new FormControl(null, [
-            Validators.required,
-        ]),
-        checkOutAfterTheShiftEnds: new FormControl(null, [Validators.required]),
-        checkOutAfterTheShiftStarts: new FormControl(null, [
-            Validators.required,
-        ]),
-        endAttendeesTime: new FormControl(null, [Validators.required]),
-        engName: new FormControl(null, [Validators.required]),
-        name: new FormControl(null, [Validators.required]),
-        numberOfHours: new FormControl(null, [Validators.required]),
-        startAttendeesTime: new FormControl(null, [Validators.required]),
-        notes: new FormControl(null),
         id: new FormControl(null),
+        name: new FormControl(null, [
+            Validators.required,
+            Validators.maxLength(50),
+        ]),
+        engName: new FormControl(null, [
+            Validators.required,
+            Validators.maxLength(50),
+        ]),
+        departmentCode: new FormControl(null),
+        notes: new FormControl(null),
     });
 
     ngOnInit() {
-        this.endPoint = 'Shift';
 
+        this.endPoint = "Department"
         // adding this Configurations in each Component Customized
         Globals.getMainLangChanges().subscribe((mainLang) => {
             console.log('Main language changed to:', mainLang);
 
             // update mainLang at Service
-            this._ShiftService.setCulture(mainLang);
+            this._DepartmentService.setCulture(mainLang);
 
             // update endpoint
-            this._ShiftService.setEndPoint(this.endPoint);
+            this._DepartmentService.setEndPoint(this.endPoint);
 
             // then, load data again to lens on the changes of mainLang & endPoints Call
             this.loadData(
@@ -114,15 +97,8 @@ export class ShiftComponent {
         });
 
         this.cols = [
-            // main field
+            // basic data
             { field: 'name', header: 'Name' },
-
-            // personal fields
-            { field: 'startAttendeesTime', header: 'StartAttendeesTime' },
-            { field: 'endAttendeesTime', header: 'EndAttendeesTime' },
-            { field: 'numberOfHours', header: 'NumberOfHours' },
-
-            // main field
             { field: 'notes', header: 'Notes' },
 
             // Generic Fields
@@ -131,20 +107,6 @@ export class ShiftComponent {
             { field: 'creatorName', header: 'CreatorName' },
             { field: 'lastModifierName', header: 'LastModifierName' },
         ];
-    }
-
-    editProduct(rowData: any) {
-        console.log(rowData.id);
-        this._ShiftService.GetById(rowData.id).subscribe({
-            next: (res) => {
-                console.log(res.data);
-                this.product = { ...res.data };
-                this.productDialog = true;
-            },
-            error: (err) => {
-                console.log(err);
-            },
-        });
     }
 
     splitCamelCase(str: any) {
@@ -157,22 +119,32 @@ export class ShiftComponent {
             .join(' ');
     }
 
-    startAttendeesTimeClick(event: any) {}
-
-    endAttendeesTimeClick(event: any) {}
+    editProduct(rowData: any) {
+        console.log(rowData.id);
+        this._DepartmentService.GetById(rowData.id).subscribe({
+            next: (res) => {
+                console.log(res.data);
+                this.product = { ...res.data };
+                this.productDialog = true;
+            },
+            error: (err) => {
+                console.log(err);
+            },
+        });
+    }
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
-        this._ShiftService.DeleteSoftById(id).subscribe({
-            next: () => {
+        this._DepartmentService.DeleteSoftById(id).subscribe({
+            next: (res) => {
                 // close dialog
                 this.deleteProductDialog = false;
 
                 // show message for user to show processing of deletion.
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Successful',
-                    detail: 'Product Deleted',
+                    summary: this.translate.instant('Success'),
+                    detail: res.message,
                     life: 3000,
                 });
 
@@ -185,44 +157,29 @@ export class ShiftComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                console.log(err);
-            },
         });
     }
 
     addNew(form: FormGroup) {
-        // first convert from date full format to time only
-        // why? because prime ng calender component returned the value as a full Date Format
-        form.patchValue({
-            startAttendeesTime: form
-                .get('startAttendeesTime')
-                .value.toLocaleTimeString('en-US', { hour12: false }),
-            endAttendeesTime: form
-                .get('endAttendeesTime')
-                .value.toLocaleTimeString('en-US', { hour12: false }),
-        });
-
         console.log(form);
 
-        // set body of request
-
-        // Confirm add new
-        this._ShiftService.Register(form.value).subscribe({
+        this._DepartmentService.Register(form.value).subscribe({
             next: (res) => {
-                console.log(res);
-                this.showFormNew = false;
-                // show message for success inserted
                 if (res.success) {
+                    console.log(res);
+                    this.showFormNew = false;
+                    // show message for success inserted
                     this.messageService.add({
                         severity: 'success',
                         summary: this.translate.instant('Success'),
                         detail: res.message,
                         life: 3000,
                     });
+                    form.reset();
                 }
+
                 // set fields is empty
-                form.reset();
+                this.setFieldsNulls();
 
                 // load data again
                 this.loadData(
@@ -250,9 +207,6 @@ export class ShiftComponent {
         (this.newNameAr = null),
             (this.newNameEn = null),
             (this.newNotes = null);
-        (this.numberOfHours = null),
-            (this.startAttendeesTime = null),
-            (this.endAttendeesTime = null);
     }
 
     loadData(
@@ -272,7 +226,7 @@ export class ShiftComponent {
         };
         filteredData.sortType = this.sortOrder;
 
-        this._ShiftService.GetPage(filteredData).subscribe({
+        this._DepartmentService.GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
@@ -280,7 +234,10 @@ export class ShiftComponent {
 
                 this.totalItems = res.totalItems;
                 this.loading = false;
-                console.log(this.selectedItems);
+            },
+            error: (err) => {
+                console.log(err);
+                this.loading = false;
             },
         });
     }
@@ -301,8 +258,6 @@ export class ShiftComponent {
             this.sortField,
             this.sortOrder
         );
-
-        // this.selectedItems = this.allData;
     }
 
     deleteSelectedProducts() {
@@ -319,27 +274,25 @@ export class ShiftComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number, form: FormGroup) {
+    saveProduct(form: FormGroup, product: any) {
         this.submitted = true;
-        console.log(id);
 
         form.patchValue({
-            startAttendeesTime: form
-                .get('startAttendeesTime')
-                .value.toLocaleTimeString('en-US', { hour12: false }),
-            endAttendeesTime: form
-                .get('endAttendeesTime')
-                .value.toLocaleTimeString('en-US', { hour12: false }),
-            id: id,
+            id: product.id,
         });
 
-        console.log(form);
+        // let body = {
+        //     engName: product.engName,
+        //     name: product.name,
+        //     id: product.id,
+        //     notes: product.notes,
+        // };
 
-        this._ShiftService.Edit(form.value).subscribe({
+        this._DepartmentService.Edit(form.value).subscribe({
             next: (res) => {
-                this.hideDialog();
-                // show message for user to show processing of deletion.
                 if (res.success) {
+                    this.hideDialog();
+                    // show message for user to show processing of deletion.
                     this.messageService.add({
                         severity: 'success',
                         summary: this.translate.instant('Success'),
@@ -347,8 +300,6 @@ export class ShiftComponent {
                         life: 3000,
                     });
                 }
-
-                form.reset();
 
                 // load data again
                 this.loadData(
@@ -359,17 +310,16 @@ export class ShiftComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                console.log(err);
-            },
         });
     }
 
     toggleNew() {
         if (this.showFormNew) {
             this.showFormNew = false;
+            this.addNewForm.reset();
         } else {
             this.showFormNew = true;
+            this.addNewForm.reset();
         }
     }
 
@@ -387,11 +337,12 @@ export class ShiftComponent {
         });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = 'data_export_' + new Date().getTime() + '.csv';
+        link.download = `${this.endPoint}_${new Date().getTime()}.csv`;
         link.click();
     }
 
     convertToCSV(data: any[]): string {
+        console.log(data);
         if (!data || !data.length) return '';
 
         const separator = ',';
@@ -409,7 +360,6 @@ export class ShiftComponent {
         csvContent.unshift(keys.join(separator)); // Add header row
         return csvContent.join('\r\n'); // Join all rows
     }
-
     confirmDeleteSelected() {
         let selectedIds = [];
         console.log('Selected Items :');
@@ -418,17 +368,26 @@ export class ShiftComponent {
             selectedIds.push(item.id);
         });
 
-        this._ShiftService.DeleteRangeSoft(selectedIds).subscribe({
+        this._DepartmentService.DeleteRangeSoft(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Success',
-                    detail: 'items deleted successfully',
+                    summary: this.translate.instant('Success'),
+                    detail: res.message,
                     life: 3000,
                 });
-                this.selectedItems = [];
-
+                // this.selectedItems = [];
+                this.loadData(
+                    this.page,
+                    this.itemsPerPage,
+                    this.nameFilter,
+                    this.sortField,
+                    this.sortOrder
+                );
+            },
+            error: (err) => {
+                this.deleteProductsDialog = false;
                 this.loadData(
                     this.page,
                     this.itemsPerPage,
@@ -452,7 +411,6 @@ export class ShiftComponent {
         this.sortField = 'name';
     }
 
-
     onFileSelect(event: any) {
         console.log(event);
         let file: any = event.currentFiles[0];
@@ -470,7 +428,7 @@ export class ShiftComponent {
                     formData.append(key, body[key]);
                 }
             }
-            this._ShiftService.importExcel(formData).subscribe({
+            this._DepartmentService.importExcel(formData).subscribe({
                 next: (res) => {
                     console.log(res);
                     console.log('ezzzz');

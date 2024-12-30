@@ -1,7 +1,7 @@
 import { CloseMonthComponent } from './components/custom/close-month/close-month.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { DepartmentComponent } from './components/standard/department/department.component';
+import { DepartmentComponent } from './components/custom/department/department.component';
 import { BankComponent } from './components/standard/bank/bank.component';
 import { GovenmentComponent } from './components/standard/govenment/govenment.component';
 import { LocationComponent } from './components/custom/location/location.component';

@@ -291,15 +291,15 @@ export class LoanRequestComponent {
             filterValue: nameFilter,
             filterType: filterType,
             sortType: sortType,
+            status: 0,
         };
         filteredData.sortType = this.sortOrder;
 
-        this.loanRequestService.GetPage(filteredData).subscribe({
+        this.loanRequestService.getPageOfAcceptedLoan(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
                 console.log(res.data);
-
                 this.totalItems = res.totalItems;
                 this.loading = false;
                 console.log(this.selectedItems);

@@ -1,17 +1,12 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import {
     FormControl,
-    FormsModule,
-    ReactiveFormsModule,
     Validators,
 } from '@angular/forms';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { LockupsService } from '../../service/lockups.service';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Globals } from 'src/app/class/globals';
 import { GlobalsModule } from '../../modules/globals/globals.module';
 import { PrimeNgModule } from '../../modules/primg-ng/prime-ng.module';
@@ -437,7 +432,7 @@ export class StdPaginationsWithPopupComponent {
                 next: (res) => {
                     console.log(res);
                     console.log('ezzzz');
-
+                    
                     this.loadData(
                         this.page,
                         this.itemsPerPage,
@@ -445,6 +440,13 @@ export class StdPaginationsWithPopupComponent {
                         this.sortField,
                         this.sortOrder
                     );
+
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translate.instant('Success'),
+                        detail: res?.["message"],
+                        life: 3000,
+                    });
                 },
             });
         }
