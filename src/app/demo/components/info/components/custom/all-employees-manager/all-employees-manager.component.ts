@@ -13,10 +13,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
     selector: 'app-all-employees-manager',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService, DatePipe, DayNamePipe],
     templateUrl: './all-employees-manager.component.html',
     styleUrl: './all-employees-manager.component.scss',
@@ -67,7 +64,6 @@ export class AllEmployeesManagerComponent {
     selectedEmployee: any;
     selectedEmployeeEdit: any;
 
-
     addNewForm!: FormGroup;
     editForm!: FormGroup;
 
@@ -102,7 +98,6 @@ export class AllEmployeesManagerComponent {
                 console.log(res['data']);
                 this.managerDropDown = res['data'];
             },
-
         });
     }
 
@@ -113,27 +108,23 @@ export class AllEmployeesManagerComponent {
                 this.dropdownItemsEmployee = res.data;
                 console.log(this.dropdownItemsEmployee);
             },
-
         });
     }
-
 
     initFormGroups() {
         this.addNewForm = new FormGroup({
             employeeId: new FormControl(null, Validators.required),
             mangerId: new FormControl(null, Validators.required),
-        })
+        });
 
         this.editForm = new FormGroup({
             id: new FormControl(null, Validators.required),
             employeeId: new FormControl(null, Validators.required),
             mangerId: new FormControl(null, Validators.required),
-        })
+        });
     }
 
     editProduct(rowData: any) {
-
-
         this._EmployeeManagerService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
@@ -154,9 +145,7 @@ export class AllEmployeesManagerComponent {
                     mangerId: this.selectedManagerEdit?.['id'],
                     employeeId: this.selectedEmployeeEdit?.['id'],
                 });
-
             },
-
         });
     }
 
@@ -186,7 +175,6 @@ export class AllEmployeesManagerComponent {
                     this.sortOrder
                 );
             },
-
         });
     }
 
@@ -194,42 +182,42 @@ export class AllEmployeesManagerComponent {
         this.addNewForm.patchValue({
             employeeId: this.selectedEmployee?.['id'],
             mangerId: this.selectedManager?.['id'],
-        })
+        });
 
-        if(this.addNewForm.valid ) {
-            this._EmployeeManagerService.Register(this.addNewForm.value).subscribe({
-                next: (res) => {
-                    console.log(res);
-                    this.showFormNew = false;
-                    // show message for success inserted
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Successful',
-                        detail: 'inserted success',
-                        life: 3000,
-                    });
+        if (this.addNewForm.valid) {
+            this._EmployeeManagerService
+                .Register(this.addNewForm.value)
+                .subscribe({
+                    next: (res) => {
+                        console.log(res);
+                        this.showFormNew = false;
+                        // show message for success inserted
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Successful',
+                            detail: 'inserted success',
+                            life: 3000,
+                        });
 
-                    // set fields is empty
-                    this.setFieldsNulls();
+                        // set fields is empty
+                        this.setFieldsNulls();
 
-                    // load data again
-                    this.loadData(
-                        this.page,
-                        this.itemsPerPage,
-                        this.nameFilter,
-                        this.sortField,
-                        this.sortOrder
-                    );
-                },
-
-            });
+                        // load data again
+                        this.loadData(
+                            this.page,
+                            this.itemsPerPage,
+                            this.nameFilter,
+                            this.sortField,
+                            this.sortOrder
+                        );
+                    },
+                });
         }
-
     }
 
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
@@ -271,7 +259,6 @@ export class AllEmployeesManagerComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-
         });
     }
 
@@ -316,9 +303,9 @@ export class AllEmployeesManagerComponent {
             id: empManager.id,
             mangerId: this.selectedManagerEdit?.['id'],
             employeeId: this.selectedEmployeeEdit?.['id'],
-        })
+        });
 
-        if(this.editForm.valid) {
+        if (this.editForm.valid) {
             this._EmployeeManagerService.Edit(this.editForm.value).subscribe({
                 next: () => {
                     this.hideDialog();
@@ -426,7 +413,6 @@ export class AllEmployeesManagerComponent {
                     this.sortOrder
                 );
             },
-
         });
     }
 

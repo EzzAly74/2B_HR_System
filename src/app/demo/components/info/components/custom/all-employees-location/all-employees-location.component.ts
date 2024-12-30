@@ -13,10 +13,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
     selector: 'app-all-employees-location',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService, DatePipe, DayNamePipe],
     templateUrl: './all-employees-location.component.html',
     styleUrl: './all-employees-location.component.scss',
@@ -70,7 +67,6 @@ export class AllEmployeesLocationComponent {
     addNewForm!: FormGroup;
     editForm!: FormGroup;
 
-
     ngOnInit() {
         this.endPoint = 'EmployeeLocation';
 
@@ -91,20 +87,20 @@ export class AllEmployeesLocationComponent {
         // get dropdown for Employee
         this.getLocation();
         this.getDropDownEmployee();
-        this.initFormGroups()
+        this.initFormGroups();
     }
 
     initFormGroups() {
         this.addNewForm = new FormGroup({
             employeeId: new FormControl(null, Validators.required),
             locationId: new FormControl(null, Validators.required),
-        })
+        });
 
         this.editForm = new FormGroup({
             Id: new FormControl(null, Validators.required),
             employeeId: new FormControl(null, Validators.required),
             locationId: new FormControl(null, Validators.required),
-        })
+        });
     }
 
     getDropDownEmployee() {
@@ -114,7 +110,6 @@ export class AllEmployeesLocationComponent {
                 this.dropdownItemsEmployee = res.data;
                 console.log(this.dropdownItemsEmployee);
             },
-
         });
     }
 
@@ -124,7 +119,6 @@ export class AllEmployeesLocationComponent {
                 console.log(res.data);
                 this.locationDropDown = res.data;
             },
-
         });
     }
 
@@ -146,16 +140,14 @@ export class AllEmployeesLocationComponent {
                     (item: any) => item.id == this.product.employeeId
                 );
 
-
                 this.editForm.patchValue({
                     Id: this.product.id,
                     locationId: this.selectedLocationEdit?.['id'],
                     employeeId: this.selectedEmployeeEdit?.['id'],
                 });
 
-                console.log(this.editForm.value)
+                console.log(this.editForm.value);
             },
-
         });
     }
 
@@ -185,52 +177,49 @@ export class AllEmployeesLocationComponent {
                     this.sortOrder
                 );
             },
-
         });
     }
 
     addNew() {
-
         this.addNewForm.patchValue({
             employeeId: this.selectedEmployee.id,
             locationId: this.selectedLocationId,
-        })
+        });
 
-        if(this.addNewForm.valid) {
-            this._EmployeeLocationService.Register(this.addNewForm.value).subscribe({
-                next: (res) => {
-                    console.log(res);
-                    this.showFormNew = false;
-                    // show message for success inserted
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Successful',
-                        detail: 'inserted success',
-                        life: 3000,
-                    });
+        if (this.addNewForm.valid) {
+            this._EmployeeLocationService
+                .Register(this.addNewForm.value)
+                .subscribe({
+                    next: (res) => {
+                        console.log(res);
+                        this.showFormNew = false;
+                        // show message for success inserted
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Successful',
+                            detail: 'inserted success',
+                            life: 3000,
+                        });
 
-                    // set fields is empty
-                    this.setFieldsNulls();
+                        // set fields is empty
+                        this.setFieldsNulls();
 
-                    // load data again
-                    this.loadData(
-                        this.page,
-                        this.itemsPerPage,
-                        this.nameFilter,
-                        this.sortField,
-                        this.sortOrder
-                    );
-                },
-
-            });
+                        // load data again
+                        this.loadData(
+                            this.page,
+                            this.itemsPerPage,
+                            this.nameFilter,
+                            this.sortField,
+                            this.sortOrder
+                        );
+                    },
+                });
         }
-
-
     }
 
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
@@ -282,7 +271,6 @@ export class AllEmployeesLocationComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-
         });
     }
 
@@ -327,12 +315,13 @@ export class AllEmployeesLocationComponent {
             Id: empLocation.id,
             locationId: this.selectedLocationEdit?.['id'],
             employeeId: this.selectedEmployeeEdit?.['id'],
-        })
+        });
 
         console.clear();
 
-        if(this.editForm.valid) {
-            console.log("edited Form here =====================> ",
+        if (this.editForm.valid) {
+            console.log(
+                'edited Form here =====================> ',
                 this.editForm.value
             );
             this._EmployeeLocationService.Edit(this.editForm.value).subscribe({
@@ -355,13 +344,13 @@ export class AllEmployeesLocationComponent {
                         this.sortOrder
                     );
                 },
-
             });
         } else {
-            console.log('Form Not Valid because body is : ',  this.editForm.value);
+            console.log(
+                'Form Not Valid because body is : ',
+                this.editForm.value
+            );
         }
-
-
     }
 
     toggleNew() {
@@ -447,7 +436,6 @@ export class AllEmployeesLocationComponent {
                     this.sortOrder
                 );
             },
-
         });
     }
 

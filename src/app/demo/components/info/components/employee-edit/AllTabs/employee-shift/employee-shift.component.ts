@@ -6,11 +6,7 @@ import { Globals } from 'src/app/class/globals';
 import { ActivatedRoute } from '@angular/router';
 import { itemsPerPageGlobal } from 'src/main';
 
-import {
-    FormControl,
-    FormGroup,
-    ValidatorFn,
-} from '@angular/forms';
+import { FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 import { PanelModule } from 'primeng/panel';
 import { EmployeeShiftService } from './employee-shift-service.service';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
@@ -29,10 +25,7 @@ export const dateRangeValidator: ValidatorFn = (formGroup: FormGroup) => {
 @Component({
     selector: 'app-employee-shift',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService, DatePipe],
     templateUrl: './employee-shift.component.html',
     styleUrl: './employee-shift.component.scss',
@@ -191,7 +184,7 @@ export class EmployeeShiftComponent {
 
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
@@ -237,7 +230,7 @@ export class EmployeeShiftComponent {
             },
             error: (err) => {
                 console.log(err);
-          
+
                 this.loading = false;
             },
         });

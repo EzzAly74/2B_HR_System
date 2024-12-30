@@ -14,17 +14,14 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
     templateUrl: './covenant.component.html',
     styleUrl: './covenant.component.scss',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService, TranslateService],
 })
 export class CovenantComponent {
     constructor(
         private _CovenantService: CovenantService,
         private messageService: MessageService,
-        private translate : TranslateService
+        private translate: TranslateService
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -56,20 +53,20 @@ export class CovenantComponent {
     selectedCovenantCategoryOnEdit: any;
 
     selectedItemsData: any;
-    addNewForm:FormGroup = new FormGroup({
-        covenantCategoryId : new FormControl(null,[Validators.required]),
-        engName : new FormControl(null,[Validators.required]),
-        name : new FormControl(null,[Validators.required]),
-        notes : new FormControl(null),
+    addNewForm: FormGroup = new FormGroup({
+        covenantCategoryId: new FormControl(null, [Validators.required]),
+        engName: new FormControl(null, [Validators.required]),
+        name: new FormControl(null, [Validators.required]),
+        notes: new FormControl(null),
     });
 
-    editForm:FormGroup = new FormGroup({
-        covenantCategoryId : new FormControl(null,[Validators.required]),
-        engName : new FormControl(null,[Validators.required]),
-        name : new FormControl(null,[Validators.required]),
-        notes : new FormControl(null),
-        id : new FormControl(null)
-    })
+    editForm: FormGroup = new FormGroup({
+        covenantCategoryId: new FormControl(null, [Validators.required]),
+        engName: new FormControl(null, [Validators.required]),
+        name: new FormControl(null, [Validators.required]),
+        notes: new FormControl(null),
+        id: new FormControl(null),
+    });
 
     ngOnInit() {
         this.endPoint = 'Covenant';
@@ -187,28 +184,25 @@ export class CovenantComponent {
         });
     }
 
-    addNew(form:FormGroup) {
-
+    addNew(form: FormGroup) {
         console.log(form.value);
-        
-       
+
         this._CovenantService.Register(form.value).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
                 // show message for success inserted
-                if(res.success)
-                {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: this.translate.instant('Success'),
-                    detail: res.message,
-                    life: 3000,
-                });
-            }
+                if (res.success) {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translate.instant('Success'),
+                        detail: res.message,
+                        life: 3000,
+                    });
+                }
 
                 // set fields is empty
-                form.reset() ;
+                form.reset();
 
                 // load data again
                 this.loadData(
@@ -219,13 +213,12 @@ export class CovenantComponent {
                     this.sortOrder
                 );
             },
-        
         });
     }
 
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
@@ -307,27 +300,26 @@ export class CovenantComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number, form:FormGroup) {
+    saveProduct(id: number, form: FormGroup) {
         this.submitted = true;
         console.log(id);
         form.patchValue({
-            id : id,
-            covenantCategoryId: this.selectedCovenantCategoryOnEdit.id 
+            id: id,
+            covenantCategoryId: this.selectedCovenantCategoryOnEdit.id,
         });
-       console.log(form.value);
-       
+        console.log(form.value);
+
         this._CovenantService.Edit(form.value).subscribe({
             next: (res) => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
-                if(res.success)
-                {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: this.translate.instant('Success'),
-                    detail: res.message,
-                    life: 3000,
-                });
+                if (res.success) {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translate.instant('Success'),
+                        detail: res.message,
+                        life: 3000,
+                    });
                 }
                 // load data again
                 this.loadData(
@@ -337,7 +329,7 @@ export class CovenantComponent {
                     this.sortField,
                     this.sortOrder
                 );
-            }
+            },
         });
     }
 
@@ -414,7 +406,6 @@ export class CovenantComponent {
                     this.sortOrder
                 );
             },
-           
         });
     }
 

@@ -6,11 +6,7 @@ import { Globals } from 'src/app/class/globals';
 import { ActivatedRoute } from '@angular/router';
 import { itemsPerPageGlobal } from 'src/main';
 import { EmployeeWeekendService } from './employee-weekend.service';
-import {
-    FormControl,
-    FormGroup,
-    ValidatorFn,
-} from '@angular/forms';
+import { FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 export const dateRangeValidator: ValidatorFn = (formGroup: FormGroup) => {
@@ -27,10 +23,7 @@ export const dateRangeValidator: ValidatorFn = (formGroup: FormGroup) => {
 @Component({
     selector: 'app-employee-weekend',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService, DatePipe],
     templateUrl: './employee-weekend.component.html',
     styleUrl: './employee-weekend.component.scss',
@@ -176,7 +169,7 @@ export class EmployeeWeekendComponent {
 
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
@@ -221,7 +214,7 @@ export class EmployeeWeekendComponent {
             },
             error: (err) => {
                 console.log(err);
-         
+
                 this.loading = false;
             },
         });
@@ -342,7 +335,7 @@ export class EmployeeWeekendComponent {
             FilterValue: this.nameFilter,
             FilterType: this.sortField,
             SortType: this.sortOrder,
-            EmployeeId :this.currentId
+            EmployeeId: this.currentId,
         };
 
         const filteredData = { ...formValueNotNull, ...filterPaginator };

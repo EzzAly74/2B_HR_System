@@ -1,4 +1,3 @@
-
 import { Component, Input, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Table, TableModule } from 'primeng/table';
@@ -13,10 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
     selector: 'app-execuse-type',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService],
     templateUrl: './execuse-type.component.html',
     styleUrl: './execuse-type.component.scss',
@@ -25,7 +21,7 @@ export class ExecuseTypeComponent {
     constructor(
         private execuseTypeService: ExecuseTypeService,
         private messageService: MessageService,
-        private translate : TranslateService
+        private translate: TranslateService
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -53,20 +49,19 @@ export class ExecuseTypeComponent {
     newNameEn!: string;
     numberOfHours!: number;
 
-
-    addNewForm : FormGroup = new FormGroup({
-        engName: new FormControl(null , [Validators.required])  ,
-        hoursNumber: new FormControl(null , [Validators.required]),
-        name: new FormControl(null , [Validators.required]),
-        notes: new FormControl(null)
+    addNewForm: FormGroup = new FormGroup({
+        engName: new FormControl(null, [Validators.required]),
+        hoursNumber: new FormControl(null, [Validators.required]),
+        name: new FormControl(null, [Validators.required]),
+        notes: new FormControl(null),
     });
 
-    editForm : FormGroup = new FormGroup({
-        engName: new FormControl(null , [Validators.required])  ,
-        hoursNumber: new FormControl(null , [Validators.required]),
-        name: new FormControl(null , [Validators.required]),
+    editForm: FormGroup = new FormGroup({
+        engName: new FormControl(null, [Validators.required]),
+        hoursNumber: new FormControl(null, [Validators.required]),
+        name: new FormControl(null, [Validators.required]),
         notes: new FormControl(null),
-        id: new FormControl(null)
+        id: new FormControl(null),
     });
 
     ngOnInit() {
@@ -169,13 +164,11 @@ export class ExecuseTypeComponent {
         });
     }
 
-    addNew(form:FormGroup) {
+    addNew(form: FormGroup) {
         // first convert from date full format to time only
         // why? because prime ng calender component returned the value as a full Date Format
 
         // set body of request
-   
-
 
         // Confirm add new
         this.execuseTypeService.Register(form.value).subscribe({
@@ -185,13 +178,13 @@ export class ExecuseTypeComponent {
                 // show message for success inserted
                 this.messageService.add({
                     severity: 'success',
-                    summary: this.translate.instant('Success') ,
+                    summary: this.translate.instant('Success'),
                     detail: res.message,
                     life: 3000,
                 });
 
                 // set fields is empty
-                form.reset()
+                form.reset();
 
                 // load data again
                 this.loadData(
@@ -202,13 +195,12 @@ export class ExecuseTypeComponent {
                     this.sortOrder
                 );
             },
-          
         });
     }
 
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
@@ -250,7 +242,6 @@ export class ExecuseTypeComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-          
         });
     }
 
@@ -288,12 +279,12 @@ export class ExecuseTypeComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number, form:FormGroup) {
+    saveProduct(id: number, form: FormGroup) {
         this.submitted = true;
         console.log(id);
 
         form.patchValue({
-            id: id
+            id: id,
         });
         console.log(' body Data');
 
@@ -301,15 +292,14 @@ export class ExecuseTypeComponent {
             next: (res) => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
-                if(res.success)
-                {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: this.translate.instant('Success'),
-                    detail: res.message,
-                    life: 3000,
-                });
-                }   
+                if (res.success) {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translate.instant('Success'),
+                        detail: res.message,
+                        life: 3000,
+                    });
+                }
 
                 // load data again
                 this.loadData(
@@ -320,7 +310,6 @@ export class ExecuseTypeComponent {
                     this.sortOrder
                 );
             },
-          
         });
     }
 
@@ -396,7 +385,6 @@ export class ExecuseTypeComponent {
                     this.sortOrder
                 );
             },
-        
         });
     }
     sortById(event: any) {

@@ -7,25 +7,20 @@ import { Table } from 'primeng/table';
 import { Globals } from 'src/app/class/globals';
 
 @Component({
-  selector: 'app-table-server-side',
-  standalone: true,
-  imports: [
-    GlobalsModule,
-    PrimeNgModule
-  ],
-  providers: [MessageService],
-  templateUrl: './table-server-side.component.html',
-  styleUrl: './table-server-side.component.scss'
+    selector: 'app-table-server-side',
+    standalone: true,
+    imports: [GlobalsModule, PrimeNgModule],
+    providers: [MessageService],
+    templateUrl: './table-server-side.component.html',
+    styleUrl: './table-server-side.component.scss',
 })
 export class TableServerSideComponent {
-
     @Input() Service = LockupsService;
 
     constructor(
         private _LockupsService: LockupsService,
         private messageService: MessageService
-        ) {
-    }
+    ) {}
 
     @ViewChild('dt') dt: Table;
 
@@ -56,7 +51,6 @@ export class TableServerSideComponent {
     newNameEn!: string;
 
     ngOnInit() {
-
         // adding this Configurations in each Component Customized
         Globals.getMainLangChanges().subscribe((mainLang) => {
             console.log('Main language changed to:', mainLang);
@@ -80,25 +74,51 @@ export class TableServerSideComponent {
         this.cols = [
             // basic data
             { field: 'id', header: 'Id', sortable: true, type: 'number' },
-            { field: 'name', header: 'Name', sortable: true, type:'string'  },
+            { field: 'name', header: 'Name', sortable: true, type: 'string' },
 
-            { field: 'notes', header: 'Notes', sortable: false, type:'string' },
+            {
+                field: 'notes',
+                header: 'Notes',
+                sortable: false,
+                type: 'string',
+            },
 
             // Generic Fields
-            { field: 'creationTime', header: 'CreationTime',sortable: false, type:'dateTime'  },
-            { field: 'lastModificationTime', header: 'LastModificationTime', sortable: false, type:'dateTime' },
-            { field: 'creatorName', header: 'CreatorName', sortable: false, type:'string' },
-            { field: 'lastModifierName', header: 'LastModifierName', sortable: false, type:'string' },
+            {
+                field: 'creationTime',
+                header: 'CreationTime',
+                sortable: false,
+                type: 'dateTime',
+            },
+            {
+                field: 'lastModificationTime',
+                header: 'LastModificationTime',
+                sortable: false,
+                type: 'dateTime',
+            },
+            {
+                field: 'creatorName',
+                header: 'CreatorName',
+                sortable: false,
+                type: 'string',
+            },
+            {
+                field: 'lastModifierName',
+                header: 'LastModifierName',
+                sortable: false,
+                type: 'string',
+            },
         ];
     }
 
     splitCamelCase(str: any) {
-        return str.replace(/([A-Z])/g, ' $1')
-        .trim()
-        .replace(/\s+/g, ' ')
-        .split(' ')
-        .map((word:any) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
+        return str
+            .replace(/([A-Z])/g, ' $1')
+            .trim()
+            .replace(/\s+/g, ' ')
+            .split(' ')
+            .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
     }
 
     editProduct(rowData: any) {
@@ -186,7 +206,7 @@ export class TableServerSideComponent {
 
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
@@ -196,8 +216,8 @@ export class TableServerSideComponent {
 
     setFieldsNulls() {
         (this.newNameAr = null),
-        (this.newNameEn = null),
-        (this.newNotes = null);
+            (this.newNameEn = null),
+            (this.newNotes = null);
     }
 
     loadData(
@@ -280,7 +300,7 @@ export class TableServerSideComponent {
         this._LockupsService.Edit(body).subscribe({
             next: (res) => {
                 this.hideDialog();
-                if(res.success)
+                if (res.success)
                     // show message for user to show processing of deletion.
                     this.messageService.add({
                         severity: 'success',
@@ -288,8 +308,8 @@ export class TableServerSideComponent {
                         detail: 'You Edit This Item',
                         life: 3000,
                     });
+                // show message for user to show processing of deletion.
                 else
-                    // show message for user to show processing of deletion.
                     this.messageService.add({
                         severity: 'warn',
                         summary: 'Warning',
@@ -308,7 +328,6 @@ export class TableServerSideComponent {
             },
             error: (err) => {
                 console.log(err);
-               
             },
         });
     }
@@ -340,7 +359,7 @@ export class TableServerSideComponent {
     }
 
     convertToCSV(data: any[]): string {
-        console.log(data)
+        console.log(data);
         if (!data || !data.length) return '';
 
         const separator = ',';
@@ -386,7 +405,6 @@ export class TableServerSideComponent {
                 );
             },
             error: (err) => {
-       
                 this.deleteProductsDialog = false;
                 this.loadData(
                     this.page,

@@ -13,10 +13,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
     selector: 'app-employee-covenant',
     standalone: true,
-    imports: [
-        GlobalsModule,
-        PrimeNgModule,
-    ],
+    imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService, DatePipe],
 
     templateUrl: './employee-covenant.component.html',
@@ -256,7 +253,7 @@ export class EmployeeCovenantComponent {
 
     loadFilteredData() {
         this.loadData(
-            this.page,
+            1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
@@ -375,7 +372,7 @@ export class EmployeeCovenantComponent {
             },
             error: (err) => {
                 console.log(err);
-                   },
+            },
         });
         }
 
@@ -455,7 +452,6 @@ export class EmployeeCovenantComponent {
             },
             error: (err) => {
                 this.deleteProductsDialog = false;
-
             },
         });
     }
