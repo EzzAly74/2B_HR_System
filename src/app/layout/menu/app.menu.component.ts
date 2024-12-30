@@ -147,7 +147,6 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/monthlyAllowance'],
                             },
 
-
                             {
                                 label: this.translate.instant(
                                     'Employees Shifts'
@@ -320,7 +319,7 @@ export class AppMenuComponent implements OnInit {
                                 label: this.translate.instant('Locations'),
                                 routerLink: ['/info/location'],
                             },
-                            
+
                             {
                                 label: this.translate.instant(
                                     'Source of Employment'
@@ -408,11 +407,11 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/documentRequired'],
                             },
 
-                            {
-                                label: this.translate.instant('RESIGNATIONSETTINGS'),
-                                icon: 'pi pi-fw pi-home',
-                                routerLink: ['/info/resignationSetting'],
-                            },
+                            // {
+                            //     label: this.translate.instant('RESIGNATIONSETTINGS'),
+                            //     icon: 'pi pi-fw pi-home',
+                            //     routerLink: ['/info/resignationSetting'],
+                            // },
                         ],
                     },
 
