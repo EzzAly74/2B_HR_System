@@ -63,6 +63,7 @@ import { LoanRequestComponent } from './components/custom/loan-request/loan-requ
 import { ResignationPolicyComponent } from './components/custom/resignation-policy/resignation-policy.component';
 import { AllLoansComponent } from './components/custom/all-loans/all-loans.component';
 import { LoanDetailsComponent } from './components/custom/loan-details/loan-details.component';
+import { GetLoanPaymentComponent } from './components/custom/get-loan-payment/get-loan-payment.component';
 
 @NgModule({
     imports: [
@@ -363,19 +364,19 @@ import { LoanDetailsComponent } from './components/custom/loan-details/loan-deta
                 canActivate: [authGuard],
                 component: CompanyBasicDataComponent,
             },
-           
+
             {
                 path: 'monthlyAllowance',
                 canActivate: [authGuard],
                 component: MonthlyAllowenceComponent,
             },
-            
+
             {
                 path: 'resignationSetting',
                 canActivate: [authGuard],
                 component: ResignationSettingComponent,
             },
-             {
+            {
 
                 path: 'insuranceConfig',
                 canActivate: [authGuard],
@@ -392,14 +393,20 @@ import { LoanDetailsComponent } from './components/custom/loan-details/loan-deta
                 component: LoanDetailsComponent,
             },
             {
+                path: 'getLoanPayment',
+                canActivate: [authGuard],
+                component: GetLoanPaymentComponent,
+            },
+            {
                 path: 'test',
                 canActivate: [authGuard],
                 component: TestComponent,
             },
+
 
             { path: '**', component: NotfoundComponent },
         ]),
     ],
     exports: [RouterModule],
 })
-export class InfoRoutingModule {}
+export class InfoRoutingModule { }

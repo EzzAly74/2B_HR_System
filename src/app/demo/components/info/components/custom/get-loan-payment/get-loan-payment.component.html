@@ -1,0 +1,146 @@
+<p-toast />
+<pre-loading *ngIf="loading"></pre-loading>
+
+<div class="grid justify-content-center">
+    <div class="col-12">
+        <div class="card">
+            <h5 class="pt-2 pb-5">{{ "get all Loans For Each Employees" | translate }}</h5>
+            <form (ngSubmit)="registerSubmit()" class=" field col-12 md:col-12">
+                <div class="p-fluid p-formgrid grid">
+                    <div class="field col-12 md:col-6">
+                        <label htmlFor="employee">{{
+                            "Employees" | translate
+                            }}</label>
+
+                        <p-dropdown [options]="dropdownItemsEmployee" optionLabel="name" [(ngModel)]="selectedEmployee"
+                            placeholder="Select Employee" (onChange)="onSelectEmployee($event)" />
+                    </div>
+
+                    <div class="field col-12 md:col-6">
+                        <label htmlFor="Loan">{{
+                            "Loan Requests" | translate
+                            }}</label>
+                        <p-dropdown [options]="dropdownLoanRequests" optionLabel="reason"
+                            [placeholder]="'Select Loan' | translate" (onChange)="onSelectLoan($event)"></p-dropdown>
+                    </div>
+
+                    <div class="field col-12 md:col-12 py-5">
+                        <div class="p-fluid grid">
+                            <div class="col-2">
+                                <button type="submit" pButton value="Save" class="flex justify-content-center">
+                                    {{ "Save" | translate }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="col-12" *ngIf="loanPaymentGetDtos">
+        <p-table [value]="loanPaymentGetDtos">
+            <ng-template pTemplate="caption">
+                <div class="grid">
+                    <div class="col-8  ">
+                        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                            <h5> <span class="label">monthsLeft :</span> {{allData.monthsLeft}}</h5>
+                        </div>
+                        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                            <h5><span class="label">startYear :</span> {{allData.startYear}}</h5>
+                            <h5><span class="label">startMonth :</span> {{allData.startMonth}}</h5>
+                        </div>
+                        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                            <h5><span class="label">endYear :</span> {{allData.endYear}}</h5>
+                            <h5><span class="label">endMonth :</span> {{allData.endMonth}}</h5>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="employeeId" (click)="sortById($event)">
+                        {{ "EmployeeId" | translate }}
+                        <p-sortIcon field="employeeId"></p-sortIcon>
+                    </th>
+                    <th>{{ "month" | translate }}</th>
+                    <th>{{ "year" | translate }}</th>
+                    <th>{{ "amountPaid" | translate }}</th>
+                    <th>{{ "remainingAmount" | translate }}</th>
+                    <th>{{ "isPaid" | translate }}</th>
+                    <th>{{ "totalAmount" | translate }}</th>
+
+                    <th>{{ "creationTime" | translate }}</th>
+                    <th>{{ "lastModificationTime" | translate }}</th>
+                    <th>{{ "creatorName" | translate }}</th>
+                    <th>{{ "lastModifierName" | translate }}</th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-product>
+                <tr>
+                    <td>
+                        <span class="p-column-title">Id</span>
+                        {{ product.employeeId }}
+                    </td>
+
+                    <td [ngClass]="{ 'null-color': !product.month }">
+                        <span class="p-column-title">month</span>
+                        {{ product.month ? product.month : "" }}
+                    </td>
+
+                    <td [ngClass]="{ 'null-color': !product.year }">
+                        <span class="p-column-title">year</span>
+                        {{ product.year ? product.year : "" }}
+                    </td>
+
+                    <td [ngClass]="{ 'null-color': !product.amountPaid }">
+                        <span class="p-column-title">amountPaid</span>
+                        {{ product.amountPaid ? product.amountPaid : "" }}
+                    </td>
+
+                    <td [ngClass]="{ 'null-color': !product.remainingAmount }">
+                        <span class="p-column-title">remainingAmount</span>
+                        {{ product.remainingAmount ? product.remainingAmount : "" }}
+                    </td>
+
+                    <td [ngClass]="{ 'null-color': !product.isPaid }">
+                        <span class="p-column-title">isPaid</span>
+                        {{ product.isPaid ? product.isPaid : "" }}
+                    </td>
+
+
+
+                    <td [ngClass]="{ 'null-color': !product.totalAmount }">
+                        <span class="p-column-title">totalAmount</span>
+                        {{ product.totalAmount ? product.totalAmount : "" }}
+                    </td>
+
+                    <td [ngClass]="{ 'null-color': !product.creationTime }">
+                        <span class="p-column-title">creationTime</span>
+                        {{
+                        product.lastModificationTime | date : "dd/MM/YYYY - h:mm a"
+                        }}
+                    </td>
+                    <td [ngClass]="{ 'null-color': !product.lastModificationTime }">
+                        <span class="p-column-title">lastModificationTime</span>
+                        {{ product.lastModificationTime | date : "dd/MM/YY - h:mm a" }}
+                    </td>
+
+                    <td [ngClass]="{ 'null-color': !product.creatorName }">
+                        <span class="p-column-title">creatorName</span>
+                        {{ product.creatorName ? product.creatorName : "" }}
+                    </td>
+                    <td [ngClass]="{ 'null-color': !product.lastModifierName }">
+                        <span class="p-column-title">lastModifierName</span>
+                        {{ product.lastModifierName ? product.lastModifierName : "" }}
+                    </td>
+
+
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
