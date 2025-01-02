@@ -169,6 +169,10 @@ export class AllEmployeesCovenantComponent {
                 console.log(this.product.date);
 
             },
+
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 
@@ -214,6 +218,10 @@ export class AllEmployeesCovenantComponent {
                     this.sortOrder
                 );
             },
+
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 
@@ -305,6 +313,10 @@ export class AllEmployeesCovenantComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
+
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 

@@ -288,6 +288,8 @@ export class StdPaginationsWithPopupComponent {
         //     notes: product.notes,
         // };
 
+        this.loading = true;
+
         this._LockupsService.Edit(form.value).subscribe({
             next: (res) => {
                 if (res.success) {
@@ -301,6 +303,8 @@ export class StdPaginationsWithPopupComponent {
                     });
                 }
 
+                this.loading = false;
+
                 // load data again
                 this.loadData(
                     this.page,
@@ -310,6 +314,9 @@ export class StdPaginationsWithPopupComponent {
                     this.sortOrder
                 );
             },
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 
@@ -368,6 +375,8 @@ export class StdPaginationsWithPopupComponent {
             selectedIds.push(item.id);
         });
 
+        this.loading = true;
+
         this._LockupsService.DeleteRangeSoft(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
@@ -385,9 +394,12 @@ export class StdPaginationsWithPopupComponent {
                     this.sortField,
                     this.sortOrder
                 );
+
+                this.loading = false;
             },
             error: (err) => {
                 this.deleteProductsDialog = false;
+                this.loading = false;
                 this.loadData(
                     this.page,
                     this.itemsPerPage,

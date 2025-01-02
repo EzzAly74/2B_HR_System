@@ -35,7 +35,7 @@ export class UsersComponent {
     constructor(
         private usersService: UsersService,
         private messageService: MessageService
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
@@ -158,9 +158,9 @@ export class UsersComponent {
             .join(' ');
     }
 
-    startAttendeesTimeClick(event: any) {}
+    startAttendeesTimeClick(event: any) { }
 
-    endAttendeesTimeClick(event: any) {}
+    endAttendeesTimeClick(event: any) { }
 
     loadFilteredData() {
         this.loadData(
@@ -204,6 +204,10 @@ export class UsersComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
+
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 

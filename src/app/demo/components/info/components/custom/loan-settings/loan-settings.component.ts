@@ -78,10 +78,10 @@ export class LoanSettingsComponent {
                         });
                     }
                 },
-                error: (err) => {
-                    console.log(err);
-                    // show an error msg here
-                },
+
+                error: () => {
+                    this.loading = false;
+                }
             });
         });
 
@@ -106,10 +106,10 @@ export class LoanSettingsComponent {
                     });
                 }
             },
-            error: (err) => {
-                console.log(err);
-                // show an error msg here
-            },
+
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 
@@ -132,10 +132,10 @@ export class LoanSettingsComponent {
                     });
                 }
             },
-            error: (err) => {
-                console.log(err);
-                // show an error msg here
-            },
+
+            error: () => {
+                this.loading = false;
+            }
         });
 
         console.log(form);

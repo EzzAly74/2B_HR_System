@@ -266,6 +266,10 @@ export class CloseMonthComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
+
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 

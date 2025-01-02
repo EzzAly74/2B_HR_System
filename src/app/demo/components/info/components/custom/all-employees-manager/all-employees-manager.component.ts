@@ -215,6 +215,10 @@ export class AllEmployeesManagerComponent {
                             this.sortOrder
                         );
                     },
+
+                    error: () => {
+                        this.loading = false;
+                    }
                 });
         }
     }
@@ -263,6 +267,10 @@ export class AllEmployeesManagerComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
+
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 

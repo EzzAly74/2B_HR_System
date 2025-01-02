@@ -26,7 +26,7 @@ export class EmployeeDataComponent {
         private DatePipe: DatePipe,
         private translate: TranslateService,
         private router: Router
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
@@ -37,7 +37,7 @@ export class EmployeeDataComponent {
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
-    loading: boolean = true;
+    loading: boolean = false;
     nameFilter: string;
     deleteProductDialog: boolean = false;
     deleteProductsDialog: boolean = false;
@@ -312,6 +312,7 @@ export class EmployeeDataComponent {
 
     resetMacAddress(rowData: any, event: any) {
         event.stopPropagation();
+        this.loading = true;
         this._EmployeeService.resetMacAddress(rowData.id).subscribe({
             next: (res) => {
                 // show message for user to show processing of deletion.
@@ -321,9 +322,11 @@ export class EmployeeDataComponent {
                     detail: 'Mac Address reseted Success',
                     life: 3000,
                 });
+                this.loading = false;
             },
             error: (err) => {
                 console.log(err);
+                this.loading = false;
             },
         });
     }
@@ -341,6 +344,7 @@ export class EmployeeDataComponent {
     }
 
     confirmDelete(id: number) {
+        this.loading = true
         // perform delete from sending request to api
         this._EmployeeService.DeleteSoftById(id).subscribe({
             next: (res) => {
@@ -357,6 +361,7 @@ export class EmployeeDataComponent {
                     life: 3000,
                 });
 
+                this.loading = false;
                 // load data here
                 this.loadData(
                     this.page,
@@ -368,6 +373,7 @@ export class EmployeeDataComponent {
             },
             error: (err) => {
                 console.log(err);
+                this.loading = false;
             },
         });
     }
@@ -378,6 +384,7 @@ export class EmployeeDataComponent {
             notes: this.newNotes,
             engName: this.newNameEn,
         };
+        this.loading = true;
 
         this._EmployeeService.Register(body).subscribe({
             next: (res) => {
@@ -402,10 +409,12 @@ export class EmployeeDataComponent {
                     this.sortField,
                     this.sortOrder
                 );
+                this.loading = false;
             },
             error: (err) => {
                 this.showFormNew = false;
 
+                this.loading = false;
                 console.log(err);
             },
         });
@@ -452,6 +461,7 @@ export class EmployeeDataComponent {
 
                 this.totalItems = res.totalItems;
                 this.loading = false;
+
             },
             error: (err) => {
                 console.log(err);
@@ -505,6 +515,8 @@ export class EmployeeDataComponent {
             notes: product.notes,
         };
 
+        this.loading = true;
+
         this._EmployeeService.Edit(body).subscribe({
             next: () => {
                 this.hideDialog();
@@ -516,6 +528,8 @@ export class EmployeeDataComponent {
                     life: 3000,
                 });
 
+                this.loading = false;
+
                 // load data again
                 this.loadData(
                     this.page,
@@ -526,6 +540,7 @@ export class EmployeeDataComponent {
                 );
             },
             error: (err) => {
+                this.loading = false;
                 console.log(err);
             },
         });
@@ -583,6 +598,8 @@ export class EmployeeDataComponent {
             selectedIds.push(item.id);
         });
 
+        this.loading = true;
+
         this._EmployeeService.DeleteRangeSoft(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
@@ -592,6 +609,8 @@ export class EmployeeDataComponent {
                     detail: 'items deleted successfully',
                     life: 3000,
                 });
+
+                this.loading = false;
                 this.selectedItems = [];
                 this.loadData(
                     this.page,
@@ -684,6 +703,7 @@ export class EmployeeDataComponent {
 
         console.log(filteredData);
 
+        this.loading = true
         this._EmployeeService.GetPage(filteredData).subscribe({
             next: (res) => {
                 this.manageItems.nativeElement.scrollIntoView({
@@ -694,10 +714,12 @@ export class EmployeeDataComponent {
                 this.allData = res.data;
 
                 console.log('result');
+                this.loading = false;
 
                 console.log(res);
             },
             error: (err) => {
+                this.loading = false;
                 console.log(err);
             },
         });

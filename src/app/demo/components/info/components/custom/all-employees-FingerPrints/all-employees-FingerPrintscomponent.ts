@@ -346,6 +346,9 @@ export class AllEmployeesFingerPrintComponent {
                 console.log(this.selectedItems);
             },
 
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 

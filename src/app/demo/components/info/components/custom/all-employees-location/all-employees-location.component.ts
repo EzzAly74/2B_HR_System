@@ -182,6 +182,10 @@ export class AllEmployeesLocationComponent {
                     this.sortOrder
                 );
             },
+
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 
@@ -222,6 +226,10 @@ export class AllEmployeesLocationComponent {
                             this.sortOrder
                         );
                     },
+
+                    error: () => {
+                        this.loading = false;
+                    }
                 });
         }
     }
@@ -281,9 +289,12 @@ export class AllEmployeesLocationComponent {
                 console.log(res.data);
 
                 this.totalItems = res.totalItems;
-                this.loading = false;
                 console.log(this.selectedItems);
             },
+
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 
@@ -362,6 +373,10 @@ export class AllEmployeesLocationComponent {
                         this.sortOrder
                     );
                 },
+
+                error: () => {
+                    this.loading = false;
+                }
             });
         } else {
             console.log(
@@ -457,6 +472,10 @@ export class AllEmployeesLocationComponent {
                     this.sortOrder
                 );
             },
+
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 

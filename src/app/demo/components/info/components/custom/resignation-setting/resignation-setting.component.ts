@@ -10,78 +10,81 @@ import { ResignationSettingService } from './resignation-setting.service';
 @Component({
   selector: 'app-resignation-setting',
   standalone: true,
-   imports: [
-     GlobalsModule,
-     PrimeNgModule
- ],
- providers: [MessageService],
+  imports: [
+    GlobalsModule,
+    PrimeNgModule
+  ],
+  providers: [MessageService],
   templateUrl: './resignation-setting.component.html',
   styleUrl: './resignation-setting.component.scss'
 })
 export class ResignationSettingComponent {
-  
+
   constructor(private fb: FormBuilder,
     private _ResignationSettingService: ResignationSettingService,
-    private messageService: MessageService) {}
+    private messageService: MessageService) { }
 
-  resignationForm: FormGroup =  new FormGroup({
+  resignationForm: FormGroup = new FormGroup({
     noticePeriodInDays: new FormControl(null, Validators.required),
     resignationInstructions: this.fb.array([]),
   });
 
   resignData: any = {};
+  loading: boolean = false;
 
   endPoint = 'ResignationSetting';
 
   ngOnInit() {
     Globals.getMainLangChanges().subscribe((mainLang) => {
       console.log('Main language changed to:', mainLang);
-      
+
       this._ResignationSettingService.setCulture(mainLang);
-      
+
       this._ResignationSettingService.setEndPoint(this.endPoint);
-      
+
       this.getResignDate();
     });
   }
 
   getResignDate() {
+    this.loading = true;
     this._ResignationSettingService.getData().subscribe({
       next: (res) => {
         let data = res.data;
         console.log(data);
 
+        this.loading = false
         if (data) {
-            // Patch other form controls
-            this.resignationForm.patchValue({
-                noticePeriodInDays: data.noticePeriodInDays || null,
-            });
+          // Patch other form controls
+          this.resignationForm.patchValue({
+            noticePeriodInDays: data.noticePeriodInDays || null,
+          });
 
-            // this.resignationInstructionsArray.clear(); // Clear existing FormArray items if any
+          // this.resignationInstructionsArray.clear(); // Clear existing FormArray items if any
 
-            if (
-                data.resignationInstructions &&
-                Array.isArray(data.resignationInstructions)
-            ) {
-                data.resignationInstructions.forEach(
-                    (instruction: any) => {
-                        this.resignationInstructionsArray.push(
-                            new FormGroup({
-                                instructionArabic: new FormControl(
-                                    instruction.instructionArabic ||
-                                        null,
-                                    [Validators.required]
-                                ),
-                                instructionEnglish: new FormControl(
-                                    instruction.instructionEnglish ||
-                                        null,
-                                    [Validators.required]
-                                ),
-                            })
-                        );
-                    }
+          if (
+            data.resignationInstructions &&
+            Array.isArray(data.resignationInstructions)
+          ) {
+            data.resignationInstructions.forEach(
+              (instruction: any) => {
+                this.resignationInstructionsArray.push(
+                  new FormGroup({
+                    instructionArabic: new FormControl(
+                      instruction.instructionArabic ||
+                      null,
+                      [Validators.required]
+                    ),
+                    instructionEnglish: new FormControl(
+                      instruction.instructionEnglish ||
+                      null,
+                      [Validators.required]
+                    ),
+                  })
                 );
-            }
+              }
+            );
+          }
         }
       },
       error: (err) => {
@@ -89,15 +92,15 @@ export class ResignationSettingComponent {
       }
     });
   }
-  
+
   get resignationInstructionsArray(): FormArray {
     return this.resignationForm.get('resignationInstructions') as FormArray;
   }
 
   addInstruction(): void {
     const instructionGroup = this.fb.group({
-        instructionArabic: [null, Validators.required],
-        instructionEnglish: [null, Validators.required],
+      instructionArabic: [null, Validators.required],
+      instructionEnglish: [null, Validators.required],
     });
     this.resignationInstructionsArray.push(instructionGroup);
   }
@@ -108,8 +111,10 @@ export class ResignationSettingComponent {
 
   registerData(resignData: FormGroup) {
     if (resignData.valid) {
+      this.loading = true;
       this._ResignationSettingService.register(resignData.value).subscribe({
         next: (res) => {
+          this.loading = false
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
@@ -117,6 +122,9 @@ export class ResignationSettingComponent {
             life: 3000,
           });
         },
+        error: () => {
+          this.loading = false
+        }
       });
     }
   }

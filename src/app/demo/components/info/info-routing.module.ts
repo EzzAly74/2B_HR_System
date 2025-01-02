@@ -64,6 +64,8 @@ import { ResignationPolicyComponent } from './components/custom/resignation-poli
 import { AllLoansComponent } from './components/custom/all-loans/all-loans.component';
 import { LoanDetailsComponent } from './components/custom/loan-details/loan-details.component';
 import { GetLoanPaymentComponent } from './components/custom/get-loan-payment/get-loan-payment.component';
+import { RegisterTerminationComponent } from './components/custom/Terminations/register-termination/register-termination.component';
+import { AllTerminationsComponent } from './components/custom/Terminations/all-terminations/all-terminations.component';
 
 @NgModule({
     imports: [
@@ -397,6 +399,19 @@ import { GetLoanPaymentComponent } from './components/custom/get-loan-payment/ge
                 canActivate: [authGuard],
                 component: GetLoanPaymentComponent,
             },
+
+            {
+                path: 'registerTermination',
+                canActivate: [authGuard],
+                component: RegisterTerminationComponent,
+            },
+
+            {
+                path: 'allTerminations',
+                canActivate: [authGuard],
+                component: AllTerminationsComponent,
+            },
+
             {
                 path: 'test',
                 canActivate: [authGuard],

@@ -297,6 +297,10 @@ export class AllEmployeesUniformComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
+
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 

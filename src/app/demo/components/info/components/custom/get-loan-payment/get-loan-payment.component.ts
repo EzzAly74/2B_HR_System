@@ -109,6 +109,10 @@ export class GetLoanPaymentComponent {
         this.loanPaymentGetDtos = res.data.loanPaymentGetDtos;
         this.totalItems = this.allData.length;
         console.log(this.loanPaymentGetDtos);
+      },
+
+      error: () => {
+        this.loading = false;
       }
     })
   }

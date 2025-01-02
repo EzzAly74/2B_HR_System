@@ -290,6 +290,10 @@ export class MonthlyAllowenceComponent {
                 console.log(this.selectedItems);
             },
 
+
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 

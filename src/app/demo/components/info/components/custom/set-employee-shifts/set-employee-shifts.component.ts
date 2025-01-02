@@ -24,6 +24,8 @@ export class SetEmployeeShiftsComponent {
         private messageService: MessageService,
     ) { }
 
+    loading: boolean = false;
+
     dropdownItemsDepartment: any;
     dropdownItemsShift: any;
     dropdownItemsEmployee: any;
@@ -81,13 +83,16 @@ export class SetEmployeeShiftsComponent {
 
     ChangeEmployees(dept: any) {
         console.log(dept.id)
+        this.loading = true
         this._SetEmployeeShiftsService.getEmployeeByDepartment(dept.id).subscribe({
             next: (res) => {
                 this.dropdownItemsEmployee = res.data;
                 console.log(res)
+                this.loading = false;
             },
             error: (err) => {
                 console.log(err);
+                this.loading = false;
             },
         });
     }
@@ -113,10 +118,12 @@ export class SetEmployeeShiftsComponent {
             shiftId: this.selectedShiftId,
             employeeIds: this.selectedEmployeeIds
         }
+        this.loading = true;
 
         this._SetEmployeeShiftsService.UpdateEmployeesShift(this.registerForm).subscribe({
             next: (res) => {
                 console.log(res);
+                this.loading = false
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Success',
@@ -124,6 +131,9 @@ export class SetEmployeeShiftsComponent {
                     life: 3000,
                 });
             },
+            error: () => {
+                this.loading = false
+            }
 
         });
     }

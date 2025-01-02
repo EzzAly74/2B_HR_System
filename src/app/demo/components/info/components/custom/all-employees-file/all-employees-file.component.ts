@@ -165,6 +165,10 @@ export class AllEmployeesFileComponent {
                 this.product = { ...res.data };
                 this.productDialog = true;
             },
+
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 
@@ -210,6 +214,10 @@ export class AllEmployeesFileComponent {
                     this.sortOrder
                 );
             },
+
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 
@@ -267,6 +275,10 @@ export class AllEmployeesFileComponent {
                         this.sortOrder
                     );
                 },
+
+                error: () => {
+                    this.loading = false;
+                }
             });
         }
     }
@@ -332,6 +344,10 @@ export class AllEmployeesFileComponent {
                 this.loading = false;
 
             },
+
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 
@@ -409,6 +425,10 @@ export class AllEmployeesFileComponent {
                         this.sortOrder
                     );
                 },
+
+                error: () => {
+                    this.loading = false;
+                }
             });
         }
     }
@@ -489,6 +509,10 @@ export class AllEmployeesFileComponent {
                     this.sortOrder
                 );
             },
+
+            error: () => {
+                this.loading = false;
+            }
         });
     }
     sortById(event: any) {

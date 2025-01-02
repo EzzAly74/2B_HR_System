@@ -228,6 +228,10 @@ export class PenaltiesAndDeductionComponent {
                     this.sortOrder
                 );
             },
+
+            error: () => {
+                this.loading = false;
+            }
         });
         this.notesAccept = '';
     }
@@ -261,6 +265,10 @@ export class PenaltiesAndDeductionComponent {
                     this.sortOrder
                 );
             },
+
+            error: () => {
+                this.loading = false;
+            }
         });
         this.notesReject = '';
     }
@@ -571,7 +579,7 @@ export class PenaltiesAndDeductionComponent {
 
                 },
                 error: (err) => {
-                    console.log(err);
+                    this.loading = false;
                 },
             });
     }

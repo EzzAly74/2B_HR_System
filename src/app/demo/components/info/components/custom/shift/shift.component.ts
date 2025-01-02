@@ -22,7 +22,7 @@ export class ShiftComponent {
         private _ShiftService: ShiftService,
         private messageService: MessageService,
         private translate: TranslateService
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
@@ -157,9 +157,9 @@ export class ShiftComponent {
             .join(' ');
     }
 
-    startAttendeesTimeClick(event: any) {}
+    startAttendeesTimeClick(event: any) { }
 
-    endAttendeesTimeClick(event: any) {}
+    endAttendeesTimeClick(event: any) { }
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
@@ -282,6 +282,10 @@ export class ShiftComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
+
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 
@@ -474,7 +478,7 @@ export class ShiftComponent {
                 next: (res) => {
                     console.log(res);
                     console.log('ezzzz');
-                    
+
                     this.loadData(
                         this.page,
                         this.itemsPerPage,

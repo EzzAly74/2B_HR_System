@@ -251,6 +251,10 @@ export class AttendenceConfigurationComponent {
 
                 console.log(sortType);
             },
+
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 

@@ -61,6 +61,10 @@ export class SendNotificationToAllComponent {
                     }
                 },
 
+                error: () => {
+                    this.loading = false
+                }
+
             });
     }
 }

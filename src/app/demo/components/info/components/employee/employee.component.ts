@@ -26,7 +26,7 @@ export class EmployeeComponent {
         private _EmployeeService: EmployeeService,
         private messageService: MessageService,
         private DatePipe: DatePipe
-    ) {}
+    ) { }
 
     // => dropdown Arrays
     // = Enums
@@ -47,9 +47,11 @@ export class EmployeeComponent {
     dropdownItemsJobNature: any;
     dropdownItemsRecuritmentSource: any;
     dropdownItemsContractType: any;
-    dropdownItemsAttendanceConfiguration:any;
+    dropdownItemsAttendanceConfiguration: any;
     endPoint: string;
     registerForm!: FormGroup;
+
+    loading: boolean = false;
 
     uploadedFiles: any[] = [];
 
@@ -280,13 +282,14 @@ export class EmployeeComponent {
 
     registerSubmit(form: FormGroup) {
 
-        if(form.valid) {
+        if (form.valid) {
 
+            this.loading = true;
             // override on values
             const body = {
                 ...form.value,
                 File: form.get("File").value,
-                DeleteImage: form.get("File").value? true: false,
+                DeleteImage: form.get("File").value ? true : false,
                 JoininDate: this.DatePipe.transform(form.get("JoininDate").value, 'yyyy-MM-dd'),
                 BirthDate: this.DatePipe.transform(form.get("BirthDate").value, 'yyyy-MM-dd'),
                 HirDate: this.DatePipe.transform(form.get("HirDate").value, 'yyyy-MM-dd'),
@@ -300,7 +303,7 @@ export class EmployeeComponent {
             this._EmployeeService.Register(formData).subscribe({
                 next: (res) => {
                     console.log(res);
-                    if(res.success) {
+                    if (res.success) {
                         this.messageService.add({
                             severity: 'success',
                             summary: 'Success',
@@ -310,10 +313,12 @@ export class EmployeeComponent {
 
                         this.resetFields();
                     }
+                    this.loading = false;
                 },
 
                 error: (err) => {
                     console.error(err);
+                    this.loading = false;
                 },
             });
         }

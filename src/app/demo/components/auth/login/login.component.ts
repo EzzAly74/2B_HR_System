@@ -92,8 +92,11 @@ export class LoginComponent {
 
                     console.log(res);
 
-
                 },
+
+                error: () => {
+                    this.loading = false;
+                }
 
             });
         }

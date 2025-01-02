@@ -22,7 +22,7 @@ export class VacationTypeComponent {
         private vacationTypeService: VacationTypeService,
         private messageService: MessageService,
         private translate: TranslateService
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
@@ -144,9 +144,9 @@ export class VacationTypeComponent {
             .join(' ');
     }
 
-    startAttendeesTimeClick(event: any) {}
+    startAttendeesTimeClick(event: any) { }
 
-    endAttendeesTimeClick(event: any) {}
+    endAttendeesTimeClick(event: any) { }
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
@@ -263,6 +263,10 @@ export class VacationTypeComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
+
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 
@@ -441,7 +445,7 @@ export class VacationTypeComponent {
                 next: (res) => {
                     console.log(res);
                     console.log('ezzzz');
-                    
+
                     this.loadData(
                         this.page,
                         this.itemsPerPage,
