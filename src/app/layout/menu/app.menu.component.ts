@@ -147,7 +147,6 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/monthlyAllowance'],
                             },
 
-
                             {
                                 label: this.translate.instant(
                                     'Employees Shifts'
