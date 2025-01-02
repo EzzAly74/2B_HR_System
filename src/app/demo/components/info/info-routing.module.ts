@@ -63,6 +63,10 @@ import { LoanRequestComponent } from './components/custom/loan-request/loan-requ
 import { ResignationPolicyComponent } from './components/custom/resignation-policy/resignation-policy.component';
 import { AllLoansComponent } from './components/custom/all-loans/all-loans.component';
 import { LoanDetailsComponent } from './components/custom/loan-details/loan-details.component';
+import { NetIncomeTaxComponent } from './components/custom/net-income-tax/net-income-tax.component';
+import { TaxRateComponent } from './components/custom/tax-rate/tax-rate.component';
+import { MonthlyReportComponent } from './components/custom/monthly-report/monthly-report.component';
+import { MonthlyAbsenceReportComponent } from './components/custom/monthly-absence-report/monthly-absence-report.component';
 
 @NgModule({
     imports: [
@@ -357,26 +361,45 @@ import { LoanDetailsComponent } from './components/custom/loan-details/loan-deta
                 canActivate: [authGuard],
                 component: ResignationPolicyComponent,
             },
+            {
+                path: 'netIncomeTax',
+                canActivate: [authGuard],
+                component: NetIncomeTaxComponent,
+            },
+            {
+                path: 'taxRate',
+                canActivate: [authGuard],
+                component: TaxRateComponent,
+            },
+            {
+                path: 'mothlyReport',
+                canActivate: [authGuard],
+                component: MonthlyReportComponent,
+            },
+            {
+                path: 'mothlyAbsenceReport',
+                canActivate: [authGuard],
+                component: MonthlyAbsenceReportComponent,
+            },
 
             {
                 path: 'companyBasicData',
                 canActivate: [authGuard],
                 component: CompanyBasicDataComponent,
             },
-           
+
             {
                 path: 'monthlyAllowance',
                 canActivate: [authGuard],
                 component: MonthlyAllowenceComponent,
             },
-            
+
             {
                 path: 'resignationSetting',
                 canActivate: [authGuard],
                 component: ResignationSettingComponent,
             },
-             {
-
+            {
                 path: 'insuranceConfig',
                 canActivate: [authGuard],
                 component: InsuranceConfigComponent,
