@@ -12,6 +12,6 @@ import { LoadingComponent } from '../../components/info/components/loading/loadi
     ReactiveFormsModule,
     TranslateModule,
     LoadingComponent
-  ]
+  ],
 })
 export class GlobalsModule { }

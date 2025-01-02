@@ -23,11 +23,11 @@ export class AttendenceConfigurationComponent {
         private attendenceConfigurationService: AttendenceConfigurationService,
         private fb: FormBuilder,
         private router: Router
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
-    allData: any = [];
+    allData: any;
     page: number = 1;
     itemsPerPage = 3;
     selectedItems: any = [];
@@ -53,7 +53,7 @@ export class AttendenceConfigurationComponent {
 
     selectedExecuseCalculationType!: any;
     selectedExecuseCalculationTypeId!: number;
-    
+
     selectedEarlyLeaveCalculationType!: any;
     selectedEarlyLeaveCalculationTypeId!: any;
 
@@ -427,7 +427,7 @@ export class AttendenceConfigurationComponent {
                     console.log(res);
                     this.earlyLeaveCalculationTypes = res.data;
                 },
-             
+
             });
     }
     selectedExecuseCalculationTypeFun(event: any) {

@@ -1,10 +1,7 @@
 <p-toast></p-toast>
+<pre-loading *ngIf="loading"></pre-loading>
 <p-panel [header]="'Filter' | translate" [toggleable]="true" [collapsed]="true">
-    <form
-        method="post"
-        [formGroup]="filterForm"
-        (submit)="submitForm(filterForm)"
-    >
+    <form method="post" [formGroup]="filterForm" (submit)="submitForm(filterForm)">
         <div class="grid">
             <div class="col-12">
                 <div class="card">
@@ -12,70 +9,44 @@
                         <div class="field col-12 md:col-4">
                             <label htmlFor="government">{{
                                 "Employee" | translate
-                            }}</label>
-                            <p-dropdown
-                                [options]="dropdownItemsEmployees"
-                                optionLabel="name"
-                                formControlName="EmployeeId"
-                                [(ngModel)]="selectedEmployee"
-                                [placeholder]="
+                                }}</label>
+                            <p-dropdown [options]="dropdownItemsEmployees" optionLabel="name"
+                                formControlName="EmployeeId" [(ngModel)]="selectedEmployee" [placeholder]="
                                     'Enter Employee Name Here' | translate
-                                "
-                            ></p-dropdown>
+                                "></p-dropdown>
                         </div>
 
                         <div class="field col-12 md:col-3">
                             <label htmlFor="RequestType">{{
                                 "Location" | translate
-                            }}</label>
-                            <p-dropdown
-                                formControlName="LocationId"
-                                [options]="dropdownItemsVacationTypes"
-                                optionLabel="name"
-                                [(ngModel)]="selectedVacationType"
-                                [placeholder]="
+                                }}</label>
+                            <p-dropdown formControlName="LocationId" [options]="dropdownItemsVacationTypes"
+                                optionLabel="name" [(ngModel)]="selectedVacationType" [placeholder]="
                                     'Enter Location Here' | translate
-                                "
-                            ></p-dropdown>
+                                "></p-dropdown>
                         </div>
 
                         <div class="field col-12 md:col-3">
                             <label htmlFor="from">
-                                {{ "From" | translate }}</label
-                            >
-                            <p-calendar
-                                [showIcon]="true"
-                                [iconDisplay]="'input'"
-                                inputId="from"
-                                formControlName="DateFrom"
-                                [placeholder]="'From' | translate"
-                            ></p-calendar>
+                                {{ "From" | translate }}</label>
+                            <p-calendar [showIcon]="true" [iconDisplay]="'input'" inputId="from"
+                                formControlName="DateFrom" [placeholder]="'From' | translate"></p-calendar>
                         </div>
 
                         <div class="field col-12 md:col-3">
                             <label htmlFor="to"> {{ "To" | translate }}</label>
-                            <p-calendar
-                                [showIcon]="true"
-                                [iconDisplay]="'input'"
-                                inputId="to"
-                                formControlName="DateTo"
-                                [placeholder]="'To' | translate"
-                            ></p-calendar>
+                            <p-calendar [showIcon]="true" [iconDisplay]="'input'" inputId="to" formControlName="DateTo"
+                                [placeholder]="'To' | translate"></p-calendar>
                         </div>
 
                         <div class="field col-12 md:col-3">
                             <label htmlFor="Religin">{{
                                 "Manager" | translate
-                            }}</label>
-                            <p-dropdown
-                                formControlName="MangerId"
-                                [options]="dropdownItemsManagers"
-                                optionLabel="name"
-                                [(ngModel)]="selectedManager"
-                                [placeholder]="
+                                }}</label>
+                            <p-dropdown formControlName="MangerId" [options]="dropdownItemsManagers" optionLabel="name"
+                                [(ngModel)]="selectedManager" [placeholder]="
                                     'Enter Manager Name Here' | translate
-                                "
-                            ></p-dropdown>
+                                "></p-dropdown>
                         </div>
 
                         <div class="btn-filter-submit-container">
@@ -94,50 +65,22 @@
 </p-panel>
 <p-toolbar styleClass="mb-4">
     <ng-template pTemplate="right">
-        <button
-            pButton
-            pRipple
-            [label]="'Export' | translate"
-            icon="pi pi-upload"
-            class="p-button-help mx-2 px-5"
-            pTooltip="CSV"
-            (click)="exportCSV()"
-            [disabled]="!selectedItems || !selectedItems.length"
-        ></button>
+        <button pButton pRipple [label]="'Export' | translate" icon="pi pi-upload" class="p-button-help mx-2 px-5"
+            pTooltip="CSV" (click)="exportCSV()" [disabled]="!selectedItems || !selectedItems.length"></button>
     </ng-template>
 </p-toolbar>
 
-<p-table
-    #dt
-    [value]="allData"
-    [paginator]="true"
-    [rows]="itemsPerPage"
-    [columns]="cols"
-    [totalRecords]="totalItems"
-    selectionMode="multiple"
-    [(selection)]="selectedItems"
-    [showCurrentPageReport]="true"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [lazy]="true"
-    (onLazyLoad)="onPageChange($event)"
-    dataKey="id"
->
+<p-table #dt [value]="allData" [paginator]="true" [rows]="itemsPerPage" [columns]="cols" [totalRecords]="totalItems"
+    selectionMode="multiple" [(selection)]="selectedItems" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [lazy]="true"
+    (onLazyLoad)="onPageChange($event)" dataKey="id">
     <ng-template pTemplate="caption">
-        <div
-            class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
-        >
+        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
             <h5 class="m-0">{{ "Manage Items" | translate }}</h5>
             <span class="block mt-2 md:mt-0 p-input-icon-left">
                 <i class="pi pi-search"></i>
-                <input
-                    pInputText
-                    [(ngModel)]="nameFilter"
-                    (input)="loadFilteredData()"
-                    id="filter-name"
-                    type="text"
-                    [placeholder]="'Search...' | translate"
-                    class="w-full sm:w-auto"
-                />
+                <input pInputText [(ngModel)]="nameFilter" (input)="loadFilteredData()" id="filter-name" type="text"
+                    [placeholder]="'Search...' | translate" class="w-full sm:w-auto" />
             </span>
         </div>
     </ng-template>
@@ -209,9 +152,9 @@
             <td [ngClass]="{ 'null-color': !rowData.lastModificationTime }">
                 <span class="p-column-title">lastModificationTime</span>
                 {{
-                    rowData.lastModificationTime
-                        ? rowData.lastModificationTime
-                        : ""
+                rowData.lastModificationTime
+                ? rowData.lastModificationTime
+                : ""
                 }}
             </td>
 

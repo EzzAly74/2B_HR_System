@@ -39,11 +39,11 @@ export class ExternalMissonComponent {
         private messageService: MessageService,
         private route: ActivatedRoute,
         private DatePipe: DatePipe
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
-    allData: any = [];
+    allData: any;
     page: number = 1;
     itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
@@ -195,9 +195,9 @@ export class ExternalMissonComponent {
             .join(' ');
     }
 
-    startAttendeesTimeClick(event: any) {}
+    startAttendeesTimeClick(event: any) { }
 
-    endAttendeesTimeClick(event: any) {}
+    endAttendeesTimeClick(event: any) { }
 
     confirmDelete(rowData: any) {
         console.log(rowData);

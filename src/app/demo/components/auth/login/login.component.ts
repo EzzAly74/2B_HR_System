@@ -30,6 +30,7 @@ export class LoginComponent {
 
     password!: string;
     theme: string;
+    loading: boolean = false;
 
     constructor(
         public layoutService: LayoutService,
@@ -37,28 +38,26 @@ export class LoginComponent {
         private router: Router,
         private messageService: MessageService,
         private translate: TranslateService
-    ) {}
+    ) { }
 
 
 
-   
+
     ngOnInit() {
-        const lang = localStorage.getItem('currentLang') ;
+        const lang = localStorage.getItem('currentLang');
 
-        if(lang == 'en')
-        {
+        if (lang == 'en') {
             this.translate.use('en');
             Globals.setMainLang('en');
             document.dir = 'ltr'; // Default to 'ltr' if dir is undefined
             document.documentElement.lang = 'en';
         }
-        else
-      { 
-         this.translate.use('ar');
-         Globals.setMainLang('ar');
-         document.dir = 'rtl'; // Default to 'ltr' if dir is undefined
-         document.documentElement.lang = 'ar';
-      }
+        else {
+            this.translate.use('ar');
+            Globals.setMainLang('ar');
+            document.dir = 'rtl'; // Default to 'ltr' if dir is undefined
+            document.documentElement.lang = 'ar';
+        }
 
         // Globals.getMainLangChanges().subscribe({
         //     next: (lang) => {
@@ -82,19 +81,21 @@ export class LoginComponent {
 
     submitLoginForm(logForm: FormGroup) {
         if (logForm.valid) {
+            this.loading = true
             this.authService.login(logForm.value).subscribe({
                 next: (res) => {
+                    this.loading = false;
                     if (res.data && res.statusCode == 200 && res.success) {
                         localStorage.setItem('userToken', res.data.token);
                         this.router.navigate(['/dashboard']);
                     }
-                   
+
                     console.log(res);
-                    
-              
+
+
                 },
-                
+
             });
-        } 
+        }
     }
 }

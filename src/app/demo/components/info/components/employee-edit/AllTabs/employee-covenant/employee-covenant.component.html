@@ -1,152 +1,76 @@
 <p-toast></p-toast>
+<pre-loading *ngIf="loading"></pre-loading>
 
 <p-toolbar styleClass="mb-4">
     <ng-template pTemplate="left">
         <div class="my-2">
-            <button
-                pButton
-                pRipple
-                [label]="
+            <button pButton pRipple [label]="
                     'Add New'.concat(' ', splitCamelCase(endPoint)) | translate
-                "
-                icon="pi pi-plus"
-                class="p-button-info mx-2 px-5"
-                (click)="toggleNew()"
-            ></button>
+                " icon="pi pi-plus" class="p-button-info mx-2 px-5" (click)="toggleNew()"></button>
 
-            <button
-                pButton
-                pRipple
-                [label]="'Delete' | translate"
-                icon="pi pi-trash"
-                class="p-button-danger mx-2 px-5"
-                (click)="deleteSelectedProducts()"
-                [disabled]="!selectedItems || !selectedItems.length"
-            ></button>
+            <button pButton pRipple [label]="'Delete' | translate" icon="pi pi-trash" class="p-button-danger mx-2 px-5"
+                (click)="deleteSelectedProducts()" [disabled]="!selectedItems || !selectedItems.length"></button>
         </div>
     </ng-template>
     <ng-template pTemplate="right">
-        <button
-            pButton
-            pRipple
-            [label]="'Export' | translate"
-            icon="pi pi-upload"
-            class="p-button-help mx-2 px-5"
-            pTooltip="CSV"
-            (click)="exportCSV()"
-            [disabled]="!selectedItems || !selectedItems.length"
-        ></button>
+        <button pButton pRipple [label]="'Export' | translate" icon="pi pi-upload" class="p-button-help mx-2 px-5"
+            pTooltip="CSV" (click)="exportCSV()" [disabled]="!selectedItems || !selectedItems.length"></button>
     </ng-template>
 </p-toolbar>
 
-<p-dialog
-    [(visible)]="showFormNew"
-    [style]="{ width: '450px' }"
-    [header]="'Add New' | translate"
-    [modal]="true"
-    class="p-fluid"
->
+<p-dialog [(visible)]="showFormNew" [style]="{ width: '450px' }" [header]="'Add New' | translate" [modal]="true"
+    class="p-fluid">
     <ng-template pTemplate="content">
         <form [formGroup]="addNewForm">
             <div class="field">
                 <label htmlFor="ContractType">{{
                     "Covenant Type" | translate
-                }}</label>
-                <p-dropdown
-                    [options]="dropdownItemsCovenantType"
-                    [(ngModel)]="selectedCovenant"
-                    optionLabel="name"
-                    optionValue="id"
-                    formControlName="covenantId"
-                    [placeholder]="'Enter Covenant Type' | translate"
-                    (onChange)="selectCovenant($event)"
-                ></p-dropdown>
+                    }}</label>
+                <p-dropdown [options]="dropdownItemsCovenantType" [(ngModel)]="selectedCovenant" optionLabel="name"
+                    optionValue="id" formControlName="covenantId" [placeholder]="'Enter Covenant Type' | translate"
+                    (onChange)="selectCovenant($event)"></p-dropdown>
             </div>
 
             <div class="field">
                 <label htmlFor="name-ar">{{ "Date" | translate }} </label>
 
-                <p-calendar
-                    [showIcon]="true"
-                    [iconDisplay]="'input'"
-                    name="date"
-                    inputId="date"
-                    [(ngModel)]="date"
-                    formControlName="date"
-                    [placeholder]="'Enter Date Here' | translate"
-                ></p-calendar>
+                <p-calendar [showIcon]="true" [iconDisplay]="'input'" name="date" inputId="date" [(ngModel)]="date"
+                    formControlName="date" [placeholder]="'Enter Date Here' | translate"></p-calendar>
             </div>
 
             <div class="field">
                 <label htmlFor="numberOfHours">{{ "Cost" | translate }}</label>
 
-                <input
-                    pInputText
-                    [(ngModel)]="cost"
-                    formControlName="cost"
-                    [placeholder]="'Enter Cost Here' | translate"
-                    id="Cost"
-                    type="number"
-                />
+                <input pInputText [(ngModel)]="cost" formControlName="cost"
+                    [placeholder]="'Enter Cost Here' | translate" id="Cost" type="number" />
             </div>
 
             <div class="field">
                 <label htmlFor="new-notes">{{ "Notes" | translate }}</label>
-                <textarea
-                    pInputTextarea
-                    [(ngModel)]="notes"
-                    formControlName="notes"
-                    id="new-notes"
-                    [placeholder]="'Enter Notes Here' | translate"
-                    type="text"
-                ></textarea>
+                <textarea pInputTextarea [(ngModel)]="notes" formControlName="notes" id="new-notes"
+                    [placeholder]="'Enter Notes Here' | translate" type="text"></textarea>
             </div>
 
             <div class="field">
-                <button
-                    class="w-25"
-                    pButton
-                    [label]="'Insert New' | translate"
-                    (click)="addNew(addNewForm)"
-                    [disabled]="!addNewForm.valid"
-                ></button>
+                <button class="w-25" pButton [label]="'Insert New' | translate" (click)="addNew(addNewForm)"
+                    [disabled]="!addNewForm.valid"></button>
             </div>
         </form>
 
     </ng-template>
 </p-dialog>
 
-<p-table
-    #dt
-    [value]="allData"
-    [paginator]="true"
-    [rows]="itemsPerPage"
-    [columns]="cols"
-    [totalRecords]="totalItems"
-    selectionMode="multiple"
-    [(selection)]="selectedItems"
-    [showCurrentPageReport]="true"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [lazy]="true"
-    (onLazyLoad)="onPageChange($event)"
-    dataKey="id"
->
+<p-table #dt [value]="allData" [paginator]="true" [rows]="itemsPerPage" [columns]="cols" [totalRecords]="totalItems"
+    selectionMode="multiple" [(selection)]="selectedItems" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [lazy]="true"
+    (onLazyLoad)="onPageChange($event)" dataKey="id">
     <ng-template pTemplate="caption">
-        <div
-            class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
-        >
+        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
             <h5 class="m-0">{{ "Manage Items" | translate }}</h5>
             <span class="block mt-2 md:mt-0 p-input-icon-left">
                 <i class="pi pi-search"></i>
-                <input
-                    pInputText
-                    [(ngModel)]="nameFilter"
-                    (input)="loadFilteredData()"
-                    id="filter-name"
-                    type="text"
-                    [placeholder]="'Search...' | translate"
-                    class="w-full sm:w-auto"
-                />
+                <input pInputText [(ngModel)]="nameFilter" (input)="loadFilteredData()" id="filter-name" type="text"
+                    [placeholder]="'Search...' | translate" class="w-full sm:w-auto" />
             </span>
         </div>
     </ng-template>
@@ -154,58 +78,33 @@
         <div class="field">
             <label htmlFor="ContractType">{{
                 "Covenant Type" | translate
-            }}</label>
-            <p-dropdown
-                [(ngModel)]="selectedCovenant"
-                [options]="dropdownItemsCovenantType"
-                optionLabel="name"
-                [placeholder]="'Enter Covenant Type' | translate"
-            ></p-dropdown>
+                }}</label>
+            <p-dropdown [(ngModel)]="selectedCovenant" [options]="dropdownItemsCovenantType" optionLabel="name"
+                [placeholder]="'Enter Covenant Type' | translate"></p-dropdown>
         </div>
 
         <div class="field">
             <label htmlFor="name-ar"> {{ "Date" | translate }} </label>
 
-            <p-calendar
-                [showIcon]="true"
-                [iconDisplay]="'input'"
-                name="date"
-                inputId="date"
-                [(ngModel)]="date"
-                [placeholder]="'Date' | translate"
-            ></p-calendar>
+            <p-calendar [showIcon]="true" [iconDisplay]="'input'" name="date" inputId="date" [(ngModel)]="date"
+                [placeholder]="'Date' | translate"></p-calendar>
         </div>
 
         <div class="field">
             <label htmlFor="numberOfHours">{{ "Cost" | translate }}</label>
 
-            <input
-                pInputText
-                [(ngModel)]="cost"
-                [placeholder]="'Enter Cost here' | translate"
-                id="Cost"
-                type="number"
-            />
+            <input pInputText [(ngModel)]="cost" [placeholder]="'Enter Cost here' | translate" id="Cost"
+                type="number" />
         </div>
 
         <div class="field">
             <label htmlFor="new-notes">{{ "Notes" | translate }}</label>
-            <textarea
-                pInputTextarea
-                [(ngModel)]="notes"
-                id="new-notes"
-                [placeholder]="'Enter notes Here' | translate"
-                type="text"
-            ></textarea>
+            <textarea pInputTextarea [(ngModel)]="notes" id="new-notes" [placeholder]="'Enter notes Here' | translate"
+                type="text"></textarea>
         </div>
 
         <div class="field">
-            <button
-                class="w-25"
-                pButton
-                [label]="'Insert New' | translate"
-                (click)="addNew()"
-            ></button>
+            <button class="w-25" pButton [label]="'Insert New' | translate" (click)="addNew()"></button>
         </div>
     </ng-template>
 
@@ -264,7 +163,7 @@
                 {{ rowData.cost }}
             </td>
 
-            
+
             <td [ngClass]="{ 'null-color': !rowData.serialNumber }">
                 <span class="p-column-title">serialNumber</span>
                 {{ rowData.serialNumber }}
@@ -282,9 +181,9 @@
             <td [ngClass]="{ 'null-color': !rowData.lastModificationTime }">
                 <span class="p-column-title">lastModificationTime</span>
                 {{
-                    rowData.lastModificationTime
-                        ? rowData.lastModificationTime
-                        : ""
+                rowData.lastModificationTime
+                ? rowData.lastModificationTime
+                : ""
                 }}
             </td>
 
@@ -299,107 +198,57 @@
 
             <td>
                 <div class="flex crud-operations">
-                    <button
-                        pButton
-                        pRipple
-                        icon="pi pi-pencil"
+                    <button pButton pRipple icon="pi pi-pencil"
                         class="p-button-rounded p-button-info p-button-outlined mr-2"
-                        (click)="editProduct(rowData)"
-                    ></button>
-                    <button
-                        pButton
-                        pRipple
-                        icon="pi pi-trash"
+                        (click)="editProduct(rowData)"></button>
+                    <button pButton pRipple icon="pi pi-trash"
                         class="p-button-rounded p-button-outlined p-button-danger"
-                        (click)="deleteProduct(rowData)"
-                    ></button>
+                        (click)="deleteProduct(rowData)"></button>
                 </div>
             </td>
         </tr>
     </ng-template>
 </p-table>
 
-<p-dialog
-    [(visible)]="productDialog"
-    [style]="{ width: '450px' }"
-    [header]="'Item Details' | translate"
-    [modal]="true"
+<p-dialog [(visible)]="productDialog" [style]="{ width: '450px' }" [header]="'Item Details' | translate" [modal]="true"
     class="p-fluid">
     <ng-template pTemplate="content">
         <form [formGroup]="editForm">
             <div class="field">
                 <label htmlFor="ContractType">{{
                     "Covenant Type" | translate
-                }}</label>
-                <p-dropdown
-                    [(ngModel)]="product.covenantId"
-                    [options]="dropdownItemsCovenantType"
-                    formControlName="covenantId"
-                    optionLabel="name"
-                    optionValue="id"
-                    [placeholder]="'Enter Covenant Type' | translate"
-                ></p-dropdown>
+                    }}</label>
+                <p-dropdown [(ngModel)]="product.covenantId" [options]="dropdownItemsCovenantType"
+                    formControlName="covenantId" optionLabel="name" optionValue="id"
+                    [placeholder]="'Enter Covenant Type' | translate"></p-dropdown>
             </div>
 
             <div class="field">
                 <label htmlFor="name-ar">{{ "Date" | translate }} </label>
 
-                <p-calendar
-                    [showIcon]="true"
-                    [iconDisplay]="'input'"
-                    name="date"
-                    inputId="date"
-                    formControlName="date"
-                    [(ngModel)]="product.date"
-                    [placeholder]="'Enter Date Here' | translate"
-                ></p-calendar>
+                <p-calendar [showIcon]="true" [iconDisplay]="'input'" name="date" inputId="date" formControlName="date"
+                    [(ngModel)]="product.date" [placeholder]="'Enter Date Here' | translate"></p-calendar>
             </div>
 
             <div class="field">
                 <label htmlFor="numberOfHours">{{ "Cost" | translate }}</label>
 
-                <input
-                    pInputText
-                    [(ngModel)]="product.cost"
-                    formControlName="cost"
-                    [placeholder]="'Enter Cost Here' | translate"
-                    id="Cost"
-                    type="number"
-                />
+                <input pInputText [(ngModel)]="product.cost" formControlName="cost"
+                    [placeholder]="'Enter Cost Here' | translate" id="Cost" type="number" />
             </div>
 
             <div class="field">
                 <label htmlFor="new-notes">{{ "Notes" | translate }}</label>
-                <textarea
-                    pInputTextarea
-                    [(ngModel)]="product.notes"
-                    formControlName="notes"
-                    id="new-notes"
-                    [placeholder]="'Enter Notes Here' | translate"
-                    type="text"
-                ></textarea>
+                <textarea pInputTextarea [(ngModel)]="product.notes" formControlName="notes" id="new-notes"
+                    [placeholder]="'Enter Notes Here' | translate" type="text"></textarea>
             </div>
 
             <div class="field form-footer">
-                <button
-                pButton
-                pRipple
-                [label]="'Cancel' | translate"
-                icon="pi pi-times"
-                type="button"
-                class="p-button-text"
-                (click)="hideDialog()"
-            ></button>
-            <button
-                pButton
-                pRipple
-                [label]="'Save' | translate"
-                icon="pi pi-check"
-                type="submit"
-                class="p-button-text"
-                [disabled]="!editForm.valid"
-                (click)="saveProduct(product, editForm)"
-            ></button>
+                <button pButton pRipple [label]="'Cancel' | translate" icon="pi pi-times" type="button"
+                    class="p-button-text" (click)="hideDialog()"></button>
+                <button pButton pRipple [label]="'Save' | translate" icon="pi pi-check" type="submit"
+                    class="p-button-text" [disabled]="!editForm.valid"
+                    (click)="saveProduct(product, editForm)"></button>
             </div>
 
         </form>
@@ -408,68 +257,33 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog
-    [(visible)]="deleteProductDialog"
-    [header]="'Confirm Delete' | translate"
-    [modal]="true"
-    [style]="{ width: '450px' }"
->
+<p-dialog [(visible)]="deleteProductDialog" [header]="'Confirm Delete' | translate" [modal]="true"
+    [style]="{ width: '450px' }">
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-        <span *ngIf="product"
-            >{{ "Are you sure you want to delete" | translate }}
-            <b>{{ product.name }}</b
-            >?</span
-        >
+        <span *ngIf="product">{{ "Are you sure you want to delete" | translate }}
+            <b>{{ product.name }}</b>?</span>
     </div>
     <ng-template pTemplate="footer">
-        <button
-            pButton
-            pRipple
-            icon="pi pi-times"
-            class="p-button-text"
-            label="No"
-            (click)="deleteProductDialog = false"
-        ></button>
-        <button
-            pButton
-            pRipple
-            icon="pi pi-check"
-            class="p-button-text"
-            label="Yes"
-            (click)="confirmDelete(product.id)"
-        ></button>
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+            (click)="deleteProductDialog = false"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+            (click)="confirmDelete(product.id)"></button>
     </ng-template>
 </p-dialog>
 
-<p-dialog
-    [(visible)]="deleteProductsDialog"
-    [header]="'Confirm Delete' | translate"
-    [modal]="true"
-    [style]="{ width: '450px' }"
->
+<p-dialog [(visible)]="deleteProductsDialog" [header]="'Confirm Delete' | translate" [modal]="true"
+    [style]="{ width: '450px' }">
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
         <span>{{
             "Are you sure you want to delete selected products?" | translate
-        }}</span>
+            }}</span>
     </div>
     <ng-template pTemplate="footer">
-        <button
-            pButton
-            pRipple
-            icon="pi pi-times"
-            class="p-button-text"
-            label="No"
-            (click)="deleteProductsDialog = false"
-        ></button>
-        <button
-            pButton
-            pRipple
-            icon="pi pi-check"
-            class="p-button-text"
-            label="Yes"
-            (click)="confirmDeleteSelected()"
-        ></button>
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+            (click)="deleteProductsDialog = false"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+            (click)="confirmDeleteSelected()"></button>
     </ng-template>
 </p-dialog>

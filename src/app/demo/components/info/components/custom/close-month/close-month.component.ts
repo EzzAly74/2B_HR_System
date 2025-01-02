@@ -24,11 +24,11 @@ export class CloseMonthComponent {
     constructor(
         private closeMonthService: CloseMonthService,
         private messageService: MessageService
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
-    allData: any = [];
+    allData: any;
     page: number = 1;
     itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
@@ -151,9 +151,9 @@ export class CloseMonthComponent {
             .join(' ');
     }
 
-    startAttendeesTimeClick(event: any) {}
+    startAttendeesTimeClick(event: any) { }
 
-    endAttendeesTimeClick(event: any) {}
+    endAttendeesTimeClick(event: any) { }
 
     confirmDelete(id: number) {
         // perform delete from sending request to api

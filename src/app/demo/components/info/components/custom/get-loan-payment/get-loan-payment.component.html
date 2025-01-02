@@ -1,5 +1,5 @@
 <p-toast />
-<pre-loading *ngIf="loading"></pre-loading>
+
 
 <div class="grid justify-content-center">
     <div class="col-12">
@@ -13,22 +13,26 @@
                             }}</label>
 
                         <p-dropdown [options]="dropdownItemsEmployee" optionLabel="name" [(ngModel)]="selectedEmployee"
-                            placeholder="Select Employee" (onChange)="onSelectEmployee($event)" />
+                            [placeholder]="'Select Employee' | translate" (onChange)="onSelectEmployee($event)"
+                            [filter]="true" [filterPlaceholder]="'Search...' | translate" [filterBy]="'name'"
+                            [showClear]="true" />
+
                     </div>
 
                     <div class="field col-12 md:col-6">
                         <label htmlFor="Loan">{{
                             "Loan Requests" | translate
                             }}</label>
-                        <p-dropdown [options]="dropdownLoanRequests" optionLabel="reason"
+                        <p-dropdown [options]="dropdownLoanRequests" optionLabel="reason" [filter]="true"
+                            [filterPlaceholder]="'Search...' | translate" [filterBy]="'reason'" [showClear]="true"
                             [placeholder]="'Select Loan' | translate" (onChange)="onSelectLoan($event)"></p-dropdown>
                     </div>
 
                     <div class="field col-12 md:col-12 py-5">
                         <div class="p-fluid grid">
                             <div class="col-2">
-                                <button type="submit" pButton value="Save" class="flex justify-content-center">
-                                    {{ "Save" | translate }}
+                                <button type="submit" pButton value="Show" class="flex justify-content-center">
+                                    {{ "Show" | translate }}
                                 </button>
                             </div>
                         </div>
@@ -45,15 +49,15 @@
                 <div class="grid">
                     <div class="col-8  ">
                         <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                            <h5> <span class="label">monthsLeft :</span> {{allData.monthsLeft}}</h5>
+                            <h5> <span class="label">{{'monthsLeft :' | translate}}</span> {{allData.monthsLeft}}</h5>
                         </div>
                         <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                            <h5><span class="label">startYear :</span> {{allData.startYear}}</h5>
-                            <h5><span class="label">startMonth :</span> {{allData.startMonth}}</h5>
+                            <h5><span class="label">{{'startYear :' | translate}}</span> {{allData.startYear}}</h5>
+                            <h5><span class="label">{{'startMonth :' | translate}}</span> {{allData.startMonth}}</h5>
                         </div>
                         <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                            <h5><span class="label">endYear :</span> {{allData.endYear}}</h5>
-                            <h5><span class="label">endMonth :</span> {{allData.endMonth}}</h5>
+                            <h5><span class="label">{{'endYear :' | translate}}</span> {{allData.endYear}}</h5>
+                            <h5><span class="label">{{'endMonth :' | translate}}</span> {{allData.endMonth}}</h5>
                         </div>
                     </div>
                 </div>
@@ -108,10 +112,8 @@
 
                     <td [ngClass]="{ 'null-color': !product.isPaid }">
                         <span class="p-column-title">isPaid</span>
-                        {{ product.isPaid ? product.isPaid : "" }}
+                        <p-inputSwitch [(ngModel)]="product.isPaid" [disabled]="true"></p-inputSwitch>
                     </td>
-
-
 
                     <td [ngClass]="{ 'null-color': !product.totalAmount }">
                         <span class="p-column-title">totalAmount</span>

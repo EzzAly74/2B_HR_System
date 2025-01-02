@@ -25,11 +25,11 @@ export class StdPaginationsWithPopupComponent {
         private _LockupsService: LockupsService,
         private messageService: MessageService,
         private translate: TranslateService
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
-    allData: any = [];
+    allData: any;
     page: number = 1;
     itemsPerPage = 5;
     selectedItems: any = [];
@@ -432,7 +432,7 @@ export class StdPaginationsWithPopupComponent {
                 next: (res) => {
                     console.log(res);
                     console.log('ezzzz');
-                    
+
                     this.loadData(
                         this.page,
                         this.itemsPerPage,

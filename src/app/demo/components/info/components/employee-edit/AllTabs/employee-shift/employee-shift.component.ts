@@ -7,7 +7,6 @@ import { ActivatedRoute } from '@angular/router';
 import { itemsPerPageGlobal } from 'src/main';
 
 import { FormControl, FormGroup, ValidatorFn } from '@angular/forms';
-import { PanelModule } from 'primeng/panel';
 import { EmployeeShiftService } from './employee-shift-service.service';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';

@@ -23,19 +23,19 @@ export class AllEmployeesManagerComponent {
         private _EmployeeManagerService: AllEmployeeManagerService,
         private messageService: MessageService,
         private route: ActivatedRoute
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     id!: number;
 
     endPoint!: string;
-    allData: any = [];
+    allData: any;
     page: number = 1;
     itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
-    loading: boolean = true;
+    loading: boolean = false;
     nameFilter: string = '';
     deleteProductDialog: boolean = false;
     deleteProductsDialog: boolean = false;
@@ -184,12 +184,16 @@ export class AllEmployeesManagerComponent {
             mangerId: this.selectedManager?.['id'],
         });
 
+        this.loading = true;
+
         if (this.addNewForm.valid) {
             this._EmployeeManagerService
                 .Register(this.addNewForm.value)
                 .subscribe({
                     next: (res) => {
                         console.log(res);
+                        this.loading = false;
+
                         this.showFormNew = false;
                         // show message for success inserted
                         this.messageService.add({

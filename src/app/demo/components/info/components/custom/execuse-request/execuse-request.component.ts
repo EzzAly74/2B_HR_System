@@ -27,11 +27,11 @@ export class ExecuseRequestComponent {
         private route: ActivatedRoute,
         private DatePipe: DatePipe,
         private translate: TranslateService
-    ) {}
+    ) { }
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
     baseUrlFile: string = environment.mediaUrl;
-    allData: any = [];
+    allData: any;
     page: number = 1;
     itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
@@ -180,9 +180,9 @@ export class ExecuseRequestComponent {
             .join(' ');
     }
 
-    startAttendeesTimeClick(event: any) {}
+    startAttendeesTimeClick(event: any) { }
 
-    endAttendeesTimeClick(event: any) {}
+    endAttendeesTimeClick(event: any) { }
 
     confirmDelete(rowData: any) {
         console.log(rowData);

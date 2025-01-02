@@ -2,3 +2,10 @@ h5 span {
     color: red;
     font-weight: bold;
 }
+
+::ng-deep html:lang(ar) .p-datatable-header {
+    h5 {
+        display: flex;
+        gap: 10px;
+    }
+}

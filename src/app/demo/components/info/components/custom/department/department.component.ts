@@ -21,11 +21,11 @@ export class DepartmentComponent {
         private _DepartmentService: DepartmentService,
         private messageService: MessageService,
         private translate: TranslateService
-    ) {}
-    
+    ) { }
+
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
-    allData: any = [];
+    allData: any;
     page: number = 1;
     itemsPerPage = 3;
     selectedItems: any = [];
@@ -341,6 +341,8 @@ export class DepartmentComponent {
         link.click();
     }
 
+
+
     convertToCSV(data: any[]): string {
         console.log(data);
         if (!data || !data.length) return '';
@@ -398,6 +400,7 @@ export class DepartmentComponent {
             },
         });
     }
+
     sortById(event: any) {
         this.sortField = 'id';
 
@@ -432,7 +435,7 @@ export class DepartmentComponent {
                 next: (res) => {
                     console.log(res);
                     console.log('ezzzz');
-                    
+
                     this.loadData(
                         this.page,
                         this.itemsPerPage,

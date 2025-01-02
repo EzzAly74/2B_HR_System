@@ -24,11 +24,11 @@ export class PublicVacationComponent {
         private messageService: MessageService,
         private DatePipe: DatePipe,
         private translate: TranslateService
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
-    allData: any = [];
+    allData: any;
     page: number = 1;
     itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
@@ -269,6 +269,7 @@ export class PublicVacationComponent {
             sortType: sortType,
         };
         filteredData.sortType = this.sortOrder;
+
 
         this._PublicVacationService.GetPage(filteredData).subscribe({
             next: (res) => {

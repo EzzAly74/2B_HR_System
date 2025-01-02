@@ -22,7 +22,7 @@ export class SetEmployeeShiftsComponent {
     constructor(
         private _SetEmployeeShiftsService: SetEmployeeShiftsService,
         private messageService: MessageService,
-    ) {}
+    ) { }
 
     dropdownItemsDepartment: any;
     dropdownItemsShift: any;
@@ -34,7 +34,7 @@ export class SetEmployeeShiftsComponent {
     selectedEmployeeIds: any[] = [];
 
     endPoint: string;
-    registerForm:any = {};
+    registerForm: any = {};
 
     ngOnInit(): void {
         this.endPoint = 'Employee';
@@ -71,8 +71,8 @@ export class SetEmployeeShiftsComponent {
 
     getALlDropDown() {
 
-         // get Department Dropdown
-         this.getDropDownField({ field: 'dropdownItemsDepartment', enum: 'Department'});
+        // get Department Dropdown
+        this.getDropDownField({ field: 'dropdownItemsDepartment', enum: 'Department' });
 
         // get Shift Dropdown
         this.getDropDownField({ field: 'dropdownItemsShift', enum: 'Shift' });
@@ -106,7 +106,7 @@ export class SetEmployeeShiftsComponent {
         this.selectedShiftId = event.value.id;
         console.log(this.selectedShiftId);
 
-    } 
+    }
 
     registerSubmit() {
         this.registerForm = {

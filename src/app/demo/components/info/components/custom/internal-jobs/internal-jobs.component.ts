@@ -1,32 +1,16 @@
-import { CalendarModule } from 'primeng/calendar';
-import { CommonModule, DatePipe } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 import { Component, Input, ViewChild } from '@angular/core';
 import {
     FormArray,
     FormBuilder,
     FormControl,
     FormGroup,
-    FormsModule,
-    ReactiveFormsModule,
     Validators,
 } from '@angular/forms';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { NgxPaginationModule } from 'ngx-pagination';
+import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { DialogModule } from 'primeng/dialog';
-import { DropdownModule } from 'primeng/dropdown';
-import { FileUploadModule } from 'primeng/fileupload';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { RatingModule } from 'primeng/rating';
-import { RippleModule } from 'primeng/ripple';
-import { Table, TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
-import { ToolbarModule } from 'primeng/toolbar';
+
+import { Table } from 'primeng/table';
 import { Globals } from 'src/app/class/globals';
 import { InternalJobService } from './internal-job.service';
 import { itemsPerPageGlobal } from 'src/main';
@@ -51,11 +35,11 @@ export class InternalJobsComponent {
         private translate: TranslateService,
         private datePipe: DatePipe,
         private router: Router
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
-    allData: any = [];
+    allData: any;
     page: number = 1;
     itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];

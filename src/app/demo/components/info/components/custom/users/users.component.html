@@ -1,51 +1,24 @@
 <p-toast></p-toast>
+<pre-loading *ngIf="loading"></pre-loading>
 
 <p-toolbar styleClass="mb-4">
     <ng-template pTemplate="right">
-        <button
-            pButton
-            pRipple
-            [label]="'Export' | translate"
-            icon="pi pi-upload"
-            class="p-button-help mx-2 px-5"
-            pTooltip="CSV"
-            (click)="exportCSV()"
-            [disabled]="!selectedItems || !selectedItems.length"
-        ></button>
+        <button pButton pRipple [label]="'Export' | translate" icon="pi pi-upload" class="p-button-help mx-2 px-5"
+            pTooltip="CSV" (click)="exportCSV()" [disabled]="!selectedItems || !selectedItems.length"></button>
     </ng-template>
 </p-toolbar>
 
-<p-table
-    #dt
-    [value]="allData"
-    [paginator]="true"
-    [rows]="itemsPerPage"
-    [columns]="cols"
-    [totalRecords]="totalItems"
-    selectionMode="multiple"
-    [(selection)]="selectedItems"
-    [showCurrentPageReport]="true"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [lazy]="true"
-    (onLazyLoad)="onPageChange($event)"
-    dataKey="id"
->
+<p-table #dt [value]="allData" [paginator]="true" [rows]="itemsPerPage" [columns]="cols" [totalRecords]="totalItems"
+    selectionMode="multiple" [(selection)]="selectedItems" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [lazy]="true"
+    (onLazyLoad)="onPageChange($event)" dataKey="id">
     <ng-template pTemplate="caption">
-        <div
-            class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
-        >
+        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
             <h5 class="m-0">{{ "Manage Items" | translate }}</h5>
             <span class="block mt-2 md:mt-0 p-input-icon-left">
                 <i class="pi pi-search"></i>
-                <input
-                    pInputText
-                    [(ngModel)]="nameFilter"
-                    (input)="loadFilteredData()"
-                    id="filter-name"
-                    type="text"
-                    [placeholder]="'Search...' | translate"
-                    class="w-full sm:w-auto"
-                />
+                <input pInputText [(ngModel)]="nameFilter" (input)="loadFilteredData()" id="filter-name" type="text"
+                    [placeholder]="'Search...' | translate" class="w-full sm:w-auto" />
             </span>
         </div>
     </ng-template>
@@ -110,43 +83,26 @@
                     <div class="roles-container">
                         <span *ngFor="let item of rowData.roles">{{
                             item
-                        }}</span>
+                            }}</span>
                     </div>
-                    <button
-                        pButton
-                        pRipple
-                        type="button"
-                        icon="pi pi-pencil"
+                    <button pButton pRipple type="button" icon="pi pi-pencil"
                         class="p-button-rounded p-button-outlined p-button-secondary"
-                        (click)="editProduct(rowData)"
-                    ></button>
+                        (click)="editProduct(rowData)"></button>
                 </div>
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.isLocked }">
                 <span class="p-column-title">Locked</span>
                 <div class="lock-container">
-                    <p-inputSwitch
-                        [(ngModel)]="rowData.isLocked"
-                        [disabled]="true"
-                    />
-                    <button
-                        pButton
-                        pRipple
-                        type="button"
-                        icon="pi pi-pencil"
+                    <p-inputSwitch [(ngModel)]="rowData.isLocked" [disabled]="true" />
+                    <button pButton pRipple type="button" icon="pi pi-pencil"
                         class="p-button-rounded p-button-outlined p-button-secondary"
-                        (click)="editProductLock(rowData)"
-                    ></button>
+                        (click)="editProductLock(rowData)"></button>
                 </div>
             </td>
             <td>
-                <button
-                    class="p-button-outlined p-button-secondary changePassBtn"
-                    pButton
-                    pRipple
-                    (click)="changePassword(rowData.id)"
-                >
+                <button class="p-button-outlined p-button-secondary changePassBtn" pButton pRipple
+                    (click)="changePassword(rowData.id)">
                     {{ "Change Password" | translate }}
                 </button>
             </td>
@@ -159,9 +115,9 @@
             <td [ngClass]="{ 'null-color': !rowData.lastModificationTime }">
                 <span class="p-column-title">lastModificationTime</span>
                 {{
-                    rowData.lastModificationTime
-                        ? rowData.lastModificationTime
-                        : ""
+                rowData.lastModificationTime
+                ? rowData.lastModificationTime
+                : ""
                 }}
             </td>
 
@@ -177,25 +133,13 @@
     </ng-template>
 </p-table>
 
-<p-dialog
-    [(visible)]="productDialog"
-    [style]="{ width: '450px' }"
-    [header]="'User Roles' | translate"
-    [modal]="true"
-    class="p-fluid"
->
+<p-dialog [(visible)]="productDialog" [style]="{ width: '450px' }" [header]="'User Roles' | translate" [modal]="true"
+    class="p-fluid">
     <ng-template pTemplate="content">
         <div class="field">
             <label for="name">{{ "Roles" | translate }}</label>
-            <p-multiSelect
-                [options]="rolesDropdown"
-                [(ngModel)]="selectedMulti"
-                placeholder="Select Roles"
-                optionLabel="name"
-                class="multiselect-custom"
-                display="chip"
-                (onChange)="selectMultiItems($event)"
-            >
+            <p-multiSelect [options]="rolesDropdown" [(ngModel)]="selectedMulti" placeholder="Select Roles"
+                optionLabel="name" class="multiselect-custom" display="chip" (onChange)="selectMultiItems($event)">
                 <ng-template let-role pTemplate="item">
                     <div class="flex align-items-center">
                         <span class="ml-2">{{ role.name }}</span>
@@ -211,147 +155,62 @@
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button
-            pButton
-            pRipple
-            [label]="'Cancel' | translate"
-            icon="pi pi-times"
-            class="p-button-text"
-            (click)="hideDialog()"
-        ></button>
-        <button
-            pButton
-            pRipple
-            [label]="'Save' | translate"
-            icon="pi pi-check"
-            class="p-button-text"
-            (click)="saveRoles(product.id)"
-        ></button>
+        <button pButton pRipple [label]="'Cancel' | translate" icon="pi pi-times" class="p-button-text"
+            (click)="hideDialog()"></button>
+        <button pButton pRipple [label]="'Save' | translate" icon="pi pi-check" class="p-button-text"
+            (click)="saveRoles(product.id)"></button>
     </ng-template>
 </p-dialog>
 
-<p-dialog
-    [(visible)]="deleteProductDialog"
-    header="Confirm"
-    [modal]="true"
-    [style]="{ width: '450px' }"
->
+<p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{ width: '450px' }">
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-        <span *ngIf="product"
-            >Are you sure you want to delete <b>{{ product.name }}</b
-            >?</span
-        >
+        <span *ngIf="product">Are you sure you want to delete <b>{{ product.name }}</b>?</span>
     </div>
     <ng-template pTemplate="footer">
-        <button
-            pButton
-            pRipple
-            icon="pi pi-times"
-            class="p-button-text"
-            label="No"
-            (click)="deleteProductDialog = false"
-        ></button>
-        <button
-            pButton
-            pRipple
-            icon="pi pi-check"
-            class="p-button-text"
-            label="Yes"
-            (click)="confirmDelete(product.id)"
-        ></button>
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+            (click)="deleteProductDialog = false"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+            (click)="confirmDelete(product.id)"></button>
     </ng-template>
 </p-dialog>
 
-<p-dialog
-    [(visible)]="deleteProductsDialog"
-    header="Confirm"
-    [modal]="true"
-    [style]="{ width: '450px' }"
->
+<p-dialog [(visible)]="deleteProductsDialog" header="Confirm" [modal]="true" [style]="{ width: '450px' }">
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
         <span>Are you sure you want to delete selected products?</span>
     </div>
     <ng-template pTemplate="footer">
-        <button
-            pButton
-            pRipple
-            icon="pi pi-times"
-            class="p-button-text"
-            label="No"
-            (click)="deleteProductsDialog = false"
-        ></button>
-        <button
-            pButton
-            pRipple
-            icon="pi pi-check"
-            class="p-button-text"
-            label="Yes"
-            (click)="confirmDeleteSelected()"
-        ></button>
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+            (click)="deleteProductsDialog = false"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+            (click)="confirmDeleteSelected()"></button>
     </ng-template>
 </p-dialog>
 
-<p-dialog
-    [(visible)]="changePassDialog"
-    [style]="{ width: '450px' }"
-    [header]="'User Password' | translate"
-    [modal]="true"
-    class="p-fluid"
->
-    <form
-        [formGroup]="changePassForm"
-        (submit)="submitChangePassForm(userId, changePassForm)"
-    >
+<p-dialog [(visible)]="changePassDialog" [style]="{ width: '450px' }" [header]="'User Password' | translate"
+    [modal]="true" class="p-fluid">
+    <form [formGroup]="changePassForm" (submit)="submitChangePassForm(userId, changePassForm)">
         <div class="field">
             <label for="name">{{ "Password" | translate }}</label>
-            <input
-                pInputText
-                [(ngModel)]="newPassword"
-                type="text"
-                formControlName="password"
-                [placeholder]="'Enter New Password' | translate"
-            />
+            <input pInputText [(ngModel)]="newPassword" type="text" formControlName="password"
+                [placeholder]="'Enter New Password' | translate" />
         </div>
 
         <div class="field">
             <label for="name">{{ "Confirm Password" | translate }}</label>
-            <input
-                pInputText
-                [(ngModel)]="rePassword"
-                type="text"
-                formControlName="rePassword"
-                [placeholder]="'Confirm New Password' | translate"
-            />
+            <input pInputText [(ngModel)]="rePassword" type="text" formControlName="rePassword"
+                [placeholder]="'Confirm New Password' | translate" />
         </div>
         <div class="actions">
-            <button
-                pButton
-                pRipple
-                [label]="'Cancel' | translate"
-                type="button"
-                icon="pi pi-times"
-                class="p-button-text"
-                (click)="hideDialogPassword()"
-            ></button>
-            <button
-                pButton
-                pRipple
-                [label]="'Save' | translate"
-                icon="pi pi-check"
-                class="p-button-text"
-            ></button>
+            <button pButton pRipple [label]="'Cancel' | translate" type="button" icon="pi pi-times"
+                class="p-button-text" (click)="hideDialogPassword()"></button>
+            <button pButton pRipple [label]="'Save' | translate" icon="pi pi-check" class="p-button-text"></button>
         </div>
     </form>
 </p-dialog>
-<p-dialog
-    [(visible)]="productLockDialog"
-    [style]="{ width: '450px' }"
-    [header]="'User Lock' | translate"
-    [modal]="true"
-    class="p-fluid"
->
+<p-dialog [(visible)]="productLockDialog" [style]="{ width: '450px' }" [header]="'User Lock' | translate" [modal]="true"
+    class="p-fluid">
     <ng-template pTemplate="content">
         <div class="field locked-container">
             <label for="name">{{ "Locked" | translate }}</label>
@@ -367,21 +226,9 @@
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button
-            pButton
-            pRipple
-            [label]="'Cancel' | translate"
-            icon="pi pi-times"
-            class="p-button-text"
-            (click)="hideDialogLock()"
-        ></button>
-        <button
-            pButton
-            pRipple
-            [label]="'Save' | translate"
-            icon="pi pi-check"
-            class="p-button-text"
-            (click)="saveLock(product.id)"
-        ></button>
+        <button pButton pRipple [label]="'Cancel' | translate" icon="pi pi-times" class="p-button-text"
+            (click)="hideDialogLock()"></button>
+        <button pButton pRipple [label]="'Save' | translate" icon="pi pi-check" class="p-button-text"
+            (click)="saveLock(product.id)"></button>
     </ng-template>
 </p-dialog>

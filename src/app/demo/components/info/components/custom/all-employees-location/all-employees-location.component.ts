@@ -23,13 +23,13 @@ export class AllEmployeesLocationComponent {
         private _EmployeeLocationService: AllEmployeeLocationService,
         private messageService: MessageService,
         private route: ActivatedRoute
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     id!: number;
 
     endPoint!: string;
-    allData: any = [];
+    allData: any;
     page: number = 1;
     itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
@@ -125,10 +125,12 @@ export class AllEmployeesLocationComponent {
     editProduct(rowData: any) {
         // alert(rowData.id);
         console.log('edit works');
+        this.loading = true;
         this._EmployeeLocationService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
 
+                this.loading = true;
                 this.product = { ...res.data };
                 this.productDialog = true;
 
@@ -153,7 +155,7 @@ export class AllEmployeesLocationComponent {
 
     confirmDelete(id: number) {
         let body = [id];
-
+        this.loading = true;
         // perform delete from sending request to api
         this._EmployeeLocationService.DeleteRange(body).subscribe({
             next: () => {
@@ -167,6 +169,9 @@ export class AllEmployeesLocationComponent {
                     detail: 'Product Deleted',
                     life: 3000,
                 });
+
+                this.loading = false;
+
 
                 // load data here
                 this.loadData(
@@ -186,6 +191,8 @@ export class AllEmployeesLocationComponent {
             locationId: this.selectedLocationId,
         });
 
+        this.loading = true;
+
         if (this.addNewForm.valid) {
             this._EmployeeLocationService
                 .Register(this.addNewForm.value)
@@ -203,6 +210,8 @@ export class AllEmployeesLocationComponent {
 
                         // set fields is empty
                         this.setFieldsNulls();
+
+                        this.loading = false;
 
                         // load data again
                         this.loadData(
@@ -261,8 +270,12 @@ export class AllEmployeesLocationComponent {
         console.log('FilteredData');
         console.log(filteredData);
 
+        this.loading = true;
+
         this._EmployeeLocationService.GetPage(filteredData).subscribe({
             next: (res) => {
+                this.loading = false;
+
                 console.log(res);
                 this.allData = res.data;
                 console.log(res.data);
@@ -324,6 +337,9 @@ export class AllEmployeesLocationComponent {
                 'edited Form here =====================> ',
                 this.editForm.value
             );
+
+            this.loading = true;
+
             this._EmployeeLocationService.Edit(this.editForm.value).subscribe({
                 next: () => {
                     this.hideDialog();
@@ -334,6 +350,8 @@ export class AllEmployeesLocationComponent {
                         detail: 'You Edit This Item',
                         life: 3000,
                     });
+
+                    this.loading = false;
 
                     // load data again
                     this.loadData(
@@ -417,6 +435,8 @@ export class AllEmployeesLocationComponent {
             selectedIds.push(item.id);
         });
 
+        this.loading = true;
+
         this._EmployeeLocationService.DeleteRange(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
@@ -427,6 +447,7 @@ export class AllEmployeesLocationComponent {
                     life: 3000,
                 });
                 this.selectedItems = [];
+                this.loading = false;
 
                 this.loadData(
                     this.page,

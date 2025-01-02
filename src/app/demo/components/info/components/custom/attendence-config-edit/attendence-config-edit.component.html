@@ -1,4 +1,6 @@
 <p-toast></p-toast>
+<pre-loading *ngIf="loading"></pre-loading>
+
 
 <form method="post" [formGroup]="editForm" (submit)="submitForm(editForm)">
     <div class="grid">
@@ -7,439 +9,267 @@
                 <div class="p-fluid p-formgrid grid">
                     <div class="field field-id col-12 md:col-4">
                         <label htmlFor="id">{{ "Id" | translate }}</label>
-                        <input
-                            pInputText
-                            id="id"
-                            formControlName="Id"
-                            [(ngModel)]="currentId"
-                        />
+                        <input pInputText id="id" formControlName="Id" [(ngModel)]="currentId" />
                     </div>
                     <div class="field col-12 md:col-4">
                         <label htmlFor="nameAr">{{
                             "Arabic Name" | translate
-                        }}</label>
-                        <input
-                            pInputText
-                            id="nameAr"
-                            formControlName="nameAr"
-                            [(ngModel)]="nameAr"
-                        />
+                            }}</label>
+                        <input pInputText id="nameAr" formControlName="nameAr" [(ngModel)]="nameAr" />
                     </div>
                     <div class="field col-12 md:col-4">
                         <label htmlFor="englishName">{{
                             "English Name" | translate
-                        }}</label>
-                        <input
-                            pInputText
-                            id="englishName"
-                            formControlName="englishName"
-                            [(ngModel)]="englishName"
-                        />
+                            }}</label>
+                        <input pInputText id="englishName" formControlName="englishName" [(ngModel)]="englishName" />
                     </div>
 
                     <div class="field col-12 md:col-3">
                         <label htmlFor="excuseCalculationType">{{
                             "excuseCalculationType" | translate
-                        }}</label>
-                        <p-dropdown
-                            formControlName="excuseCalculationType"
-                            [options]="dropdownItemsexcuseCalculationType"
-                            optionLabel="name"
-                            [(ngModel)]="selectedexcuseCalculationType"
-                        ></p-dropdown>
+                            }}</label>
+                        <p-dropdown formControlName="excuseCalculationType"
+                            [options]="dropdownItemsexcuseCalculationType" optionLabel="name"
+                            [(ngModel)]="selectedexcuseCalculationType"></p-dropdown>
                     </div>
 
                     <div class="field field-checkbox col-12 md:col-4">
-                        <p-checkbox
-                            formControlName="calculateLateAttendanceInTime"
-                            inputId="isPerformedOnlyOneTime"
-                            value=""
-                            binary="true"
-                            [(ngModel)]="calculateLateAttendanceInTime"
-                        />
+                        <p-checkbox formControlName="calculateLateAttendanceInTime" inputId="isPerformedOnlyOneTime"
+                            value="" binary="true" [(ngModel)]="calculateLateAttendanceInTime" />
                         <label for="isPerformedOnlyOneTime">
-                            Calculate Late Attendance In Time</label
-                        >
+                            Calculate Late Attendance In Time</label>
                     </div>
 
                     <div class="field field-checkbox col-12 md:col-4">
-                        <p-checkbox
-                            formControlName="calculateLateAttendancePerMonth"
-                            inputId="isPerformedOnlyOneTime"
-                            value=""
-                            binary="true"
-                            [(ngModel)]="calculateLateAttendancePerMonth"
-                        />
+                        <p-checkbox formControlName="calculateLateAttendancePerMonth" inputId="isPerformedOnlyOneTime"
+                            value="" binary="true" [(ngModel)]="calculateLateAttendancePerMonth" />
                         <label for="isPerformedOnlyOneTime">
-                            Calculate Late Attendance Per Month</label
-                        >
+                            Calculate Late Attendance Per Month</label>
                     </div>
 
                     <div class="field field-checkbox col-12 md:col-4">
-                        <p-checkbox
-                            formControlName="includeDaysOffBetweenTwoAbsentDays"
-                            inputId="isPerformedOnlyOneTime"
-                            value=""
-                            binary="true"
-                            [(ngModel)]="includeDaysOffBetweenTwoAbsentDays"
-                        />
+                        <p-checkbox formControlName="includeDaysOffBetweenTwoAbsentDays"
+                            inputId="isPerformedOnlyOneTime" value="" binary="true"
+                            [(ngModel)]="includeDaysOffBetweenTwoAbsentDays" />
                         <label for="isPerformedOnlyOneTime">
-                            Include Days Off Between Two Absent Days</label
-                        >
+                            Include Days Off Between Two Absent Days</label>
                     </div>
 
                     <div class="field col-12 md:col-4">
                         <label htmlFor="firstMissingFingerprint">{{
                             "firstMissingFingerprint" | translate
-                        }}</label>
-                        <input
-                            pInputText
-                            id="firstMissingFingerprint"
-                            formControlName="firstMissingFingerprint"
-                            [(ngModel)]="firstMissingFingerprint"
-                            type="number"
-                        />
+                            }}</label>
+                        <input pInputText id="firstMissingFingerprint" formControlName="firstMissingFingerprint"
+                            [(ngModel)]="firstMissingFingerprint" type="number" />
                     </div>
 
                     <div class="field col-12 md:col-4">
                         <label htmlFor="firstMissingFingerprint">{{
                             "secondMissingFingerprint" | translate
-                        }}</label>
-                        <input
-                            pInputText
-                            id="secondMissingFingerprint"
-                            formControlName="secondMissingFingerprint"
-                            [(ngModel)]="secondMissingFingerprint"
-                            type="number"
-                        />
+                            }}</label>
+                        <input pInputText id="secondMissingFingerprint" formControlName="secondMissingFingerprint"
+                            [(ngModel)]="secondMissingFingerprint" type="number" />
                     </div>
 
                     <div class="field col-12 md:col-4">
                         <label htmlFor="thirdMissingFingerprint">{{
                             "thirdMissingFingerprint" | translate
-                        }}</label>
-                        <input
-                            pInputText
-                            id="thirdMissingFingerprint"
-                            formControlName="thirdMissingFingerprint"
-                            [(ngModel)]="thirdMissingFingerprint"
-                            type="number"
-                        />
+                            }}</label>
+                        <input pInputText id="thirdMissingFingerprint" formControlName="thirdMissingFingerprint"
+                            [(ngModel)]="thirdMissingFingerprint" type="number" />
                     </div>
 
                     <div class="field col-12 md:col-4">
                         <label htmlFor="fourthMissingFingerprint">{{
                             "fourthMissingFingerprint" | translate
-                        }}</label>
-                        <input
-                            pInputText
-                            id="fourthMissingFingerprint"
-                            formControlName="fourthMissingFingerprint"
-                            [(ngModel)]="fourthMissingFingerprint"
-                        />
+                            }}</label>
+                        <input pInputText id="fourthMissingFingerprint" formControlName="fourthMissingFingerprint"
+                            [(ngModel)]="fourthMissingFingerprint" />
                     </div>
 
                     <div class="field col-12 md:col-4">
                         <label htmlFor="fifthMissingFingerprint">{{
                             "fifthMissingFingerprint" | translate
-                        }}</label>
-                        <input
-                            pInputText
-                            id="fifthMissingFingerprint"
-                            formControlName="fifthMissingFingerprint"
-                            [(ngModel)]="fifthMissingFingerprint"
-                        />
+                            }}</label>
+                        <input pInputText id="fifthMissingFingerprint" formControlName="fifthMissingFingerprint"
+                            [(ngModel)]="fifthMissingFingerprint" />
                     </div>
 
                     <div class="field col-12 md:col-4">
                         <label htmlFor="firstDayPenaltyDeduction">{{
                             "firstDayPenaltyDeduction" | translate
-                        }}</label>
-                        <input
-                            pInputText
-                            id="firstDayPenaltyDeduction"
-                            formControlName="firstDayPenaltyDeduction"
-                            [(ngModel)]="firstDayPenaltyDeduction"
-                            type="number"
-                        />
+                            }}</label>
+                        <input pInputText id="firstDayPenaltyDeduction" formControlName="firstDayPenaltyDeduction"
+                            [(ngModel)]="firstDayPenaltyDeduction" type="number" />
                     </div>
 
                     <div class="field col-12 md:col-4">
                         <label htmlFor="firstDayPenaltyDeduction">{{
                             "secondDayPenaltyDeduction" | translate
-                        }}</label>
-                        <input
-                            pInputText
-                            id="secondDayPenaltyDeduction"
-                            formControlName="secondDayPenaltyDeduction"
-                            [(ngModel)]="secondDayPenaltyDeduction"
-                            type="number"
-                        />
+                            }}</label>
+                        <input pInputText id="secondDayPenaltyDeduction" formControlName="secondDayPenaltyDeduction"
+                            [(ngModel)]="secondDayPenaltyDeduction" type="number" />
                     </div>
 
                     <div class="field col-12 md:col-4">
                         <label htmlFor="thirdDayPenaltyDeduction">{{
                             "thirdDayPenaltyDeduction" | translate
-                        }}</label>
-                        <input
-                            pInputText
-                            id="thirdDayPenaltyDeduction"
-                            formControlName="thirdDayPenaltyDeduction"
-                            [(ngModel)]="thirdDayPenaltyDeduction"
-                            type="number"
-                        />
+                            }}</label>
+                        <input pInputText id="thirdDayPenaltyDeduction" formControlName="thirdDayPenaltyDeduction"
+                            [(ngModel)]="thirdDayPenaltyDeduction" type="number" />
                     </div>
 
                     <div class="field col-12 md:col-4">
                         <label htmlFor="fourthDayPenaltyDeduction">{{
                             "fourthDayPenaltyDeduction" | translate
-                        }}</label>
-                        <input
-                            pInputText
-                            id="fourthDayPenaltyDeduction"
-                            formControlName="fourthDayPenaltyDeduction"
-                            [(ngModel)]="fourthDayPenaltyDeduction"
-                        />
+                            }}</label>
+                        <input pInputText id="fourthDayPenaltyDeduction" formControlName="fourthDayPenaltyDeduction"
+                            [(ngModel)]="fourthDayPenaltyDeduction" />
                     </div>
 
                     <div class="field col-12 md:col-4">
                         <label htmlFor="fifthAndAboveDayPenaltyDeduction">{{
                             "fifthAndAboveDayPenaltyDeduction" | translate
-                        }}</label>
-                        <input
-                            pInputText
-                            id="fifthAndAboveDayPenaltyDeduction"
+                            }}</label>
+                        <input pInputText id="fifthAndAboveDayPenaltyDeduction"
                             formControlName="fifthAndAboveDayPenaltyDeduction"
-                            [(ngModel)]="fifthAndAboveDayPenaltyDeduction"
-                        />
+                            [(ngModel)]="fifthAndAboveDayPenaltyDeduction" />
                     </div>
 
                     <div class="field col-12 md:col-4">
                         <label htmlFor="maxExuseDurationInMinutes">{{
                             "maxExuseDurationInMinutes" | translate
-                        }}</label>
-                        <input
-                            pInputText
-                            id="maxExuseDurationInMinutes"
-                            formControlName="maxExuseDurationInMinutes"
-                            [(ngModel)]="maxExuseDurationInMinutes"
-                        />
+                            }}</label>
+                        <input pInputText id="maxExuseDurationInMinutes" formControlName="maxExuseDurationInMinutes"
+                            [(ngModel)]="maxExuseDurationInMinutes" />
                     </div>
 
                     <div class="field col-12 md:col-4">
-                        <label
-                            htmlFor="maxMissingFingerPrintWithoutDeduction"
-                            >{{
-                                "maxMissingFingerPrintWithoutDeduction"
-                                    | translate
-                            }}</label
-                        >
-                        <input
-                            pInputText
-                            id="maxMissingFingerPrintWithoutDeduction"
+                        <label htmlFor="maxMissingFingerPrintWithoutDeduction">{{
+                            "maxMissingFingerPrintWithoutDeduction"
+                            | translate
+                            }}</label>
+                        <input pInputText id="maxMissingFingerPrintWithoutDeduction"
                             formControlName="maxMissingFingerPrintWithoutDeduction"
-                            [(ngModel)]="maxMissingFingerPrintWithoutDeduction"
-                        />
+                            [(ngModel)]="maxMissingFingerPrintWithoutDeduction" />
                     </div>
 
                     <div class="field col-12 md:col-4">
                         <label htmlFor="maxMonthlyLateMinutes">{{
                             "maxMonthlyLateMinutes" | translate
-                        }}</label>
-                        <input
-                            pInputText
-                            id="maxMonthlyLateMinutes"
-                            formControlName="maxMonthlyLateMinutes"
-                            [(ngModel)]="maxMonthlyLateMinutes"
-                        />
+                            }}</label>
+                        <input pInputText id="maxMonthlyLateMinutes" formControlName="maxMonthlyLateMinutes"
+                            [(ngModel)]="maxMonthlyLateMinutes" />
                     </div>
 
                     <div class="field col-12 md:col-4">
                         <label htmlFor="maxNumberOfExcusesPerMonth">{{
                             "maxNumberOfExcusesPerMonth" | translate
-                        }}</label>
-                        <input
-                            pInputText
-                            id="maxNumberOfExcusesPerMonth"
-                            formControlName="maxNumberOfExcusesPerMonth"
-                            [(ngModel)]="maxNumberOfExcusesPerMonth"
-                        />
+                            }}</label>
+                        <input pInputText id="maxNumberOfExcusesPerMonth" formControlName="maxNumberOfExcusesPerMonth"
+                            [(ngModel)]="maxNumberOfExcusesPerMonth" />
                     </div>
 
-                    <div
-                        formArrayName="lateSettingsList"
-                        class="lateSettingsList col-12"
-                    >
-                        <div
-                            *ngFor="
+                    <div formArrayName="lateSettingsList" class="lateSettingsList col-12">
+                        <div *ngFor="
                                 let lateSetting of lateSettingsList.controls;
                                 let i = index
-                            "
-                            [formGroupName]="i"
-                        >
+                            " [formGroupName]="i">
                             <h6>Late Settings {{ i + 1 }} List :</h6>
                             <div class="field col-12 md:col-4">
                                 <label>
                                     Deduction From Minutes:
-                                    <input
-                                        formControlName="deductionFromMinutes"
-                                        type="number"
-                                        pInputText
-                                    />
+                                    <input formControlName="deductionFromMinutes" type="number" pInputText />
                                 </label>
                             </div>
                             <div class="field col-12 md:col-4">
                                 <label>
                                     Deduction To Minutes:
-                                    <input
-                                        pInputText
-                                        formControlName="deductionToMinutes"
-                                        type="number"
-                                    />
+                                    <input pInputText formControlName="deductionToMinutes" type="number" />
                                 </label>
                             </div>
                             <div class="field col-12 md:col-4">
                                 <label>
                                     Deduction Factor:
-                                    <input
-                                        pInputText
-                                        formControlName="deductionFactor"
-                                        type="number"
-                                    />
+                                    <input pInputText formControlName="deductionFactor" type="number" />
                                 </label>
                             </div>
 
                             <div class="field col-12 md:col-4">
                                 <label>
                                     Deduction Time In Minutes:
-                                    <input
-                                        pInputText
-                                        formControlName="deductedTimeInMinutes"
-                                        type="number"
-                                    />
+                                    <input pInputText formControlName="deductedTimeInMinutes" type="number" />
                                 </label>
                             </div>
 
                             <div class="field col-12 md:col-4">
                                 <label>
                                     First Penalty In Days:
-                                    <input
-                                        pInputText
-                                        formControlName="firstPenaltyInDays"
-                                        type="number"
-                                    />
+                                    <input pInputText formControlName="firstPenaltyInDays" type="number" />
                                 </label>
                             </div>
 
                             <div class="field col-12 md:col-4">
                                 <label>
                                     Second Penalty In Days:
-                                    <input
-                                        pInputText
-                                        formControlName="secondPenaltyInDays"
-                                        type="number"
-                                    />
+                                    <input pInputText formControlName="secondPenaltyInDays" type="number" />
                                 </label>
                             </div>
 
                             <div class="field col-12 md:col-4">
                                 <label>
                                     Third Penalty In Days:
-                                    <input
-                                        pInputText
-                                        formControlName="thirdPenaltyInDays"
-                                        type="number"
-                                    />
+                                    <input pInputText formControlName="thirdPenaltyInDays" type="number" />
                                 </label>
                             </div>
 
                             <div class="field col-12 md:col-4">
                                 <label>
                                     Fourth Penalty In Days:
-                                    <input
-                                        pInputText
-                                        formControlName="fourthPenaltyInDays"
-                                        type="number"
-                                    />
+                                    <input pInputText formControlName="fourthPenaltyInDays" type="number" />
                                 </label>
                             </div>
 
                             <div class="field col-12 md:col-4">
                                 <label>
                                     Deduction In Money:
-                                    <input
-                                        pInputText
-                                        formControlName="deductionInMoney"
-                                        type="number"
-                                    />
+                                    <input pInputText formControlName="deductionInMoney" type="number" />
                                 </label>
                             </div>
 
                             <div class="field field-checkbox col-12 md:col-4">
-                                <p-checkbox
-                                    formControlName="deductTheLatency"
-                                    inputId="deductTheLatency"
-                                    value=""
-                                    binary="true"
-                                />
+                                <p-checkbox formControlName="deductTheLatency" inputId="deductTheLatency" value=""
+                                    binary="true" />
                                 <label for="deductTheLatency">
-                                    Deduct The Latency</label
-                                >
+                                    Deduct The Latency</label>
                             </div>
 
                             <div class="field field-checkbox col-12 md:col-4">
-                                <p-checkbox
-                                    formControlName="isDeductedFromTotalExcuses"
-                                    inputId="isDeductedFromTotalExcuses"
-                                    value=""
-                                    binary="true"
-                                />
+                                <p-checkbox formControlName="isDeductedFromTotalExcuses"
+                                    inputId="isDeductedFromTotalExcuses" value="" binary="true" />
                                 <label for="isDeductedFromTotalExcuses">
-                                    Is Deducted From Total Excuses</label
-                                >
+                                    Is Deducted From Total Excuses</label>
                             </div>
 
                             <div class="field field-checkbox col-12 md:col-4">
-                                <p-checkbox
-                                    formControlName="isPerformedOnlyOneTime"
-                                    inputId="isPerformedOnlyOneTime"
-                                    value=""
-                                    binary="true"
-                                />
+                                <p-checkbox formControlName="isPerformedOnlyOneTime" inputId="isPerformedOnlyOneTime"
+                                    value="" binary="true" />
                                 <label for="isPerformedOnlyOneTime">
-                                    Is Performed Only One Time</label
-                                >
+                                    Is Performed Only One Time</label>
                             </div>
 
-                            <button
-                                pButton
-                                pRipple
-                                (click)="removeLateSetting(i)"
-                                type="button"
-                                icon="pi pi-minus"
-                                class="p-button-rounded p-button-text p-button-danger w-fit"
-                                label="Remove"
-                            ></button>
+                            <button pButton pRipple (click)="removeLateSetting(i)" type="button" icon="pi pi-minus"
+                                class="p-button-rounded p-button-text p-button-danger w-fit" label="Remove"></button>
                         </div>
 
-                        <button
-                            pButton
-                            pRipple
-                            (click)="addLateSetting()"
-                            type="button"
-                            icon="pi pi-plus"
+                        <button pButton pRipple (click)="addLateSetting()" type="button" icon="pi pi-plus"
                             class="p-button-rounded p-button-text p-button-success w-fit btn-add"
-                            label="Add Late Setting"
-                        ></button>
+                            label="Add Late Setting"></button>
                     </div>
 
                     <div class="btn-filter-submit-container col-12">
                         <div class="field">
-                            <button
-                                pButton
-                                type="submit"
-                                class="btn-submit w-fit"
-                            >
+                            <button pButton type="submit" class="btn-submit w-fit">
                                 <i class="pi pi-user-edit"></i>
                                 <span> {{ "Save" | translate }} </span>
                             </button>
@@ -451,43 +281,19 @@
     </div>
 </form>
 
-<p-dialog
-    [(visible)]="uploadImageDialog"
-    [style]="{ width: '450px' }"
-    [header]="'Update Profile Image' | translate"
-    [modal]="true"
-    class="p-fluid"
->
+<p-dialog [(visible)]="uploadImageDialog" [style]="{ width: '450px' }" [header]="'Update Profile Image' | translate"
+    [modal]="true" class="p-fluid">
     <ng-template pTemplate="display">
         <div class="inline-flex align-items-center">
-            <p-fileUpload
-                mode="basic"
-                [chooseLabel]="'Choose Image' | translate"
-                class="p-button-info p-button-text"
-                chooseIcon="pi pi-image"
-                name="demo[]"
-                accept="image/*"
-                maxFileSize="1000000"
-                (onSelect)="onSelect($event)"
-            />
+            <p-fileUpload mode="basic" [chooseLabel]="'Choose Image' | translate" class="p-button-info p-button-text"
+                chooseIcon="pi pi-image" name="demo[]" accept="image/*" maxFileSize="1000000"
+                (onSelect)="onSelect($event)" />
         </div>
     </ng-template>
     <ng-template pTemplate="footer">
-        <button
-            pButton
-            pRipple
-            [label]="'Cancel' | translate"
-            icon="pi pi-times"
-            class="p-button-text"
-            (click)="hideDialog()"
-        ></button>
-        <button
-            pButton
-            pRipple
-            [label]="'Save' | translate"
-            icon="pi pi-check"
-            class="p-button-text"
-            (click)="updateImage()"
-        ></button>
+        <button pButton pRipple [label]="'Cancel' | translate" icon="pi pi-times" class="p-button-text"
+            (click)="hideDialog()"></button>
+        <button pButton pRipple [label]="'Save' | translate" icon="pi pi-check" class="p-button-text"
+            (click)="updateImage()"></button>
     </ng-template>
 </p-dialog>

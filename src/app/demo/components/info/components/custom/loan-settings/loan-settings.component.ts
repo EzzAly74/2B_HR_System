@@ -20,6 +20,7 @@ export class LoanSettingsComponent {
     maxExcuesHours!: number;
     casualVacationNumber!: number;
     id!: number;
+    loading: boolean = false;
 
     loansConfigForm: FormGroup = new FormGroup({
         name: new FormControl(null, [Validators.required]),
@@ -36,7 +37,7 @@ export class LoanSettingsComponent {
     constructor(
         private messageService: MessageService,
         private loanSettingsService: LoanSettingsService
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         // set endpoint on service
@@ -50,9 +51,15 @@ export class LoanSettingsComponent {
             // update endpoint
             this.loanSettingsService.setEndPoint('LoansConfiguration');
 
+
+            // Show Loading Until Request Is Get
+            this.loading = true;
+
             // then, load data again to lens on the changes of mainLang & endPoints Call
             this.loanSettingsService.GetAll({}).subscribe({
                 next: (res) => {
+                    this.loading = false;
+
                     let data = res.data[res.data.length - 1];
                     console.log(data);
 
@@ -83,6 +90,7 @@ export class LoanSettingsComponent {
             next: (res) => {
                 let data = res.data[res.data.length - 1];
                 console.log(data);
+                this.loading = false;
 
                 if (data) {
                     this.loansConfigForm.patchValue({
@@ -108,8 +116,12 @@ export class LoanSettingsComponent {
     onSubmit(form: FormGroup) {
         console.log(form);
 
+        this.loading = true;
+
         this.loanSettingsService.Register(form.value).subscribe({
             next: (res) => {
+                this.loading = false;
+
                 console.log(res);
                 if (res.success) {
                     this.messageService.add({

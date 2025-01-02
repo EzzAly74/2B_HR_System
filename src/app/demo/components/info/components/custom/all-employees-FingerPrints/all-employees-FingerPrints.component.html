@@ -1,40 +1,30 @@
 <p-toast></p-toast>
+<pre-loading *ngIf="loading"></pre-loading>
 
-<p-panel [header]="'Filter' | translate" [toggleable]="true" [(collapsed)]="isCollapsed" >
+
+<p-panel [header]="'Filter' | translate" [toggleable]="true" [(collapsed)]="isCollapsed">
     <form (ngSubmit)="onFilter()" class="p-fluid grid">
 
         <!-- Department -->
         <div class="field col-4">
             <label htmlFor="department">{{ "Department" | translate }}</label>
-            <p-dropdown
-                [options]="dropdownItemsDepartment"
-                [(ngModel)]="selectedDepartment"
-                name="selectedDepartment"
-                (onChange)="whenChangeDepartment()"
-                optionLabel="name"
-                [placeholder]="'Select a Department' | translate"
-                [showClear]="true"
-            ></p-dropdown>
+            <p-dropdown [options]="dropdownItemsDepartment" [(ngModel)]="selectedDepartment" name="selectedDepartment"
+                (onChange)="whenChangeDepartment()" optionLabel="name" [placeholder]="'Select a Department' | translate"
+                [showClear]="true"></p-dropdown>
         </div>
 
         <!-- Partition -->
         <div class="field col-4">
             <label htmlFor="partition">{{ "Partition" | translate }}</label>
-            <p-dropdown
-                [options]="dropdownItemsPartition"
-                [(ngModel)]="selectedPartition"
-                optionLabel="name"
-                name="selectedPartition"
-                [disabled]="!selectedDepartment"
-                [showClear]="true"
-            >
-            <ng-template pTemplate="selectedItem" let-selectedItem>
-                {{
+            <p-dropdown [options]="dropdownItemsPartition" [(ngModel)]="selectedPartition" optionLabel="name"
+                name="selectedPartition" [disabled]="!selectedDepartment" [showClear]="true">
+                <ng-template pTemplate="selectedItem" let-selectedItem>
+                    {{
                     selectedItem
-                        ? (selectedItem.name | translate)
-                        : ('Select Department Firstly' | translate)
-                }}
-            </ng-template>
+                    ? (selectedItem.name | translate)
+                    : ('Select Department Firstly' | translate)
+                    }}
+                </ng-template>
             </p-dropdown>
         </div>
 
@@ -42,78 +32,49 @@
         <div class="field col-4">
             <label htmlFor="EmployeeManager">{{
                 "Employee Managers" | translate
-            }}</label>
-            <p-dropdown
-                [(ngModel)]="selectedEmployeeManager"
-                name="selectedEmployeeManager"
-                [options]="dropdownItemsEmployeeManager"
-                optionLabel="name"
-                (onChange)="whenChangeManager()"
-                [showClear]="true"
-                [placeholder]="'Select Employee Manager' | translate"
-            ></p-dropdown>
+                }}</label>
+            <p-dropdown [(ngModel)]="selectedEmployeeManager" name="selectedEmployeeManager"
+                [options]="dropdownItemsEmployeeManager" optionLabel="name" (onChange)="whenChangeManager()"
+                [showClear]="true" [placeholder]="'Select Employee Manager' | translate"></p-dropdown>
         </div>
 
         <!-- Employee -->
         <div class="field col-4">
             <label htmlFor="selectEmployee">{{
                 "Employees" | translate
-            }}</label>
-            <p-dropdown
-                [(ngModel)]="selectedEmployee"
-                [options]="dropdownItemsEmployee"
-                optionLabel="name"
-                [showClear]="true"
-                [disabled]="!selectedEmployeeManager"
-                (onChange)="selectSpecEmployee($event)"
+                }}</label>
+            <p-dropdown [(ngModel)]="selectedEmployee" [options]="dropdownItemsEmployee" optionLabel="name"
+                [showClear]="true" [disabled]="!selectedEmployeeManager" (onChange)="selectSpecEmployee($event)"
                 name="selectedEmployee">
-            <ng-template pTemplate="selectedItem" let-selectedItem>
-                {{
+                <ng-template pTemplate="selectedItem" let-selectedItem>
+                    {{
                     selectedItem
-                        ? (selectedItem.name | translate)
-                        : ("Select Employee" | translate)
-                }}
-            </ng-template>
-        </p-dropdown>
+                    ? (selectedItem.name | translate)
+                    : ("Select Employee" | translate)
+                    }}
+                </ng-template>
+            </p-dropdown>
         </div>
 
         <!-- Location -->
         <div class="field col-4">
             <label htmlFor="location">{{ "Location" | translate }}</label>
-            <p-dropdown
-                [options]="dropdownItemsLocations"
-                [(ngModel)]="selectedLocation"
-                name="selectedLocation"
-                optionLabel="name"
-                [placeholder]="'Select a Location' | translate"
-                [showClear]="true"
-            ></p-dropdown>
+            <p-dropdown [options]="dropdownItemsLocations" [(ngModel)]="selectedLocation" name="selectedLocation"
+                optionLabel="name" [placeholder]="'Select a Location' | translate" [showClear]="true"></p-dropdown>
         </div>
 
         <!-- Shift -->
         <div class="field col-4">
             <label htmlFor="shift">{{ "Shift" | translate }}</label>
-            <p-dropdown
-                [options]="dropdownItemsShift"
-                [(ngModel)]="selectedShift"
-                name="selectedShift"
-                optionLabel="name"
-                [placeholder]="'Select Shift' | translate"
-                [showClear]="true"
-            ></p-dropdown>
+            <p-dropdown [options]="dropdownItemsShift" [(ngModel)]="selectedShift" name="selectedShift"
+                optionLabel="name" [placeholder]="'Select Shift' | translate" [showClear]="true"></p-dropdown>
         </div>
 
         <!-- job -->
         <div class="field col-4">
             <label htmlFor="job">{{ "Job" | translate }}</label>
-            <p-dropdown
-                [options]="dropdownItemsJob"
-                [(ngModel)]="selectedJob"
-                optionLabel="name"
-                name="selectedJob"
-                [placeholder]="'Select Job' | translate"
-                [showClear]="true"
-            ></p-dropdown>
+            <p-dropdown [options]="dropdownItemsJob" [(ngModel)]="selectedJob" optionLabel="name" name="selectedJob"
+                [placeholder]="'Select Job' | translate" [showClear]="true"></p-dropdown>
         </div>
 
 
@@ -121,16 +82,9 @@
         <div class="field col-4">
             <label for="selectedDateFrom">{{
                 "Date From" | translate
-            }}</label>
-            <p-calendar
-                [(ngModel)]="selectedDateFrom"
-                name="selectedDateFrom"
-                [iconDisplay]="'input'"
-                [showIcon]="true"
-                [placeholder]="'MM/DD/YYYY' | translate"
-                inputId="selectedDateFrom"
-                (onSelect)="selectDateFrom($event)"
-            >
+                }}</label>
+            <p-calendar [(ngModel)]="selectedDateFrom" name="selectedDateFrom" [iconDisplay]="'input'" [showIcon]="true"
+                [placeholder]="'MM/DD/YYYY' | translate" inputId="selectedDateFrom" (onSelect)="selectDateFrom($event)">
 
             </p-calendar>
         </div>
@@ -139,16 +93,9 @@
         <div class="field col-4">
             <label for="selectedDateTo">{{
                 "Date To" | translate
-            }}</label>
-            <p-calendar
-                [(ngModel)]="selectedDateTo"
-                name="selectedDateTo"
-                [iconDisplay]="'input'"
-                [showIcon]="true"
-                [placeholder]="'MM/DD/YYYY' | translate"
-                inputId="selectedDateTo"
-                (onSelect)="selectDateTo($event)"
-            >
+                }}</label>
+            <p-calendar [(ngModel)]="selectedDateTo" name="selectedDateTo" [iconDisplay]="'input'" [showIcon]="true"
+                [placeholder]="'MM/DD/YYYY' | translate" inputId="selectedDateTo" (onSelect)="selectDateTo($event)">
 
             </p-calendar>
         </div>
@@ -164,30 +111,16 @@
     </form>
 </p-panel>
 
-<p-treeTable
-    #dt
-    [value]="parentData"
-    [paginator]="true"
-    [rows]="itemsPerPage"
-    [columns]="cols"
-    [totalRecords]="totalItems"
-    selectionMode="multiple"
-    [showCurrentPageReport]="true"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [lazy]="true"
-    (onLazyLoad)="onPageChange($event)"
-    dataKey="id"
-    >
+<p-treeTable #dt [value]="parentData" [paginator]="true" [rows]="itemsPerPage" [columns]="cols"
+    [totalRecords]="totalItems" selectionMode="multiple" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [lazy]="true"
+    (onLazyLoad)="onPageChange($event)" dataKey="id">
     <ng-template pTemplate="caption">
         <div class="flex justify-content-between align-items-center">
             <h5 class="m-0">{{'Manage Items' | translate}}</h5>
             <div class="p-input-icon-left">
                 <i class="pi pi-search"></i>
-                <input
-                    type="text"
-                    pInputText
-                    [(ngModel)]="nameFilter"
-                    [placeholder]="'Search...' | translate"
+                <input type="text" pInputText [(ngModel)]="nameFilter" [placeholder]="'Search...' | translate"
                     (input)="loadFilteredData()" />
             </div>
         </div>
@@ -209,4 +142,3 @@
         </tr>
     </ng-template>
 </p-treeTable>
-

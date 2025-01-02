@@ -33,13 +33,13 @@ export class AllEmployeesFingerPrintComponent {
     id!: number;
 
     endPoint!: string;
-    allData: any = [];
+    allData: any;
     page: number = 1;
     itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
-    loading: boolean = true;
+    loading: boolean = false;
     nameFilter: string = '';
 
     submitted: boolean = false;
@@ -365,7 +365,6 @@ export class AllEmployeesFingerPrintComponent {
             next: (res) => {
                 this.dropdownItemsEmployee = res.data;
             },
-
 
         })
     }

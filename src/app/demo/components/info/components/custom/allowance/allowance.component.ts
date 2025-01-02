@@ -22,13 +22,13 @@ import { AllowanceService } from './allowance.service';
 export class AllowanceComponent {
   constructor(
     private _AllowanceService: AllowanceService,
-    private messageService: MessageService , 
-    private translate : TranslateService) {
+    private messageService: MessageService,
+    private translate: TranslateService) {
   }
 
   @ViewChild('dt') dt: Table;
   @Input() endPoint!: string;
-  allData: any = [];
+  allData: any;
   page: number = 1;
   itemsPerPage = 3;
   selectedItems: any = [];
@@ -50,22 +50,22 @@ export class AllowanceComponent {
   newNameAr!: string;
   newNameEn!: string;
 
-  addNewForm : FormGroup = new FormGroup({
-    name:new FormControl(null , [Validators.required , Validators.maxLength(50)]),
-    engName: new FormControl(null ,[Validators.required , Validators.maxLength(50)]),
-    value:new FormControl(0, [Validators.required]),
+  addNewForm: FormGroup = new FormGroup({
+    name: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
+    engName: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
+    value: new FormControl(0, [Validators.required]),
   });
 
-  editForm : FormGroup = new FormGroup({
-    id:new FormControl(null),
-    name:new FormControl(null , [Validators.required , Validators.maxLength(50)]),
-    engName: new FormControl(null ,[Validators.required , Validators.maxLength(50)]),
-    value:new FormControl(0, [Validators.required]),
+  editForm: FormGroup = new FormGroup({
+    id: new FormControl(null),
+    name: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
+    engName: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
+    value: new FormControl(0, [Validators.required]),
   });
 
   ngOnInit() {
-  this.endPoint = 'Allowance';
-  // adding this Configurations in each Component Customized
+    this.endPoint = 'Allowance';
+    // adding this Configurations in each Component Customized
     Globals.getMainLangChanges().subscribe((mainLang) => {
       console.log('Main language changed to:', mainLang);
 
@@ -77,11 +77,11 @@ export class AllowanceComponent {
 
       // then, load data again to lens on the changes of mainLang & endPoints Call
       this.loadData(
-          this.page,
-          this.itemsPerPage,
-          this.nameFilter,
-          this.sortField,
-          this.sortOrder
+        this.page,
+        this.itemsPerPage,
+        this.nameFilter,
+        this.sortField,
+        this.sortOrder
       );
     });
 
@@ -98,89 +98,88 @@ export class AllowanceComponent {
     ];
   }
 
-  splitCamelCase(str:any) {
+  splitCamelCase(str: any) {
     return str.replace(/([A-Z])/g, ' $1')
-    .trim()
-    .replace(/\s+/g, ' ')
-    .split(' ')
-    .map((word:any) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+      .trim()
+      .replace(/\s+/g, ' ')
+      .split(' ')
+      .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
   }
 
   editProduct(rowData: any) {
     console.log(rowData.id);
     this._AllowanceService.GetById(rowData.id).subscribe({
-        next: (res) => {
-            console.log(res.data);
-            this.product = { ...res.data };
-            this.productDialog = true;
-        },
-        error: (err) => {
-            console.log(err);
-        },
+      next: (res) => {
+        console.log(res.data);
+        this.product = { ...res.data };
+        this.productDialog = true;
+      },
+      error: (err) => {
+        console.log(err);
+      },
     });
   }
 
   confirmDelete(id: number) {
     // perform delete from sending request to api
     this._AllowanceService.DeleteSoftById(id).subscribe({
-        next: (res) => {
-            // close dialog
-            this.deleteProductDialog = false;
+      next: (res) => {
+        // close dialog
+        this.deleteProductDialog = false;
 
-            // show message for user to show processing of deletion.
-            this.messageService.add({
-                severity: 'success',
-                summary: this.translate.instant('Success'),
-                detail: res.message ,
-                life: 3000,
-            });
+        // show message for user to show processing of deletion.
+        this.messageService.add({
+          severity: 'success',
+          summary: this.translate.instant('Success'),
+          detail: res.message,
+          life: 3000,
+        });
 
-            // load data here
-            this.loadData(
-                this.page,
-                this.itemsPerPage,
-                this.nameFilter,
-                this.sortField,
-                this.sortOrder
-            );
-        }
+        // load data here
+        this.loadData(
+          this.page,
+          this.itemsPerPage,
+          this.nameFilter,
+          this.sortField,
+          this.sortOrder
+        );
+      }
     });
   }
 
-  addNew(form:FormGroup) {
+  addNew(form: FormGroup) {
     console.log(form);
-  
+
     this._AllowanceService.Register(form.value).subscribe({
-        next: (res) => {
-          if(res.success)
-          {
-            console.log(res);
-            this.showFormNew = false;
-            // show message for success inserted
-            this.messageService.add({
-              severity: 'success',
-              summary: this.translate.instant('Success'),
-              detail: res.message,
-              life: 3000,
-            });
-            form.reset(); 
-          }
-          
+      next: (res) => {
+        if (res.success) {
+          console.log(res);
+          this.showFormNew = false;
+          // show message for success inserted
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translate.instant('Success'),
+            detail: res.message,
+            life: 3000,
+          });
+          form.reset();
+        }
 
-          // set fields is empty
-          this.setFieldsNulls();
 
-          // load data again
-          this.loadData(
-              this.page,
-              this.itemsPerPage,
-              this.nameFilter,
-              this.sortField,
-              this.sortOrder
-          );
-        },
-        
+        // set fields is empty
+        this.setFieldsNulls();
+
+        // load data again
+        this.loadData(
+          this.page,
+          this.itemsPerPage,
+          this.nameFilter,
+          this.sortField,
+          this.sortOrder
+        );
+      },
+
     });
   }
 
@@ -196,8 +195,8 @@ export class AllowanceComponent {
 
   setFieldsNulls() {
     (this.newNameAr = null),
-    (this.newNameEn = null),
-    (this.newvalue = null);
+      (this.newNameEn = null),
+      (this.newvalue = null);
   }
 
   loadData(
@@ -209,27 +208,27 @@ export class AllowanceComponent {
   ) {
     this.loading = true;
     let filteredData = {
-        pageNumber: page,
-        pageSize: size,
-        filterValue: nameFilter,
-        filterType: filterType,
-        sortType: sortType,
+      pageNumber: page,
+      pageSize: size,
+      filterValue: nameFilter,
+      filterType: filterType,
+      sortType: sortType,
     };
     filteredData.sortType = this.sortOrder;
 
     this._AllowanceService.GetPage(filteredData).subscribe({
-        next: (res) => {
-            console.log(res);
-            this.allData = res.data;
-            console.log(res.data);
+      next: (res) => {
+        console.log(res);
+        this.allData = res.data;
+        console.log(res.data);
 
-            this.totalItems = res.totalItems;
-            this.loading = false;
-        },
-        error: (err) => {
-            console.log(err);
-            this.loading = false;
-        },
+        this.totalItems = res.totalItems;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.log(err);
+        this.loading = false;
+      },
     });
   }
 
@@ -243,11 +242,11 @@ export class AllowanceComponent {
     // console.log(this.sortOrder);
 
     this.loadData(
-        this.page,
-        this.itemsPerPage,
-        this.nameFilter,
-        this.sortField,
-        this.sortOrder
+      this.page,
+      this.itemsPerPage,
+      this.nameFilter,
+      this.sortField,
+      this.sortOrder
     );
   }
 
@@ -265,49 +264,48 @@ export class AllowanceComponent {
     this.product = { ...product };
   }
 
-  saveProduct(form:FormGroup , product: any) {
+  saveProduct(form: FormGroup, product: any) {
     this.submitted = true;
-    
+
     form.patchValue({
-        id:product.id,
-        value: Number(product.value)
+      id: product.id,
+      value: Number(product.value)
     })
-    
+
     this._AllowanceService.Edit(form.value).subscribe({
       next: (res) => {
-        if(res.success)
-        {
-            this.hideDialog();
-            // show message for user to show processing of deletion.
-            this.messageService.add({
-                severity: 'success',
-                summary: this.translate.instant('Success'),
-                detail: res.message,
-                life: 3000,
-            });
+        if (res.success) {
+          this.hideDialog();
+          // show message for user to show processing of deletion.
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translate.instant('Success'),
+            detail: res.message,
+            life: 3000,
+          });
         }
-        
+
         // load data again
         this.loadData(
-            this.page,
-            this.itemsPerPage,
-            this.nameFilter,
-            this.sortField,
-            this.sortOrder
+          this.page,
+          this.itemsPerPage,
+          this.nameFilter,
+          this.sortField,
+          this.sortOrder
         );
       },
-      
+
     });
   }
 
   toggleNew() {
     if (this.showFormNew) {
-        this.showFormNew = false;
-        this.addNewForm.reset()
+      this.showFormNew = false;
+      this.addNewForm.reset()
 
     } else {
-        this.showFormNew = true;
-        this.addNewForm.reset()
+      this.showFormNew = true;
+      this.addNewForm.reset()
     }
   }
 
@@ -321,7 +319,7 @@ export class AllowanceComponent {
 
     // Create a Blob with UTF-8 encoding
     const blob = new Blob([csvContent], {
-        type: 'text/csv;charset=utf-8;',
+      type: 'text/csv;charset=utf-8;',
     });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
@@ -337,12 +335,12 @@ export class AllowanceComponent {
     let keys = [];
 
     this.cols.forEach((row) => {
-        keys.push(row.field);
+      keys.push(row.field);
     });
     console.log(keys);
 
     const csvContent = data.map((row) =>
-        keys.map((key) => `"${row[key]}"`).join(separator)
+      keys.map((key) => `"${row[key]}"`).join(separator)
     );
 
     csvContent.unshift(keys.join(separator)); // Add header row
@@ -354,38 +352,38 @@ export class AllowanceComponent {
     console.log('Selected Items :');
 
     this.selectedItems.forEach((item: any) => {
-        selectedIds.push(item.id);
+      selectedIds.push(item.id);
     });
 
     this._AllowanceService.DeleteRangeSoft(selectedIds).subscribe({
-        next: (res) => {
-            this.deleteProductsDialog = false;
-            this.messageService.add({
-                severity: 'success',
-                summary: this.translate.instant('Success'),
-                detail: res.message ,
-                life: 3000,
-            });
-            // this.selectedItems = [];
-            this.loadData(
-                this.page,
-                this.itemsPerPage,
-                this.nameFilter,
-                this.sortField,
-                this.sortOrder
-            );
-        },
-        error: (err) => {
+      next: (res) => {
+        this.deleteProductsDialog = false;
+        this.messageService.add({
+          severity: 'success',
+          summary: this.translate.instant('Success'),
+          detail: res.message,
+          life: 3000,
+        });
+        // this.selectedItems = [];
+        this.loadData(
+          this.page,
+          this.itemsPerPage,
+          this.nameFilter,
+          this.sortField,
+          this.sortOrder
+        );
+      },
+      error: (err) => {
 
-            this.deleteProductsDialog = false;
-            this.loadData(
-                this.page,
-                this.itemsPerPage,
-                this.nameFilter,
-                this.sortField,
-                this.sortOrder
-            );
-        },
+        this.deleteProductsDialog = false;
+        this.loadData(
+          this.page,
+          this.itemsPerPage,
+          this.nameFilter,
+          this.sortField,
+          this.sortOrder
+        );
+      },
     });
   }
 
@@ -393,9 +391,9 @@ export class AllowanceComponent {
     this.sortField = 'id';
 
     if (this.sortOrder === 'asc') {
-        this.sortOrder = 'dsc';
+      this.sortOrder = 'dsc';
     } else if (this.sortOrder === 'dsc') {
-        this.sortOrder = 'asc';
+      this.sortOrder = 'asc';
     }
   }
 

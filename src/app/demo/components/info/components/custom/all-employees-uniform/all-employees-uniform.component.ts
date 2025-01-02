@@ -24,13 +24,13 @@ export class AllEmployeesUniformComponent {
         private messageService: MessageService,
         private route: ActivatedRoute,
         private DatePipe: DatePipe
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     id!: number;
 
     endPoint!: string;
-    allData: any = [];
+    allData: any;
     page: number = 1;
     itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
@@ -265,7 +265,7 @@ export class AllEmployeesUniformComponent {
         );
     }
 
-    setFieldsNulls() {}
+    setFieldsNulls() { }
 
     loadData(
         page: number,

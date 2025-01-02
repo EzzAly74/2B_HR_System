@@ -25,17 +25,17 @@ export class AllEmployeesFileComponent {
         private messageService: MessageService,
         private route: ActivatedRoute,
         private DatePipe: DatePipe
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
-    allData: any = [];
+    allData: any;
     page: number = 1;
     itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
-    loading: boolean = true;
+    loading: boolean = false;
     nameFilter: string = '';
     deleteProductDialog: boolean = false;
     deleteProductsDialog: boolean = false;
@@ -139,9 +139,13 @@ export class AllEmployeesFileComponent {
 
     editProduct(rowData: any) {
         console.log(rowData.id);
+        this.loading = true;
+
         rowData.date = this.convertDate(rowData.date, 'MM/dd/yyyy');
         this.employeeFileService.GetById(rowData.id).subscribe({
             next: (res) => {
+                this.loading = false;
+
                 console.log(res.data);
                 this.selectedRelativeRelationEdit =
                     this.dropdownItemsRelativeRelationType.find(
@@ -174,14 +178,18 @@ export class AllEmployeesFileComponent {
             .join(' ');
     }
 
-    startAttendeesTimeClick(event: any) {}
+    startAttendeesTimeClick(event: any) { }
 
-    endAttendeesTimeClick(event: any) {}
+    endAttendeesTimeClick(event: any) { }
 
     confirmDelete(id: number) {
+        this.loading = true;
+
         // perform delete from sending request to api
         this.employeeFileService.DeleteRange([id]).subscribe({
             next: () => {
+                this.loading = false;
+
                 // close dialog
                 this.deleteProductDialog = false;
 
@@ -228,9 +236,15 @@ export class AllEmployeesFileComponent {
             // map To Form Data
             const formData = this.mapToFormData(this.addNewForm.value);
 
+            this.loading = true;
+
             // Confirm add new
             this.employeeFileService.Register(formData).subscribe({
+
                 next: (res) => {
+
+                    this.loading = false;
+
                     console.log(res);
                     this.showFormNew = false;
                     // show message for success inserted
@@ -294,7 +308,6 @@ export class AllEmployeesFileComponent {
         filterType: string,
         sortType: string
     ) {
-        this.loading = true;
         let filteredData = {
             pageNumber: page,
             pageSize: size,
@@ -304,15 +317,20 @@ export class AllEmployeesFileComponent {
         };
         filteredData.sortType = this.sortOrder;
 
+        this.loading = true;
+
+
         this.employeeFileService.GetPage(filteredData).subscribe({
             next: (res) => {
+
                 console.log(res);
                 this.allData = res.data;
                 console.log(res.data);
 
                 this.totalItems = res.totalItems;
-                this.loading = false;
                 console.log(this.selectedItems);
+                this.loading = false;
+
             },
         });
     }
@@ -367,8 +385,12 @@ export class AllEmployeesFileComponent {
         if (this.editForm.valid) {
             const formData = this.mapToFormData(this.editForm.value);
 
+            this.loading = true;
+
             this.employeeFileService.Edit(formData).subscribe({
                 next: () => {
+                    this.loading = false;
+
                     this.hideDialog();
                     // show message for user to show processing of deletion.
                     this.messageService.add({
@@ -444,8 +466,12 @@ export class AllEmployeesFileComponent {
             selectedIds.push(item.id);
         });
 
+        this.loading = true;
+
         this.employeeFileService.DeleteRange(selectedIds).subscribe({
             next: (res) => {
+                this.loading = false;
+
                 this.deleteProductsDialog = false;
                 this.messageService.add({
                     severity: 'success',

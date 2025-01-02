@@ -6,64 +6,29 @@
             <form class="p-fluid p-formgrid grid" (ngSubmit)="onSubmit()">
                 <div class="field col-12">
                     <label for="startVacation">{{'Start Vacation' | translate}}</label>
-                    <p-inputNumber
-                        id="startVacation"
-                        name="startVacation"
-                        [(ngModel)]="startVacation"
-                        mode="decimal"
-                        [showButtons]="true"
-                        [min]="0"
-                        [max]="100"
-                    ></p-inputNumber>
+                    <p-inputNumber id="startVacation" name="startVacation" [(ngModel)]="startVacation" mode="decimal"
+                        [showButtons]="true" [min]="0" [max]="100"></p-inputNumber>
                 </div>
                 <div class="field col-12">
-                    <label for="regularVacationNumber"
-                        >{{'Regular Vacation Number' | translate }}</label
-                    >
-                    <p-inputNumber
-                        id="regularVacationNumber"
-                        name="regularVacationNumber"
-                        [(ngModel)]="regularVacationNumber"
-                        mode="decimal"
-                        [showButtons]="true"
-                        [min]="0"
-                        [max]="100"
-                    ></p-inputNumber>
+                    <label for="regularVacationNumber">{{'Regular Vacation Number' | translate }}</label>
+                    <p-inputNumber id="regularVacationNumber" name="regularVacationNumber"
+                        [(ngModel)]="regularVacationNumber" mode="decimal" [showButtons]="true" [min]="0"
+                        [max]="100"></p-inputNumber>
                 </div>
                 <div class="field col-12">
                     <label for="maxExcuesHours">{{'Max Excues Hours' | translate}}</label>
-                    <p-inputNumber
-                        id="maxExcuesHours"
-                        name="maxExcuesHours"
-                        [(ngModel)]="maxExcuesHours"
-                        mode="decimal"
-                        [showButtons]="true"
-                        [min]="0"
-                        [max]="100"
-                    ></p-inputNumber>
+                    <p-inputNumber id="maxExcuesHours" name="maxExcuesHours" [(ngModel)]="maxExcuesHours" mode="decimal"
+                        [showButtons]="true" [min]="0" [max]="100"></p-inputNumber>
                 </div>
                 <div class="field col-12">
-                    <label for="casualVacationNumber"
-                        >{{'Casual Vacation Number' | translate}}</label
-                    >
-                    <p-inputNumber
-                        id="casualVacationNumber"
-                        name="casualVacationNumber"
-                        [(ngModel)]="casualVacationNumber"
-                        mode="decimal"
-                        [showButtons]="true"
-                        [min]="0"
-                        [max]="100"
-                    ></p-inputNumber>
+                    <label for="casualVacationNumber">{{'Casual Vacation Number' | translate}}</label>
+                    <p-inputNumber id="casualVacationNumber" name="casualVacationNumber"
+                        [(ngModel)]="casualVacationNumber" mode="decimal" [showButtons]="true" [min]="0"
+                        [max]="100"></p-inputNumber>
                 </div>
                 <div class="field col-12">
-                    <button
-                        pButton
-                        pRipple
-                        type="submit"
-                        [label]="'Update Setting' | translate"
-                        class="p-button-raised p-button-info"
-                    ></button>
+                    <button pButton pRipple type="submit" [label]="'Update Setting' | translate"
+                        class="p-button-raised p-button-info"></button>
                 </div>
             </form>
         </div>
