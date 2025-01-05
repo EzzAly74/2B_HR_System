@@ -210,7 +210,7 @@
 
 <p-table *ngIf="showTable" #dt [value]="allData" [paginator]="true" [rows]="itemsPerPage" [columns]="cols"
     [totalRecords]="totalItems" selectionMode="multiple" [(selection)]="selectedItems" [showCurrentPageReport]="true"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [lazy]="true"
+    [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries'|translate" [lazy]="true"
     (onLazyLoad)="onPageChange($event)" dataKey="employeeId">
 
     <ng-template pTemplate="caption">
@@ -401,9 +401,9 @@
             </div>
 
             <div class="field">
-                <label for="name">{{ "Month" | translate }}</label>
-                <p-dropdown [options]="allMonths" formControlName="month" [(ngModel)]="product.month" optionLabel="name"
-                    optionValue="id" [placeholder]="'Select a Month' | translate" />
+                <label for="month">{{ "Month" | translate }}</label>
+                <p-dropdown inputId="month" [options]="allMonths" formControlName="month" [(ngModel)]="product.month"
+                    optionLabel="name" optionValue="id" [placeholder]="'Select a Month' | translate" />
             </div>
 
             <div class="field">

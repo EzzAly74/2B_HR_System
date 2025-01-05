@@ -575,6 +575,6 @@
     "startMonth :": "شهر البداية:",
     "endYear :": "عام النهاية:",
     "endMonth :": "شهر النهاية:",
-    "getLoanPayment": "القروض"
+    "getLoanPayment": "القروض",
+    "Showing {first} to {last} of {totalRecords} entries": "عرض {first} الى {last} من {totalRecords} السجلات"
 }
-

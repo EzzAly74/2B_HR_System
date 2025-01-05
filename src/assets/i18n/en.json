@@ -562,5 +562,6 @@
     "startMonth :": "Start Month",
     "endYear :": "End Year",
     "endMonth :": "End Month",
-    "getLoanPayment": "Loan Payment"
+    "getLoanPayment": "Loan Payment",
+    "Showing {first} to {last} of {totalRecords} entries": "Showing {first} to {last} of {totalRecords} entries"
 }
