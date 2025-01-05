@@ -108,6 +108,7 @@ export class MonthlyReportComponent {
             this.monthlyReportService.setEndPoint(this.endPoint);
 
             this.getDropDowns();
+            this.loadFilteredData();
 
             // then, load data again to lens on the changes of mainLang & endPoints Call
             // this.loadData(

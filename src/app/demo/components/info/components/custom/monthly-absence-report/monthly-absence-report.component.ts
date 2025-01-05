@@ -108,6 +108,8 @@ export class MonthlyAbsenceReportComponent {
 
             this.getDropDowns();
 
+            this.loadFilteredData();
+
             // then, load data again to lens on the changes of mainLang & endPoints Call
             // this.loadData(
             //     this.page,
