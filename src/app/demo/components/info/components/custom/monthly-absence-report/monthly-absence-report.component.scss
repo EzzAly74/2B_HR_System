@@ -14,9 +14,9 @@
 .allDates {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px; /* Space between dates */
-    max-height: 150px; /* Limit height for overflow */
-    overflow-y: auto; /* Enable scroll for overflow */
+    gap: 8px;
+    max-height: 150px;
+    overflow-y: auto;
     padding: 10px;
 }
 
