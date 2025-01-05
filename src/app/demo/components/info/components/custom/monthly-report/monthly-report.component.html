@@ -1,0 +1,468 @@
+<p-toast></p-toast>
+<p-panel [header]="'Filter' | translate" [toggleable]="true" [collapsed]="false">
+    <form method="post" [formGroup]="filterForm" (submit)="submitForm(filterForm)">
+        <div class="grid">
+            <div class="col-12">
+                <div class="card">
+                    <div class="p-fluid p-formgrid grid">
+                        <div class="field col-12 md:col-4">
+                            <label htmlFor="government">{{
+                                "Employee" | translate
+                                }}</label>
+                            <p-dropdown [showClear]="true" [options]="dropdownItemsEmployees" optionLabel="name"
+                                optionValue="id" formControlName="employeeId" [filter]="true" [filterBy]="'name'"
+                                [placeholder]="
+                                    'Enter Employee Name Here' | translate
+                                "></p-dropdown>
+                        </div>
+
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="Department">{{
+                                "Department" | translate
+                                }}</label>
+                            <p-dropdown formControlName="departmentId" [options]="dropdownItemsDepartments"
+                                optionLabel="name" optionValue="id" [filter]="true" [filterBy]="'name'" [placeholder]="
+                                    'Select a Department' | translate
+                                "></p-dropdown>
+                        </div>
+
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="month">{{
+                                "Month" | translate
+                                }}</label>
+                            <p-dropdown formControlName="month" [options]="allMonths" optionLabel="name"
+                                optionValue="id" [placeholder]="'Select a Month' | translate"></p-dropdown>
+                        </div>
+
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="yaer">{{
+                                "Year" | translate
+                                }}</label>
+                            <input pInputText formControlName="year" [placeholder]="'Enter Year Here' | translate"
+                                type="number" />
+                        </div>
+                        <!-- <h1>ezz</h1> -->
+
+
+                        <div class="btn-filter-submit-container">
+                            <div class="field">
+                                <button [disabled]="filterForm.invalid" pButton type="submit">
+                                    <i class="pi pi-filter"></i>
+                                    <span> {{ "Filter" | translate }} </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</p-panel>
+
+<p-table id="printableTable" *ngIf="allDataWithoutPagination.length" #dt [value]="allDataWithoutPagination">
+
+
+
+    <ng-template pTemplate="header">
+        <tr>
+
+            <th pSortableColumn="employeeName">
+                {{ "Name" | translate }}
+
+            </th>
+
+            <th>{{ "Department Name" | translate }}</th>
+
+            <th>
+                {{ "Month" | translate }}
+            </th>
+
+            <!-- personal fields -->
+            <th>{{ "Year" | translate }}</th>
+            <th>{{ "Working Days" | translate }}</th>
+            <th>{{ "Present Days" | translate }}</th>
+            <th>{{ "Absent Days" | translate }}</th>
+            <th>{{ "Days Late" | translate }}</th>
+            <th>{{ "Days Early Leave" | translate }}</th>
+            <th>{{ "Total Overtime" | translate }}</th>
+            <th>{{ "Total Errand Days" | translate }}</th>
+            <th>{{ "Total Requested Day Off" | translate }}</th>
+            <th>{{ "Remarks" | translate }}</th>
+
+            <!-- generic fields
+            <th>{{ "creationTime" | translate }}</th>
+            <th>{{ "lastModificationTime" | translate }}</th>
+            <th>{{ "creatorName" | translate }}</th>
+            <th>{{ "lastModifierName" | translate }}</th>
+            <th>{{ "Actions" | translate }}</th> -->
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-rowData>
+        <tr>
+
+
+
+            <td [ngClass]="{ 'null-color': !rowData.employeeName }">
+
+                {{ rowData.employeeName ? rowData.employeeName : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.departmentName }">
+
+                {{ rowData.departmentName ? rowData.departmentName : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.month }">
+
+                {{ rowData.month ? rowData.month : "" }}
+            </td>
+
+            <!-- personal fields -->
+
+            <td [ngClass]="{ 'null-color': !rowData.year }">
+
+                {{ rowData.year ? rowData.year : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.totalWorkingDays }">
+
+                {{ rowData.totalWorkingDays ? rowData.totalWorkingDays : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.presentDays }">
+
+                {{ rowData.presentDays ? rowData.presentDays : "" }}
+            </td>
+            <td [ngClass]="{ 'null-color': !rowData.absentDays }">
+
+                {{ rowData.absentDays ? rowData.absentDays : "" }}
+            </td>
+            <td [ngClass]="{ 'null-color': !rowData.daysLate }">
+
+                {{ rowData.daysLate ? rowData.daysLate : "" }}
+            </td>
+            <td [ngClass]="{ 'null-color': !rowData.daysEarlyLeave }">
+
+                {{ rowData.daysEarlyLeave ? rowData.daysEarlyLeave : "" }}
+            </td>
+            <td [ngClass]="{ 'null-color': !rowData.totalOvertime }">
+
+                {{ rowData.totalOvertime }}
+            </td>
+            <td [ngClass]="{ 'null-color': !rowData.totalErrandDays }">
+
+                {{ rowData.totalErrandDays ? rowData.totalErrandDays : "" }}
+            </td>
+            <td [ngClass]="{ 'null-color': !rowData.totalRequestedDayOff }">
+
+                {{ rowData.totalRequestedDayOff ? rowData.totalRequestedDayOff : "" }}
+            </td>
+            <td [ngClass]="{ 'null-color': !rowData.remarks }">
+
+                {{ rowData.remarks ? rowData.remarks : "" }}
+            </td>
+
+
+
+
+
+
+            <!-- <td [ngClass]="{ 'null-color': !rowData.creationTime }">
+                <span class="p-column-title">creationTime</span>
+                {{ rowData.creationTime ? rowData.creationTime : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.lastModificationTime }">
+                <span class="p-column-title">lastModificationTime</span>
+                {{
+                rowData.lastModificationTime
+                ? rowData.lastModificationTime
+                : ""
+                }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.creatorName }">
+                <span class="p-column-title">creatorName</span>
+                {{ rowData.creatorName ? rowData.creatorName : "" }}
+            </td>
+            <td [ngClass]="{ 'null-color': !rowData.lastModifierName }">
+                <span class="p-column-title">lastModifierName</span>
+                {{ rowData.lastModifierName ? rowData.lastModifierName : "" }}
+            </td>
+
+            <td>
+                <div class="flex crud-operations">
+                    <button pButton pRipple icon="pi pi-pencil"
+                        class="p-button-rounded p-button-info p-button-outlined mr-2"
+                        (click)="editProduct(rowData)"></button>
+
+                    <button pButton pRipple icon="pi pi-trash"
+                        class="p-button-rounded p-button-outlined p-button-danger"
+                        (click)="deleteProduct(rowData)"></button>
+                </div>
+            </td> -->
+        </tr>
+    </ng-template>
+</p-table>
+
+
+
+<p-table *ngIf="showTable" #dt [value]="allData" [paginator]="true" [rows]="itemsPerPage" [columns]="cols"
+    [totalRecords]="totalItems" selectionMode="multiple" [(selection)]="selectedItems" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [lazy]="true"
+    (onLazyLoad)="onPageChange($event)" dataKey="employeeId">
+
+    <ng-template pTemplate="caption">
+        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+            <div class="exportBtns flex">
+                <div>
+                    <button pButton pRipple [label]="'Export' | translate" icon="pi pi-download"
+                        class="p-button-help mx-2 px-5" pTooltip="CSV" (click)="exportCSV()"
+                        [disabled]="!selectedItems || !selectedItems.length"></button>
+                    <button pButton pRipple [label]="'Export All'|translate" icon="pi pi-download"
+                        class="p-button-help mx-2 px-5" pTooltip="Export All Records to CSV"
+                        (click)="exportAllCSV()"></button>
+                </div>
+                <div>
+                    <button pButton pRipple [label]="'Print All'|translate" icon="pi pi-print"
+                        class="p-button-help mx-2 px-5" pTooltip="Print Table Data" (click)="printTable()"></button>
+                </div>
+            </div>
+            <span class="block mt-2 md:mt-0 p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText [(ngModel)]="nameFilter" (input)="loadFilteredData()" id="filter-name" type="text"
+                    [placeholder]="'Search...' | translate" class="w-full sm:w-auto" />
+            </span>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 3rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+
+            <th pSortableColumn="employeeName" (click)="sortByName($event)">
+                {{ "Name" | translate }}
+                <p-sortIcon field="employeeName"></p-sortIcon>
+            </th>
+
+            <th>{{ "Department Name" | translate }}</th>
+
+            <th (click)="sortByName($event)">
+                {{ "Month" | translate }}
+            </th>
+
+            <!-- personal fields -->
+            <th>{{ "Year" | translate }}</th>
+            <th>{{ "Working Days" | translate }}</th>
+            <th>{{ "Present Days" | translate }}</th>
+            <th>{{ "Absent Days" | translate }}</th>
+            <th>{{ "Days Late" | translate }}</th>
+            <th>{{ "Days Early Leave" | translate }}</th>
+            <th>{{ "Total Overtime" | translate }}</th>
+            <th>{{ "Total Errand Days" | translate }}</th>
+            <th>{{ "Total Requested Day Off" | translate }}</th>
+            <th>{{ "Remarks" | translate }}</th>
+
+            <!-- generic fields
+            <th>{{ "creationTime" | translate }}</th>
+            <th>{{ "lastModificationTime" | translate }}</th>
+            <th>{{ "creatorName" | translate }}</th>
+            <th>{{ "lastModifierName" | translate }}</th>
+            <th>{{ "Actions" | translate }}</th> -->
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-rowData>
+        <tr>
+            <td>
+                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+            </td>
+
+
+            <td [ngClass]="{ 'null-color': !rowData.employeeName }">
+                <span class="p-column-title">employeeName</span>
+                {{ rowData.employeeName ? rowData.employeeName : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.departmentName }">
+                <span class="p-column-title">departmentName</span>
+                {{ rowData.departmentName ? rowData.departmentName : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.month }">
+                <span class="p-column-title">month</span>
+                {{ rowData.month ? rowData.month : "" }}
+            </td>
+
+            <!-- personal fields -->
+
+            <td [ngClass]="{ 'null-color': !rowData.year }">
+                <span class="p-column-title">year</span>
+                {{ rowData.year ? rowData.year : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.totalWorkingDays }">
+                <span class="p-column-title">totalWorkingDays</span>
+                {{ rowData.totalWorkingDays ? rowData.totalWorkingDays : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.presentDays }">
+                <span class="p-column-title">presentDays</span>
+                {{ rowData.presentDays ? rowData.presentDays : "" }}
+            </td>
+            <td [ngClass]="{ 'null-color': !rowData.absentDays }">
+                <span class="p-column-title">absentDays</span>
+                {{ rowData.absentDays ? rowData.absentDays : "" }}
+            </td>
+            <td [ngClass]="{ 'null-color': !rowData.daysLate }">
+                <span class="p-column-title">daysLate</span>
+                {{ rowData.daysLate ? rowData.daysLate : "" }}
+            </td>
+            <td [ngClass]="{ 'null-color': !rowData.daysEarlyLeave }">
+                <span class="p-column-title">daysEarlyLeave</span>
+                {{ rowData.daysEarlyLeave ? rowData.daysEarlyLeave : "" }}
+            </td>
+            <td [ngClass]="{ 'null-color': !rowData.totalOvertime }">
+                <span class="p-column-title">totalOvertime</span>
+                {{ rowData.totalOvertime }}
+            </td>
+            <td [ngClass]="{ 'null-color': !rowData.totalErrandDays }">
+                <span class="p-column-title">totalErrandDays</span>
+                {{ rowData.totalErrandDays ? rowData.totalErrandDays : "" }}
+            </td>
+            <td [ngClass]="{ 'null-color': !rowData.totalRequestedDayOff }">
+                <span class="p-column-title">totalRequestedDayOff</span>
+                {{ rowData.totalRequestedDayOff ? rowData.totalRequestedDayOff : "" }}
+            </td>
+            <td [ngClass]="{ 'null-color': !rowData.remarks }">
+                <span class="p-column-title">remarks</span>
+                <div class="allRemarks">
+                    <span *ngFor="let remark of rowData.remarks" class="remark-cell">{{ remark}}</span>
+                </div>
+            </td>
+
+
+
+
+
+
+
+
+            <!-- <td [ngClass]="{ 'null-color': !rowData.creationTime }">
+                <span class="p-column-title">creationTime</span>
+                {{ rowData.creationTime ? rowData.creationTime : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.lastModificationTime }">
+                <span class="p-column-title">lastModificationTime</span>
+                {{
+                rowData.lastModificationTime
+                ? rowData.lastModificationTime
+                : ""
+                }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.creatorName }">
+                <span class="p-column-title">creatorName</span>
+                {{ rowData.creatorName ? rowData.creatorName : "" }}
+            </td>
+            <td [ngClass]="{ 'null-color': !rowData.lastModifierName }">
+                <span class="p-column-title">lastModifierName</span>
+                {{ rowData.lastModifierName ? rowData.lastModifierName : "" }}
+            </td>
+
+            <td>
+                <div class="flex crud-operations">
+                    <button pButton pRipple icon="pi pi-pencil"
+                        class="p-button-rounded p-button-info p-button-outlined mr-2"
+                        (click)="editProduct(rowData)"></button>
+
+                    <button pButton pRipple icon="pi pi-trash"
+                        class="p-button-rounded p-button-outlined p-button-danger"
+                        (click)="deleteProduct(rowData)"></button>
+                </div>
+            </td> -->
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-dialog [(visible)]="productDialog" [style]="{ width: '450px' }" [header]="'Item Details' | translate" [modal]="true"
+    class="p-fluid">
+    <ng-template pTemplate="content">
+        <form [formGroup]="editForm" (submit)="saveProduct(product.id,editForm)">
+            <div class="field">
+                <label for="employee">{{ "Employee" | translate }}</label>
+                <p-dropdown [filter]="true" [filterBy]="'name'" [options]="dropdownItemsEmployees"
+                    formControlName="employeeId" [(ngModel)]="product.employeeId" optionLabel="name" optionValue="id"
+                    [placeholder]="'Employee' | translate" />
+            </div>
+
+            <div class="field">
+                <label for="name">{{ "Month" | translate }}</label>
+                <p-dropdown [options]="allMonths" formControlName="month" [(ngModel)]="product.month" optionLabel="name"
+                    optionValue="id" [placeholder]="'Select a Month' | translate" />
+            </div>
+
+            <div class="field">
+                <label for="engName">{{ "Year" | translate }}</label>
+                <input pInputText formControlName="year" [(ngModel)]="product.year"
+                    [placeholder]="'Enter Year Here' | translate" type="number" />
+            </div>
+
+            <div class="field">
+                <label for="value">{{ "Value" | translate }}</label>
+                <input pInputText formControlName="value" [(ngModel)]="product.value"
+                    [placeholder]="'Enter Value Here' | translate" />
+            </div>
+
+            <div class="field">
+                <label for="notes">{{ "Notes" | translate }}</label>
+                <input pInputText formControlName="notes" [(ngModel)]="product.notes"
+                    [placeholder]="'Enter Notes Here' | translate" />
+            </div>
+
+            <div class="field btns">
+                <button pButton pRipple [label]="'Cancel' | translate" type="button" icon="pi pi-times"
+                    class="p-button-text" (click)="hideDialog()"></button>
+                <button pButton pRipple [disabled]="editForm.invalid" [label]="'Save' | translate" type="submit"
+                    icon="pi pi-check" class="p-button-text"></button>
+            </div>
+        </form>
+    </ng-template>
+
+
+</p-dialog>
+
+<p-dialog [(visible)]="deleteProductDialog" [header]="'Confirm Delete' | translate" [modal]="true"
+    [style]="{ width: '450px' }">
+    <div class="flex align-items-center justify-content-center">
+        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+        <span *ngIf="product">{{ "Are you sure you want to delete" | translate }}
+            <b>{{ product.name }}</b>?</span>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" [label]="'No' | translate"
+            (click)="deleteProductDialog = false"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" [label]="'Yes' | translate"
+            (click)="confirmDelete(product.id)"></button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="deleteProductsDialog" [header]="'Confirm Delete' | translate" [modal]="true"
+    [style]="{ width: '450px' }">
+    <div class="flex align-items-center justify-content-center">
+        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+        <span>{{
+            "Are you sure you want to delete selected products?" | translate
+            }}</span>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" [label]="'No' | translate"
+            (click)="deleteProductsDialog = false"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" [label]="'Yes' | translate"
+            (click)="confirmDeleteSelected()"></button>
+    </ng-template>
+</p-dialog>
