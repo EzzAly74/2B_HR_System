@@ -583,5 +583,6 @@
     "Terminations": "الاقالات",
     "registerTermination": "تسجيل اقالة",
     "allTerminations": "كل الاقالات",
-    "Termination Date": "تاريخ الاقالة"
+    "Termination Date": "تاريخ الاقالة",
+    "Showing {first} to {last} of {totalRecords} entries": "عرض {first} الى {last} من {totalRecords} السجلات"
 }

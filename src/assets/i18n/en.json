@@ -569,5 +569,6 @@
     "clearanceDate": "Clearance Date",
     "Terminations": "Terminations",
     "registerTermination": "Register Termination",
-    "allTerminations": "All Terminations"
+    "allTerminations": "All Terminations",
+    "Showing {first} to {last} of {totalRecords} entries": "Showing {first} to {last} of {totalRecords} entries"
 }

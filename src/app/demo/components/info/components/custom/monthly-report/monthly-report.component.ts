@@ -138,13 +138,6 @@ export class MonthlyReportComponent {
             { field: 'remarks', header: 'Remarks' },
         ];
 
-        this.monthlyReportService.getMonths().subscribe({
-            next: (res) => {
-                this.allMonths = res.data;
-                console.log(this.allMonths);
-            },
-        });
-
         this.selectedYear = null;
     }
 
@@ -546,6 +539,12 @@ export class MonthlyReportComponent {
         }
     }
     getDropDowns() {
+        this.monthlyReportService.getMonths().subscribe({
+            next: (res) => {
+                this.allMonths = res.data;
+                console.log(this.allMonths);
+            },
+        });
         this.monthlyReportService.getDropdownField('Employee').subscribe({
             next: (res) => {
                 console.log(res.data);

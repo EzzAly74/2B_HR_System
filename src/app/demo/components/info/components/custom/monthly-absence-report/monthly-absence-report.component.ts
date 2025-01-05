@@ -129,13 +129,6 @@ export class MonthlyAbsenceReportComponent {
             { field: 'absentDates', header: 'Absent Dates' },
         ];
 
-        this.monthlyAbsenceReportService.getMonths().subscribe({
-            next: (res) => {
-                this.allMonths = res.data;
-                console.log(this.allMonths);
-            },
-        });
-
         this.selectedYear = null;
     }
 
@@ -554,6 +547,13 @@ export class MonthlyAbsenceReportComponent {
         }
     }
     getDropDowns() {
+        this.monthlyAbsenceReportService.getMonths().subscribe({
+            next: (res) => {
+                this.allMonths = res.data;
+                console.log(this.allMonths);
+            },
+        });
+
         this.monthlyAbsenceReportService
             .getDropdownField('Employee')
             .subscribe({
