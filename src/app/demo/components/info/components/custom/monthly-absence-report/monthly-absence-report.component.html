@@ -175,7 +175,7 @@
     </ng-template>
 </p-table>
 
-<p-table *ngIf="allData.length" #dt [value]="allData" [paginator]="true" [rows]="itemsPerPage" [columns]="cols"
+<p-table *ngIf="showTable" #dt [value]="allData" [paginator]="true" [rows]="itemsPerPage" [columns]="cols"
     [totalRecords]="totalItems" selectionMode="multiple" [(selection)]="selectedItems" [showCurrentPageReport]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [lazy]="true"
     (onLazyLoad)="onPageChange($event)" dataKey="employeeId">

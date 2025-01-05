@@ -30,6 +30,7 @@ export class MonthlyReportComponent {
     page: number = 1;
     itemsPerPage = 5;
     currentLang = localStorage.getItem('currentLang') ?? null;
+    showTable = false;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
@@ -107,6 +108,7 @@ export class MonthlyReportComponent {
             this.monthlyReportService.setEndPoint(this.endPoint);
 
             this.getDropDowns();
+            this.loadFilteredData();
 
             // then, load data again to lens on the changes of mainLang & endPoints Call
             // this.loadData(
@@ -524,7 +526,7 @@ export class MonthlyReportComponent {
             this.monthlyReportService.GetPage(filteredData).subscribe({
                 next: (res) => {
                     console.log(res);
-
+                    this.showTable = true;
                     this.allData = res.data;
                     console.log(res.data);
                     this.totalItems = res.totalItems;
