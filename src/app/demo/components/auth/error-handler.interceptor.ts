@@ -32,7 +32,8 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
 
         Globals.setLoading(false);
 
-        this.displayErrorMessage(defaultMessage); // Attempt to display default error message
+        if (localStorage.getItem("userToken"))
+          this.displayErrorMessage(defaultMessage); // Attempt to display default error message
 
         return throwError(error);
       })

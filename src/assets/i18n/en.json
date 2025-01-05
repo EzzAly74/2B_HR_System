@@ -535,5 +535,12 @@
     "startMonth :": "Start Month",
     "endYear :": "End Year",
     "endMonth :": "End Month",
-    "getLoanPayment": "Loan Payment"
+    "getLoanPayment": "Loan Payment",
+    "employeeName": "Employee Name",
+    "jobName": "Job Name",
+    "lastWorkingDate": "Last Working Date",
+    "clearanceDate": "Clearance Date",
+    "Terminations": "Terminations",
+    "registerTermination": "Register Termination",
+    "allTerminations": "All Terminations"
 }

@@ -528,7 +528,6 @@
     "Add Instruction": "اضف ارشاد",
     "Attachement Required": "مرفق مطلوب",
     "Add New Bonus": "اضافة بونص جديد",
-    "Value": "القيمة",
     "Enter Value Here": "ادخل القيمة هنا",
     "Amount": "المقدار",
     "Actual Amount": "القيمة الفعلية",
@@ -547,5 +546,14 @@
     "startMonth :": "شهر البداية:",
     "endYear :": "عام النهاية:",
     "endMonth :": "شهر النهاية:",
-    "getLoanPayment": "القروض"
+    "getLoanPayment": "القروض",
+    "employeeName": "اسم الموظف",
+    "jobName": "المسمى الوظيفى",
+    "reason": "السبب",
+    "lastWorkingDate": "اخر تاريخ عمل",
+    "clearanceDate": "تاريخ المخالصة",
+    "Terminations": "الاقالات",
+    "registerTermination": "تسجيل اقالة",
+    "allTerminations": "كل الاقالات",
+    "Termination Date": "تاريخ الاقالة"
 }

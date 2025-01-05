@@ -21,7 +21,7 @@ export class AppTopBarComponent implements OnInit {
         private translate: TranslateService,
         private router: Router,
         private userDataService: UserDataService
-    ) {}
+    ) { }
     countries: any[] | undefined;
 
     selectedCountry: string | undefined;
@@ -87,7 +87,7 @@ export class AppTopBarComponent implements OnInit {
             console.log('Main language changed to:', mainLang);
             this.getUserData(mainLang);
         });
-      
+
     }
     set theme(val: string) {
         this.layoutService.config.update((config) => ({
@@ -158,7 +158,7 @@ export class AppTopBarComponent implements OnInit {
                             if (res.data.imageUrl)
                                 this.imageUrl = `${this.mediaUrl}/${res.data.imageUrl}`;
 
-                            if(lang == 'ar')
+                            if (lang == 'ar')
                                 this.userName = res.data.nameAr;
                             else
                                 this.userName = res.data.englishName;
