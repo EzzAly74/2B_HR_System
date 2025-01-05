@@ -20,3 +20,7 @@
 .fields-aprrove label {
     margin-bottom: 0;
 }
+
+::ng-deep .p-calendar input {
+    padding-left: 24px;
+}

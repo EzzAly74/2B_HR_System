@@ -1,4 +1,5 @@
 <p-toast></p-toast>
+<pre-loading *ngIf="loading"></pre-loading>
 
 <p-toolbar styleClass="mb-4">
     <ng-template pTemplate="left">
@@ -14,6 +15,12 @@
     <ng-template pTemplate="right">
         <button pButton pRipple [label]="'Export' | translate" icon="pi pi-upload" class="p-button-help mx-2 px-5"
             pTooltip="CSV" (click)="exportCSV()" [disabled]="!selectedItems || !selectedItems.length"></button>
+
+
+        <p-fileUpload mode="basic" [chooseLabel]="'Import File' | translate" chooseIcon="pi pi-upload" name="demo[]"
+            maxFileSize="1000000"
+            accept=".xls, .xlsx, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            (onSelect)="onFileSelect($event)" [auto]="true" />
     </ng-template>
 </p-toolbar>
 

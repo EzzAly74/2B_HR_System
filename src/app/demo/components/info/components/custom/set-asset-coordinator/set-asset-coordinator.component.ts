@@ -19,11 +19,12 @@ export class SetAssetCoordinatorComponent {
         private setAssetCoordinatorService: SetAssetCoordinatorService,
         private messageService: MessageService,
         private translate: TranslateService
-    ) {}
+    ) { }
     dropdownItemsDepartment: any;
     dropdownItemsShift: any;
     dropdownItemsEmployee: any;
 
+    loading: boolean = false;
     selectedDepartment: any;
     selectedShift: any;
     selectedEmployee: any;
@@ -60,11 +61,14 @@ export class SetAssetCoordinatorComponent {
     // }
 
     getDropDownField(self: { field: any; enum: string; id?: number }) {
+        this.loading = true;
         this.setAssetCoordinatorService.getDropdownField(self.enum).subscribe({
             next: (res) => {
+                this.loading = false;
                 this[self.field] = res.data;
             },
             error: (err) => {
+                this.loading = true;
                 console.log(`error in ${self.field}`);
                 console.log(err);
             },
@@ -84,12 +88,14 @@ export class SetAssetCoordinatorComponent {
 
     ChangeEmployees(dept: any) {
         console.log(dept.id);
+        this.loading = true;
         this.setAssetCoordinatorService
             .getDropdownField('AssetCoordinator', dept.id)
             .subscribe({
                 next: (res) => {
                     this.dropdownItemsEmployee = res.data;
 
+                    this.loading = false;
                     this.selectedEmployeeIds = []; // Ensure the array is initialized
 
                     this.selectedEmployee = this.dropdownItemsEmployee.filter(
@@ -107,6 +113,7 @@ export class SetAssetCoordinatorComponent {
                     console.log(this.selectedEmployee);
                 },
                 error: (err) => {
+                    this.loading = false;
                     console.log(err);
                 },
             });
@@ -128,6 +135,7 @@ export class SetAssetCoordinatorComponent {
         };
         console.log(body);
 
+        this.loading = true;
         this.setAssetCoordinatorService.registerRange(body).subscribe({
             next: (res) => {
                 console.log(res);
@@ -137,9 +145,11 @@ export class SetAssetCoordinatorComponent {
                     detail: 'Assets Coordinator Assigned successfully',
                     life: 3000,
                 });
+                this.loading = false
             },
             error: (err) => {
                 console.log(err);
+                this.loading = false
             },
         });
     }

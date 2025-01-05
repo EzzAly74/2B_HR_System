@@ -18,7 +18,7 @@ export class LoanDetailsComponent {
     constructor(
         private route: ActivatedRoute,
         private loanDetailsService: LoanDetailsService
-    ) {}
+    ) { }
     currentId!: number;
     ngOnInit() {
         this.currentId = this.route.snapshot.params['id'];

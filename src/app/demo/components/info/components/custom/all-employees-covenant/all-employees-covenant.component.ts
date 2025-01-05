@@ -24,17 +24,17 @@ export class AllEmployeesCovenantComponent {
         private messageService: MessageService,
         private route: ActivatedRoute,
         private DatePipe: DatePipe
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
-    allData: any = [];
+    allData: any;
     page: number = 1;
     itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
-    loading: boolean = true;
+    loading: boolean = false;
     nameFilter: string = '';
     deleteProductDialog: boolean = false;
     deleteProductsDialog: boolean = false;
@@ -120,9 +120,9 @@ export class AllEmployeesCovenantComponent {
             employeeId: new FormControl('', Validators.required),
             date: new FormControl('', Validators.required),
 
-            cost:  new FormControl('', Validators.required),
-            serialNumber:  new FormControl('', Validators.required),
-            notes:  new FormControl(''),
+            cost: new FormControl('', Validators.required),
+            serialNumber: new FormControl('', Validators.required),
+            notes: new FormControl(''),
         });
 
         this.editForm = new FormGroup({
@@ -131,17 +131,20 @@ export class AllEmployeesCovenantComponent {
             employeeId: new FormControl('', Validators.required),
             date: new FormControl('', Validators.required),
 
-            cost:  new FormControl('', Validators.required),
-            serialNumber:  new FormControl('', Validators.required),
-            notes:  new FormControl(''),
+            cost: new FormControl('', Validators.required),
+            serialNumber: new FormControl('', Validators.required),
+            notes: new FormControl(''),
         });
     }
 
     editProduct(rowData: any) {
         console.log(rowData.id);
         rowData.date = this.convertDate(rowData.date, 'MM/dd/yyyy');
+        this.loading = true;
         this.employeeConvenantService.GetById(rowData.id).subscribe({
             next: (res) => {
+                this.loading = false;
+
                 console.log('edit here data');
                 console.log(res.data);
 
@@ -149,11 +152,11 @@ export class AllEmployeesCovenantComponent {
                 this.productDialog = true;
 
                 this.selectedCovenantEdit = this.dropdownItemsCovenantType.find(
-                    (item: any) => item.id ==  this.product.covenantId
+                    (item: any) => item.id == this.product.covenantId
                 );
 
                 this.selectedEmployeeEdit = this.dropdownItemsEmployee.find(
-                    (item: any) => item.id ==  this.product.employeeId
+                    (item: any) => item.id == this.product.employeeId
                 );
 
                 console.log('selectedCovenantEdit => ');
@@ -162,10 +165,14 @@ export class AllEmployeesCovenantComponent {
                 console.log('dropdownItemsEmployee => ');
                 console.log(this.dropdownItemsEmployee);
 
-                 this.product.date = this.convertDate( this.product.date, 'MM/dd/yyyy');
-                console.log( this.product.date);
+                this.product.date = this.convertDate(this.product.date, 'MM/dd/yyyy');
+                console.log(this.product.date);
 
             },
+
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 
@@ -179,14 +186,18 @@ export class AllEmployeesCovenantComponent {
             .join(' ');
     }
 
-    startAttendeesTimeClick(event: any) {}
+    startAttendeesTimeClick(event: any) { }
 
-    endAttendeesTimeClick(event: any) {}
+    endAttendeesTimeClick(event: any) { }
 
     confirmDelete(id: number) {
+        this.loading = true;
         // perform delete from sending request to api
         this.employeeConvenantService.DeleteRange([id]).subscribe({
             next: () => {
+                // hide loading
+                this.loading = false;
+
                 // close dialog
                 this.deleteProductDialog = false;
 
@@ -207,6 +218,10 @@ export class AllEmployeesCovenantComponent {
                     this.sortOrder
                 );
             },
+
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 
@@ -219,7 +234,7 @@ export class AllEmployeesCovenantComponent {
             employeeId: this.selectedCovenant?.id,
         })
 
-        if(this.addNewForm.valid) {
+        if (this.addNewForm.valid) {
             // Confirm add new
             this.employeeConvenantService
                 .Register(this.addNewForm.value)
@@ -279,7 +294,6 @@ export class AllEmployeesCovenantComponent {
         filterType: string,
         sortType: string
     ) {
-        this.loading = true;
         let filteredData = {
             pageNumber: page,
             pageSize: size,
@@ -299,6 +313,10 @@ export class AllEmployeesCovenantComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
+
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 
@@ -339,14 +357,14 @@ export class AllEmployeesCovenantComponent {
     saveProduct(product: any) {
         this.submitted = true;
 
-        this.editForm.patchValue( {
+        this.editForm.patchValue({
             id: product.id,
         });
 
         console.clear();
         console.log(this.editForm.value)
 
-        if(this.editForm.valid) {
+        if (this.editForm.valid) {
             this.employeeConvenantService.Edit(this.editForm.value).subscribe({
                 next: () => {
                     this.hideDialog();

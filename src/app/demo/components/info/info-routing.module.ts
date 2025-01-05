@@ -1,7 +1,7 @@
 import { CloseMonthComponent } from './components/custom/close-month/close-month.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { DepartmentComponent } from './components/standard/department/department.component';
+import { DepartmentComponent } from './components/custom/department/department.component';
 import { BankComponent } from './components/standard/bank/bank.component';
 import { GovenmentComponent } from './components/standard/govenment/govenment.component';
 import { LocationComponent } from './components/custom/location/location.component';
@@ -67,6 +67,10 @@ import { NetIncomeTaxComponent } from './components/custom/net-income-tax/net-in
 import { TaxRateComponent } from './components/custom/tax-rate/tax-rate.component';
 import { MonthlyReportComponent } from './components/custom/monthly-report/monthly-report.component';
 import { MonthlyAbsenceReportComponent } from './components/custom/monthly-absence-report/monthly-absence-report.component';
+import { GetLoanPaymentComponent } from './components/custom/get-loan-payment/get-loan-payment.component';
+import { RegisterTerminationComponent } from './components/custom/Terminations/register-termination/register-termination.component';
+import { AllTerminationsComponent } from './components/custom/Terminations/all-terminations/all-terminations.component';
+
 
 @NgModule({
     imports: [
@@ -415,14 +419,33 @@ import { MonthlyAbsenceReportComponent } from './components/custom/monthly-absen
                 component: LoanDetailsComponent,
             },
             {
+                path: 'getLoanPayment',
+                canActivate: [authGuard],
+                component: GetLoanPaymentComponent,
+            },
+
+            {
+                path: 'registerTermination',
+                canActivate: [authGuard],
+                component: RegisterTerminationComponent,
+            },
+
+            {
+                path: 'allTerminations',
+                canActivate: [authGuard],
+                component: AllTerminationsComponent,
+            },
+
+            {
                 path: 'test',
                 canActivate: [authGuard],
                 component: TestComponent,
             },
+
 
             { path: '**', component: NotfoundComponent },
         ]),
     ],
     exports: [RouterModule],
 })
-export class InfoRoutingModule {}
+export class InfoRoutingModule { }

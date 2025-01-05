@@ -22,7 +22,9 @@ export class SetEmployeeShiftsComponent {
     constructor(
         private _SetEmployeeShiftsService: SetEmployeeShiftsService,
         private messageService: MessageService,
-    ) {}
+    ) { }
+
+    loading: boolean = false;
 
     dropdownItemsDepartment: any;
     dropdownItemsShift: any;
@@ -34,7 +36,7 @@ export class SetEmployeeShiftsComponent {
     selectedEmployeeIds: any[] = [];
 
     endPoint: string;
-    registerForm:any = {};
+    registerForm: any = {};
 
     ngOnInit(): void {
         this.endPoint = 'Employee';
@@ -71,8 +73,8 @@ export class SetEmployeeShiftsComponent {
 
     getALlDropDown() {
 
-         // get Department Dropdown
-         this.getDropDownField({ field: 'dropdownItemsDepartment', enum: 'Department'});
+        // get Department Dropdown
+        this.getDropDownField({ field: 'dropdownItemsDepartment', enum: 'Department' });
 
         // get Shift Dropdown
         this.getDropDownField({ field: 'dropdownItemsShift', enum: 'Shift' });
@@ -81,13 +83,16 @@ export class SetEmployeeShiftsComponent {
 
     ChangeEmployees(dept: any) {
         console.log(dept.id)
+        this.loading = true
         this._SetEmployeeShiftsService.getEmployeeByDepartment(dept.id).subscribe({
             next: (res) => {
                 this.dropdownItemsEmployee = res.data;
                 console.log(res)
+                this.loading = false;
             },
             error: (err) => {
                 console.log(err);
+                this.loading = false;
             },
         });
     }
@@ -106,17 +111,19 @@ export class SetEmployeeShiftsComponent {
         this.selectedShiftId = event.value.id;
         console.log(this.selectedShiftId);
 
-    } 
+    }
 
     registerSubmit() {
         this.registerForm = {
             shiftId: this.selectedShiftId,
             employeeIds: this.selectedEmployeeIds
         }
+        this.loading = true;
 
         this._SetEmployeeShiftsService.UpdateEmployeesShift(this.registerForm).subscribe({
             next: (res) => {
                 console.log(res);
+                this.loading = false
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Success',
@@ -124,6 +131,9 @@ export class SetEmployeeShiftsComponent {
                     life: 3000,
                 });
             },
+            error: () => {
+                this.loading = false
+            }
 
         });
     }

@@ -22,11 +22,11 @@ export class LoanRequestComponent {
         private loanRequestService: LoanRequestService,
         private messageService: MessageService,
         private translate: TranslateService
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
-    allData: any = [];
+    allData: any;
     page: number = 1;
     itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
@@ -291,15 +291,15 @@ export class LoanRequestComponent {
             filterValue: nameFilter,
             filterType: filterType,
             sortType: sortType,
+            status: 0,
         };
         filteredData.sortType = this.sortOrder;
 
-        this.loanRequestService.GetPage(filteredData).subscribe({
+        this.loanRequestService.getPageOfAcceptedLoan(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
                 console.log(res.data);
-
                 this.totalItems = res.totalItems;
                 this.loading = false;
                 console.log(this.selectedItems);

@@ -1,4 +1,5 @@
 <p-toast></p-toast>
+<pre-loading *ngIf="loading"></pre-loading>
 
 <p-toolbar styleClass="mb-4">
     <ng-template pTemplate="left">
@@ -151,7 +152,8 @@
                     autofocus [ngClass]="{
                     'ng-invalid ng-dirty': submitted && !product.name
                 }" />
-                <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.name">{{ "Arabic Name is required." |
+                <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.name">{{ "Arabic Name is required."
+                    |
                     translate }}</small>
             </div>
 
@@ -161,7 +163,8 @@
                     formControlName="engName" autofocus [ngClass]="{
                     'ng-invalid ng-dirty': submitted && !product.engName
                 }" />
-                <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.engName">{{ "English Name is required."
+                <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.engName">{{ "English Name is
+                    required."
                     |
                     translate }}</small>
             </div>

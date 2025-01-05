@@ -51,7 +51,7 @@ export class StdPaginationComponent {
     constructor(
         private _LockupsService: LockupsService,
         private messageService: MessageService
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;

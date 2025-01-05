@@ -37,10 +37,10 @@ export class AttendenceConfigEditComponent {
         private activatedRoute: ActivatedRoute,
         private translate: TranslateService,
         private fb: FormBuilder
-    ) {}
+    ) { }
     @Input() endPoint!: string;
     @ViewChild('manageItems') manageItems: ElementRef;
-    allData: any = [];
+    allData: any;
     page: number = 1;
     itemsPerPage = 4;
     selectedItems: any = [];
@@ -410,7 +410,7 @@ export class AttendenceConfigEditComponent {
                 // this.machineCode = this.machineCode;
                 // this.email = this.email;
             },
-           
+
         });
         console.log(formData.value);
     }

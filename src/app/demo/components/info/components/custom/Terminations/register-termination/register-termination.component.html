@@ -1,0 +1,98 @@
+<p-toast></p-toast>
+<pre-loading *ngIf="loading"></pre-loading>
+<div class="grid justify-content-center">
+    <div class="col-12 lg:col-6">
+        <div class="card">
+            <h5 class="text-center">{{'Notify All Employees' | translate}}</h5>
+            <form class="p-fluid p-formgrid grid" [formGroup]="TerminationForm"
+                (submit)="registerTermination(TerminationForm)">
+
+                <div class="field col-12 md:col-12">
+                    <label htmlFor="employee">{{
+                        "Employees" | translate
+                        }}</label>
+
+                    <p-dropdown formControlName="EmployeeId" [options]="dropdownItemsEmployee" optionLabel="name"
+                        optionVal="id" [placeholder]="'Select Employee' | translate"
+                        (onChange)="onSelectEmployee($event)" [filter]="true"
+                        [filterPlaceholder]="'Search...' | translate" [filterBy]="'name'" [showClear]="true">
+
+                        <ng-template pTemplate="item" let-item>
+                            {{ item.name | translate }}
+                        </ng-template>
+
+                        <!-- Template for displaying the selected option -->
+                        <ng-template pTemplate="selectedItem" let-selectedItem>
+                            {{
+                            selectedItem
+                            ? (selectedItem.name | translate)
+                            : ("Select Employee" | translate)
+                            }}
+                        </ng-template>
+                    </p-dropdown>
+
+                    <small
+                        *ngIf="TerminationForm.get('EmployeeId')?.invalid && TerminationForm.get('EmployeeId')?.touched"
+                        class="p-error">
+                        EmployeeId is required.
+                    </small>
+
+                </div>
+
+                <!-- Termination Date -->
+                <div class="field col-12">
+                    <label for="terminationDate">Termination Date</label>
+                    <p-calendar id="terminationDate" formControlName="TerminationDate" dateFormat="yy-mm-dd"
+                        placeholder="Select Termination Date"></p-calendar>
+                    <small
+                        *ngIf="TerminationForm.get('TerminationDate')?.invalid && TerminationForm.get('TerminationDate')?.touched"
+                        class="p-error">
+                        Termination Date is required.
+                    </small>
+                </div>
+
+                <!-- Last Working Date -->
+                <div class="field col-12">
+                    <label for="lastWorkingDate">Last Working Date</label>
+                    <p-calendar id="lastWorkingDate" formControlName="LastWorkingDate" dateFormat="yy-mm-dd"
+                        placeholder="Select Last Working Date"></p-calendar>
+                    <small
+                        *ngIf="TerminationForm.get('LastWorkingDate')?.invalid && TerminationForm.get('LastWorkingDate')?.touched"
+                        class="p-error">
+                        Last Working Date is required.
+                    </small>
+                </div>
+
+                <!-- Reason -->
+                <div class="field col-12">
+                    <label for="reason">Reason</label>
+                    <textarea id="reason" pInputTextarea formControlName="Reason" placeholder="Enter Reason"
+                        rows="3"></textarea>
+                    <small *ngIf="TerminationForm.get('Reason')?.invalid && TerminationForm.get('Reason')?.touched"
+                        class="p-error">
+                        Reason is required.
+                    </small>
+                </div>
+
+                <!-- Clearance Date -->
+                <div class="field col-12">
+                    <label for="clearanceDate">Clearance Date</label>
+                    <p-calendar id="clearanceDate" formControlName="ClearanceDate" dateFormat="yy-mm-dd"
+                        placeholder="Select Clearance Date"></p-calendar>
+                    <small
+                        *ngIf="TerminationForm.get('ClearanceDate')?.invalid && TerminationForm.get('ClearanceDate')?.touched"
+                        class="p-error">
+                        Clearance Date is required.
+                    </small>
+                </div>
+
+
+
+                <div class="field col-12">
+                    <button [disabled]="TerminationForm.invalid" class="w-25" pButton [label]="'Send' | translate"
+                        type="submit"></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

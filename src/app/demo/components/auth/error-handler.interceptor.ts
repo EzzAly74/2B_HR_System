@@ -3,6 +3,7 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse } fr
 import { Observable, catchError, tap, throwError } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
+import { Globals } from 'src/app/class/globals';
 
 @Injectable()
 export class ErrorHandlerInterceptor implements HttpInterceptor {
@@ -20,13 +21,17 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
           if (event.body && event.body.success === false) {
             const message = event.body.message || this.translate.instant('An Error Occurred');
 
+            Globals.setLoading(false);
+
             this.displayErrorMessage(message); // Attempt to display error message
           }
         }
       }),
       catchError((error) => {
         const defaultMessage = this.translate.instant('An unexpected error occurred');
-        
+
+        Globals.setLoading(false);
+
         this.displayErrorMessage(defaultMessage); // Attempt to display default error message
 
         return throwError(error);

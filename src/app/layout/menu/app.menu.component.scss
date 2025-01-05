@@ -21,3 +21,6 @@ a.parent-item {
 .layout-menu ul a:focus {
     box-shadow: none !important;
 }
+::ng-deep .p-calendar input {
+    padding-left: 24px;
+}

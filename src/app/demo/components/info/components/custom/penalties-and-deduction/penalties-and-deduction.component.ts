@@ -25,7 +25,7 @@ export class PenaltiesAndDeductionComponent {
         private messageService: MessageService,
         private route: ActivatedRoute,
         private DatePipe: DatePipe
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
@@ -35,7 +35,7 @@ export class PenaltiesAndDeductionComponent {
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
-    loading: boolean = true;
+    loading: boolean = false;
     nameFilter: string = '';
     acceptRequestDialogue: boolean = false;
     rejectRequestDialogue: boolean = false;
@@ -194,9 +194,9 @@ export class PenaltiesAndDeductionComponent {
             .join(' ');
     }
 
-    startAttendeesTimeClick(event: any) {}
+    startAttendeesTimeClick(event: any) { }
 
-    endAttendeesTimeClick(event: any) {}
+    endAttendeesTimeClick(event: any) { }
 
     confirmAccept(rowData: any) {
         console.log(rowData);
@@ -206,8 +206,12 @@ export class PenaltiesAndDeductionComponent {
             notes: this.notesAccept,
         };
 
+        this.loading = true;
+
         this.penaltiesAndDeductionService.updateRequestType(body).subscribe({
             next: (res) => {
+                this.loading = false;
+
                 console.log(res);
                 this.messageService.add({
                     severity: 'success',
@@ -224,6 +228,10 @@ export class PenaltiesAndDeductionComponent {
                     this.sortOrder
                 );
             },
+
+            error: () => {
+                this.loading = false;
+            }
         });
         this.notesAccept = '';
     }
@@ -235,8 +243,12 @@ export class PenaltiesAndDeductionComponent {
             requestType: 2,
             notes: this.notesReject,
         };
+        this.loading = true;
+
         this.penaltiesAndDeductionService.updateRequestType(body).subscribe({
             next: (res) => {
+                this.loading = false;
+
                 console.log(res);
                 this.messageService.add({
                     severity: 'success',
@@ -253,6 +265,10 @@ export class PenaltiesAndDeductionComponent {
                     this.sortOrder
                 );
             },
+
+            error: () => {
+                this.loading = false;
+            }
         });
         this.notesReject = '';
     }
@@ -407,8 +423,12 @@ export class PenaltiesAndDeductionComponent {
             selectedIds.push(item.id);
         });
 
+        this.loading = true;
+
         this.penaltiesAndDeductionService.DeleteRange(selectedIds).subscribe({
             next: (res) => {
+                this.loading = false;
+
                 this.deleteProductsDialog = false;
                 this.messageService.add({
                     severity: 'success',
@@ -427,6 +447,8 @@ export class PenaltiesAndDeductionComponent {
                 );
             },
             error: (err) => {
+                this.loading = false;
+
                 this.deleteProductsDialog = false;
                 this.messageService.add({
                     severity: 'error',
@@ -483,12 +505,18 @@ export class PenaltiesAndDeductionComponent {
         console.log(form);
 
         if (form.status == 'VALID') {
+            this.loading = true;
+
             this.penaltiesAndDeductionService.GetPage(filteredData).subscribe({
                 next: (res) => {
+                    this.loading = false;
+
                     this.allData = res.data;
                     console.log(res.data);
                 },
                 error: (err) => {
+                    this.loading = false;
+
                     console.log(err);
                 },
             });
@@ -525,6 +553,8 @@ export class PenaltiesAndDeductionComponent {
 
         console.log(this.ids);
 
+        this.loading = true;
+
         this.penaltiesAndDeductionService
             .updateRequestTypeRange(this.ids, 1)
             .subscribe({
@@ -545,9 +575,11 @@ export class PenaltiesAndDeductionComponent {
                         this.sortField,
                         this.sortOrder
                     );
+                    this.loading = false;
+
                 },
                 error: (err) => {
-                    console.log(err);
+                    this.loading = false;
                 },
             });
     }
@@ -559,10 +591,14 @@ export class PenaltiesAndDeductionComponent {
             if (item.requestType == 0) this.ids.push(item.id);
         });
 
+        this.loading = true;
+
         this.penaltiesAndDeductionService
             .updateRequestTypeRange(this.ids, 2)
             .subscribe({
                 next: (res) => {
+                    this.loading = false;
+
                     console.log(res);
                     this.messageService.add({
                         severity: 'success',

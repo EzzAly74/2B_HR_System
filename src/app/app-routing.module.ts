@@ -108,4 +108,4 @@ import { TestInputComponentComponent } from './demo/components/info/components/t
     ],
     exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

@@ -69,7 +69,6 @@
     "Uniform Code": "الرمز الموحدة",
     "Vacation Settings": "إعدادات الإجازة",
     "Delete": "حذف",
-
     "Add New": "إضافة جديد",
     "Add New Bank": "إضافة بنك جديد",
     "Add New Government": "إضافة محافظة جديدة",
@@ -147,7 +146,6 @@
     "EMPLOYEE_UNIFORM": "زى الموظف",
     "EMPLOYEE_VACATION_STOCK": "مخزون إجازة الموظف",
     "EMPLOYEE_VACATION_EXPERIENCE": "اجازة خبرة للموظف",
-
     "Add New Employee": "اضافة موظف جديد",
     "Full Name with Arabic": "الاسم كاملا باللغة العربية",
     "Full Name with English": "الاسم كاملا باللغة الانجليزية",
@@ -177,7 +175,6 @@
     "Description": "الوصف",
     "Register": "تسجيل",
     "Insert Personal Image": "ادخال صورة شخصية",
-
     "Enter Arabic Name": "ادخل الاسم بالعربى",
     "Enter English Name": "ادخل الاسم بالانجليزى",
     "Enter National Id": "ادخل رقمك القومى",
@@ -407,21 +404,15 @@
     "Submenu 1.1.1": "قائمة فرعية 1.1.1",
     "Attendance Configuration": "اعدادات الحضور",
     "Employees Shifts": "ورديات الموظفين",
-
     "Assign New Shift For Some Employees": "اعدد وردية للموظفين",
     "Select Attendance Configuration": "اختار اعداد حضور",
-
     "check In Before The Shift Starts": "تسجيل الوصول قبل بدء الوردية",
     "Enter Check In Before The Shift Starts": "أدخل تسجيل الدخول قبل بدء الوردية",
-
     "check Out After The Shift Ends": "تحقق بعد انتهاء فترة العمل",
     "Enter check Out After The Shift Ends": "أدخل الشيك بعد انتهاء الوردية",
-
     "check Out After The Shift Starts": "تحقق من ذلك بعد بدء الوردية",
     "Enter check Out Before The Shift Starts": "أدخل الخروج بعد بدء الوردية",
-
     "Employees Fingerprints": "بصمات الموظفين",
-
     "KPIs": " مؤشرات الأداء KPIs",
     "ALLOWANCE": "البدلات",
     "Penalties & Deductions": "جزاءات وخصم",
@@ -575,5 +566,15 @@
     "Remarks": "ملاحظات",
     "Absent Dates": "تواريخ الغياب",
     "Export All": "تصدير الكل",
-    "Print All": "طباعة الكل"
+    "Print All": "طباعة الكل",
+    "get all Loans For Each Employees": "اظهار كل القروض لكل الموظفين",
+    "Show": "اظهار",
+    "Select Loan": "اختار القرض:",
+    "monthsLeft :": "الشهور المنتهية:",
+    "startYear :": "عام البداية:",
+    "startMonth :": "شهر البداية:",
+    "endYear :": "عام النهاية:",
+    "endMonth :": "شهر النهاية:",
+    "getLoanPayment": "القروض"
 }
+

@@ -1,48 +1,51 @@
 <p-toast></p-toast>
+<pre-loading *ngIf="loading"></pre-loading>
+
 <div class="grid justify-content-center">
-    <div class="col-12 lg:col-6">
-        <div class="card">
-            <h5 class="text-center">{{'Resignation Setting' | translate}}</h5>
-            <form class="p-fluid p-formgrid grid" [formGroup]="resignationForm" (ngSubmit)="registerData(resignationForm)">
-                <div class="field col-12">
-                  <label for="noticePeriodInDays">{{ "noticePeriodInDays" | translate }}</label>
-                  <input pInputText formControlName="noticePeriodInDays" [placeholder]="'Enter noticePeriodInDays Here' | translate"
-                         id="noticePeriodInDays" type="text"/>
-                </div>
-              
-                <div formArrayName="resignationInstructions" class="field col-12">
-                  <div *ngFor="let instruction of resignationInstructionsArray.controls; let i = index" [formGroupName]="i">
-                    <div class="md:flex gap-2 align-items-end m-0">
-                      <div class="field">
-                        <label>
-                          Arabic Instruction: 
-                        </label>
-                        <input class="mt-2" pInputText formControlName="instructionArabic"/>
-                      </div>
-
-                      <div class="field">
-                        <label>
-                          English Instruction:
-                        </label>
-                        <input class="mt-2"  pInputText formControlName="instructionEnglish" />
-                      </div>
-                      <div class="field">
-                        <button pButton type="button" (click)="removeInstruction(i)">Remove</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              
-                <div class="field col-12 custom">
-                  <button  pButton type="button" icon="pi pi-plus" class="bordered-pill col-12 p-button-sm p-button-success mt-2"
-                      (click)="addInstruction()" [label]="'Add Instruction' | translate">
-                  </button>
-                </div>
-
-                <div class="field col-12">
-                  <button  pButton [disabled]="resignationForm.invalid" class="w-25" pButton [label]="'Send' | translate" type="submit"></button>
-                </div>
-              </form>
+  <div class="col-12 lg:col-6">
+    <div class="card">
+      <h5 class="text-center">{{'Resignation Setting' | translate}}</h5>
+      <form class="p-fluid p-formgrid grid" [formGroup]="resignationForm" (ngSubmit)="registerData(resignationForm)">
+        <div class="field col-12">
+          <label for="noticePeriodInDays">{{ "noticePeriodInDays" | translate }}</label>
+          <input pInputText formControlName="noticePeriodInDays"
+            [placeholder]="'Enter noticePeriodInDays Here' | translate" id="noticePeriodInDays" type="text" />
         </div>
+
+        <div formArrayName="resignationInstructions" class="field col-12">
+          <div *ngFor="let instruction of resignationInstructionsArray.controls; let i = index" [formGroupName]="i">
+            <div class="md:flex gap-2 align-items-end m-0">
+              <div class="field">
+                <label>
+                  Arabic Instruction:
+                </label>
+                <input class="mt-2" pInputText formControlName="instructionArabic" />
+              </div>
+
+              <div class="field">
+                <label>
+                  English Instruction:
+                </label>
+                <input class="mt-2" pInputText formControlName="instructionEnglish" />
+              </div>
+              <div class="field">
+                <button pButton type="button" (click)="removeInstruction(i)">Remove</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field col-12 custom">
+          <button pButton type="button" icon="pi pi-plus" class="bordered-pill col-12 p-button-sm p-button-success mt-2"
+            (click)="addInstruction()" [label]="'Add Instruction' | translate">
+          </button>
+        </div>
+
+        <div class="field col-12">
+          <button pButton [disabled]="resignationForm.invalid" class="w-25" pButton [label]="'Send' | translate"
+            type="submit"></button>
+        </div>
+      </form>
     </div>
+  </div>
 </div>

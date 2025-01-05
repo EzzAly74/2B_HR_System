@@ -15,10 +15,11 @@ import { SendToAllServiceService } from './send-to-all-service.service';
     styleUrl: './send-notification-to-all.component.scss',
 })
 export class SendNotificationToAllComponent {
+    loading: boolean = false;
     constructor(
         private sendToAllNotificationService: SendToAllServiceService,
         private messageService: MessageService
-    ) {}
+    ) { }
     @Input() endPoint!: string;
     sendAllNotificationForm: FormGroup = new FormGroup({
         title: new FormControl(null, [Validators.required]),
@@ -41,10 +42,13 @@ export class SendNotificationToAllComponent {
     }
 
     sendAllNotification(form: FormGroup) {
+        this.loading = true;
         this.sendToAllNotificationService
             .SendNotificationToAll(form.value)
             .subscribe({
                 next: (res) => {
+                    this.loading = false;
+
                     if (res.success) {
                         this.messageService.add({
                             severity: 'success',
@@ -56,6 +60,11 @@ export class SendNotificationToAllComponent {
                         form.reset();
                     }
                 },
+
+                error: () => {
+                    this.loading = false
+                }
+
             });
     }
 }

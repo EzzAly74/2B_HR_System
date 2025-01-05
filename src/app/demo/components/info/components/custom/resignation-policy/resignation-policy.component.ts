@@ -20,11 +20,12 @@ import { ResignationPolicyService } from './resignation-policy.service';
     styleUrl: './resignation-policy.component.scss',
 })
 export class ResignationPolicyComponent {
+    loading: boolean = false;
     constructor(
         private messageService: MessageService,
         private resignationPolicyService: ResignationPolicyService,
         private fb: FormBuilder
-    ) {}
+    ) { }
 
     resignationSettingForm: FormGroup = new FormGroup({
         noticePeriodInDays: new FormControl(null, [Validators.required]),
@@ -34,6 +35,8 @@ export class ResignationPolicyComponent {
     ngOnInit(): void {
         // this.addInstruction();
         // set endpoint on service
+
+        this.loading = true
         this.resignationPolicyService.setEndPoint('ResignationSetting');
         Globals.getMainLangChanges().subscribe((mainLang) => {
             console.log('Main language changed to:', mainLang);
@@ -50,6 +53,7 @@ export class ResignationPolicyComponent {
                     let data = res.data;
                     console.log(data);
 
+                    this.loading = false;
                     if (data) {
                         // Patch other form controls
                         this.resignationSettingForm.patchValue({
@@ -73,12 +77,12 @@ export class ResignationPolicyComponent {
                                         new FormGroup({
                                             instructionArabic: new FormControl(
                                                 instruction.instructionArabic ||
-                                                    null,
+                                                null,
                                                 [Validators.required]
                                             ),
                                             instructionEnglish: new FormControl(
                                                 instruction.instructionEnglish ||
-                                                    null,
+                                                null,
                                                 [Validators.required]
                                             ),
                                         })
@@ -88,9 +92,8 @@ export class ResignationPolicyComponent {
                         }
                     }
                 },
-                error: (err) => {
-                    console.log(err);
-                    // show an error msg here
+                error: () => {
+                    this.loading = false;
                 },
             });
         });

@@ -1,17 +1,12 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import {
     FormControl,
-    FormsModule,
-    ReactiveFormsModule,
     Validators,
 } from '@angular/forms';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { LockupsService } from '../../service/lockups.service';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Globals } from 'src/app/class/globals';
 import { GlobalsModule } from '../../modules/globals/globals.module';
 import { PrimeNgModule } from '../../modules/primg-ng/prime-ng.module';
@@ -30,11 +25,11 @@ export class StdPaginationsWithPopupComponent {
         private _LockupsService: LockupsService,
         private messageService: MessageService,
         private translate: TranslateService
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
-    allData: any = [];
+    allData: any;
     page: number = 1;
     itemsPerPage = 5;
     selectedItems: any = [];
@@ -293,6 +288,8 @@ export class StdPaginationsWithPopupComponent {
         //     notes: product.notes,
         // };
 
+        this.loading = true;
+
         this._LockupsService.Edit(form.value).subscribe({
             next: (res) => {
                 if (res.success) {
@@ -306,6 +303,8 @@ export class StdPaginationsWithPopupComponent {
                     });
                 }
 
+                this.loading = false;
+
                 // load data again
                 this.loadData(
                     this.page,
@@ -315,6 +314,9 @@ export class StdPaginationsWithPopupComponent {
                     this.sortOrder
                 );
             },
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 
@@ -373,6 +375,8 @@ export class StdPaginationsWithPopupComponent {
             selectedIds.push(item.id);
         });
 
+        this.loading = true;
+
         this._LockupsService.DeleteRangeSoft(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
@@ -390,9 +394,12 @@ export class StdPaginationsWithPopupComponent {
                     this.sortField,
                     this.sortOrder
                 );
+
+                this.loading = false;
             },
             error: (err) => {
                 this.deleteProductsDialog = false;
+                this.loading = false;
                 this.loadData(
                     this.page,
                     this.itemsPerPage,
@@ -445,6 +452,13 @@ export class StdPaginationsWithPopupComponent {
                         this.sortField,
                         this.sortOrder
                     );
+
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translate.instant('Success'),
+                        detail: res?.["message"],
+                        life: 3000,
+                    });
                 },
             });
         }

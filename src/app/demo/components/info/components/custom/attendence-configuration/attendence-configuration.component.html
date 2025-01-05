@@ -1,38 +1,20 @@
 <p-toast></p-toast>
+<pre-loading *ngIf="loading"></pre-loading>
+
 
 <p-toolbar styleClass="mb-4">
     <ng-template pTemplate="left">
         <div class="my-2">
-            <button
-                pButton
-                pRipple
-                label="Add New"
-                icon="pi pi-plus"
-                class="p-button-info mx-2 px-5"
-                (click)="toggleNew()"
-            ></button>
+            <button pButton pRipple label="Add New" icon="pi pi-plus" class="p-button-info mx-2 px-5"
+                (click)="toggleNew()"></button>
 
-            <button
-                pButton
-                pRipple
-                label="Delete"
-                icon="pi pi-trash"
-                class="p-button-danger mx-2 px-5"
-                (click)="deleteSelectedProducts()"
-                [disabled]="!selectedItems || !selectedItems.length"
-            ></button>
+            <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mx-2 px-5"
+                (click)="deleteSelectedProducts()" [disabled]="!selectedItems || !selectedItems.length"></button>
         </div>
     </ng-template>
     <ng-template pTemplate="right">
-        <button
-            pButton
-            pRipple
-            label="Export"
-            icon="pi pi-upload"
-            class="p-button-help mx-2 px-5"
-            pTooltip="CSV"
-            (click)="exportCSV()"
-        ></button>
+        <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help mx-2 px-5" pTooltip="CSV"
+            (click)="exportCSV()"></button>
     </ng-template>
 </p-toolbar>
 
@@ -53,106 +35,65 @@
             </label>
         </div>
         <div class="field field-checkbox col-12 md:col-4">
-            <p-checkbox
-                formControlName="includeDaysOffBetweenTwoAbsentDays"
-                inputId="ny"
-                value=""
-                binary="true"
-            />
+            <p-checkbox formControlName="includeDaysOffBetweenTwoAbsentDays" inputId="ny" value="" binary="true" />
             <label for="ny"> Include Days Off Between Absent Days:</label>
         </div>
         <div class="field col-12 md:col-4">
             <label>
                 First Day Penalty Deduction
-                <input
-                    formControlName="firstDayPenaltyDeduction"
-                    type="number"
-                    pInputText
-                />
+                <input formControlName="firstDayPenaltyDeduction" type="number" pInputText />
             </label>
         </div>
         <div class="field col-12 md:col-4">
             <label>
                 Second Day Penalty Deduction
-                <input
-                    formControlName="secondDayPenaltyDeduction"
-                    type="number"
-                    pInputText
-                />
+                <input formControlName="secondDayPenaltyDeduction" type="number" pInputText />
             </label>
         </div>
 
         <div class="field col-12 md:col-4">
             <label>
                 Third Day Penalty Deduction
-                <input
-                    formControlName="thirdDayPenaltyDeduction"
-                    type="number"
-                    pInputText
-                />
+                <input formControlName="thirdDayPenaltyDeduction" type="number" pInputText />
             </label>
         </div>
 
         <div class="field col-12 md:col-4">
             <label>
                 Fourth Day Penalty Deduction
-                <input
-                    formControlName="fourthDayPenaltyDeduction"
-                    type="number"
-                    pInputText
-                />
+                <input formControlName="fourthDayPenaltyDeduction" type="number" pInputText />
             </label>
         </div>
 
         <div class="field col-12 md:col-4">
             <label>
                 Fifth Day Penalty Deduction
-                <input
-                    formControlName="fifthAndAboveDayPenaltyDeduction"
-                    type="number"
-                    pInputText
-                />
+                <input formControlName="fifthAndAboveDayPenaltyDeduction" type="number" pInputText />
             </label>
         </div>
 
         <div class="field field-checkbox col-12 md:col-4">
-            <p-checkbox
-                formControlName="calculateLateAttendanceInTime"
-                inputId="calculateLateAttendanceInTime"
-                value=""
-                binary="true"
-            />
+            <p-checkbox formControlName="calculateLateAttendanceInTime" inputId="calculateLateAttendanceInTime" value=""
+                binary="true" />
             <label for="calculateLateAttendanceInTime">
-                Calculate Late Attendance In Time</label
-            >
+                Calculate Late Attendance In Time</label>
         </div>
 
         <div class="field field-checkbox col-12 md:col-4">
-            <p-checkbox
-                formControlName="calculateLateAttendancePerMonth"
-                inputId="calculateLateAttendancePerMonth"
-                value=""
-                binary="true"
-            />
+            <p-checkbox formControlName="calculateLateAttendancePerMonth" inputId="calculateLateAttendancePerMonth"
+                value="" binary="true" />
             <label for="calculateLateAttendancePerMonth">
-                Calculate Late Attendance Per Month</label
-            >
+                Calculate Late Attendance Per Month</label>
         </div>
 
         <div class="field col-12 md:col-4">
             <label htmlFor="Employee">{{
                 "Execuse Calculation Type" | translate
-            }}</label>
-            <p-dropdown
-                [(ngModel)]="selectedExecuseCalculationType"
-                [options]="execuseCalculationTypes"
-                optionLabel="name"
-                [placeholder]="'Execuse Calculation Types' | translate"
-                (onChange)="selectedExecuseCalculationTypeFun($event)"
-                formControlName="excuseCalculationType"
-                class="w-fit"
-                [showClear]="true"
-            ></p-dropdown>
+                }}</label>
+            <p-dropdown [(ngModel)]="selectedExecuseCalculationType" [options]="execuseCalculationTypes"
+                optionLabel="name" [placeholder]="'Execuse Calculation Types' | translate"
+                (onChange)="selectedExecuseCalculationTypeFun($event)" formControlName="excuseCalculationType"
+                class="w-fit" [showClear]="true"></p-dropdown>
         </div>
 
 
@@ -160,27 +101,17 @@
         <div class="field col-12 md:col-4">
             <label htmlFor="EarlyLeaveCalculationType">{{
                 "Early Leave Calculation Type" | translate
-            }}</label>
-            <p-dropdown
-                [(ngModel)]="selectedEarlyLeaveCalculationType"
-                [options]="earlyLeaveCalculationTypes"
-                optionLabel="name"
-                [placeholder]="'Early Leave Calculation Types' | translate"
-                (onChange)="selectedEarlyLeaveCalculationTypeFun($event)"
-                formControlName="earlyLeaveCalculationType"
-                class="w-fit"
-                [showClear]="true"
-            ></p-dropdown>
+                }}</label>
+            <p-dropdown [(ngModel)]="selectedEarlyLeaveCalculationType" [options]="earlyLeaveCalculationTypes"
+                optionLabel="name" [placeholder]="'Early Leave Calculation Types' | translate"
+                (onChange)="selectedEarlyLeaveCalculationTypeFun($event)" formControlName="earlyLeaveCalculationType"
+                class="w-fit" [showClear]="true"></p-dropdown>
         </div>
 
         <div class="field col-12 md:col-4">
             <label>
                 Early Leave Penality In Days For Each Hour
-                <input
-                    formControlName="earlyLeavePenalityInDaysForEachHour"
-                    type="number"
-                    pInputText
-                />
+                <input formControlName="earlyLeavePenalityInDaysForEachHour" type="number" pInputText />
             </label>
         </div>
 
@@ -188,88 +119,50 @@
         <div class="field col-12 md:col-4">
             <label>
                 Max Monthly Late Minutes
-                <input
-                    formControlName="maxMonthlyLateMinutes"
-                    type="number"
-                    pInputText
-                />
+                <input formControlName="maxMonthlyLateMinutes" type="number" pInputText />
             </label>
         </div>
 
         <div class="field col-12 md:col-4">
             <label>
                 Max Execuse Duration In Minutes
-                <input
-                    formControlName="maxExuseDurationInMinutes"
-                    type="number"
-                    pInputText
-                />
+                <input formControlName="maxExuseDurationInMinutes" type="number" pInputText />
             </label>
         </div>
 
         <div class="field col-12 md:col-4">
-            <label
-                >Max Number Of Excuses Per Month
-                <input
-                    formControlName="maxNumberOfExcusesPerMonth"
-                    type="number"
-                    pInputText
-                />
+            <label>Max Number Of Excuses Per Month
+                <input formControlName="maxNumberOfExcusesPerMonth" type="number" pInputText />
             </label>
         </div>
 
         <div class="field col-12 md:col-4">
-            <label
-                >First Missing Fingerprint
-                <input
-                    formControlName="firstMissingFingerprint"
-                    type="number"
-                    pInputText
-                />
+            <label>First Missing Fingerprint
+                <input formControlName="firstMissingFingerprint" type="number" pInputText />
             </label>
         </div>
 
         <div class="field col-12 md:col-4">
-            <label
-                >Second Missing Fingerprint
-                <input
-                    formControlName="secondMissingFingerprint"
-                    type="number"
-                    pInputText
-                />
+            <label>Second Missing Fingerprint
+                <input formControlName="secondMissingFingerprint" type="number" pInputText />
             </label>
         </div>
 
         <div class="field col-12 md:col-4">
-            <label
-                >Third Missing Fingerprint
-                <input
-                    formControlName="thirdMissingFingerprint"
-                    type="number"
-                    pInputText
-                />
+            <label>Third Missing Fingerprint
+                <input formControlName="thirdMissingFingerprint" type="number" pInputText />
             </label>
         </div>
 
         <div class="field col-12 md:col-4">
-            <label
-                >Fourth Missing Fingerprint
-                <input
-                    formControlName="fourthMissingFingerprint"
-                    type="number"
-                    pInputText
-                />
+            <label>Fourth Missing Fingerprint
+                <input formControlName="fourthMissingFingerprint" type="number" pInputText />
             </label>
         </div>
 
         <div class="field col-12 md:col-4">
-            <label
-                >Fifth Missing Fingerprint
-                <input
-                    formControlName="fifthMissingFingerprint"
-                    type="number"
-                    pInputText
-                />
+            <label>Fifth Missing Fingerprint
+                <input formControlName="fifthMissingFingerprint" type="number" pInputText />
             </label>
         </div>
 
@@ -277,217 +170,123 @@
 
         <!-- Late Settings List -->
         <div class="lateSettingsLists" formArrayName="lateSettingsList">
-            <div
-                *ngFor="
+            <div *ngFor="
                     let lateSetting of attendanceForm.get('lateSettingsList')[
                         'controls'
                     ];
                     let i = index
-                "
-                [formGroupName]="i"
-            >
+                " [formGroupName]="i">
                 <h6>Late Settings {{ i + 1 }} List :</h6>
 
                 <div class="field col-12 md:col-4">
                     <label>
                         Deduction From Minutes:
-                        <input
-                            formControlName="deductionFromMinutes"
-                            type="number"
-                            pInputText
-                        />
+                        <input formControlName="deductionFromMinutes" type="number" pInputText />
                     </label>
                 </div>
 
                 <div class="field col-12 md:col-4">
                     <label>
                         Deduction To Minutes:
-                        <input
-                            pInputText
-                            formControlName="deductionToMinutes"
-                            type="number"
-                        />
+                        <input pInputText formControlName="deductionToMinutes" type="number" />
                     </label>
                 </div>
 
                 <div class="field col-12 md:col-4">
                     <label>
                         Deduction Factor:
-                        <input
-                            pInputText
-                            formControlName="deductionFactor"
-                            type="number"
-                        />
+                        <input pInputText formControlName="deductionFactor" type="number" />
                     </label>
                 </div>
 
                 <div class="field col-12 md:col-4">
                     <label>
                         Deduction Time In Minutes:
-                        <input
-                            pInputText
-                            formControlName="deductedTimeInMinutes"
-                            type="number"
-                        />
+                        <input pInputText formControlName="deductedTimeInMinutes" type="number" />
                     </label>
                 </div>
 
                 <div class="field col-12 md:col-4">
                     <label>
                         First Penalty In Days:
-                        <input
-                            pInputText
-                            formControlName="firstPenaltyInDays"
-                            type="number"
-                        />
+                        <input pInputText formControlName="firstPenaltyInDays" type="number" />
                     </label>
                 </div>
 
                 <div class="field col-12 md:col-4">
                     <label>
                         Second Penalty In Days:
-                        <input
-                            pInputText
-                            formControlName="secondPenaltyInDays"
-                            type="number"
-                        />
+                        <input pInputText formControlName="secondPenaltyInDays" type="number" />
                     </label>
                 </div>
 
                 <div class="field col-12 md:col-4">
                     <label>
                         Third Penalty In Days:
-                        <input
-                            pInputText
-                            formControlName="thirdPenaltyInDays"
-                            type="number"
-                        />
+                        <input pInputText formControlName="thirdPenaltyInDays" type="number" />
                     </label>
                 </div>
 
                 <div class="field col-12 md:col-4">
                     <label>
                         Fourth Penalty In Days:
-                        <input
-                            pInputText
-                            formControlName="fourthPenaltyInDays"
-                            type="number"
-                        />
+                        <input pInputText formControlName="fourthPenaltyInDays" type="number" />
                     </label>
                 </div>
 
                 <div class="field col-12 md:col-4">
                     <label>
                         Deduction In Money:
-                        <input
-                            pInputText
-                            formControlName="deductionInMoney"
-                            type="number"
-                        />
+                        <input pInputText formControlName="deductionInMoney" type="number" />
                     </label>
                 </div>
 
                 <div class="field field-checkbox col-12 md:col-4">
-                    <p-checkbox
-                        formControlName="deductTheLatency"
-                        inputId="deductTheLatency"
-                        value=""
-                        binary="true"
-                    />
+                    <p-checkbox formControlName="deductTheLatency" inputId="deductTheLatency" value="" binary="true" />
                     <label for="deductTheLatency"> Deduct The Latency</label>
                 </div>
 
                 <div class="field field-checkbox col-12 md:col-4">
-                    <p-checkbox
-                        formControlName="isDeductedFromTotalExcuses"
-                        inputId="isDeductedFromTotalExcuses"
-                        value=""
-                        binary="true"
-                    />
+                    <p-checkbox formControlName="isDeductedFromTotalExcuses" inputId="isDeductedFromTotalExcuses"
+                        value="" binary="true" />
                     <label for="isDeductedFromTotalExcuses">
-                        Is Deducted From Total Excuses</label
-                    >
+                        Is Deducted From Total Excuses</label>
                 </div>
 
                 <div class="field field-checkbox col-12 md:col-4">
-                    <p-checkbox
-                        formControlName="isPerformedOnlyOneTime"
-                        inputId="isPerformedOnlyOneTime"
-                        value=""
-                        binary="true"
-                    />
+                    <p-checkbox formControlName="isPerformedOnlyOneTime" inputId="isPerformedOnlyOneTime" value=""
+                        binary="true" />
                     <label for="isPerformedOnlyOneTime">
-                        Is Performed Only One Time</label
-                    >
+                        Is Performed Only One Time</label>
                 </div>
                 <!-- Repeat for other late setting fields -->
 
                 <!-- Remove Late Setting Button -->
-                <button
-                    pButton
-                    pRipple
-                    (click)="removeLateSetting(i)"
-                    type="button"
-                    icon="pi pi-minus"
-                    class="p-button-rounded p-button-text p-button-danger w-fit"
-                    label="Remove"
-                ></button>
+                <button pButton pRipple (click)="removeLateSetting(i)" type="button" icon="pi pi-minus"
+                    class="p-button-rounded p-button-text p-button-danger w-fit" label="Remove"></button>
             </div>
 
-            <button
-                pButton
-                pRipple
-                (click)="addLateSetting()"
-                type="button"
-                icon="pi pi-plus"
-                class="p-button-rounded p-button-text p-button-success w-fit btn-add"
-                label="Add Late Setting"
-            ></button>
+            <button pButton pRipple (click)="addLateSetting()" type="button" icon="pi pi-plus"
+                class="p-button-rounded p-button-text p-button-success w-fit btn-add" label="Add Late Setting"></button>
         </div>
 
-        <button
-            pButton
-            pRipple
-            type="submit"
-            [disabled]="attendanceForm.invalid"
-            class="w-fit"
-        >
+        <button pButton pRipple type="submit" [disabled]="attendanceForm.invalid" class="w-fit">
             Add New
         </button>
     </form>
 </div>
 
-<p-table
-    #dt
-    [value]="allData"
-    [paginator]="true"
-    [rows]="itemsPerPage"
-    [columns]="cols"
-    [totalRecords]="totalItems"
-    selectionMode="multiple"
-    [(selection)]="selectedItems"
-    [showCurrentPageReport]="true"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [lazy]="true"
-    (onLazyLoad)="onPageChange($event)"
-    dataKey="id"
->
+<p-table #dt [value]="allData" [paginator]="true" [rows]="itemsPerPage" [columns]="cols" [totalRecords]="totalItems"
+    selectionMode="multiple" [(selection)]="selectedItems" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [lazy]="true"
+    (onLazyLoad)="onPageChange($event)" dataKey="id">
     <ng-template pTemplate="caption">
-        <div
-            class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
-        >
+        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
             <h5 class="m-0">Manage Items</h5>
             <span class="block mt-2 md:mt-0 p-input-icon-left">
                 <i class="pi pi-search"></i>
-                <input
-                    pInputText
-                    [(ngModel)]="nameFilter"
-                    (input)="loadFilteredData()"
-                    id="filter-name"
-                    type="text"
-                    placeholder="Search..."
-                    class="w-full sm:w-auto"
-                />
+                <input pInputText [(ngModel)]="nameFilter" (input)="loadFilteredData()" id="filter-name" type="text"
+                    placeholder="Search..." class="w-full sm:w-auto" />
             </span>
         </div>
     </ng-template>
@@ -519,152 +318,70 @@
 
             <td><span class="p-column-title">Name</span> {{ rowData.name }}</td>
             <td>
-                <span class="p-column-title"
-                    >calculateLateAttendanceInTime</span
-                >
+                <span class="p-column-title">calculateLateAttendanceInTime</span>
                 {{ rowData.calculateLateAttendanceInTime }}
             </td>
             <td>
-                <span class="p-column-title"
-                    >calculateLateAttendancePerMonth</span
-                >
+                <span class="p-column-title">calculateLateAttendancePerMonth</span>
                 {{ rowData.calculateLateAttendancePerMonth }}
             </td>
             <td>
                 <div class="flex crud-operations">
-                    <button
-                        pButton
-                        pRipple
-                        icon="pi pi-trash"
+                    <button pButton pRipple icon="pi pi-trash"
                         class="p-button-rounded p-button-outlined p-button-danger"
-                        (click)="deleteProduct(rowData, $event)"
-                    ></button>
+                        (click)="deleteProduct(rowData, $event)"></button>
                 </div>
             </td>
         </tr>
     </ng-template>
 </p-table>
 
-<p-dialog
-    [(visible)]="productDialog"
-    [style]="{ width: '450px' }"
-    header="Product Details"
-    [modal]="true"
-    class="p-fluid"
->
+<p-dialog [(visible)]="productDialog" [style]="{ width: '450px' }" header="Product Details" [modal]="true"
+    class="p-fluid">
     <ng-template pTemplate="content">
         <div class="field">
             <label for="name">Name</label>
-            <input
-                type="text"
-                pInputText
-                id="name"
-                [(ngModel)]="product.name"
-                required
-                autofocus
-                [ngClass]="{
+            <input type="text" pInputText id="name" [(ngModel)]="product.name" required autofocus [ngClass]="{
                     'ng-invalid ng-dirty': submitted && !product.name
-                }"
-            />
-            <small
-                class="ng-dirty ng-invalid"
-                *ngIf="submitted && !product.name"
-                >Name is required.</small
-            >
+                }" />
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.name">Name is required.</small>
         </div>
 
         <div class="field">
             <label for="notes">Notes</label>
-            <textarea
-                id="notes"
-                pInputTextarea
-                [(ngModel)]="product.notes"
-                required
-                rows="3"
-                cols="20"
-            ></textarea>
+            <textarea id="notes" pInputTextarea [(ngModel)]="product.notes" required rows="3" cols="20"></textarea>
         </div>
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button
-            pButton
-            pRipple
-            label="Cancel"
-            icon="pi pi-times"
-            class="p-button-text"
-            (click)="hideDialog()"
-        ></button>
-        <button
-            pButton
-            pRipple
-            label="Save"
-            icon="pi pi-check"
-            class="p-button-text"
-            (click)="saveProduct(product.id, product)"
-        ></button>
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
+            (click)="saveProduct(product.id, product)"></button>
     </ng-template>
 </p-dialog>
 
-<p-dialog
-    [(visible)]="deleteProductDialog"
-    header="Confirm"
-    [modal]="true"
-    [style]="{ width: '450px' }"
->
+<p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{ width: '450px' }">
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-        <span *ngIf="product"
-            >Are you sure you want to delete <b>{{ product.name }}</b
-            >?</span
-        >
+        <span *ngIf="product">Are you sure you want to delete <b>{{ product.name }}</b>?</span>
     </div>
     <ng-template pTemplate="footer">
-        <button
-            pButton
-            pRipple
-            icon="pi pi-times"
-            class="p-button-text"
-            label="No"
-            (click)="deleteProductDialog = false"
-        ></button>
-        <button
-            pButton
-            pRipple
-            icon="pi pi-check"
-            class="p-button-text"
-            label="Yes"
-            (click)="confirmDelete(product.id)"
-        ></button>
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+            (click)="deleteProductDialog = false"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+            (click)="confirmDelete(product.id)"></button>
     </ng-template>
 </p-dialog>
 
-<p-dialog
-    [(visible)]="deleteProductsDialog"
-    header="Confirm"
-    [modal]="true"
-    [style]="{ width: '450px' }"
->
+<p-dialog [(visible)]="deleteProductsDialog" header="Confirm" [modal]="true" [style]="{ width: '450px' }">
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
         <span>Are you sure you want to delete selected products?</span>
     </div>
     <ng-template pTemplate="footer">
-        <button
-            pButton
-            pRipple
-            icon="pi pi-times"
-            class="p-button-text"
-            label="No"
-            (click)="deleteProductsDialog = false"
-        ></button>
-        <button
-            pButton
-            pRipple
-            icon="pi pi-check"
-            class="p-button-text"
-            label="Yes"
-            (click)="confirmDeleteSelected()"
-        ></button>
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+            (click)="deleteProductsDialog = false"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+            (click)="confirmDeleteSelected()"></button>
     </ng-template>
 </p-dialog>

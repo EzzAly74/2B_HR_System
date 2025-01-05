@@ -22,7 +22,7 @@ export class ShiftComponent {
         private _ShiftService: ShiftService,
         private messageService: MessageService,
         private translate: TranslateService
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
@@ -54,6 +54,8 @@ export class ShiftComponent {
     checkInBeforeTheShiftStarts: number;
     checkOutAfterTheShiftEnds: number;
     checkOutAfterTheShiftStarts: number;
+
+    fileNew!: File;
 
     addNewForm: FormGroup = new FormGroup({
         checkInBeforeTheShiftStarts: new FormControl(null, [
@@ -155,9 +157,9 @@ export class ShiftComponent {
             .join(' ');
     }
 
-    startAttendeesTimeClick(event: any) {}
+    startAttendeesTimeClick(event: any) { }
 
-    endAttendeesTimeClick(event: any) {}
+    endAttendeesTimeClick(event: any) { }
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
@@ -280,6 +282,10 @@ export class ShiftComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
+
+            error: () => {
+                this.loading = false;
+            }
         });
     }
 
@@ -448,5 +454,47 @@ export class ShiftComponent {
     }
     sortByName(event: any) {
         this.sortField = 'name';
+    }
+
+
+    onFileSelect(event: any) {
+        console.log(event);
+        let file: any = event.currentFiles[0];
+
+        if (file) {
+            this.fileNew = file;
+
+            let body = {
+                file: this.fileNew,
+            };
+            const formData: FormData = new FormData();
+
+            for (const key in body) {
+                if (body.hasOwnProperty(key)) {
+                    formData.append(key, body[key]);
+                }
+            }
+            this._ShiftService.importExcel(formData).subscribe({
+                next: (res) => {
+                    console.log(res);
+                    console.log('ezzzz');
+
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translate.instant('Success'),
+                        detail: res?.["message"],
+                        life: 3000,
+                    });
+                },
+            });
+        }
     }
 }

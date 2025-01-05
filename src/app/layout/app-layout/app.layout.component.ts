@@ -1,4 +1,4 @@
-import { Component, OnDestroy, Renderer2, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { LayoutService } from '../service/app.layout.service';
@@ -10,10 +10,11 @@ import { AppTopBarComponent } from '../topbar/app.topbar.component';
     templateUrl: './app.layout.component.html',
     styleUrls: ['./app.layout.component.scss'],
 })
-export class AppLayoutComponent implements OnDestroy {
+export class AppLayoutComponent implements OnDestroy, OnInit {
     overlayMenuOpenSubscription: Subscription;
 
     menuOutsideClickListener: any;
+    loading: boolean = true;
 
     profileMenuOutsideClickListener: any;
 
@@ -95,6 +96,11 @@ export class AppLayoutComponent implements OnDestroy {
             });
     }
 
+
+    ngOnInit() {
+        this.loading = true;
+    }
+
     hideMenu() {
         this.layoutService.state.overlayMenuActive = false;
         this.layoutService.state.staticMenuMobileActive = false;
@@ -129,8 +135,8 @@ export class AppLayoutComponent implements OnDestroy {
             document.body.className = document.body.className.replace(
                 new RegExp(
                     '(^|\\b)' +
-                        'blocked-scroll'.split(' ').join('|') +
-                        '(\\b|$)',
+                    'blocked-scroll'.split(' ').join('|') +
+                    '(\\b|$)',
                     'gi'
                 ),
                 ' '

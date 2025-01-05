@@ -10,12 +10,15 @@ import { TranslateService } from '@ngx-translate/core';
     styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+    loading: boolean = true;
     constructor(
         private primengConfig: PrimeNGConfig,
         private translate: TranslateService
-    ) {}
+    ) { }
 
     ngOnInit() {
         this.primengConfig.ripple = true;
+
+
     }
 }
