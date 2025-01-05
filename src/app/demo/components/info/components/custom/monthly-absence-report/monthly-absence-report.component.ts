@@ -26,6 +26,7 @@ export class MonthlyAbsenceReportComponent {
     @Input() endPoint!: string;
     allData: any[] = [];
     allDataWithoutPagination: any[] = [];
+    showTable = false;
     page: number = 1;
     itemsPerPage = 5;
     selectedItems: any = [];
@@ -531,7 +532,7 @@ export class MonthlyAbsenceReportComponent {
             this.monthlyAbsenceReportService.GetPage(filteredData).subscribe({
                 next: (res) => {
                     console.log(res);
-
+                    this.showTable = true;
                     this.allData = res.data;
                     console.log(res.data);
                     this.totalItems = res.totalItems;
