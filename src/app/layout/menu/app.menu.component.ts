@@ -259,6 +259,10 @@ export class AppMenuComponent implements OnInit {
                                 ),
                                 routerLink: ['/info/shiftVacation'],
                             },
+                            {
+                                label: this.translate.instant('Loan Types'),
+                                routerLink: ['/info/loanTypes'],
+                            },
                         ],
                     },
 
@@ -420,6 +424,14 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/resignationPolicy'],
                             },
                             {
+                                label: this.translate.instant('Net Income Tax'),
+                                routerLink: ['/info/netIncomeTax'],
+                            },
+                            {
+                                label: this.translate.instant('Tax Rate'),
+                                routerLink: ['/info/taxRate'],
+                            },
+                            {
                                 label: this.translate.instant('Internal Jobs'),
                                 routerLink: ['/info/InternalJobs'],
                             },
@@ -438,6 +450,7 @@ export class AppMenuComponent implements OnInit {
                                 icon: 'pi pi-fw pi-home',
                                 routerLink: ['/info/getLoanPayment'],
                             },
+
 
                             // {
                             //     label: this.translate.instant('RESIGNATIONSETTINGS'),
@@ -461,6 +474,56 @@ export class AppMenuComponent implements OnInit {
                                     'Notify All Employees'
                                 ),
                                 routerLink: ['/info/SendNotificationToAll'],
+                            },
+
+                            // {
+                            //     label: this.translate.instant('Resignation'),
+                            //     icon: 'pi pi-fw pi-home',
+                            //     routerLink: ['/info/resignation'],
+                            // },
+                        ],
+                    },
+                    {
+                        label: this.translate.instant('Reports'),
+                        svg: this.sanitizer.bypassSecurityTrustHtml(`
+                           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 5V14H14V19H5V5H19ZM19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H15L21 15V5C21 3.9 20.1 3 19 3ZM12 14H7V12H12V14ZM17 10H7V8H17V10Z" fill="#2D3250"/>
+                            </svg>
+                            `),
+                        items: [
+                            // {
+                            //     label: this.translate.instant(
+                            //         'Notify All Employees'
+                            //     ),
+                            //     routerLink: ['/info/SendNotificationToAll'],
+                            // },
+
+                            {
+                                label: this.translate.instant(
+                                    'Attendance Reports'
+                                ),
+                                items: [
+                                    {
+                                        label: this.translate.instant(
+                                            'Monthly Report'
+                                        ),
+                                        routerLink: ['/info/mothlyReport'],
+                                    },
+                                    {
+                                        label: this.translate.instant(
+                                            'Monthly Absence Report'
+                                        ),
+                                        routerLink: [
+                                            '/info/mothlyAbsenceReport',
+                                        ],
+                                    },
+
+                                    // {
+                                    //     label: this.translate.instant('Resignation'),
+                                    //     icon: 'pi pi-fw pi-home',
+                                    //     routerLink: ['/info/resignation'],
+                                    // },
+                                ],
                             },
 
                             // {
