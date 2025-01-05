@@ -41,9 +41,9 @@
 
                 <!-- Termination Date -->
                 <div class="field col-12">
-                    <label for="terminationDate">Termination Date</label>
+                    <label for="terminationDate">{{'Termination Date' | translate}}</label>
                     <p-calendar id="terminationDate" formControlName="TerminationDate" dateFormat="yy-mm-dd"
-                        placeholder="Select Termination Date"></p-calendar>
+                        [placeholder]="'Select Termination Date' | translate"></p-calendar>
                     <small
                         *ngIf="TerminationForm.get('TerminationDate')?.invalid && TerminationForm.get('TerminationDate')?.touched"
                         class="p-error">
@@ -53,9 +53,9 @@
 
                 <!-- Last Working Date -->
                 <div class="field col-12">
-                    <label for="lastWorkingDate">Last Working Date</label>
+                    <label for="lastWorkingDate">{{'Last Working Date' | translate}}</label>
                     <p-calendar id="lastWorkingDate" formControlName="LastWorkingDate" dateFormat="yy-mm-dd"
-                        placeholder="Select Last Working Date"></p-calendar>
+                        [placeholder]="'Select Last Working Date' | translate"></p-calendar>
                     <small
                         *ngIf="TerminationForm.get('LastWorkingDate')?.invalid && TerminationForm.get('LastWorkingDate')?.touched"
                         class="p-error">
@@ -65,9 +65,9 @@
 
                 <!-- Reason -->
                 <div class="field col-12">
-                    <label for="reason">Reason</label>
-                    <textarea id="reason" pInputTextarea formControlName="Reason" placeholder="Enter Reason"
-                        rows="3"></textarea>
+                    <label for="reason">{{'Reason' | translate}}</label>
+                    <textarea id="reason" pInputTextarea formControlName="Reason"
+                        [placeholder]="'Enter Reason' | translate" rows="3"></textarea>
                     <small *ngIf="TerminationForm.get('Reason')?.invalid && TerminationForm.get('Reason')?.touched"
                         class="p-error">
                         Reason is required.
@@ -76,9 +76,9 @@
 
                 <!-- Clearance Date -->
                 <div class="field col-12">
-                    <label for="clearanceDate">Clearance Date</label>
+                    <label for="clearanceDate">{{'Clearance Date'| translate}}</label>
                     <p-calendar id="clearanceDate" formControlName="ClearanceDate" dateFormat="yy-mm-dd"
-                        placeholder="Select Clearance Date"></p-calendar>
+                        [placeholder]="'Select Clearance Date' | translate"></p-calendar>
                     <small
                         *ngIf="TerminationForm.get('ClearanceDate')?.invalid && TerminationForm.get('ClearanceDate')?.touched"
                         class="p-error">

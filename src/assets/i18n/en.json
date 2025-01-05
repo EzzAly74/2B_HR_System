@@ -570,5 +570,12 @@
     "Terminations": "Terminations",
     "registerTermination": "Register Termination",
     "allTerminations": "All Terminations",
+    "Termination Date": "Termination Date",
+    "Last Working Date": "Last Working Date",
+    "Reason": "Reason",
+    "Clearance Date": "Clearance Date",
+    "Select Last Working Date": "Select Last Working Date",
+    "Select Termination Date": "Select Termination Date",
+    "Select Clearance Date": "Select Clearance Date",
     "Showing {first} to {last} of {totalRecords} entries": "Showing {first} to {last} of {totalRecords} entries"
 }

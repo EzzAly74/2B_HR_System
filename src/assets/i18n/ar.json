@@ -584,5 +584,11 @@
     "registerTermination": "تسجيل اقالة",
     "allTerminations": "كل الاقالات",
     "Termination Date": "تاريخ الاقالة",
+    "Last Working Date": "آخر تاريخ للعمل",
+    "Reason": "السبب",
+    "Clearance Date": "تاريخ المخالصة",
+    "Select Termination Date": "اختر تاريخ انهاء الخدمة",
+    "Select Last Working Date": "اختر اخر تاريخ للعمل ",
+    "Select Clearance Date": "اختر تاريخ المخالصة",
     "Showing {first} to {last} of {totalRecords} entries": "عرض {first} الى {last} من {totalRecords} السجلات"
 }
