@@ -27,7 +27,7 @@ export class ResignationComponent {
         private route: ActivatedRoute,
         private DatePipe: DatePipe,
         private translate: TranslateService
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
@@ -149,9 +149,9 @@ export class ResignationComponent {
             .join(' ');
     }
 
-    startAttendeesTimeClick(event: any) {}
+    startAttendeesTimeClick(event: any) { }
 
-    endAttendeesTimeClick(event: any) {}
+    endAttendeesTimeClick(event: any) { }
 
     confirmAccept(rowData: any) {
         console.log(rowData);
@@ -258,7 +258,7 @@ export class ResignationComponent {
         filterType: string,
         sortType: string
     ) {
-        this.loading = true;
+        // this.loading = true;
         let filteredData = {
             pageNumber: page,
             pageSize: size,

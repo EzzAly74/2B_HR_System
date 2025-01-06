@@ -228,7 +228,7 @@ export class AttendenceConfigurationComponent {
         filterType: string,
         sortType: string = 'asc'
     ) {
-        this.loading = true;
+        // this.loading = true;
         let filteredData = {
             pageNumber: page,
             pageSize: size,

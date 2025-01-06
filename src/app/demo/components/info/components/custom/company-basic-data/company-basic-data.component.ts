@@ -13,13 +13,14 @@ import { TranslateService } from '@ngx-translate/core';
   imports: [
     GlobalsModule,
     PrimeNgModule
-],
-providers: [MessageService],
+  ],
+  providers: [MessageService],
   templateUrl: './company-basic-data.component.html',
   styleUrl: './company-basic-data.component.scss'
 })
+
 export class CompanyBasicDataComponent {
-  
+
   // end point 
   @Input() endPoint!: string;
 
@@ -32,7 +33,7 @@ export class CompanyBasicDataComponent {
     payRollAccountantPhone: new FormControl(null, Validators.required),
   });
 
-  company:any = {
+  company: any = {
     companyName: "",
     companyAddress: "",
     companyPhone: "",
@@ -42,8 +43,8 @@ export class CompanyBasicDataComponent {
 
   constructor(private _CompanyBasicDataService: CompanyBasicDataService,
     private messageService: MessageService,
-    private translate : TranslateService
-  ) {}
+    private translate: TranslateService
+  ) { }
 
   ngOnInit() {
 
@@ -67,21 +68,21 @@ export class CompanyBasicDataComponent {
   getCompanyDate() {
     this._CompanyBasicDataService.getData().subscribe({
       next: (res) => {
-       this.company = res.data
+        this.company = res.data
       }
     })
   }
-  
+
   registerData(companyData: FormGroup) {
-    if(companyData.valid) {
+    if (companyData.valid) {
       this._CompanyBasicDataService.register(companyData.value).subscribe({
         next: (res) => {
-            // show message for user to show processing of deletion.
-            this.messageService.add({
-              severity: 'success',
-              summary: this.translate.instant('Success'),
-              detail: res.message ,
-              life: 3000,
+          // show message for user to show processing of deletion.
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translate.instant('Success'),
+            detail: res.message,
+            life: 3000,
           });
         }
       })

@@ -21,7 +21,7 @@ export class MonthlyAbsenceReportComponent {
         private monthlyAbsenceReportService: MonthlyAbsenceReportService,
         private messageService: MessageService,
         private translate: TranslateService
-    ) {}
+    ) { }
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
     allData: any[] = [];
@@ -165,9 +165,9 @@ export class MonthlyAbsenceReportComponent {
             .join(' ');
     }
 
-    startAttendeesTimeClick(event: any) {}
+    startAttendeesTimeClick(event: any) { }
 
-    endAttendeesTimeClick(event: any) {}
+    endAttendeesTimeClick(event: any) { }
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
@@ -256,7 +256,7 @@ export class MonthlyAbsenceReportComponent {
         month: number,
         year: number
     ) {
-        this.loading = true;
+        // this.loading = true;
         let filteredData = {
             pageNumber: page,
             pageSize: size,
@@ -615,8 +615,8 @@ export class MonthlyAbsenceReportComponent {
             <html dir=${this.currentLang == 'ar' ? 'rtl' : 'ltr'}>
                 <head>
                     <title>${this.translate.instant(
-                        'Monthly Absence Report'
-                    )}</title>
+                'Monthly Absence Report'
+            )}</title>
                     <style>
                         body {
                             font-family: Arial, sans-serif;

@@ -221,6 +221,12 @@ export class AppMenuComponent implements OnInit {
                                 icon: 'pi pi-fw pi-home',
                                 routerLink: ['/info/loanRequest'],
                             },
+                            {
+                                label: this.translate.instant(
+                                    'hrLetter'
+                                ),
+                                routerLink: ['/info/hrLetter'],
+                            },
                         ],
                     },
                     {
@@ -287,12 +293,7 @@ export class AppMenuComponent implements OnInit {
                                 ),
                                 routerLink: ['/info/allTerminations'],
                             },
-                            {
-                                label: this.translate.instant(
-                                    'hrLetter'
-                                ),
-                                routerLink: ['/info/hrLetter'],
-                            },
+
                         ],
                     },
 

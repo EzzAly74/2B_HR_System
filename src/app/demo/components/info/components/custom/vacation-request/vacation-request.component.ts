@@ -41,7 +41,7 @@ export class VacationRequestComponent {
         private messageService: MessageService,
         private route: ActivatedRoute,
         private DatePipe: DatePipe
-    ) {}
+    ) { }
     @ViewChild('dt') dt: Table;
     @ViewChild('fileUpload') fileUpload: any;
     @Input() endPoint!: string;
@@ -201,9 +201,9 @@ export class VacationRequestComponent {
             .join(' ');
     }
 
-    startAttendeesTimeClick(event: any) {}
+    startAttendeesTimeClick(event: any) { }
 
-    endAttendeesTimeClick(event: any) {}
+    endAttendeesTimeClick(event: any) { }
 
     confirmDelete(rowData: any) {
         console.log(rowData);
@@ -333,7 +333,7 @@ export class VacationRequestComponent {
         filterType: string,
         sortType: string
     ) {
-        this.loading = true;
+        // this.loading = true;
         let filteredData = {
             pageNumber: page,
             pageSize: size,

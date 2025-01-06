@@ -36,7 +36,7 @@ export class TaxRateComponent {
         private taxRateService: TaxRateService,
         private messageService: MessageService,
         private translate: TranslateService
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
@@ -282,7 +282,7 @@ export class TaxRateComponent {
         filterType: string,
         sortType: string
     ) {
-        this.loading = true;
+        // this.loading = true;
         let filteredData = {
             pageNumber: page,
             pageSize: size,

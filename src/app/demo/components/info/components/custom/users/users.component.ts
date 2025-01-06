@@ -184,7 +184,7 @@ export class UsersComponent {
         filterType: string,
         sortType: string
     ) {
-        this.loading = true;
+        // this.loading = true;
         let filteredData = {
             pageNumber: page,
             pageSize: size,

@@ -29,7 +29,7 @@ export class CompanyPolicyComponent {
         private messageService: MessageService,
         private DatePipe: DatePipe,
         private translate: TranslateService
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
@@ -278,7 +278,7 @@ export class CompanyPolicyComponent {
         filterType: string,
         sortType: string
     ) {
-        this.loading = true;
+        // this.loading = true;
         let filteredData = {
             pageNumber: page,
             pageSize: size,

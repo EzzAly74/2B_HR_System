@@ -25,7 +25,7 @@ export class ShiftVacationComponent {
         private messageService: MessageService,
         private DatePipe: DatePipe,
         private translate: TranslateService
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
@@ -264,7 +264,7 @@ export class ShiftVacationComponent {
         filterType: string,
         sortType: string
     ) {
-        this.loading = true;
+        // this.loading = true;
         let filteredData = {
             pageNumber: page,
             pageSize: size,

@@ -329,7 +329,7 @@ export class AllEmployeesFileComponent {
         };
         filteredData.sortType = this.sortOrder;
 
-        this.loading = true;
+        // this.loading = true;
 
 
         this.employeeFileService.GetPage(filteredData).subscribe({

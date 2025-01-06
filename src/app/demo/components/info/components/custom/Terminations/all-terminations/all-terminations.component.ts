@@ -228,7 +228,7 @@ export class AllTerminationsComponent {
     filterType: string,
     sortType: string
   ) {
-    this.loading = true;
+    // this.loading = true;
     let filteredData = {
       PageNumber: page,
       PageSize: size,

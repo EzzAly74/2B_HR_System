@@ -37,7 +37,7 @@ export class NetIncomeTaxComponent {
         private netIncomeTaxService: NetIncomeTaxService,
         private messageService: MessageService,
         private translate: TranslateService
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
@@ -251,7 +251,7 @@ export class NetIncomeTaxComponent {
         filterType: string,
         sortType: string
     ) {
-        this.loading = true;
+        // this.loading = true;
         let filteredData = {
             pageNumber: page,
             pageSize: size,
