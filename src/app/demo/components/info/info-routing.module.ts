@@ -71,6 +71,7 @@ import { GetLoanPaymentComponent } from './components/custom/get-loan-payment/ge
 import { RegisterTerminationComponent } from './components/custom/Terminations/register-termination/register-termination.component';
 import { AllTerminationsComponent } from './components/custom/Terminations/all-terminations/all-terminations.component';
 import { HrLetterComponent } from './components/custom/hr-letter/hr-letter.component';
+import { EndOfServiceComponent } from './components/custom/end-of-service/end-of-service.component';
 
 
 @NgModule({
@@ -444,9 +445,15 @@ import { HrLetterComponent } from './components/custom/hr-letter/hr-letter.compo
             },
 
             {
-                path: 'test',
+                path: 'hrLetter',
                 canActivate: [authGuard],
-                component: TestComponent,
+                component: HrLetterComponent,
+            },
+
+            {
+                path: 'endOfService',
+                canActivate: [authGuard],
+                component: EndOfServiceComponent,
             },
 
 

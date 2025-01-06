@@ -418,7 +418,7 @@
     "Penalties & Deductions": "جزاءات وخصم",
     "Response Type": "نوع الرد",
     "Employee Weekend": "اجازة الموظف",
-    "Bonuses": "بونص",
+    "bouns es": "بونص",
     "Employee Shift": "وردية الموظف",
     "Shift Name": "اسم الوردية",
     "An Error Occurred": "حدث خطأ ما",
@@ -527,7 +527,7 @@
     "Instruction English": "ارشاد انجليزي",
     "Add Instruction": "اضف ارشاد",
     "Attachement Required": "مرفق مطلوب",
-    "Add New Bonus": "اضافة بونص جديد",
+    "Add New bouns ": "اضافة بونص جديد",
     "Value": "القيمة",
     "Enter Value Here": "ادخل القيمة هنا",
     "Amount": "المقدار",
@@ -577,4 +577,3 @@
     "endMonth :": "شهر النهاية:",
     "getLoanPayment": "القروض"
 }
-
