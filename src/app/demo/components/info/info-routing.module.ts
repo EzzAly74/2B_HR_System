@@ -72,6 +72,7 @@ import { RegisterTerminationComponent } from './components/custom/Terminations/r
 import { AllTerminationsComponent } from './components/custom/Terminations/all-terminations/all-terminations.component';
 import { HrLetterComponent } from './components/custom/hr-letter/hr-letter.component';
 import { EndOfServiceComponent } from './components/custom/end-of-service/end-of-service.component';
+import { ApplyingInternalJobComponent } from './components/custom/applying-internal-job/applying-internal-job.component';
 
 
 @NgModule({
@@ -454,6 +455,12 @@ import { EndOfServiceComponent } from './components/custom/end-of-service/end-of
                 path: 'endOfService',
                 canActivate: [authGuard],
                 component: EndOfServiceComponent,
+            },
+
+            {
+                path: 'applyingInternalJob',
+                canActivate: [authGuard],
+                component: ApplyingInternalJobComponent,
             },
 
 
