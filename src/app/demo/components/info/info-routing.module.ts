@@ -70,6 +70,7 @@ import { MonthlyAbsenceReportComponent } from './components/custom/monthly-absen
 import { GetLoanPaymentComponent } from './components/custom/get-loan-payment/get-loan-payment.component';
 import { RegisterTerminationComponent } from './components/custom/Terminations/register-termination/register-termination.component';
 import { AllTerminationsComponent } from './components/custom/Terminations/all-terminations/all-terminations.component';
+import { HrLetterComponent } from './components/custom/hr-letter/hr-letter.component';
 
 
 @NgModule({
@@ -434,6 +435,12 @@ import { AllTerminationsComponent } from './components/custom/Terminations/all-t
                 path: 'allTerminations',
                 canActivate: [authGuard],
                 component: AllTerminationsComponent,
+            },
+
+            {
+                path: 'hrLetter',
+                canActivate: [authGuard],
+                component: HrLetterComponent,
             },
 
             {

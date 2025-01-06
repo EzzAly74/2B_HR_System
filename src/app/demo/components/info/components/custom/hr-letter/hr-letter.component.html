@@ -1,0 +1,197 @@
+<p-toast></p-toast>
+<pre-loading *ngIf="loading"></pre-loading>
+
+<p-dialog [(visible)]="showFormNew" [style]="{ width: '450px' }" [header]="'Add New' | translate" [modal]="true"
+    class="p-fluid">
+    <ng-template pTemplate="content">
+        <form action="" [formGroup]="addNewForm" (submit)="addNew(addNewForm)">
+            <div class="field">
+                <label htmlFor="name-en">{{ "Name English" | translate }}</label>
+                <input pInputText formControlName="engName" [placeholder]="'Enter English Name Here' | translate"
+                    id="name-en" type="text" maxlength="50" />
+            </div>
+
+            <div class="field">
+                <label htmlFor="name-ar">{{ "Name Arabic" | translate }} </label>
+                <input pInputText formControlName="name" [placeholder]="'Enter Arabic Name Here' | translate"
+                    id="name-ar" type="text" maxlength="50" />
+            </div>
+
+            <div class="field">
+                <label htmlFor="new-notes">{{ "Notes" | translate }}</label>
+                <textarea pInputTextarea formControlName="notes" id="new-notes"
+                    [placeholder]="'Enter Notes Here' | translate" type="text"></textarea>
+            </div>
+            <div class="field">
+                <button [disabled]="addNewForm.invalid" pButton class="w-25" type="submit"
+                    [label]="'Insert New' | translate"></button>
+            </div>
+        </form>
+    </ng-template>
+</p-dialog>
+
+<p-table #dt [value]="allData" [paginator]="true" [rows]="itemsPerPage" [columns]="cols" [totalRecords]="totalItems"
+    selectionMode="multiple" [(selection)]="selectedItems" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [lazy]="true"
+    (onLazyLoad)="onPageChange($event)" dataKey="id">
+    <ng-template pTemplate="caption">
+        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+            <h5 class="m-0 manageItems">{{ "Manage Items" | translate }}</h5>
+            <!-- <span class="block mt-2 md:mt-0 p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText [(ngModel)]="nameFilter" (input)="loadFilteredData()" id="filter-name" type="text"
+                    [placeholder]="'Search...' | translate" class="w-full sm:w-auto" />
+            </span> -->
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 3rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th pSortableColumn="id" (click)="sortById($event)">
+                {{ "Id" | translate }}
+                <p-sortIcon field="id"></p-sortIcon>
+            </th>
+            <th pSortableColumn="name" (click)="sortByName($event)">
+                {{ "Employee Name" | translate }} <p-sortIcon field="name"></p-sortIcon>
+            </th>
+            <th>{{ "statusValue" | translate }}</th>
+            <th>{{ "languageValue" | translate }}</th>
+            <th>{{ "hrStatusValue" | translate }}</th>
+
+            <th>{{ "creationTime" | translate }}</th>
+            <th>{{ "lastModificationTime" | translate }}</th>
+            <th>{{ "creatorName" | translate }}</th>
+            <th>{{ "lastModifierName" | translate }}</th>
+            <th>{{ "Actions" | translate }}</th>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-rowData>
+        <tr>
+            <td>
+                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+            </td>
+
+            <td>
+                <span class="p-column-title">Id</span>
+                {{ rowData.id ? rowData.id : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.employeeName }">
+                <span class="p-column-title">employeeName</span>
+                {{ rowData.employeeName ? rowData.employeeName : "" }}
+            </td>
+
+
+            <td [ngClass]="{ 'null-color': !rowData.statusValue }">
+                <span class="p-column-title">statusValue</span>
+                {{ rowData.statusValue ? rowData.statusValue : "" }}
+            </td>
+
+
+
+            <td [ngClass]="{ 'null-color': !rowData.languageValue }">
+                <span class="p-column-title">languageValue</span>
+                {{ rowData.languageValue ? rowData.languageValue : "" }}
+            </td>
+
+
+            <td [ngClass]="{
+                'pending-status': rowData?.status == 0,
+                'accepted-status': rowData?.status == 1,
+                'rejected-status': rowData?.status == 2,
+                'complete-status': rowData?.status == 3
+            }">
+                <span> {{ rowData.hrStatusValue }} </span>
+            </td>
+
+
+
+            <td [ngClass]="{ 'null-color': !rowData.creationTime }">
+                <span class="p-column-title">creationTime</span>
+                {{
+                rowData.lastModificationTime | date : "dd/MM/YYYY - h:mm a"
+                }}
+            </td>
+            <td [ngClass]="{ 'null-color': !rowData.lastModificationTime }">
+                <span class="p-column-title">lastModificationTime</span>
+                {{ rowData.lastModificationTime | date : "dd/MM/YY - h:mm a" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.creatorName }">
+                <span class="p-column-title">creatorName</span>
+                {{ rowData.creatorName ? rowData.creatorName : "" }}
+            </td>
+            <td [ngClass]="{ 'null-color': !rowData.lastModifierName }">
+                <span class="p-column-title">lastModifierName</span>
+                {{ rowData.lastModifierName ? rowData.lastModifierName : "" }}
+            </td>
+
+            <td>
+                <div class="flex crud-operations">
+                    <button pButton pRipple [label]="'Change Status' | translate" icon="pi pi-user-edit"
+                        class="p-button-help change-status-btn mx-2 px-1" (click)="changeStatus(rowData)"
+                        [disabled]="rowData?.status == 3"></button>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-dialog [(visible)]="productDialog" [style]="{ width: '450px' }" [header]="'Status' | translate" [modal]="true"
+    class="p-fluid">
+    <ng-template pTemplate="content">
+        <form [formGroup]="changeStatusForm" (ngSubmit)="saveStatus(changeStatusForm, product)">
+
+            <div class="field col-12 md:12">
+                <label for="AllStatus">{{ 'All Status' | translate }}</label>
+                <p-dropdown [options]="all_Status_DropDown" optionValue="id" optionLabel="name" formControlName="Status"
+                    [(ngModel)]="selectedStatus" (ngModelChange)="print(changeStatusForm)"
+                    placeholder="{{ 'Select Status' | translate }}" showClear="true">
+                </p-dropdown>
+            </div>
+
+            <div class="field col-12 md:12">
+                <div class="btns">
+                    <button pButton pRipple label="{{ 'Save' | translate }}" icon="pi pi-check" class="p-button-text"
+                        type="submit" [disabled]="changeStatusForm.invalid">
+                    </button>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+
+</p-dialog>
+
+<p-dialog [(visible)]="deleteProductDialog" [header]="'Confirm Delete' | translate" [modal]="true"
+    [style]="{ width: '450px' }">
+    <div class="flex align-items-center justify-content-center">
+        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+        <span *ngIf="product">{{ "Are you sure you want to delete" | translate }}
+            <b>{{ product.name }}</b>?</span>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" [label]="'No' | translate"
+            (click)="deleteProductDialog = false"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" [label]="'Yes' | translate"
+            (click)="confirmDelete(product.id)"></button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="deleteProductsDialog" header="Confirm" [modal]="true" [style]="{ width: '450px' }">
+    <div class="flex align-items-center justify-content-center">
+        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+        <span>{{
+            "Are you sure you want to delete selected products?" | translate
+            }}</span>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" [label]="'No' | translate"
+            (click)="deleteProductsDialog = false"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" [label]="'Yes' | translate"
+            (click)="confirmDeleteSelected()"></button>
+    </ng-template>
+</p-dialog>

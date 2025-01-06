@@ -577,5 +577,10 @@
     "Select Last Working Date": "Select Last Working Date",
     "Select Termination Date": "Select Termination Date",
     "Select Clearance Date": "Select Clearance Date",
+    "statusValue": "Type",
+    "languageValue": "Language",
+    "hrStatusValue": "HR Status",
+    "hrLetter": "Hr Letter",
+    "All Status": "جميع الحالات",
     "Showing {first} to {last} of {totalRecords} entries": "Showing {first} to {last} of {totalRecords} entries"
 }

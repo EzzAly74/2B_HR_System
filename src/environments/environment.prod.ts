@@ -1,5 +1,5 @@
 export const environment = {
     production: true,
-    baseurl: 'https://shantafactory.com/HRLive/api',
-    mediaUrl: 'https://shantafactory.com/HRLive/AppMedia',
+    baseurl: 'https://hr.2begypt.com/api',
+    mediaUrl: 'https://hr.2begypt.com/AppMedia',
 };

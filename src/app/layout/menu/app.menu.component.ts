@@ -287,6 +287,12 @@ export class AppMenuComponent implements OnInit {
                                 ),
                                 routerLink: ['/info/allTerminations'],
                             },
+                            {
+                                label: this.translate.instant(
+                                    'hrLetter'
+                                ),
+                                routerLink: ['/info/hrLetter'],
+                            },
                         ],
                     },
 

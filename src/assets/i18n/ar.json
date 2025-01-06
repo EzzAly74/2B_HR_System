@@ -590,5 +590,10 @@
     "Select Termination Date": "اختر تاريخ انهاء الخدمة",
     "Select Last Working Date": "اختر اخر تاريخ للعمل ",
     "Select Clearance Date": "اختر تاريخ المخالصة",
+    "statusValue": "النوع ",
+    "languageValue": "اللغة",
+    "hrStatusValue": "حالة الخطاب",
+    "All Status": "جميع الحالات",
+    "hrLetter": "خطاب الموارد البشرية",
     "Showing {first} to {last} of {totalRecords} entries": "عرض {first} الى {last} من {totalRecords} السجلات"
 }
