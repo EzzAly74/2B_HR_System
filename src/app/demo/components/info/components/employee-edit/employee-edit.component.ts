@@ -37,7 +37,7 @@ export class EmployeeEditComponent {
         private activatedRoute: ActivatedRoute,
         private translate: TranslateService,
         private confirmationService: ConfirmationService
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
@@ -48,7 +48,7 @@ export class EmployeeEditComponent {
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
-    loading: boolean = true;
+    loading: boolean = false;
     nameFilter: string;
     deleteProductDialog: boolean = false;
     deleteProductsDialog: boolean = false;
@@ -80,8 +80,8 @@ export class EmployeeEditComponent {
     selectedContactType: any = null;
     selectedIsInsured: any = null;
     selectedIsManager: any = null;
-    selectedStaticShift:any = false ;
-    selectedStaticVacation:any = false ;
+    selectedStaticShift: any = false;
+    selectedStaticVacation: any = false;
     selectedDepartment: any = null;
     selectedBloodType: any = null;
     selectedAttendanceConfiguration: any = null;
@@ -109,7 +109,7 @@ export class EmployeeEditComponent {
     dropdownItemsJobNature: any;
     dropdownItemsRecuritmentSource: any;
     dropdownItemsContractType: any;
-    dropdownItemsAttendanceConfiguration:any;
+    dropdownItemsAttendanceConfiguration: any;
     imageUrl!: string;
 
     uploadedFiles: any[] = [];
@@ -161,8 +161,8 @@ export class EmployeeEditComponent {
         NationalId: new FormControl(),
         Phone: new FormControl(),
         StaticShift: new FormControl(),
-        StaticVacation:new FormControl(),
-        AttendanceConfigurationId : new FormControl(),
+        StaticVacation: new FormControl(),
+        AttendanceConfigurationId: new FormControl(),
     });
 
     // Actions Tabs variable
@@ -417,7 +417,7 @@ export class EmployeeEditComponent {
     ngOnChanges(changes: SimpleChanges) {
         if (changes["selectedAction"]) {
             console.clear();
-            console.log('selectedAction changed:',  this.selectedAction);
+            console.log('selectedAction changed:', this.selectedAction);
             alert("hiiiiiiiiiiiiiii")
             this.selectedAction
         }
@@ -522,7 +522,7 @@ export class EmployeeEditComponent {
         this.selectedIsInsured = data.isInsured;
         this.selectedIsManager = data.ismanger;
         this.selectedStaticShift = data.staticShift;
-        this.selectedStaticVacation = data.staticVacation ;
+        this.selectedStaticVacation = data.staticVacation;
         this.selectedRecuritmentSource = this.getObject(
             data.recuritmentSourceId,
             this.dropdownItemsRecuritmentSource
@@ -724,12 +724,12 @@ export class EmployeeEditComponent {
                 );
                 this.selectedAttendanceConfiguration = this.getObject(
                     this.editForm.get('AttendanceConfigurationId').value,
-                    this.dropdownItemsAttendanceConfiguration) ;
+                    this.dropdownItemsAttendanceConfiguration);
 
                 this.selectedIsInsured = this.selectedIsInsured;
                 this.selectedIsManager = this.selectedIsManager;
-                this.selectedStaticShift = this.selectedStaticShift ;
-                this.selectedStaticVacation = this.selectedStaticVacation ;
+                this.selectedStaticShift = this.selectedStaticShift;
+                this.selectedStaticVacation = this.selectedStaticVacation;
 
                 this.selectedRecuritmentSource = this.getObject(
                     this.editForm.get('RecuritmentSourceId').value,
@@ -845,7 +845,7 @@ export class EmployeeEditComponent {
         this.getDropDownField({
             field: 'dropdownItemsAttendanceConfiguration',
             enum: 'AttendanceConfiguration',
-});
+        });
 
         // get Partition Dropdown
         this.getDropDownField({
