@@ -63,12 +63,14 @@
 
 <p-table id="printableTable" *ngIf="allDataWithoutPagination.length" #dt [value]="allDataWithoutPagination">
 
-
+    <ng-template pTemplate="caption">
+        <h2 class="d-print-block">
+            {{'Monthly Absence Report' | translate}}
+        </h2>
+    </ng-template>
 
     <ng-template pTemplate="header">
         <tr>
-
-
             <th>
                 {{ "Name" | translate }}
 

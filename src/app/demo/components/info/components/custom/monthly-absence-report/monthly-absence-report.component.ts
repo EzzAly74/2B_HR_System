@@ -615,7 +615,7 @@ export class MonthlyAbsenceReportComponent {
             <html dir=${this.currentLang == 'ar' ? 'rtl' : 'ltr'}>
                 <head>
                     <title>${this.translate.instant(
-                'Monthly Absence Report'
+                'report'
             )}</title>
                     <style>
                         body {
@@ -635,7 +635,9 @@ export class MonthlyAbsenceReportComponent {
                         th {
                             background-color: #f4f4f4;
                         }
-                        
+                        h2 {
+                            text-align: center;
+                        }
                     </style>
                 </head>
                 <body>
