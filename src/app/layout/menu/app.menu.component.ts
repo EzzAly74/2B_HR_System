@@ -305,6 +305,12 @@ export class AppMenuComponent implements OnInit {
                                 ),
                                 routerLink: ['/info/endOfService'],
                             },
+                            {
+                                label: this.translate.instant(
+                                    'endOfServiceRequest'
+                                ),
+                                routerLink: ['/info/endOfServiceRequest'],
+                            },
 
                         ],
                     },
@@ -544,6 +550,28 @@ export class AppMenuComponent implements OnInit {
                                     // },
                                 ],
                             },
+
+
+                            {
+                                label: this.translate.instant(
+                                    'Salary Reports'
+                                ),
+                                items: [
+                                    {
+                                        label: this.translate.instant(
+                                            'Salary Report'
+                                        ),
+                                        routerLink: ['/info/salaryReport'],
+                                    },
+
+                                    // {
+                                    //     label: this.translate.instant('Resignation'),
+                                    //     icon: 'pi pi-fw pi-home',
+                                    //     routerLink: ['/info/resignation'],
+                                    // },
+                                ],
+                            },
+
 
                             // {
                             //     label: this.translate.instant('Resignation'),

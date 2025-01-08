@@ -1,26 +1,28 @@
 import { Component, Input, ViewChild } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { EndOfServiceService } from './end-of-service.service';
+import { Globals } from 'src/app/class/globals';
+import { EndOfServiceRequestService } from './end-of-service-request.service';
+import { DatePipe } from '@angular/common';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Globals } from 'src/app/class/globals';
 
 @Component({
-  selector: 'app-end-of-service',
+  selector: 'app-end-of-service-request',
   standalone: true,
   imports: [GlobalsModule, PrimeNgModule],
-  providers: [MessageService],
-  templateUrl: './end-of-service.component.html',
-  styleUrl: './end-of-service.component.scss'
+  providers: [MessageService, DatePipe],
+  templateUrl: './end-of-service-request.component.html',
+  styleUrl: './end-of-service-request.component.scss'
 })
-export class EndOfServiceComponent {
+export class EndOfServiceRequestComponent {
   constructor(
-    private _EndOfServiceService: EndOfServiceService,
+    private _EndOfServiceRequest: EndOfServiceRequestService,
     private messageService: MessageService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private _DatePipe: DatePipe
   ) { }
 
   @ViewChild('dt') dt: Table;
@@ -44,41 +46,33 @@ export class EndOfServiceComponent {
   showFormNew: boolean = false;
   sortField: string = 'id';
   sortOrder: string = 'asc';
-
+  newNameAr!: string;
+  newNameEn!: string;
   fileNew!: File;
+  dropdownItemsEmployee: any;
 
-  addNewForm: FormGroup = new FormGroup({ // Initializing FormGroup using new FormGroup
-    level: new FormControl('', Validators.required), // Level field is required
-    rangeFrom: new FormControl('', [Validators.required, Validators.min(0)]), // Required and must be >= 0
-    rangeTo: new FormControl('', [Validators.required, Validators.min(0)]), // Required and must be >= 0
-    amountPerMonth: new FormControl('', [Validators.required, Validators.min(0)]), // Required and must be >= 0
-    monthForYear: new FormControl(false), // Boolean field defaulting to false
-    bouns: new FormControl('', [Validators.required, Validators.min(0)]), // Required and must be >= 0
-    unUsedVacations: new FormControl('', [Validators.required, Validators.min(0)]), // Required and must be >= 0
-  });
-
-  editForm: FormGroup = new FormGroup({
-    id: new FormControl(null),
-    level: new FormControl('', Validators.required), // Level field is required
-    rangeFrom: new FormControl('', [Validators.required, Validators.min(0)]), // Required and must be >= 0
-    rangeTo: new FormControl('', [Validators.required, Validators.min(0)]), // Required and must be >= 0
-    amountPerMonth: new FormControl('', [Validators.required, Validators.min(0)]), // Required and must be >= 0
-    monthForYear: new FormControl(false), // Boolean field defaulting to false
-    bouns: new FormControl('', [Validators.required, Validators.min(0)]), // Required and must be >= 0
-    unUsedVacations: new FormControl('', [Validators.required, Validators.min(0)]), // Required and must be >= 0
+  addNewForm = new FormGroup({
+    employeeId: new FormControl(null, Validators.required), // Set initial value to null
+    endOFServiceReason: new FormControl('', Validators.required),
+    endOfServiceDate: new FormControl('', Validators.required),
+    lastWorkingDate: new FormControl('', Validators.required),
   });
 
   ngOnInit() {
+
+    this.endPoint = "EndOfServiceRequest"
     // adding this Configurations in each Component Customized
     Globals.getMainLangChanges().subscribe((mainLang) => {
       console.log('Main language changed to:', mainLang);
 
-      this.endPoint = "EndOfService"
       // update mainLang at Service
-      this._EndOfServiceService.setCulture(mainLang);
+      this._EndOfServiceRequest.setCulture(mainLang);
 
       // update endpoint
-      this._EndOfServiceService.setEndPoint(this.endPoint);
+      this._EndOfServiceRequest.setEndPoint(this.endPoint);
+
+      // drop down Employee
+      this.getDropDownEmployee()
 
       // then, load data again to lens on the changes of mainLang & endPoints Call
       this.loadData(
@@ -88,6 +82,7 @@ export class EndOfServiceComponent {
         this.sortField,
         this.sortOrder
       );
+
     });
 
     this.cols = [
@@ -103,6 +98,16 @@ export class EndOfServiceComponent {
     ];
   }
 
+  getDropDownEmployee() {
+    this._EndOfServiceRequest.getDropdownField('Employee').subscribe({
+      next: (res) => {
+        console.log(res);
+        this.dropdownItemsEmployee = res.data;
+        console.log(this.dropdownItemsEmployee);
+      },
+    });
+  }
+
   splitCamelCase(str: any) {
     return str
       .replace(/([A-Z])/g, ' $1')
@@ -115,14 +120,11 @@ export class EndOfServiceComponent {
 
   editProduct(rowData: any) {
     console.log(rowData.id);
-    this._EndOfServiceService.GetById(rowData.id).subscribe({
+    this._EndOfServiceRequest.GetById(rowData.id).subscribe({
       next: (res) => {
         console.log(res.data);
         this.product = { ...res.data };
         this.productDialog = true;
-        console.clear();
-        console.log("edit form value")
-        console.log(this.editForm.value)
       },
       error: (err) => {
         console.log(err);
@@ -132,7 +134,7 @@ export class EndOfServiceComponent {
 
   confirmDelete(id: number) {
     // perform delete from sending request to api
-    this._EndOfServiceService.deleteById(id).subscribe({
+    this._EndOfServiceRequest.DeleteSoftById(id).subscribe({
       next: (res) => {
         // close dialog
         this.deleteProductDialog = false;
@@ -157,10 +159,20 @@ export class EndOfServiceComponent {
     });
   }
 
+  convertDate(date: any, format: string) {
+    return this._DatePipe.transform(date, format);
+  }
+
   addNew(form: FormGroup) {
     console.log(form);
 
-    this._EndOfServiceService.Register(form.value).subscribe({
+    let body = {
+      ...form.value,
+      endOfServiceDate: this.convertDate(form.get('endOfServiceDate').value, 'yyyy-MM-ddTHH:mm:ss'),
+      lastWorkingDate: this.convertDate(form.get('lastWorkingDate').value, 'yyyy-MM-ddTHH:mm:ss'),
+    }
+
+    this._EndOfServiceRequest.Register(body).subscribe({
       next: (res) => {
         if (res.success) {
           console.log(res);
@@ -201,7 +213,9 @@ export class EndOfServiceComponent {
   }
 
   setFieldsNulls() {
-    (this.newNotes = null);
+    (this.newNameAr = null),
+      (this.newNameEn = null),
+      (this.newNotes = null);
   }
 
   loadData(
@@ -221,7 +235,7 @@ export class EndOfServiceComponent {
     };
     filteredData.sortType = this.sortOrder;
 
-    this._EndOfServiceService.GetPage(filteredData).subscribe({
+    this._EndOfServiceRequest.GetPage(filteredData).subscribe({
       next: (res) => {
         console.log(res);
         this.allData = res.data;
@@ -285,7 +299,7 @@ export class EndOfServiceComponent {
 
     this.loading = true;
 
-    this._EndOfServiceService.Edit(form.value).subscribe({
+    this._EndOfServiceRequest.Edit(form.value).subscribe({
       next: (res) => {
         if (res.success) {
           this.hideDialog();
@@ -372,7 +386,7 @@ export class EndOfServiceComponent {
 
     this.loading = true;
 
-    this._EndOfServiceService.DeleteRangeSoft(selectedIds).subscribe({
+    this._EndOfServiceRequest.DeleteRangeSoft(selectedIds).subscribe({
       next: (res) => {
         this.deleteProductsDialog = false;
         this.messageService.add({
@@ -435,7 +449,7 @@ export class EndOfServiceComponent {
           formData.append(key, body[key]);
         }
       }
-      this._EndOfServiceService.importExcel(formData).subscribe({
+      this._EndOfServiceRequest.importExcel(formData).subscribe({
         next: (res) => {
           console.log(res);
           console.log('ezzzz');

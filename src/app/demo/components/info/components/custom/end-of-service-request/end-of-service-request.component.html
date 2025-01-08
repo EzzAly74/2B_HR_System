@@ -1,0 +1,226 @@
+<p-toast></p-toast>
+<pre-loading *ngIf="loading"></pre-loading>
+
+<p-toolbar styleClass="mb-4">
+    <ng-template pTemplate="left">
+        <div class="my-2">
+            <button pButton pRipple [label]="
+                    'Add New'.concat(' ', splitCamelCase(endPoint)) | translate
+                " icon="pi pi-plus" class="p-button-info mx-2 px-5" (click)="toggleNew()"></button>
+
+            <!-- <button pButton pRipple [label]="'Delete' | translate" icon="pi pi-trash" class="p-button-danger mx-2 px-5"
+                (click)="deleteSelectedProducts()" [disabled]="!selectedItems || !selectedItems.length"></button> -->
+        </div>
+    </ng-template>
+    <!-- <ng-template pTemplate="right">
+        <p-fileUpload mode="basic" [chooseLabel]="'Import File' | translate" chooseIcon="pi pi-upload" name="demo[]"
+            maxFileSize="1000000"
+            accept=".xls, .xlsx, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            (onSelect)="onFileSelect($event)" [auto]="true" />
+
+        <button pButton pRipple [label]="'Export' | translate" icon="pi pi-download" class="p-button-help mx-2 px-5"
+            pTooltip="CSV" (click)="exportCSV()" [disabled]="!selectedItems || !selectedItems.length"></button>
+
+    </ng-template> -->
+</p-toolbar>
+
+<p-dialog [(visible)]="showFormNew" [style]="{ width: '450px' }" [header]="'Add New' | translate" [modal]="true"
+    class="p-fluid">
+    <ng-template pTemplate="content">
+        <form [formGroup]="addNewForm" (ngSubmit)="addNew(addNewForm)">
+
+            <div class="field">
+                <label for="employeeId">{{ "employeeId" | translate }}</label>
+                <p-dropdown id="employeeId" formControlName="employeeId" [options]="dropdownItemsEmployee"
+                    optionLabel="name" optionValue="id" placeholder="{{ 'selectEmployee' | translate }}" [filter]="true"
+                    [showClear]="true" filterBy="employeeName">
+                </p-dropdown>
+                <div *ngIf="addNewForm.get('employeeId').invalid && addNewForm.get('employeeId').touched" class="error">
+                    {{ "employeeIdRequired" | translate }}
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="endOFServiceReason">{{ "endOFServiceReason" | translate }}</label>
+                <input id="endOFServiceReason" type="text" pInputText formControlName="endOFServiceReason" />
+                <div *ngIf="addNewForm.get('endOFServiceReason').invalid && addNewForm.get('endOFServiceReason').touched"
+                    class="error">
+                    {{ "endOFServiceReasonRequired" | translate }}
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="endOfServiceDate">{{ "endOfServiceDate" | translate }}</label>
+                <p-calendar id="endOfServiceDate" formControlName="endOfServiceDate" [showIcon]="true"></p-calendar>
+                <div *ngIf="addNewForm.get('endOfServiceDate').invalid && addNewForm.get('endOfServiceDate').touched"
+                    class="error">
+                    {{ "endOfServiceDateRequired" | translate }}
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="lastWorkingDate">{{ "lastWorkingDate" | translate }}</label>
+                <p-calendar id="lastWorkingDate" formControlName="lastWorkingDate" [showIcon]="true"></p-calendar>
+                <div *ngIf="addNewForm.get('lastWorkingDate').invalid && addNewForm.get('lastWorkingDate').touched"
+                    class="error">
+                    {{ "lastWorkingDateRequired" | translate }}
+                </div>
+            </div>
+
+            <div class="field">
+                <button [disabled]="addNewForm.invalid" pButton class="w-25" type="submit"
+                    [label]="'Insert New' | translate"></button>
+            </div>
+        </form>
+    </ng-template>
+</p-dialog>
+
+<p-table #dt [value]="allData" [paginator]="true" [rows]="itemsPerPage" [columns]="cols" [totalRecords]="totalItems"
+    selectionMode="multiple" [(selection)]="selectedItems" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [lazy]="true"
+    (onLazyLoad)="onPageChange($event)" dataKey="id">
+    <ng-template pTemplate="caption">
+        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+            <h5 class="m-0 manageItems">{{ "Manage Items" | translate }}</h5>
+            <span class="block mt-2 md:mt-0 p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText [(ngModel)]="nameFilter" (input)="loadFilteredData()" id="filter-name" type="text"
+                    [placeholder]="'Search...' | translate" class="w-full sm:w-auto" />
+            </span>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+        <tr>
+            <!-- <th style="width: 3rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th> -->
+            <th pSortableColumn="id" (click)="sortById($event)">
+                {{ "Id" | translate }}
+                <p-sortIcon field="id"></p-sortIcon>
+            </th>
+
+            <!-- Core Fields -->
+            <th pSortableColumn="employeeName" (click)="sortByName($event)">
+                {{ "employeeName" | translate }} <p-sortIcon field="employeeName"></p-sortIcon>
+            </th>
+
+            <th>
+                {{ "endOFServiceReason" | translate }}
+            </th>
+            <th>
+                {{ "endOfServiceDate" | translate }}
+            </th>
+            <th>
+                {{ "lastWorkingDate" | translate }}
+            </th>
+            <th>
+                {{ "Status" | translate }}
+            </th>
+            <th>
+                {{ "yearsOfService" | translate }}
+            </th>
+            <th>
+                {{ "finalSalaryEntitlement" | translate }}
+            </th>
+            <th>
+                {{ "compensation" | translate }}
+            </th>
+
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-rowData>
+        <tr>
+            <!-- <td>
+                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+            </td> -->
+            <td>
+                <span class="p-column-title">Id</span>
+                {{ rowData.id ? rowData.id : "" }}
+            </td>
+
+            <!-- core fields -->
+            <td [ngClass]="{ 'null-color': !rowData.employeeName }">
+                <span class="p-column-title">employeeName</span>
+                {{ rowData.employeeName ? rowData.employeeName : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.endOFServiceReason }">
+                <span class="p-column-title">{{ "endOFServiceReason" | translate }}</span>
+                {{ rowData.endOFServiceReason ? rowData.endOFServiceReason : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.endOfServiceDate }">
+                <span class="p-column-title">{{ "endOfServiceDate" | translate }}</span>
+                {{ rowData.endOfServiceDate ? (rowData.endOfServiceDate | date) : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.lastWorkingDate }">
+                <span class="p-column-title">{{ "lastWorkingDate" | translate }}</span>
+                {{ rowData.lastWorkingDate ? (rowData.lastWorkingDate | date) : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': rowData.status === null }">
+                <span class="p-column-title">{{ "Status" | translate }}</span>
+                {{ rowData.status !== null ? rowData.status : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.yearsOfService }">
+                <span class="p-column-title">{{ "yearsOfService" | translate }}</span>
+                {{ rowData.yearsOfService ? rowData.yearsOfService : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.finalSalaryEntitlement }">
+                <span class="p-column-title">{{ "finalSalaryEntitlement" | translate }}</span>
+                {{ rowData.finalSalaryEntitlement ? rowData.finalSalaryEntitlement : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.compensation }">
+                <span class="p-column-title">{{ "compensation" | translate }}</span>
+                {{ rowData.compensation ? rowData.compensation : "" }}
+            </td>
+
+            <!-- <td>
+                <div class="flex crud-operations">
+                    <button pButton pRipple icon="pi pi-pencil"
+                        class="p-button-rounded p-button-info p-button-outlined mr-2"
+                        (click)="editProduct(rowData)"></button>
+                    <button pButton pRipple icon="pi pi-trash"
+                        class="p-button-rounded p-button-outlined p-button-danger"
+                        (click)="deleteProduct(rowData)"></button>
+                </div>
+            </td> -->
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-dialog [(visible)]="deleteProductDialog" [header]="'Confirm Delete' | translate" [modal]="true"
+    [style]="{ width: '450px' }">
+    <div class="flex align-items-center justify-content-center">
+        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+        <span *ngIf="product">{{ "Are you sure you want to delete" | translate }}
+            <b>{{ product.name }}</b>?</span>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" [label]="'No' | translate"
+            (click)="deleteProductDialog = false"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" [label]="'Yes' | translate"
+            (click)="confirmDelete(product.id)"></button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="deleteProductsDialog" header="Confirm" [modal]="true" [style]="{ width: '450px' }">
+    <div class="flex align-items-center justify-content-center">
+        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+        <span>{{
+            "Are you sure you want to delete selected products?" | translate
+            }}</span>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" [label]="'No' | translate"
+            (click)="deleteProductsDialog = false"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" [label]="'Yes' | translate"
+            (click)="confirmDeleteSelected()"></button>
+    </ng-template>
+</p-dialog>

@@ -1,0 +1,79 @@
+.btn-filter-submit-container {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+
+.btn-filter-submit-container .field {
+    width: fit-content;
+}
+
+.btns {
+    display: flex;
+    gap: 8px;
+    width: 50%;
+}
+
+.allDates {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-height: 150px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.date-cell {
+    color: #007bff;
+    border: 1px solid #007bff;
+    background-color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 6px;
+    border-radius: 4px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: default;
+    user-select: none;
+    width: 100%;
+}
+
+.date-cell:hover {
+    background-color: #0056b3;
+    transform: scale(1.1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    color: #fff;
+}
+
+.allDates::-webkit-scrollbar {
+    width: 6px;
+}
+
+.allDates::-webkit-scrollbar-thumb {
+    background-color: #c0c0c0;
+    border-radius: 10px;
+}
+
+.allDates::-webkit-scrollbar-thumb:hover {
+    background-color: #a0a0a0;
+}
+
+#printableTable {
+    display: none !important;
+
+    h2 {
+        text-align: center;
+        margin: auto;
+    }
+}
+
+.exportBtns {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.exportBtns>div {
+    display: flex;
+    align-items: center;
+}

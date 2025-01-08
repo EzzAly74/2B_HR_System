@@ -73,6 +73,8 @@ import { AllTerminationsComponent } from './components/custom/Terminations/all-t
 import { HrLetterComponent } from './components/custom/hr-letter/hr-letter.component';
 import { EndOfServiceComponent } from './components/custom/end-of-service/end-of-service.component';
 import { ApplyingInternalJobComponent } from './components/custom/applying-internal-job/applying-internal-job.component';
+import { SalaryReportComponent } from './components/custom/salary-report/salary-report.component';
+import { EndOfServiceRequestComponent } from './components/custom/end-of-service-request/end-of-service-request.component';
 
 
 @NgModule({
@@ -388,6 +390,11 @@ import { ApplyingInternalJobComponent } from './components/custom/applying-inter
                 canActivate: [authGuard],
                 component: MonthlyAbsenceReportComponent,
             },
+            {
+                path: 'salaryReport',
+                canActivate: [authGuard],
+                component: SalaryReportComponent,
+            },
 
             {
                 path: 'companyBasicData',
@@ -461,6 +468,11 @@ import { ApplyingInternalJobComponent } from './components/custom/applying-inter
                 path: 'applyingInternalJob',
                 canActivate: [authGuard],
                 component: ApplyingInternalJobComponent,
+            },
+            {
+                path: 'endOfServiceRequest',
+                canActivate: [authGuard],
+                component: EndOfServiceRequestComponent,
             },
 
 

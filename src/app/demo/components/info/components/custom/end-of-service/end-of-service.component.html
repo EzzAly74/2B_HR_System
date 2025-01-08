@@ -19,7 +19,7 @@
             (onSelect)="onFileSelect($event)" [auto]="true" />
 
         <button pButton pRipple [label]="'Export' | translate" icon="pi pi-download" class="p-button-help mx-2 px-5"
-            pTooltip="CSV" (click)="exportCSV()" [disabled]="!selectedItems || !selectedItems.length"></button>
+            pTooltip="CSV" (click)="exportCSV()"></button>
 
     </ng-template>
 </p-toolbar>
@@ -256,7 +256,7 @@
 
             <div class="field">
                 <label for="bouns ">{{ "bouns " | translate }}</label>
-                <input type="number" pInputText id="bouns " formControlName="bouns " [(ngModel)]="product.bouns "
+                <input type="number" pInputText id="bouns " formControlName="bouns" [(ngModel)]="product.bouns "
                     [ngClass]="{
                     'ng-invalid ng-dirty': submitted && (product.bouns  === null || product.bouns  < 0)
                 }" />
