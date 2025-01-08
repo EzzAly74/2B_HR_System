@@ -603,6 +603,7 @@
     "monthForYear": "شهر لكل سنة",
     "unUsedVacations": "باقى رصيد الاجازات",
     "endOfService": "انهاء الخدمة",
+    "report": " ",
     "Add New End Of Service": "اضافة انهاء خدمة جديدة",
     "Showing {first} to {last} of {totalRecords} entries": "عرض {first} الى {last} من {totalRecords} السجلات"
 }

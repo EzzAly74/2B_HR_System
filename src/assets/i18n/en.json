@@ -590,6 +590,7 @@
     "monthForYear": "Month For Year",
     "unUsedVacations": "un Used Vacations",
     "endOfService": "End Of Service",
+    "report": " ",
     "Add New End Of Service": "Add New End Of Service",
     "Showing {first} to {last} of {totalRecords} entries": "Showing {first} to {last} of {totalRecords} entries"
 }
