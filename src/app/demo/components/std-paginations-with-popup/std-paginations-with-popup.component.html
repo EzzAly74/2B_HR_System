@@ -111,7 +111,7 @@
             <td [ngClass]="{ 'null-color': !rowData.creationTime }">
                 <span class="p-column-title">creationTime</span>
                 {{
-                rowData.lastModificationTime | date : "dd/MM/YYYY - h:mm a"
+                rowData.creationTime | date : "dd/MM/YYYY - h:mm a"
                 }}
             </td>
             <td [ngClass]="{ 'null-color': !rowData.lastModificationTime }">

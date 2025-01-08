@@ -1,6 +1,6 @@
 <p-toast></p-toast>
 <pre-loading *ngIf="loading"></pre-loading>
-
+<!-- 
 <p-toolbar styleClass="mb-4">
     <ng-template pTemplate="left">
         <div class="my-2">
@@ -22,7 +22,7 @@
             pTooltip="CSV" (click)="exportCSV()" [disabled]="!selectedItems || !selectedItems.length"></button>
 
     </ng-template>
-</p-toolbar>
+</p-toolbar> -->
 
 <p-dialog [(visible)]="showFormNew" [style]="{ width: '450px' }" [header]="'Add New' | translate" [modal]="true"
     class="p-fluid">
@@ -70,51 +70,79 @@
 
     <ng-template pTemplate="header">
         <tr>
-            <th style="width: 3rem">
+            <!-- <th style="width: 3rem">
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-            </th>
+            </th> -->
             <th pSortableColumn="id" (click)="sortById($event)">
                 {{ "Id" | translate }}
                 <p-sortIcon field="id"></p-sortIcon>
             </th>
-            <th pSortableColumn="name" (click)="sortByName($event)">
-                {{ "Name" | translate }} <p-sortIcon field="name"></p-sortIcon>
-            </th>
-            <th>{{ "Notes" | translate }}</th>
+
+
+            <th>{{ "nameOfJob" | translate }}</th>
+            <th>{{ "internalJobStatusValue" | translate }}</th>
+            <th>{{ "internalJobApplicationStateValue" | translate }}</th>
+            <th>{{ "jobTitle" | translate }}</th>
+
             <th>{{ "creationTime" | translate }}</th>
-            <th>{{ "lastModificationTime" | translate }}</th>
+            <!-- <th>{{ "lastModificationTime" | translate }}</th>
             <th>{{ "creatorName" | translate }}</th>
-            <th>{{ "lastModifierName" | translate }}</th>
+            <th>{{ "lastModifierName" | translate }}</th> -->
             <th>{{ "Actions" | translate }}</th>
         </tr>
     </ng-template>
 
     <ng-template pTemplate="body" let-rowData>
         <tr>
-            <td>
+            <!-- <td>
                 <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
-            </td>
+            </td> -->
             <td>
                 <span class="p-column-title">Id</span>
                 {{ rowData.id ? rowData.id : "" }}
             </td>
 
-            <td [ngClass]="{ 'null-color': !rowData.name }">
-                <span class="p-column-title">name</span>
-                {{ rowData.name ? rowData.name : "" }}
+            <td [ngClass]="{ 'null-color': !rowData.nameOfJob }">
+                <span class="p-column-title">nameOfJob</span>
+                {{ rowData.nameOfJob ? rowData.nameOfJob : "" }}
             </td>
-            <td [ngClass]="{ 'null-color': !rowData.notes }">
-                <span class="p-column-title">notes</span>
-                {{ rowData.notes ? rowData.notes : "" }}
+
+            <td [ngClass]="{
+                        'closed-status': rowData?.status == 0,
+                        'open-status': rowData?.status == 1
+                    }">
+                <span class="p-column-title">internalJobStatusValue</span>
+
+                <span class="text">
+                    {{ rowData.internalJobStatusValue ? rowData.internalJobStatusValue : "" }}
+                </span>
             </td>
+
+            <td [ngClass]="{
+                            'applied-status': rowData?.applicationState == 0,
+                            'inConsideration-status': rowData?.applicationState == 1,
+                            'hired-status': rowData?.applicationState == 2,
+                            'notSelected-status': rowData?.applicationState == 3
+                        }">
+                <span class="p-column-title">internalJobApplicationStateValue</span>
+                <span class="text">
+                    {{ rowData.internalJobApplicationStateValue ? rowData.internalJobApplicationStateValue : "" }}
+                </span>
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.jobTitle }">
+                <span class="p-column-title">jobTitle</span>
+                {{ rowData.jobTitle ? rowData.jobTitle : "" }}
+            </td>
+
 
             <td [ngClass]="{ 'null-color': !rowData.creationTime }">
                 <span class="p-column-title">creationTime</span>
                 {{
-                rowData.lastModificationTime | date : "dd/MM/YYYY - h:mm a"
+                rowData.creationTime | date : "dd/MM/YYYY - h:mm a"
                 }}
             </td>
-            <td [ngClass]="{ 'null-color': !rowData.lastModificationTime }">
+            <!-- <td [ngClass]="{ 'null-color': !rowData.lastModificationTime }">
                 <span class="p-column-title">lastModificationTime</span>
                 {{ rowData.lastModificationTime | date : "dd/MM/YY - h:mm a" }}
             </td>
@@ -126,13 +154,13 @@
             <td [ngClass]="{ 'null-color': !rowData.lastModifierName }">
                 <span class="p-column-title">lastModifierName</span>
                 {{ rowData.lastModifierName ? rowData.lastModifierName : "" }}
-            </td>
+            </td> -->
 
             <td>
                 <div class="flex crud-operations">
                     <button pButton pRipple icon="pi pi-pencil"
-                        class="p-button-rounded p-button-info p-button-outlined mr-2"
-                        (click)="editProduct(rowData)"></button>
+                        class="p-button-rounded p-button-info p-button-outlined mr-2" (click)="editProduct(rowData)"
+                        [disabled]="rowData?.status == 0"></button>
                     <button pButton pRipple icon="pi pi-trash"
                         class="p-button-rounded p-button-outlined p-button-danger"
                         (click)="deleteProduct(rowData)"></button>
@@ -145,40 +173,22 @@
 <p-dialog [(visible)]="productDialog" [style]="{ width: '450px' }" [header]="'Item Details' | translate" [modal]="true"
     class="p-fluid">
     <ng-template pTemplate="content">
-        <form action="" [formGroup]="editForm" (submit)="saveProduct(editForm,product)">
-            <div class="field">
-                <label for="name">{{ "Arabic Name" | translate }}</label>
-                <input type="text" pInputText id="name" maxlength="50" formControlName="name" [(ngModel)]="product.name"
-                    autofocus [ngClass]="{
-                    'ng-invalid ng-dirty': submitted && !product.name
-                }" />
-                <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.name">{{ "Arabic Name is required."
-                    |
-                    translate }}</small>
+        <form [formGroup]="changeStatusForm" (ngSubmit)="saveStatus(changeStatusForm, product)">
+
+            <div class="field col-12 md:12">
+                <label for="AllStatus">{{ 'All Status' | translate }}</label>
+                <p-dropdown [options]="all_Status_DropDown" optionValue="id" optionLabel="name" formControlName="Status"
+                    [(ngModel)]="selectedStatus" (ngModelChange)="print(changeStatusForm)"
+                    placeholder="{{ 'Select Status' | translate }}" showClear="true">
+                </p-dropdown>
             </div>
 
-            <div class="field">
-                <label for="engName">{{ "English Name" | translate }}</label>
-                <input type="text" pInputText id="engName" maxlength="50" [(ngModel)]="product.engName"
-                    formControlName="engName" autofocus [ngClass]="{
-                    'ng-invalid ng-dirty': submitted && !product.engName
-                }" />
-                <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.engName">{{ "English Name is
-                    required."
-                    |
-                    translate }}</small>
-            </div>
-
-            <div class="field">
-                <label for="notes">{{ "Notes" | translate }}</label>
-                <textarea id="notes" pInputTextarea [(ngModel)]="product.notes" formControlName="notes" rows="3"
-                    cols="20"></textarea>
-            </div>
-            <div class="btns">
-                <button pButton pRipple [label]="'Cancel' | translate" icon="pi pi-times" class="p-button-text"
-                    (click)="hideDialog()" type="button"></button>
-                <button pButton pRipple [label]="'Save' | translate" icon="pi pi-check" class="p-button-text"
-                    type="submit" [disabled]="editForm.invalid"></button>
+            <div class="field col-12 md:12">
+                <div class="btns">
+                    <button pButton pRipple label="{{ 'Save' | translate }}" icon="pi pi-check" class="p-button-text"
+                        type="submit" [disabled]="changeStatusForm.invalid">
+                    </button>
+                </div>
             </div>
         </form>
     </ng-template>
