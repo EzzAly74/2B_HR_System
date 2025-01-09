@@ -12,3 +12,8 @@
 .manageItems {
     user-select: none;
 }
+
+
+::ng-deep .error {
+    color: red !important;
+}

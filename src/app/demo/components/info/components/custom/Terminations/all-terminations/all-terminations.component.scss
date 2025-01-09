@@ -1,0 +1,28 @@
+.field {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+
+    .label {
+        width: 40%;
+    }
+
+    p {
+        width: 60%;
+    }
+}
+
+.text-data {
+    color: #6c757d;
+    /* Gray text to mimic disabled fields */
+    background-color: #f8f9fa;
+    /* Light background to mimic a disabled field */
+    padding: 0.5rem;
+    border: 1px solid #dee2e6;
+    /* Light border */
+    border-radius: 4px;
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+}

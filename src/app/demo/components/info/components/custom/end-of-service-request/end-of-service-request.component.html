@@ -30,13 +30,13 @@
         <form [formGroup]="addNewForm" (ngSubmit)="addNew(addNewForm)">
 
             <div class="field">
-                <label for="employeeId">{{ "employeeId" | translate }}</label>
+                <label for="employeeId">{{ "Employee Name" | translate }}</label>
                 <p-dropdown id="employeeId" formControlName="employeeId" [options]="dropdownItemsEmployee"
-                    optionLabel="name" optionValue="id" placeholder="{{ 'selectEmployee' | translate }}" [filter]="true"
-                    [showClear]="true" filterBy="employeeName">
+                    optionLabel="name" optionValue="id" placeholder="{{ 'Select Employee' | translate }}"
+                    [filter]="true" [showClear]="true" filterBy="employeeName">
                 </p-dropdown>
                 <div *ngIf="addNewForm.get('employeeId').invalid && addNewForm.get('employeeId').touched" class="error">
-                    {{ "employeeIdRequired" | translate }}
+                    {{ "Employee is Required" | translate }}
                 </div>
             </div>
 

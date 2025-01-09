@@ -119,51 +119,50 @@
         <section class="form-data">
             <div class="field col-12">
                 <label for="jobName">{{ "jobName" | translate }}</label>
-                <input id="jobName" pInputText [(ngModel)]="product.jobName" readonly />
+                <p class="text-data">{{ product.jobName }}</p>
             </div>
 
             <div class="field col-12">
                 <label for="reason">{{ "reason" | translate }}</label>
-                <textarea id="reason" pInputTextarea [(ngModel)]="product.reason" rows="3" readonly></textarea>
+                <p class="text-data">{{ product.reason }}</p>
             </div>
 
             <div class="field col-12">
                 <label for="lastWorkingDate">{{ "lastWorkingDate" | translate }}</label>
-                <p-calendar id="lastWorkingDate" [(ngModel)]="product.lastWorkingDate" dateFormat="yy-mm-dd"
-                    [disabled]="true"></p-calendar>
+                <p class="text-data">{{ product.lastWorkingDate | date:'yyyy/MM/dd' }}</p>
             </div>
 
             <div class="field col-12">
                 <label for="clearanceDate">{{ "clearanceDate" | translate }}</label>
-                <p-calendar id="clearanceDate" [(ngModel)]="product.clearanceDate" dateFormat="yy-mm-dd"
-                    [disabled]="true"></p-calendar>
+                <p class="text-data">{{ product.clearanceDate | date:'yyyy/MM/dd' }}</p>
             </div>
 
             <div class="field col-12">
                 <label for="creationTime">{{ "creationTime" | translate }}</label>
-                <input id="creationTime" pInputText [(ngModel)]="product.creationTime" readonly />
+                <p class="text-data">{{ product.creationTime | date:'yyyy-MM-dd , HH:mm:ss a' }}</p>
             </div>
 
             <div class="field col-12">
                 <label for="lastModificationTime">{{ "lastModificationTime" | translate }}</label>
-                <input id="lastModificationTime" pInputText [(ngModel)]="product.lastModificationTime" readonly />
+                <p class="text-data">{{ product.lastModificationTime | date:'yyyy-MM-dd , HH:mm:ss a' }}</p>
             </div>
 
             <div class="field col-12">
                 <label for="creatorName">{{ "creatorName" | translate }}</label>
-                <input id="creatorName" pInputText [(ngModel)]="product.creatorName" readonly />
+                <p class="text-data">{{ product.creatorName }}</p>
             </div>
 
             <div class="field col-12">
                 <label for="lastModifierName">{{ "lastModifierName" | translate }}</label>
-                <input id="lastModifierName" pInputText [(ngModel)]="product.lastModifierName" readonly />
+                <p class="text-data">{{ product.lastModifierName }}</p>
             </div>
 
             <div class="field col-12">
                 <label for="actions">{{ "Actions" | translate }}</label>
-                <textarea id="actions" pInputTextarea [(ngModel)]="product.Actions" rows="3" readonly></textarea>
+                <p class="text-data">{{ product.Actions }}</p>
             </div>
         </section>
+
 
     </ng-template>
 

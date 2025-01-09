@@ -59,8 +59,8 @@
             </div>
 
             <div class="field">
-                <label for="bouns ">{{ "bouns " | translate }}</label>
-                <input pInputText formControlName="bouns " id="bouns " [placeholder]="'Enter bouns ' | translate"
+                <label for="bouns">{{ "bouns" | translate }}</label>
+                <input pInputText formControlName="bouns" id="bouns" [placeholder]="'Enter bouns' | translate"
                     type="number">
             </div>
 
@@ -108,7 +108,7 @@
             <th>{{ "rangeTo" | translate }}</th>
             <th>{{ "amountPerMonth" | translate }}</th>
             <th>{{ "monthForYear" | translate }}</th>
-            <th>{{ "bouns " | translate }}</th>
+            <th>{{ "bouns" | translate }}</th>
             <th>{{ "unUsedVacations" | translate }}</th>
 
             <th>{{ "creationTime" | translate }}</th>
@@ -154,9 +154,9 @@
                 <p-checkbox [(ngModel)]="rowData.monthForYear" binary="true" [disabled]="true"></p-checkbox>
             </td>
 
-            <td [ngClass]="{ 'null-color': !rowData.bouns  }">
-                <span class="p-column-title">bouns </span>
-                {{ rowData.bouns ? rowData.bouns : "" }}
+            <td [ngClass]="{ 'null-color': !rowData.bouns}">
+                <span class="p-column-title">bouns</span>
+                {{ rowData.bouns? rowData.bouns: "" }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.unUsedVacations }">
@@ -255,13 +255,13 @@
             </div>
 
             <div class="field">
-                <label for="bouns ">{{ "bouns " | translate }}</label>
-                <input type="number" pInputText id="bouns " formControlName="bouns" [(ngModel)]="product.bouns "
+                <label for="bouns">{{ "bouns" | translate }}</label>
+                <input type="number" pInputText id="bouns" formControlName="bouns" [(ngModel)]="product.bouns"
                     [ngClass]="{
-                    'ng-invalid ng-dirty': submitted && (product.bouns  === null || product.bouns  < 0)
+                    'ng-invalid ng-dirty': submitted && (product.bouns=== null || product.bouns< 0)
                 }" />
-                <small class="ng-dirty ng-invalid" *ngIf="submitted && (product.bouns  === null || product.bouns  < 0)">
-                    {{ "bouns must be a non-negative number." | translate }}
+                <small class="ng-dirty ng-invalid" *ngIf="submitted && (product.bouns=== null || product.bouns< 0)">
+                    {{ "bounsmust be a non-negative number." | translate }}
                 </small>
             </div>
 
