@@ -8,6 +8,7 @@ import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 import { TranslateService } from '@ngx-translate/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-shift',
@@ -15,13 +16,14 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
     styleUrl: './shift.component.scss',
     standalone: true,
     imports: [GlobalsModule, PrimeNgModule],
-    providers: [MessageService],
+    providers: [MessageService, DatePipe],
 })
 export class ShiftComponent {
     constructor(
         private _ShiftService: ShiftService,
         private messageService: MessageService,
-        private translate: TranslateService
+        private translate: TranslateService,
+        private _DatePipe: DatePipe
     ) { }
 
     @ViewChild('dt') dt: Table;
@@ -195,12 +197,8 @@ export class ShiftComponent {
         // first convert from date full format to time only
         // why? because prime ng calender component returned the value as a full Date Format
         form.patchValue({
-            startAttendeesTime: form
-                .get('startAttendeesTime')
-                .value.toLocaleTimeString('en-US', { hour12: false }),
-            endAttendeesTime: form
-                .get('endAttendeesTime')
-                .value.toLocaleTimeString('en-US', { hour12: false }),
+            startAttendeesTime: this._DatePipe.transform(form.get("startAttendeesTime").value, 'HH:mm:ss'), // Format time
+            endAttendeesTime: this._DatePipe.transform(form.get("endAttendeesTime").value, 'HH:mm:ss'),     // Format time
         });
 
         console.log(form);
@@ -327,19 +325,16 @@ export class ShiftComponent {
         this.submitted = true;
         console.log(id);
 
-        form.patchValue({
-            startAttendeesTime: form
-                .get('startAttendeesTime')
-                .value.toLocaleTimeString('en-US', { hour12: false }),
-            endAttendeesTime: form
-                .get('endAttendeesTime')
-                .value.toLocaleTimeString('en-US', { hour12: false }),
+        let body = {
+            ...form.value,
+            // startAttendeesTime: this._DatePipe.transform(form.get('startAttendeesTime').value, "HH:mm:ss"),
+            // endAttendeesTime: this._DatePipe.transform(form.get('endAttendeesTime').value, "HH:mm:ss"),
             id: id,
-        });
+        }
 
         console.log(form);
 
-        this._ShiftService.Edit(form.value).subscribe({
+        this._ShiftService.Edit(body).subscribe({
             next: (res) => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
