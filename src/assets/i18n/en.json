@@ -313,6 +313,7 @@
     "Enter Your Password": "Enter Your Password",
     "Sign In": "Sign In",
     "Select Employee": "Select Employee",
+    "Select Employees": "Select Employees",
     "Internal Jobs": "Internal Jobs",
     "Add New Internal Job": "Add New Internal Job",
     "MacAdress": "Mac Address",
@@ -637,6 +638,12 @@
     "Enter bouns": "Enter bouns",
     "Enter unused vacations": "Enter unused vacations",
     "Add New Allowance Values": "Add New Allowance Values",
+    "Holiday Name": "Holiday Name",
+    "Is Static Vacation": "Is Static Vacation",
+    "Is Static Shift": "Is Static Shift",
+    "Add New Attendence Configuration": "Add New Attendence Configuration",
+    "calculateLateAttendanceInTime": "Calculate Late Attendance In Time",
+    "calculateLateAttendancePerMonth": "Calculate Late Attendance Per Month",
     "internalJobApplicationStateValue": "internal Job Application State Value",
     "Showing {first} to {last} of {totalRecords} entries": "Showing {first} to {last} of {totalRecords} entries"
 }

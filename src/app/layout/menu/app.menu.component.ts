@@ -340,7 +340,7 @@ export class AppMenuComponent implements OnInit {
                             },
                             {
                                 label: this.translate.instant(
-                                    'Administrations'
+                                    'PARTITION'
                                 ),
                                 routerLink: ['/info/partition'],
                             },

@@ -125,12 +125,10 @@ export class AllEmployeesLocationComponent {
     editProduct(rowData: any) {
         // alert(rowData.id);
         console.log('edit works');
-        this.loading = true;
         this._EmployeeLocationService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
 
-                this.loading = true;
                 this.product = { ...res.data };
                 this.productDialog = true;
 

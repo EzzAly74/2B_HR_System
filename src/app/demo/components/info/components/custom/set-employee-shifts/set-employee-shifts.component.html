@@ -26,7 +26,7 @@
                             }}</label>
 
                         <p-multiSelect [options]="dropdownItemsEmployee" optionLabel="name"
-                            [(ngModel)]="selectedEmployee" placeholder="Select Employees"
+                            [(ngModel)]="selectedEmployee" [placeholder]="'Select Employees' | translate"
                             (onChange)="onSelectEmployees($event)" />
 
                     </div>

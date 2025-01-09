@@ -5,8 +5,8 @@
 <p-toolbar styleClass="mb-4">
     <ng-template pTemplate="left">
         <div class="my-2">
-            <button pButton pRipple label="Add New" icon="pi pi-plus" class="p-button-info mx-2 px-5"
-                (click)="toggleNew()"></button>
+            <button pButton pRipple [label]="'Add New Attendence Configuration' | translate" icon="pi pi-plus"
+                class="p-button-info mx-2 px-5" (click)="toggleNew()"></button>
 
             <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mx-2 px-5"
                 (click)="deleteSelectedProducts()" [disabled]="!selectedItems || !selectedItems.length"></button>
@@ -282,7 +282,7 @@
     (onLazyLoad)="onPageChange($event)" dataKey="id">
     <ng-template pTemplate="caption">
         <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-            <h5 class="m-0">Manage Items</h5>
+            <h5 class="m-0">{{'Manage Items' | translate}}</h5>
             <span class="block mt-2 md:mt-0 p-input-icon-left">
                 <i class="pi pi-search"></i>
                 <input pInputText [(ngModel)]="nameFilter" (input)="loadFilteredData()" id="filter-name" type="text"
@@ -297,15 +297,15 @@
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
             <th pSortableColumn="id" (click)="sortById($event)">
-                Id
+                {{'Id' | translate}}
                 <p-sortIcon field="id"></p-sortIcon>
             </th>
             <th pSortableColumn="name" (click)="sortByName($event)">
-                Name <p-sortIcon field="name"></p-sortIcon>
+                {{'Name' | translate}} <p-sortIcon field="name"></p-sortIcon>
             </th>
-            <th>calculateLateAttendanceInTime</th>
-            <th>calculateLateAttendancePerMonth</th>
-            <th>Actions</th>
+            <th>{{'calculateLateAttendanceInTime' | translate}}</th>
+            <th>{{'calculateLateAttendancePerMonth' | translate}}</th>
+            <th>{{'Actions' | translate}}</th>
         </tr>
     </ng-template>
 

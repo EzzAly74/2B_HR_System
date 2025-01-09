@@ -39,6 +39,7 @@ export class EmployeeEditComponent {
         private confirmationService: ConfirmationService
     ) { }
 
+
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
     @ViewChild('manageItems') manageItems: ElementRef;
@@ -418,7 +419,6 @@ export class EmployeeEditComponent {
         if (changes["selectedAction"]) {
             console.clear();
             console.log('selectedAction changed:', this.selectedAction);
-            alert("hiiiiiiiiiiiiiii")
             this.selectedAction
         }
     }
@@ -587,15 +587,6 @@ export class EmployeeEditComponent {
         });
     }
 
-    // onSelect(evt: any) {
-    //     console.log(evt);
-    //     this.messageService.add({
-    //         severity: 'info',
-    //         summary: 'File Uploaded',
-    //         detail: '',
-    //     });
-    // }
-
     submitForm(formData: FormGroup) {
         formData.patchValue({
             BloodTypes: this.selectedBloodType?.id,
@@ -639,6 +630,7 @@ export class EmployeeEditComponent {
 
         console.log(formData.value);
 
+        this.loading = true;
         let newFormData: FormData = new FormData();
         let body = formData.value;
         for (const key in body) {
@@ -654,6 +646,8 @@ export class EmployeeEditComponent {
                     summary: 'Employee Edited Successfully',
                 });
                 console.log(res);
+                this.loading = false;
+
                 this.editForm.get('Id').disable();
                 // this.employeeEditService.GetById(this.currentId).subscribe({
                 //     next: (res) => {
@@ -768,9 +762,11 @@ export class EmployeeEditComponent {
         });
         console.log(formData.value);
     }
+
     onGovernmentChange(event: any): void {
         console.log(event);
     }
+
     getData(): Observable<any> {
         this.employeeEditService.GetById(this.currentId).subscribe({
             next: (res) => {
@@ -780,6 +776,7 @@ export class EmployeeEditComponent {
         });
         return this.employeeEditService.GetById(this.currentId);
     }
+
     getDropDownsData() {
         // Enum ===>
         // get Blood Type Dropdown
@@ -882,6 +879,7 @@ export class EmployeeEditComponent {
             enum: 'ContractType',
         });
     }
+
     onSelect(event: any) {
         console.log(event);
         this.file = event.currentFiles[0];
@@ -892,9 +890,11 @@ export class EmployeeEditComponent {
     showUploadImgDialg() {
         this.uploadImageDialog = true;
     }
+
     hideDialog() {
         this.uploadImageDialog = false;
     }
+
     updateImage() {
         let body = {
             EmployeeId: this.currentId,
@@ -963,6 +963,7 @@ export class EmployeeEditComponent {
             },
         });
     }
+
     confirmDeleteImage(event: any) {
         this.confirmationService.confirm({
             target: event.target as EventTarget,
