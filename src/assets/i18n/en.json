@@ -589,6 +589,8 @@
     "rangeTo": "Range To",
     "amountPerMonth": "Amount Per Month",
     "bouns": "bouns",
+    "Add New Bonus": "Add New Bonus",
+    "departmentCode": " department Code ",
     "monthForYear": "Month For Year",
     "Month For Year": "Month For Year",
     "unUsedVacations": "un Used Vacations",
@@ -634,6 +636,7 @@
     "Enter level from": "Enter level from",
     "Enter bouns": "Enter bouns",
     "Enter unused vacations": "Enter unused vacations",
+    "Add New Allowance Values": "Add New Allowance Values",
     "internalJobApplicationStateValue": "internal Job Application State Value",
     "Showing {first} to {last} of {totalRecords} entries": "Showing {first} to {last} of {totalRecords} entries"
 }

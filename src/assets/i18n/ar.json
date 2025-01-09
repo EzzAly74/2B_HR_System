@@ -71,6 +71,7 @@
     "Delete": "حذف",
     "Add New": "إضافة جديد",
     "Add New Bank": "إضافة بنك جديد",
+    "Add New Bonus": "إضافة مكافاءة جديد",
     "Add New Government": "إضافة محافظة جديدة",
     "Add New Qualification": "إضافة مؤهل جديد",
     "Add New Grade": "إضافة درجة جديدة",
@@ -165,6 +166,7 @@
     "Is Insured": "مؤمن",
     "Is Manager": "مدير",
     "Partition": "الاقسام",
+    "departmentCode": " كود الادارة ",
     "Bank": "البنك",
     "Grade": "الدرجة",
     "job Nature": "طبيعة العمل",
@@ -651,6 +653,7 @@
     "Enter level from": "ادخل بداية المستوى",
     "Enter amount per month": "ادخل القيمة كل شهر",
     "Enter bouns": "اخل المكافاءات",
+    "Add New Allowance Values": "اضافة نوع بدل جديد",
     "Enter unused vacations": "ادخل الاجازات الغير ماخوذة",
     "Showing {first} to {last} of {totalRecords} entries": "عرض {first} الى {last} من {totalRecords} السجلات"
 }

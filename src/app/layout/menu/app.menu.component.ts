@@ -79,10 +79,14 @@ export class AppMenuComponent implements OnInit {
                                 label: this.translate.instant('KPIs'),
                                 routerLink: ['/info/kpi'],
                             },
+
                             {
-                                label: this.translate.instant('ALLOWANCE'),
-                                routerLink: ['/info/allowance'],
+                                label: this.translate.instant(
+                                    'MONTHLYALLOWANCE'
+                                ),
+                                routerLink: ['/info/monthlyAllowance'],
                             },
+
                             {
                                 label: this.translate.instant(
                                     'Month End Closure'
@@ -140,12 +144,6 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/allEmployeesLocation'],
                             },
 
-                            {
-                                label: this.translate.instant(
-                                    'MONTHLYALLOWANCE'
-                                ),
-                                routerLink: ['/info/monthlyAllowance'],
-                            },
 
                             {
                                 label: this.translate.instant(
@@ -335,6 +333,10 @@ export class AppMenuComponent implements OnInit {
                             {
                                 label: this.translate.instant('Departments'),
                                 routerLink: ['/info/department'],
+                            },
+                            {
+                                label: this.translate.instant('ALLOWANCE'),
+                                routerLink: ['/info/allowance'],
                             },
                             {
                                 label: this.translate.instant(
