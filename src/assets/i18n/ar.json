@@ -665,5 +665,6 @@
     "calculateLateAttendancePerMonth": "حساب تاخير الحضور بالشهر",
     "Add New Attendence Configuration": "اضافة اعداد حضور جديد",
     "Is Static Vacation": "اجازة ثابتة",
+    "Loading...": "تحميل...",
     "Showing {first} to {last} of {totalRecords} entries": "عرض {first} الى {last} من {totalRecords} السجلات"
 }
