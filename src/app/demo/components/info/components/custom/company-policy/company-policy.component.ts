@@ -39,7 +39,7 @@ export class CompanyPolicyComponent {
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
-    loading: boolean = true;
+    loading: boolean = false;
     nameFilter: string = '';
     deleteProductDialog: boolean = false;
     deleteProductsDialog: boolean = false;
@@ -278,7 +278,7 @@ export class CompanyPolicyComponent {
         filterType: string,
         sortType: string
     ) {
-        // this.loading = true;
+        this.loading = true;
         let filteredData = {
             pageNumber: page,
             pageSize: size,

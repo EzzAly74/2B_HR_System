@@ -269,6 +269,8 @@ export class EmployeeEditComponent {
             { field: 'lastModifierName', header: 'lastModifierName' },
         ];
         this.getDropDownsData();
+
+        this.loading = true;
         this.getData()
             .pipe(
                 tap((data) => {
@@ -303,11 +305,16 @@ export class EmployeeEditComponent {
                 })
             )
 
-            .subscribe((transformedDates) => {
-                console.log('transformedDates');
-                console.log(transformedDates);
-
-                this.patchFormValues(this.allData, transformedDates);
+            .subscribe({
+                next: (transformedDates: any) => {
+                    console.log('transformedDates');
+                    console.log(transformedDates);
+                    this.patchFormValues(this.allData, transformedDates);
+                    this.loading = false
+                },
+                error: () => {
+                    this.loading = false
+                }
             });
 
         const transformedDates = {
@@ -768,11 +775,14 @@ export class EmployeeEditComponent {
     }
 
     getData(): Observable<any> {
+        // this.loading = true;
         this.employeeEditService.GetById(this.currentId).subscribe({
             next: (res) => {
                 this.allData = res.data;
                 this.patchFormValues(this.allData);
             },
+            error: () => {
+            }
         });
         return this.employeeEditService.GetById(this.currentId);
     }

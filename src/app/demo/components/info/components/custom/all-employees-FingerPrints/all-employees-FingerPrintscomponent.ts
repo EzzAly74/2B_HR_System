@@ -306,7 +306,7 @@ export class AllEmployeesFingerPrintComponent {
         selectedDateTo?: string,
     ) {
         // loading
-        // this.loading = true;
+        this.loading = true;
 
         console.log('selected Employee')
         console.log(selectedEmployee)

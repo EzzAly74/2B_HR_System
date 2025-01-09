@@ -453,6 +453,8 @@ export class EmployeeDataComponent {
         };
         filteredData.sortType = this.sortOrder;
 
+        this.loading = true;
+
         this._EmployeeService.GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);

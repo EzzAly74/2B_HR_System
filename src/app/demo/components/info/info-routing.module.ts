@@ -418,16 +418,19 @@ import { EndOfServiceRequestComponent } from './components/custom/end-of-service
                 canActivate: [authGuard],
                 component: InsuranceConfigComponent,
             },
+
             {
                 path: 'loans',
                 canActivate: [authGuard],
                 component: AllLoansComponent,
             },
+
             {
                 path: 'loans/details/:id',
                 canActivate: [authGuard],
                 component: LoanDetailsComponent,
             },
+
             {
                 path: 'getLoanPayment',
                 canActivate: [authGuard],

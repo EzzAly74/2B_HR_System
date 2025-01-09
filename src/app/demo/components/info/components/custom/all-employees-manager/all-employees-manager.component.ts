@@ -255,6 +255,7 @@ export class AllEmployeesManagerComponent {
         filteredData.sortType = this.sortOrder;
 
         console.log('FilteredData');
+        this.loading = true
         console.log(filteredData);
 
         this._EmployeeManagerService.GetPage(filteredData).subscribe({

@@ -303,21 +303,23 @@ export class AllEmployeesCovenantComponent {
         };
         filteredData.sortType = this.sortOrder;
 
-        this.employeeConvenantService.GetPage(filteredData).subscribe({
-            next: (res) => {
-                console.log(res);
-                this.allData = res.data;
-                console.log(res.data);
+        this.loading = true,
 
-                this.totalItems = res.totalItems;
-                this.loading = false;
-                console.log(this.selectedItems);
-            },
+            this.employeeConvenantService.GetPage(filteredData).subscribe({
+                next: (res) => {
+                    console.log(res);
+                    this.allData = res.data;
+                    console.log(res.data);
 
-            error: () => {
-                this.loading = false;
-            }
-        });
+                    this.totalItems = res.totalItems;
+                    this.loading = false;
+                    console.log(this.selectedItems);
+                },
+
+                error: () => {
+                    this.loading = false;
+                }
+            });
     }
 
     onPageChange(event: any) {
