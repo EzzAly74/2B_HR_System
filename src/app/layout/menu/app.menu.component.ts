@@ -16,7 +16,7 @@ export class AppMenuComponent implements OnInit {
         public layoutService: LayoutService,
         private translate: TranslateService,
         private sanitizer: DomSanitizer
-    ) { }
+    ) {}
 
     toggleTab(index: number) {
         const selectedItem = this.model[index];
@@ -144,7 +144,6 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/allEmployeesLocation'],
                             },
 
-
                             {
                                 label: this.translate.instant(
                                     'Employees Shifts'
@@ -220,9 +219,7 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/loanRequest'],
                             },
                             {
-                                label: this.translate.instant(
-                                    'hrLetter'
-                                ),
+                                label: this.translate.instant('hrLetter'),
                                 routerLink: ['/info/hrLetter'],
                             },
                             {
@@ -276,7 +273,6 @@ export class AppMenuComponent implements OnInit {
                         ],
                     },
 
-
                     {
                         label: this.translate.instant('Terminations'),
                         svg: this.sanitizer.bypassSecurityTrustHtml(`
@@ -298,9 +294,7 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/allTerminations'],
                             },
                             {
-                                label: this.translate.instant(
-                                    'endOfService'
-                                ),
+                                label: this.translate.instant('endOfService'),
                                 routerLink: ['/info/endOfService'],
                             },
                             {
@@ -309,10 +303,8 @@ export class AppMenuComponent implements OnInit {
                                 ),
                                 routerLink: ['/info/endOfServiceRequest'],
                             },
-
                         ],
                     },
-
 
                     {
                         label: this.translate.instant('Manage Structure'),
@@ -339,9 +331,7 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/allowance'],
                             },
                             {
-                                label: this.translate.instant(
-                                    'PARTITION'
-                                ),
+                                label: this.translate.instant('PARTITION'),
                                 routerLink: ['/info/partition'],
                             },
                             {
@@ -471,13 +461,10 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/documentRequired'],
                             },
                             {
-                                label: this.translate.instant(
-                                    'getLoanPayment'
-                                ),
+                                label: this.translate.instant('getLoanPayment'),
                                 icon: 'pi pi-fw pi-home',
                                 routerLink: ['/info/getLoanPayment'],
                             },
-
 
                             // {
                             //     label: this.translate.instant('RESIGNATIONSETTINGS'),
@@ -553,11 +540,8 @@ export class AppMenuComponent implements OnInit {
                                 ],
                             },
 
-
                             {
-                                label: this.translate.instant(
-                                    'Salary Reports'
-                                ),
+                                label: this.translate.instant('Salary Reports'),
                                 items: [
                                     {
                                         label: this.translate.instant(
@@ -566,14 +550,24 @@ export class AppMenuComponent implements OnInit {
                                         routerLink: ['/info/salaryReport'],
                                     },
 
-                                    // {
-                                    //     label: this.translate.instant('Resignation'),
-                                    //     icon: 'pi pi-fw pi-home',
-                                    //     routerLink: ['/info/resignation'],
-                                    // },
+                                    {
+                                        label: this.translate.instant(
+                                            'MonthlyPayrollSummaryReport'
+                                        ),
+                                        routerLink: [
+                                            '/info/MonthlyPayrollSummaryReport',
+                                        ],
+                                    },
+                                    {
+                                        label: this.translate.instant(
+                                            'EmployeePaySlipReport'
+                                        ),
+                                        routerLink: [
+                                            '/info/EmployeePaySlipReport',
+                                        ],
+                                    },
                                 ],
                             },
-
 
                             // {
                             //     label: this.translate.instant('Resignation'),

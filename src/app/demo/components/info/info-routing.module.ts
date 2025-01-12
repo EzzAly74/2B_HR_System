@@ -75,7 +75,8 @@ import { EndOfServiceComponent } from './components/custom/end-of-service/end-of
 import { ApplyingInternalJobComponent } from './components/custom/applying-internal-job/applying-internal-job.component';
 import { SalaryReportComponent } from './components/custom/salary-report/salary-report.component';
 import { EndOfServiceRequestComponent } from './components/custom/end-of-service-request/end-of-service-request.component';
-
+import { MonthlyPayrollSummaryReportComponent } from './components/custom/monthly-payroll-summary-report/monthly-payroll-summary-report.component';
+import { EmployeePaySlipReportComponent } from './components/custom/employee-pay-slip-report/employee-pay-slip-report.component';
 
 @NgModule({
     imports: [
@@ -477,11 +478,20 @@ import { EndOfServiceRequestComponent } from './components/custom/end-of-service
                 canActivate: [authGuard],
                 component: EndOfServiceRequestComponent,
             },
-
+            {
+                path: 'MonthlyPayrollSummaryReport',
+                canActivate: [authGuard],
+                component: MonthlyPayrollSummaryReportComponent,
+            },
+            {
+                path: 'EmployeePaySlipReport',
+                canActivate: [authGuard],
+                component: EmployeePaySlipReportComponent,
+            },
 
             { path: '**', component: NotfoundComponent },
         ]),
     ],
     exports: [RouterModule],
 })
-export class InfoRoutingModule { }
+export class InfoRoutingModule {}
