@@ -136,29 +136,26 @@
 <p-dialog [(visible)]="productDialog" [style]="{ width: '450px' }" [header]="'User Roles' | translate" [modal]="true"
     class="p-fluid">
     <ng-template pTemplate="content">
-        <div class="field">
-            <label for="name">{{ "Roles" | translate }}</label>
-            <p-multiSelect [options]="rolesDropdown" [(ngModel)]="selectedMulti" placeholder="Select Roles"
-                optionLabel="name" class="multiselect-custom" display="chip" (onChange)="selectMultiItems($event)">
-                <ng-template let-role pTemplate="item">
-                    <div class="flex align-items-center">
-                        <span class="ml-2">{{ role.name }}</span>
-                    </div>
-                </ng-template>
-            </p-multiSelect>
-        </div>
+        <form [formGroup]="rolesForm">
+            <div class="field">
+                <label for="roles">{{ "Roles" | translate }}</label>
+                <p-multiSelect formControlName="roles" [options]="rolesDropdown" placeholder="Select Roles"
+                    optionLabel="name" class="multiselect-custom" display="chip" (onChange)="selectMultiItems($event)">
+                    <ng-template let-role pTemplate="item">
+                        <div class="flex align-items-center">
+                            <span class="ml-2">{{ role.name }}</span>
+                        </div>
+                    </ng-template>
+                </p-multiSelect>
+            </div>
 
-        <!-- <div class="field field-closed">
-            <label for="notes">Closed</label>
-            <p-inputSwitch [(ngModel)]="closed" />
-        </div> -->
-    </ng-template>
-
-    <ng-template pTemplate="footer">
-        <button pButton pRipple [label]="'Cancel' | translate" icon="pi pi-times" class="p-button-text"
-            (click)="hideDialog()"></button>
-        <button pButton pRipple [label]="'Save' | translate" icon="pi pi-check" class="p-button-text"
-            (click)="saveRoles(product.id)"></button>
+            <div class="btns">
+                <button type="button" pButton pRipple [label]="'Cancel' | translate" icon="pi pi-times"
+                    class="p-button-text" (click)="hideDialog()"></button>
+                <button type="submit" pButton pRipple [label]="'Save' | translate" icon="pi pi-check"
+                    class="p-button-text" (click)="saveRoles(product.id)"></button>
+            </div>
+        </form>
     </ng-template>
 </p-dialog>
 
@@ -191,44 +188,65 @@
 <p-dialog [(visible)]="changePassDialog" [style]="{ width: '450px' }" [header]="'User Password' | translate"
     [modal]="true" class="p-fluid">
     <form [formGroup]="changePassForm" (submit)="submitChangePassForm(userId, changePassForm)">
-        <div class="field">
-            <label for="name">{{ "Password" | translate }}</label>
-            <input pInputText [(ngModel)]="newPassword" type="text" formControlName="password"
-                [placeholder]="'Enter New Password' | translate" />
-        </div>
 
         <div class="field">
-            <label for="name">{{ "Confirm Password" | translate }}</label>
-            <input pInputText [(ngModel)]="rePassword" type="text" formControlName="rePassword"
-                [placeholder]="'Confirm New Password' | translate" />
-        </div>
-        <div class="actions">
-            <button pButton pRipple [label]="'Cancel' | translate" type="button" icon="pi pi-times"
-                class="p-button-text" (click)="hideDialogPassword()"></button>
-            <button pButton pRipple [label]="'Save' | translate" icon="pi pi-check" class="p-button-text"></button>
-        </div>
-    </form>
-</p-dialog>
-<p-dialog [(visible)]="productLockDialog" [style]="{ width: '450px' }" [header]="'User Lock' | translate" [modal]="true"
-    class="p-fluid">
-    <ng-template pTemplate="content">
-        <div class="field locked-container">
-            <label for="name">{{ "Locked" | translate }}</label>
-            <div class="field field-locked">
-                <p-inputSwitch [(ngModel)]="locked" />
+            <label for="password">{{ "Password" | translate }}</label>
+            <input pInputText type="password" formControlName="password"
+                [placeholder]="'Enter New Password' | translate" />
+            <div class="error"
+                *ngIf="changePassForm.get('password').invalid && (changePassForm.get('password').touched || changePassForm.get('password').dirty)">
+                <small *ngIf="changePassForm.get('password').errors.required">{{ "Password is required." | translate
+                    }}</small>
+                <small *ngIf="changePassForm.get('password').errors.minlength">
+                    {{ "Password must be at least 5 characters." | translate }}</small>
             </div>
         </div>
 
-        <!-- <div class="field field-closed">
-            <label for="notes">Closed</label>
-            <p-inputSwitch [(ngModel)]="closed" />
-        </div> -->
-    </ng-template>
+        <div class="field">
+            <label for="rePassword">{{ "Confirm Password" | translate }}</label>
+            <input pInputText type="password" formControlName="rePassword"
+                [placeholder]="'Confirm New Password' | translate" />
+            <div class="error"
+                *ngIf="changePassForm.get('rePassword').invalid && (changePassForm.get('rePassword').touched || changePassForm.get('rePassword').dirty)">
+                <small *ngIf="changePassForm.get('rePassword').errors.required">{{ "Confirmation password is required."
+                    | translate }}</small>
+                <small *ngIf="changePassForm.get('rePassword').errors.minlength">
+                    {{ "Confirmation password must be at least 5 characters." | translate }}</small>
+            </div>
+        </div>
 
-    <ng-template pTemplate="footer">
-        <button pButton pRipple [label]="'Cancel' | translate" icon="pi pi-times" class="p-button-text"
-            (click)="hideDialogLock()"></button>
-        <button pButton pRipple [label]="'Save' | translate" icon="pi pi-check" class="p-button-text"
-            (click)="saveLock(product.id)"></button>
+        <div class="error"
+            *ngIf="changePassForm.errors?.['passwordMismatch'] && (changePassForm.touched || changePassForm.dirty)">
+            <small>{{ "Passwords do not match." | translate }}</small>
+        </div>
+
+        <div class="actions">
+            <button pButton pRipple [label]="'Cancel' | translate" type="button" icon="pi pi-times"
+                class="p-button-text" (click)="hideDialogPassword()"></button>
+            <button [disabled]="!changePassForm.valid" pButton pRipple [label]="'Save' | translate" icon="pi pi-check"
+                class="p-button-text"></button>
+        </div>
+    </form>
+</p-dialog>
+
+
+<p-dialog [(visible)]="productLockDialog" [style]="{ width: '450px' }" [header]="'User Lock' | translate" [modal]="true"
+    class="p-fluid">
+    <ng-template pTemplate="content">
+        <form [formGroup]="lockForm">
+            <div class="field locked-container">
+                <label for="locked">{{ "Locked" | translate }}</label>
+                <div class="field field-locked">
+                    <p-inputSwitch id="locked" formControlName="locked" />
+                </div>
+            </div>
+            <div class="btns">
+                <button type="button" pButton pRipple [label]="'Cancel' | translate" icon="pi pi-times"
+                    class="p-button-text" (click)="hideDialogLock()"></button>
+                <button type="submit" [disabled]="lockForm.invalid || !lockForm.get('locked').touched" pButton pRipple
+                    [label]="'Save' | translate" icon="pi pi-check" class="p-button-text"
+                    (click)="saveLock(product.id)"></button>
+            </div>
+        </form>
     </ng-template>
 </p-dialog>

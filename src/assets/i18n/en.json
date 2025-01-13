@@ -648,5 +648,7 @@
     "calculateLateAttendanceInTime": "Calculate Late Attendance In Time",
     "calculateLateAttendancePerMonth": "Calculate Late Attendance Per Month",
     "internalJobApplicationStateValue": "internal Job Application State Value",
+    "MonthlyPayrollSummaryReport": "Monthly Payroll Summary Report",
+    "EmployeePaySlipReport": "Employee PaySlip Report",
     "Showing {first} to {last} of {totalRecords} entries": "Showing {first} to {last} of {totalRecords} entries"
 }

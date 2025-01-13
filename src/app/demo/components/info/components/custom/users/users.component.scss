@@ -3,41 +3,59 @@
     gap: 8px;
     justify-content: center;
 }
+
 .roles-container span {
     padding: 8px;
     border: 1px solid #ecb100;
     border-radius: 8px;
     user-select: none;
 }
+
 .p-button {
     gap: 0 !important;
 }
+
 .table-data-container {
     display: flex;
     gap: 20px;
     align-items: center;
     justify-content: center;
 }
+
 .changePassBtn {
     min-width: max-content;
 }
+
 .lock-container {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 15px;
 }
+
 .locked-container {
     display: flex;
     align-items: center;
     gap: 15px;
 }
+
 .field-locked {
     margin-bottom: 0;
 }
+
 .actions {
     display: flex;
     width: 200px;
     margin-top: 2rem;
     align-items: center;
+}
+
+::ng-deep .error {
+    color: red;
+}
+
+.btns {
+    display: flex;
+    gap: 8px;
+    width: 50%;
 }

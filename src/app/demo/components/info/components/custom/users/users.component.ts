@@ -35,7 +35,7 @@ export class UsersComponent {
     constructor(
         private usersService: UsersService,
         private messageService: MessageService
-    ) { }
+    ) {}
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
@@ -72,6 +72,13 @@ export class UsersComponent {
     selectedYearEdit: number;
     rolesDropdown!: any;
     selectedMulti!: any[];
+    lockForm: FormGroup = new FormGroup({
+        locked: new FormControl(false, Validators.required), // Default value
+    });
+
+    rolesForm: FormGroup = new FormGroup({
+        roles: new FormControl(this.rolesDropdown, Validators.required), // Initialize with an empty array
+    });
 
     userId!: number;
     changePassForm: FormGroup = new FormGroup(
@@ -158,9 +165,9 @@ export class UsersComponent {
             .join(' ');
     }
 
-    startAttendeesTimeClick(event: any) { }
+    startAttendeesTimeClick(event: any) {}
 
-    endAttendeesTimeClick(event: any) { }
+    endAttendeesTimeClick(event: any) {}
 
     loadFilteredData() {
         this.loadData(
@@ -207,7 +214,7 @@ export class UsersComponent {
 
             error: () => {
                 this.loading = false;
-            }
+            },
         });
     }
 
