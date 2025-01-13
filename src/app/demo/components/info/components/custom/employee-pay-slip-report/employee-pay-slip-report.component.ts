@@ -21,7 +21,7 @@ export class EmployeePaySlipReportComponent {
         private _EmployeePaySlipReportService: EmployeePaySlipReportService,
         private messageService: MessageService,
         private translate: TranslateService
-    ) {}
+    ) { }
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
     allData: any[] = [];
@@ -110,25 +110,24 @@ export class EmployeePaySlipReportComponent {
 
             this.loadFilteredData();
 
-            // then, load data again to lens on the changes of mainLang & endPoints Call
-            // this.loadData(
-            //     this.page,
-            //     this.itemsPerPage,
-            //     this.nameFilter,
-            //     this.sortField,
-            //     this.sortOrder
-            // );
         });
-
         this.cols = [
-            { field: 'employeeName', header: 'Name' },
-            { field: 'departmentName', header: 'Department Name' },
-            { field: 'year', header: 'Year' },
-            { field: 'totalWorkingDays', header: 'Total Working Days' },
-            { field: 'totalAbsentDays', header: 'Total Absent Days' },
-            { field: 'absentDates', header: 'Absent Dates' },
+            { field: 'designation', header: 'Designation' },
+            { field: 'basicSalary', header: 'Basic Salary' },
+            { field: 'totalAllowances', header: 'Total Allowances' },
+            { field: 'overtimePay', header: 'Overtime Pay' },
+            { field: 'bonuses', header: 'Bonuses' },
+            { field: 'insurance', header: 'Insurance' },
+            { field: 'earnings', header: 'Earnings' },
+            { field: 'taxes', header: 'Taxes' },
+            { field: 'totalDeductions', header: 'Total Deductions' },
+            { field: 'paymentMethod', header: 'Payment Method' },
+            { field: 'totalLoanDeductions', header: 'Total Loan Deductions' },
+            { field: 'penaltiesAndDeductions', header: 'Penalties and Deductions' },
+            { field: 'earlyLeavePenaltyValue', header: 'Early Leave Penalty Value' },
+            { field: 'netSalary', header: 'Net Salary' },
+            { field: 'paymentDate', header: 'Payment Date' }
         ];
-
         this.selectedYear = null;
     }
 
@@ -165,9 +164,9 @@ export class EmployeePaySlipReportComponent {
             .join(' ');
     }
 
-    startAttendeesTimeClick(event: any) {}
+    startAttendeesTimeClick(event: any) { }
 
-    endAttendeesTimeClick(event: any) {}
+    endAttendeesTimeClick(event: any) { }
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
@@ -184,14 +183,6 @@ export class EmployeePaySlipReportComponent {
                     life: 3000,
                 });
 
-                // load data here
-                // this.loadData(
-                //     this.page,
-                //     this.itemsPerPage,
-                //     this.nameFilter,
-                //     this.sortField,
-                //     this.sortOrder
-                // );
             },
         });
     }
@@ -212,15 +203,6 @@ export class EmployeePaySlipReportComponent {
 
                     // set fields is empty
                     form.reset();
-
-                    // load data again
-                    // this.loadData(
-                    //     this.page,
-                    //     this.itemsPerPage,
-                    //     this.nameFilter,
-                    //     this.sortField,
-                    //     this.sortOrder
-                    // );
                 }
             },
         });

@@ -71,108 +71,120 @@
     <tr>
       <th>
         {{ "Name" | translate }}
-
       </th>
-
-      <th>{{ "Department Name" | translate }}</th>
-
       <th>
-        {{ "Month" | translate }}
+        {{ "Designation" | translate }}
       </th>
-
-      <!-- personal fields -->
-      <th>{{ "Year" | translate }}</th>
-      <th>{{ "Working Days" | translate }}</th>
-      <th>{{ "Absent Days" | translate }}</th>
-      <th>{{ "Absent Dates" | translate }}</th>
-
-
+      <th>
+        {{ "Basic Salary" | translate }}
+      </th>
+      <th>
+        {{ "Total Allowances" | translate }}
+      </th>
+      <th>
+        {{ "Overtime Pay" | translate }}
+      </th>
+      <th>
+        {{ "Bonuses" | translate }}
+      </th>
+      <th>
+        {{ "Insurance" | translate }}
+      </th>
+      <th>
+        {{ "Earnings" | translate }}
+      </th>
+      <th>
+        {{ "Taxes" | translate }}
+      </th>
+      <th>
+        {{ "Total Deductions" | translate }}
+      </th>
+      <th>
+        {{ "Payment Method" | translate }}
+      </th>
+      <th>
+        {{ "Total Loan Deductions" | translate }}
+      </th>
+      <th>
+        {{ "Penalties and Deductions" | translate }}
+      </th>
+      <th>
+        {{ "Early Leave Penalty Value" | translate }}
+      </th>
+      <th>
+        {{ "Net Salary" | translate }}
+      </th>
+      <th>
+        {{ "Payment Date" | translate }}
+      </th>
     </tr>
   </ng-template>
 
   <ng-template pTemplate="body" let-rowData>
     <tr>
-
-
-
       <td [ngClass]="{ 'null-color': !rowData.employeeName }">
-
         {{ rowData.employeeName ? rowData.employeeName : "" }}
       </td>
 
-      <td [ngClass]="{ 'null-color': !rowData.departmentName }">
-
-        {{ rowData.departmentName ? rowData.departmentName : "" }}
+      <td [ngClass]="{ 'null-color': !rowData.designation }">
+        {{ rowData.designation | date: "yyyy/MM/dd HH:mm:ss a"}}
       </td>
 
-      <td [ngClass]="{ 'null-color': !rowData.month }">
-
-        {{ rowData.month ? rowData.month : "" }}
+      <td [ngClass]="{ 'null-color': !rowData.basicSalary }">
+        {{ rowData.basicSalary ? rowData.basicSalary : 0 }}
       </td>
 
-      <!-- personal fields -->
-
-      <td [ngClass]="{ 'null-color': !rowData.year }">
-
-        {{ rowData.year ? rowData.year : "" }}
+      <td [ngClass]="{ 'null-color': !rowData.totalAllowances }">
+        {{ rowData.totalAllowances ? rowData.totalAllowances : 0 }}
       </td>
 
-      <td [ngClass]="{ 'null-color': !rowData.totalWorkingDays }">
-
-        {{ rowData.totalWorkingDays ? rowData.totalWorkingDays : "" }}
+      <td [ngClass]="{ 'null-color': !rowData.overtimePay }">
+        {{ rowData.overtimePay ? rowData.overtimePay : 0 }}
       </td>
 
-      <td [ngClass]="{ 'null-color': !rowData.totalAbsentDays }">
-
-        {{ rowData.totalAbsentDays ? rowData.totalAbsentDays : "" }}
-      </td>
-      <td [ngClass]="{ 'null-color': !rowData.daysLate }">
-
-        <div class="allDates">
-          <span *ngFor="let date of rowData.absentDates" class="date-cell">{{ date | date}}</span>
-        </div>
+      <td [ngClass]="{ 'null-color': !rowData.bonuses }">
+        {{ rowData.bonuses ? rowData.bonuses : 0 }}
       </td>
 
+      <td [ngClass]="{ 'null-color': !rowData.insurance }">
+        {{ rowData.insurance ? rowData.insurance : 0 }}
+      </td>
 
+      <td [ngClass]="{ 'null-color': !rowData.earnings }">
+        {{ rowData.earnings ? rowData.earnings : 0 }}
+      </td>
 
+      <td [ngClass]="{ 'null-color': !rowData.taxes }">
+        {{ rowData.taxes ? rowData.taxes : 0 }}
+      </td>
 
+      <td [ngClass]="{ 'null-color': !rowData.totalDeductions }">
+        {{ rowData.totalDeductions ? rowData.totalDeductions : 0 }}
+      </td>
 
+      <td [ngClass]="{ 'null-color': !rowData.paymentMethod }">
+        {{ rowData.paymentMethod ? rowData.paymentMethod : 0 }}
+      </td>
 
+      <td [ngClass]="{ 'null-color': !rowData.totalLoanDeductions }">
+        {{ rowData.totalLoanDeductions ? rowData.totalLoanDeductions : 0 }}
+      </td>
 
-      <!-- <td [ngClass]="{ 'null-color': !rowData.creationTime }">
-                <span class="p-column-title">creationTime</span>
-                {{ rowData.creationTime ? rowData.creationTime : "" }}
-            </td>
+      <td [ngClass]="{ 'null-color': !rowData.penaltiesAndDeductions }">
+        {{ rowData.penaltiesAndDeductions ? rowData.penaltiesAndDeductions : 0 }}
+      </td>
 
-            <td [ngClass]="{ 'null-color': !rowData.lastModificationTime }">
-                <span class="p-column-title">lastModificationTime</span>
-                {{
-                rowData.lastModificationTime
-                ? rowData.lastModificationTime
-                : ""
-                }}
-            </td>
+      <td [ngClass]="{ 'null-color': !rowData.earlyLeavePenaltyValue }">
+        {{ rowData.earlyLeavePenaltyValue ? rowData.earlyLeavePenaltyValue : 0 }}
+      </td>
 
-            <td [ngClass]="{ 'null-color': !rowData.creatorName }">
-                <span class="p-column-title">creatorName</span>
-                {{ rowData.creatorName ? rowData.creatorName : "" }}
-            </td>
-            <td [ngClass]="{ 'null-color': !rowData.lastModifierName }">
-                <span class="p-column-title">lastModifierName</span>
-                {{ rowData.lastModifierName ? rowData.lastModifierName : "" }}
-            </td>
+      <td [ngClass]="{ 'null-color': !rowData.netSalary }">
+        {{ rowData.netSalary ? rowData.netSalary : 0 }}
+      </td>
 
-            <td>
-                <div class="flex crud-operations">
-                    <button pButton pRipple icon="pi pi-pencil"
-                        class="p-button-rounded p-button-info p-button-outlined mr-2"
-                        (click)="editProduct(rowData)"></button>
-
-                    <button pButton pRipple icon="pi pi-trash"
-                        class="p-button-rounded p-button-outlined p-button-danger"
-                        (click)="deleteProduct(rowData)"></button>
-                </div>
-            </td> -->
+      <td [ngClass]="{ 'null-color': !rowData.paymentDate }">
+        {{ rowData.paymentDate | date: "yyyy/MM/dd"}}
+      </td>
     </tr>
   </ng-template>
 </p-table>
@@ -215,112 +227,123 @@
         <p-sortIcon field="employeeName"></p-sortIcon>
       </th>
 
-      <th>{{ "Department Name" | translate }}</th>
-
-      <th (click)="sortByName($event)">
-        {{ "Month" | translate }}
+      <th>
+        {{ "Designation" | translate }}
       </th>
-
-      <!-- personal fields -->
-      <th>{{ "Year" | translate }}</th>
-      <th>{{ "Working Days" | translate }}</th>
-      <th>{{ "Absent Days" | translate }}</th>
-      <th>{{ "Absent Dates" | translate }}</th>
-
-      <!-- generic fields
-            <th>{{ "creationTime" | translate }}</th>
-            <th>{{ "lastModificationTime" | translate }}</th>
-            <th>{{ "creatorName" | translate }}</th>
-            <th>{{ "lastModifierName" | translate }}</th>
-            <th>{{ "Actions" | translate }}</th> -->
+      <th>
+        {{ "Basic Salary" | translate }}
+      </th>
+      <th>
+        {{ "Total Allowances" | translate }}
+      </th>
+      <th>
+        {{ "Overtime Pay" | translate }}
+      </th>
+      <th>
+        {{ "Bonuses" | translate }}
+      </th>
+      <th>
+        {{ "Insurance" | translate }}
+      </th>
+      <th>
+        {{ "Earnings" | translate }}
+      </th>
+      <th>
+        {{ "Taxes" | translate }}
+      </th>
+      <th>
+        {{ "Total Deductions" | translate }}
+      </th>
+      <th>
+        {{ "Payment Method" | translate }}
+      </th>
+      <th>
+        {{ "Total Loan Deductions" | translate }}
+      </th>
+      <th>
+        {{ "Penalties and Deductions" | translate }}
+      </th>
+      <th>
+        {{ "Early Leave Penalty Value" | translate }}
+      </th>
+      <th>
+        {{ "Net Salary" | translate }}
+      </th>
+      <th>
+        {{ "Payment Date" | translate }}
+      </th>
     </tr>
   </ng-template>
+
 
   <ng-template pTemplate="body" let-rowData>
     <tr>
       <td>
         <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
       </td>
-
-
       <td [ngClass]="{ 'null-color': !rowData.employeeName }">
-        <span class="p-column-title">employeeName</span>
         {{ rowData.employeeName ? rowData.employeeName : "" }}
       </td>
 
-      <td [ngClass]="{ 'null-color': !rowData.departmentName }">
-        <span class="p-column-title">departmentName</span>
-        {{ rowData.departmentName ? rowData.departmentName : "" }}
+      <td [ngClass]="{ 'null-color': !rowData.designation }">
+        {{ rowData.designation | date: "yyyy/MM/dd"}}
       </td>
 
-      <td [ngClass]="{ 'null-color': !rowData.month }">
-        <span class="p-column-title">month</span>
-        {{ rowData.month ? rowData.month : "" }}
+      <td [ngClass]="{ 'null-color': !rowData.basicSalary }">
+        {{ rowData.basicSalary ? rowData.basicSalary : 0 }}
       </td>
 
-      <!-- personal fields -->
-
-      <td [ngClass]="{ 'null-color': !rowData.year }">
-        <span class="p-column-title">year</span>
-        {{ rowData.year ? rowData.year : "" }}
+      <td [ngClass]="{ 'null-color': !rowData.totalAllowances }">
+        {{ rowData.totalAllowances ? rowData.totalAllowances : 0 }}
       </td>
 
-      <td [ngClass]="{ 'null-color': !rowData.totalWorkingDays }">
-        <span class="p-column-title">totalWorkingDays</span>
-        {{ rowData.totalWorkingDays ? rowData.totalWorkingDays : "" }}
+      <td [ngClass]="{ 'null-color': !rowData.overtimePay }">
+        {{ rowData.overtimePay ? rowData.overtimePay : 0 }}
       </td>
 
-      <td [ngClass]="{ 'null-color': !rowData.totalAbsentDays }">
-        <span class="p-column-title">totalAbsentDays</span>
-        {{ rowData.totalAbsentDays ? rowData.totalAbsentDays : "" }}
-      </td>
-      <td [ngClass]="{ 'null-color': !rowData.daysLate }">
-        <span class="p-column-title">daysLate</span>
-        <div class="allDates">
-          <span *ngFor="let date of rowData.absentDates" class="date-cell">{{ date | date}}</span>
-        </div>
+      <td [ngClass]="{ 'null-color': !rowData.bonuses }">
+        {{ rowData.bonuses ? rowData.bonuses : 0 }}
       </td>
 
+      <td [ngClass]="{ 'null-color': !rowData.insurance }">
+        {{ rowData.insurance ? rowData.insurance : 0 }}
+      </td>
 
+      <td [ngClass]="{ 'null-color': !rowData.earnings }">
+        {{ rowData.earnings ? rowData.earnings : 0 }}
+      </td>
 
+      <td [ngClass]="{ 'null-color': !rowData.taxes }">
+        {{ rowData.taxes ? rowData.taxes : 0 }}
+      </td>
 
+      <td [ngClass]="{ 'null-color': !rowData.totalDeductions }">
+        {{ rowData.totalDeductions ? rowData.totalDeductions : 0 }}
+      </td>
 
+      <td [ngClass]="{ 'null-color': !rowData.paymentMethod }">
+        {{ rowData.paymentMethod ? rowData.paymentMethod : 0 }}
+      </td>
 
+      <td [ngClass]="{ 'null-color': !rowData.totalLoanDeductions }">
+        {{ rowData.totalLoanDeductions ? rowData.totalLoanDeductions : 0 }}
+      </td>
 
-      <!-- <td [ngClass]="{ 'null-color': !rowData.creationTime }">
-                <span class="p-column-title">creationTime</span>
-                {{ rowData.creationTime ? rowData.creationTime : "" }}
-            </td>
+      <td [ngClass]="{ 'null-color': !rowData.penaltiesAndDeductions }">
+        {{ rowData.penaltiesAndDeductions ? rowData.penaltiesAndDeductions : 0 }}
+      </td>
 
-            <td [ngClass]="{ 'null-color': !rowData.lastModificationTime }">
-                <span class="p-column-title">lastModificationTime</span>
-                {{
-                rowData.lastModificationTime
-                ? rowData.lastModificationTime
-                : ""
-                }}
-            </td>
+      <td [ngClass]="{ 'null-color': !rowData.earlyLeavePenaltyValue }">
+        {{ rowData.earlyLeavePenaltyValue ? rowData.earlyLeavePenaltyValue : 0 }}
+      </td>
 
-            <td [ngClass]="{ 'null-color': !rowData.creatorName }">
-                <span class="p-column-title">creatorName</span>
-                {{ rowData.creatorName ? rowData.creatorName : "" }}
-            </td>
-            <td [ngClass]="{ 'null-color': !rowData.lastModifierName }">
-                <span class="p-column-title">lastModifierName</span>
-                {{ rowData.lastModifierName ? rowData.lastModifierName : "" }}
-            </td>
+      <td [ngClass]="{ 'null-color': !rowData.netSalary }">
+        {{ rowData.netSalary ? rowData.netSalary : 0 }}
+      </td>
 
-            <td>
-                <div class="flex crud-operations">
-                    <button pButton pRipple icon="pi pi-pencil"
-                        class="p-button-rounded p-button-info p-button-outlined mr-2"
-                        (click)="editProduct(rowData)"></button>
-
-                    <button pButton pRipple icon="pi pi-trash"
-                        class="p-button-rounded p-button-outlined p-button-danger"
-                        (click)="deleteProduct(rowData)"></button>
-                </div>
-            </td> -->
+      <td [ngClass]="{ 'null-color': !rowData.paymentDate }">
+        {{ rowData.paymentDate | date: "yyyy/MM/dd HH:mm:ss a"}}
+      </td>
     </tr>
   </ng-template>
 </p-table>

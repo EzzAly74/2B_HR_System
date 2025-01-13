@@ -153,13 +153,13 @@
 
     <ng-template pTemplate="body" let-rowData>
         <tr>
-            <!-- <td>
-                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
-            </td> -->
             <td>
+                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+            </td>
+            <!-- <td>
                 <span class="p-column-title">Id</span>
                 {{ rowData.id ? rowData.id : "" }}
-            </td>
+            </td> -->
 
             <td [ngClass]="{ 'null-color': !rowData.covenantName }">
                 <span class="p-column-title">Name</span>
