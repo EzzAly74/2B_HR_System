@@ -290,7 +290,7 @@ export class EmployeeComponent {
                 ...form.value,
                 File: form.get("File").value,
                 DeleteImage: form.get("File").value ? true : false,
-                JoininDate: this.DatePipe.transform(form.get("JoininDate").value, 'yyyy-MM-dd'),
+                JoiningDate: this.DatePipe.transform(form.get("JoininDate").value, 'yyyy-MM-dd'),
                 BirthDate: this.DatePipe.transform(form.get("BirthDate").value, 'yyyy-MM-dd'),
                 HirDate: this.DatePipe.transform(form.get("HirDate").value, 'yyyy-MM-dd'),
                 ResignationDate: this.DatePipe.transform(form.get("ResignationDate").value, 'yyyy-MM-dd'),

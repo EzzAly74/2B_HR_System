@@ -7,13 +7,15 @@ import { Router } from '@angular/router';
 import { Globals } from 'src/app/class/globals';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { TranslateService } from '@ngx-translate/core';
+import { DatePipe } from '@angular/common';
 @Component({
     selector: 'app-attendence-configuration',
     standalone: true,
 
     imports: [GlobalsModule, PrimeNgModule],
 
-    providers: [MessageService],
+    providers: [MessageService, TranslateService, DatePipe],
     templateUrl: './attendence-configuration.component.html',
     styleUrl: './attendence-configuration.component.scss',
 })
