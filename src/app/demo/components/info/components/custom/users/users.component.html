@@ -28,9 +28,9 @@
             <th style="width: 3rem">
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
-            <th>
+            <!-- <th>
                 {{ "User Id" | translate }}
-            </th>
+            </th> -->
             <th (click)="sortByName($event)">
                 {{ "Employee Name" | translate }}
             </th>
@@ -55,10 +55,10 @@
             <td>
                 <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
             </td>
-            <td>
+            <!-- <td>
                 <span class="p-column-title">Id</span>
                 {{ rowData.id ? rowData.id : "" }}
-            </td>
+            </td> -->
 
             <td [ngClass]="{ 'null-color': !rowData.employeeNameAr }">
                 <span class="p-column-title">employeeNameAr</span>

@@ -25,10 +25,10 @@
 
     <ng-template pTemplate="header">
         <tr>
-            <th pSortableColumn="id" (click)="sortById($event)">
+            <!-- <th pSortableColumn="id" (click)="sortById($event)">
                 {{ "Id" | translate }}
                 <p-sortIcon field="id"></p-sortIcon>
-            </th>
+            </th> -->
             <th pSortableColumn="name" (click)="sortByName($event)">
                 {{ "employeeName" | translate }} <p-sortIcon field="employeeName"></p-sortIcon>
             </th>
@@ -48,10 +48,10 @@
 
     <ng-template pTemplate="body" let-rowData>
         <tr>
-            <td>
+            <!-- <td>
                 <span class="p-column-title">Id</span>
                 {{ rowData.id ? rowData.id : "" }}
-            </td>
+            </td> -->
 
             <td [ngClass]="{ 'null-color': !rowData.employeeName }">
                 <span class="p-column-title">employeeName</span>

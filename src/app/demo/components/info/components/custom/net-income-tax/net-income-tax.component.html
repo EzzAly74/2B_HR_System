@@ -87,10 +87,10 @@
             <th style="width: 3rem">
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
-            <th pSortableColumn="id" (click)="sortById($event)">
+            <!-- <th pSortableColumn="id" (click)="sortById($event)">
                 {{ "Id" | translate }}
                 <p-sortIcon field="id"></p-sortIcon>
-            </th>
+            </th> -->
             <th>
                 {{ "Level" | translate }}
             </th>
@@ -118,7 +118,7 @@
             <td>
                 <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
             </td>
-            <td><span class="p-column-title">Id</span> {{ rowData.id }}</td>
+            <!-- <td><span class="p-column-title">Id</span> {{ rowData.id }}</td> -->
             <td><span class="p-column-title">Level</span> {{ rowData.level }}</td>
 
             <td [ngClass]="{ 'null-color': !rowData.name }">

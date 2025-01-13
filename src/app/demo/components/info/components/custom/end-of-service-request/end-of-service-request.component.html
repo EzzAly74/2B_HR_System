@@ -95,10 +95,10 @@
             <!-- <th style="width: 3rem">
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th> -->
-            <th pSortableColumn="id" (click)="sortById($event)">
+            <!-- <th pSortableColumn="id" (click)="sortById($event)">
                 {{ "Id" | translate }}
                 <p-sortIcon field="id"></p-sortIcon>
-            </th>
+            </th> -->
 
             <!-- Core Fields -->
             <th pSortableColumn="employeeName" (click)="sortByName($event)">
@@ -135,10 +135,10 @@
             <!-- <td>
                 <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
             </td> -->
-            <td>
+            <!-- <td>
                 <span class="p-column-title">Id</span>
                 {{ rowData.id ? rowData.id : "" }}
-            </td>
+            </td> -->
 
             <!-- core fields -->
             <td [ngClass]="{ 'null-color': !rowData.employeeName }">
