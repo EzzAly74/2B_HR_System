@@ -161,8 +161,10 @@
     "Martial Status": "الحالة الاجتماعية",
     "Blood Types": "فصيلة الدم",
     "Gender Types": "أنواع الجنس",
+    "Gender": "النوع",
     "Qualification": "المؤهل",
     "Department": "القسم",
+    "Change Status": "تغير الحالة",
     "Is Insured": "مؤمن",
     "Is Manager": "مدير",
     "Partition": "الاقسام",
@@ -725,7 +727,12 @@
     "Product Details": "تفاصيل المنتج",
     "Name is required.": "الاسم مطلوب.",
     "Confirm": "تأكيد",
+    "Religion": "الديانة",
+    "Select Religion": "اختر ديانة",
     "Add Late Setting": "إضافة إعداد متأخر",
     "selected products?": "المنتجات المحددة؟",
+    "Select Blood Types": "اختر فصيلة دمك",
+    "Select Job Nature": "ادخل طبيعة الوظيفة",
+    "Enter Description": "اختار وصف",
     "Showing {first} to {last} of {totalRecords} entries": "عرض {first} الى {last} من {totalRecords} السجلات"
 }

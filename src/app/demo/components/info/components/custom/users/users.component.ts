@@ -35,7 +35,7 @@ export class UsersComponent {
     constructor(
         private usersService: UsersService,
         private messageService: MessageService
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
@@ -165,9 +165,9 @@ export class UsersComponent {
             .join(' ');
     }
 
-    startAttendeesTimeClick(event: any) {}
+    startAttendeesTimeClick(event: any) { }
 
-    endAttendeesTimeClick(event: any) {}
+    endAttendeesTimeClick(event: any) { }
 
     loadFilteredData() {
         this.loadData(
@@ -391,9 +391,10 @@ export class UsersComponent {
         this.usersService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
-                this.product = { ...res.data };
+
                 this.productLockDialog = true;
-                this.locked = res.data.isLocked;
+                this.product = { ...res.data };
+                this.locked = this.product.isLocked;
             },
             error: (err) => {
                 console.log(err);

@@ -709,5 +709,12 @@
     "Confirm": "Confirm",
     "Add Late Setting": "Add Late Setting",
     "selected products?": "selected products?",
+    "Religion": "Religion",
+    "Select Religion": "Select Religion",
+    "Select Blood Types": "Select Blood Types",
+    "Select Job Nature": "Select Job Nature",
+    "Gender": "Gender",
+    "Change Status": "Change Status",
+    "Enter Description": "Enter Description",
     "Showing {first} to {last} of {totalRecords} entries": "Showing {first} to {last} of {totalRecords} entries"
 }
