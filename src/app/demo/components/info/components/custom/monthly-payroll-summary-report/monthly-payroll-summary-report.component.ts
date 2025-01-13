@@ -7,12 +7,13 @@ import { Globals } from 'src/app/class/globals';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 import { MonthlyPayrollSummaryReportService } from './monthly-payroll-summary-report.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-monthly-payroll-summary-report',
     standalone: true,
     imports: [GlobalsModule, PrimeNgModule],
-    providers: [MessageService],
+    providers: [MessageService, TranslateService, DatePipe],
     templateUrl: './monthly-payroll-summary-report.component.html',
     styleUrl: './monthly-payroll-summary-report.component.scss',
 })
@@ -21,7 +22,7 @@ export class MonthlyPayrollSummaryReportComponent {
         private _MonthlyPayrollSummaryReportService: MonthlyPayrollSummaryReportService,
         private messageService: MessageService,
         private translate: TranslateService
-    ) {}
+    ) { }
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
     allData: any[] = [];
@@ -109,24 +110,16 @@ export class MonthlyPayrollSummaryReportComponent {
             this.getDropDowns();
 
             this.loadFilteredData();
-
-            // then, load data again to lens on the changes of mainLang & endPoints Call
-            // this.loadData(
-            //     this.page,
-            //     this.itemsPerPage,
-            //     this.nameFilter,
-            //     this.sortField,
-            //     this.sortOrder
-            // );
         });
 
         this.cols = [
             { field: 'employeeName', header: 'Name' },
             { field: 'departmentName', header: 'Department Name' },
-            { field: 'year', header: 'Year' },
-            { field: 'totalWorkingDays', header: 'Total Working Days' },
-            { field: 'totalAbsentDays', header: 'Total Absent Days' },
-            { field: 'absentDates', header: 'Absent Dates' },
+            { field: 'designation', header: 'Designation' },
+            { field: 'grossSalary', header: 'Gross Salary' },
+            { field: 'totalDeductions', header: 'Total Deductions' },
+            { field: 'netSalary', header: 'Net Salary' },
+            { field: 'paymentDate', header: 'Payment Date' },
         ];
 
         this.selectedYear = null;
@@ -165,9 +158,9 @@ export class MonthlyPayrollSummaryReportComponent {
             .join(' ');
     }
 
-    startAttendeesTimeClick(event: any) {}
+    startAttendeesTimeClick(event: any) { }
 
-    endAttendeesTimeClick(event: any) {}
+    endAttendeesTimeClick(event: any) { }
 
     confirmDelete(id: number) {
         // perform delete from sending request to api

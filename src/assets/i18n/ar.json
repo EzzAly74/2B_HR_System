@@ -666,6 +666,11 @@
     "Add New Attendence Configuration": "اضافة اعداد حضور جديد",
     "Is Static Vacation": "اجازة ثابتة",
     "Loading...": "تحميل...",
+    "Designation": "تعيين",
+    "grossSalary": "الراتب الإجمالي",
+    "totalDeductions": "إجمالي الخصومات",
+    "netSalary": "صافي الراتب",
+    "paymentDate": "تاريخ الدفع",
     "MonthlyPayrollSummaryReport": "تقرير ملخص الرواتب الشهرية",
     "EmployeePaySlipReport": "تقرير رواتب الموظفين",
     "Showing {first} to {last} of {totalRecords} entries": "عرض {first} الى {last} من {totalRecords} السجلات"
