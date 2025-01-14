@@ -117,26 +117,27 @@ export class UsersComponent {
                 this.sortOrder
             );
             this.generateYearOptions();
+            this.getRolesDropdown();
+
+            this.cols = [
+                // main field
+                { field: 'name', header: 'Name' },
+
+                // personal fields
+
+                { field: 'numberOfHours', header: 'NumberOfHours' },
+
+                // main field
+                { field: 'notes', header: 'Notes' },
+
+                // Generic Fields
+                { field: 'creationTime', header: 'CreationTime' },
+                { field: 'lastModificationTime', header: 'LastModificationTime' },
+                { field: 'creatorName', header: 'CreatorName' },
+                { field: 'lastModifierName', header: 'LastModifierName' },
+            ];
         });
 
-        this.cols = [
-            // main field
-            { field: 'name', header: 'Name' },
-
-            // personal fields
-
-            { field: 'numberOfHours', header: 'NumberOfHours' },
-
-            // main field
-            { field: 'notes', header: 'Notes' },
-
-            // Generic Fields
-            { field: 'creationTime', header: 'CreationTime' },
-            { field: 'lastModificationTime', header: 'LastModificationTime' },
-            { field: 'creatorName', header: 'CreatorName' },
-            { field: 'lastModifierName', header: 'LastModifierName' },
-        ];
-        this.getRolesDropdown();
     }
 
     editProduct(rowData: any) {
@@ -146,7 +147,8 @@ export class UsersComponent {
                 this.product = { ...res.data };
                 this.productDialog = true;
                 this.selectedMulti = this.product.roles;
-                console.log(this.selectedMulti);
+                // console.log(this.selectedMulti);
+                // alert(JSON.stringify(this.selectedMulti))
             },
             error: (err) => {
                 console.log(err);
@@ -338,6 +340,7 @@ export class UsersComponent {
                 this.rolesDropdown = res.data;
                 console.log('rolesDropdown =>');
                 console.log(this.rolesDropdown);
+                // alert(JSON.stringify(this.rolesDropdown))
             },
             error: (err) => {
                 console.log(err);

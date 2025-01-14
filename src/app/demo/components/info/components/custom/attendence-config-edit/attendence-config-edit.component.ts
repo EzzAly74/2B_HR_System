@@ -209,6 +209,7 @@ export class AttendenceConfigEditComponent {
                     this.allData = data.data;
                     this.patchFormValues(this.allData);
 
+                    this.loading = false;
                     console.log('Data fetched:', this.allData);
 
                     // Perform any additional operations if needed
@@ -312,6 +313,7 @@ export class AttendenceConfigEditComponent {
                     summary: 'Employee Edited Successfully',
                 });
                 console.log(res);
+                this.loading = false;
                 this.editForm.get('Id').disable();
                 // this.attendenceConfigurationService.GetById(this.currentId).subscribe({
                 //     next: (res) => {

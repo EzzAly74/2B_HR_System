@@ -9,6 +9,7 @@ import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-all-employees-location',
@@ -22,6 +23,7 @@ export class AllEmployeesLocationComponent {
     constructor(
         private _EmployeeLocationService: AllEmployeeLocationService,
         private messageService: MessageService,
+        private translate: TranslateService,
         private route: ActivatedRoute
     ) { }
 
@@ -55,6 +57,9 @@ export class AllEmployeesLocationComponent {
     // for edit
     selectedLocationEdit: string;
     selectedLocationEditId: number;
+
+    // for importing excel
+    fileNew!: File;
 
     // custom
     empId: number;
@@ -120,6 +125,47 @@ export class AllEmployeesLocationComponent {
                 this.locationDropDown = res.data;
             },
         });
+    }
+
+
+    onFileSelect(event: any) {
+        console.log(event);
+        let file: any = event.currentFiles[0];
+
+        if (file) {
+            this.fileNew = file;
+
+            let body = {
+                file: this.fileNew,
+            };
+            const formData: FormData = new FormData();
+
+            for (const key in body) {
+                if (body.hasOwnProperty(key)) {
+                    formData.append(key, body[key]);
+                }
+            }
+            this._EmployeeLocationService.importExcel(formData).subscribe({
+                next: (res) => {
+                    console.log(res);
+
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translate.instant('Success'),
+                        detail: res?.["message"],
+                        life: 3000,
+                    });
+                },
+            });
+        }
     }
 
     editProduct(rowData: any) {

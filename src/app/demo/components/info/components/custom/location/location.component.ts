@@ -47,6 +47,8 @@ export class LocationComponent {
     newNameAr!: string;
     newNameEn!: string;
 
+    fileNew!: File;
+
     newLatitude: DoubleRange;
     newLongitude: DoubleRange;
     newDiscription: string;
@@ -109,6 +111,48 @@ export class LocationComponent {
             { field: 'creatorName', header: 'creatorName' },
             { field: 'lastModifierName', header: 'lastModifierName' },
         ];
+    }
+
+
+
+    onFileSelect(event: any) {
+        console.log(event);
+        let file: any = event.currentFiles[0];
+
+        if (file) {
+            this.fileNew = file;
+
+            let body = {
+                file: this.fileNew,
+            };
+            const formData: FormData = new FormData();
+
+            for (const key in body) {
+                if (body.hasOwnProperty(key)) {
+                    formData.append(key, body[key]);
+                }
+            }
+            this._LocationService.importExcel(formData).subscribe({
+                next: (res) => {
+                    console.log(res);
+
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translate.instant('Success'),
+                        detail: res?.["message"],
+                        life: 3000,
+                    });
+                },
+            });
+        }
     }
 
     editProduct(rowData: any) {
