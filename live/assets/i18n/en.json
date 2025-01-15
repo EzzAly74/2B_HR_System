@@ -718,5 +718,15 @@
     "Misson Type": "Misson Type",
     "Change Status": "Change Status",
     "Enter Description": "Enter Description",
-    "Showing {first} to {last} of {totalRecords} entries": "Showing {first} to {last} of {totalRecords} entries"
+    "Showing {first} to {last} of {totalRecords} entries": "Showing {first} to {last} of {totalRecords} entries",
+    "Mobile Version": "Mobile Version",
+    "versionName": "Version Name",
+    "serialNumber": "Serial Number",
+    "Enter serialNumber Here": "Enter Serial Number Here",
+    "Enter Version Name": "Enter Version Name",
+    "operatingSystemType": "Operating System Type",
+    "Add New Mobile Version": "Add New Mobile Version",
+    "Accept All": "Accept All",
+    "this field is required": "this field is required",
+    "Reject All": "Reject All"
 }
