@@ -103,9 +103,9 @@ export class EmployeeComponent {
             ContractTypeId: new FormControl(null, Validators.required),
             RecuritmentSourceId: new FormControl(null, Validators.required),
             Religion: new FormControl(null, Validators.required),
-            JoininDate: new FormControl(null, Validators.required),
+            JoiningDate: new FormControl(null, Validators.required),
             BirthDate: new FormControl(null, Validators.required),
-            HirDate: new FormControl(null, Validators.required),
+            HiringDate: new FormControl(null, Validators.required),
             ResignationDate: new FormControl(null, Validators.required),
             Ismanger: new FormControl(false, Validators.required),
             StaticShift: new FormControl(false, Validators.required),
@@ -290,9 +290,9 @@ export class EmployeeComponent {
                 ...form.value,
                 File: form.get("File").value,
                 DeleteImage: form.get("File").value ? true : false,
-                JoiningDate: this.DatePipe.transform(form.get("JoininDate").value, 'yyyy-MM-dd'),
+                JoiningDate: this.DatePipe.transform(form.get("JoiningDate").value, 'yyyy-MM-dd'),
                 BirthDate: this.DatePipe.transform(form.get("BirthDate").value, 'yyyy-MM-dd'),
-                HirDate: this.DatePipe.transform(form.get("HirDate").value, 'yyyy-MM-dd'),
+                HiringDate: this.DatePipe.transform(form.get("HiringDate").value, 'yyyy-MM-dd'),
                 ResignationDate: this.DatePipe.transform(form.get("ResignationDate").value, 'yyyy-MM-dd'),
             }
 

@@ -16,6 +16,7 @@ $gutter: 1rem; //for primeflex grid system
 :root {
     --primary-color: #f37021 !important;
 }
+
 :root {
     --blue-50: #f4fafe;
     --blue-100: #cae6fc;
@@ -147,36 +148,39 @@ textarea {
 .p-fluid .p-element.w-25.p-button.p-component {
     width: 25% !important;
 }
+
 html:lang(ar) .layout-sidebar {
     left: unset;
     right: 2rem;
 }
+
 @media (min-width: 992px) {
     html:lang(ar) .layout-wrapper.layout-static .layout-main-container {
         margin-left: unset;
         margin-right: 300px;
         padding-left: 2rem;
     }
-    html:lang(ar)
-        .layout-wrapper.layout-static.layout-static-inactive
-        .layout-sidebar {
+
+    html:lang(ar) .layout-wrapper.layout-static.layout-static-inactive .layout-sidebar {
         transform: translateX(100%);
         right: 0;
     }
-    html:lang(ar)
-        .layout-wrapper.layout-static.layout-static-inactive
-        .layout-main-container {
+
+    html:lang(ar) .layout-wrapper.layout-static.layout-static-inactive .layout-main-container {
         margin-right: 0px;
     }
+
     html:lang(ar) .layout-main-container {
         padding: 7rem 4rem 2rem 2rem;
     }
 }
+
 @media (max-width: 991px) {
     html:lang(ar) .layout-wrapper .layout-sidebar {
         right: 0;
         transform: translateX(100%);
     }
+
     html:lang(ar) .layout-mobile-active .layout-sidebar {
         transform: translateX(0);
     }
@@ -185,72 +189,69 @@ html:lang(ar) .layout-sidebar {
 html:lang(ar) .p-button-icon-left {
     margin-left: 0.5rem;
 }
+
 html:lang(ar) .mr-2 {
     margin-left: 0.5rem !important;
 }
-.p-datatable .p-datatable-thead > tr > th,
-.p-datatable .p-datatable-tbody > tr > td {
+
+.p-datatable .p-datatable-thead>tr>th,
+.p-datatable .p-datatable-tbody>tr>td {
     text-align: center;
 }
+
 .p-dialog {
     overflow: auto;
 }
 
 .p-dialog:has(.p-calendar) {
-    transition: height 0.5s ease-in-out; /* Apply transition for height changes */
-    background: #fff;
-    height: auto;
+    transition: height 0.5s ease-in-out;
+    /* Apply transition for height changes */
+    margin: 0px;
+    height: 100%;
+    background: none;
 }
 
 .p-dialog:has(.p-calendar.p-focus:not(.p-calendar-timeonly)) {
-    height: 100%; /* Expand height on focus */
+    height: 100%;
+    /* Expand height on focus */
 }
 
 @media screen and (max-width: 992px) {
     .p-dialog:has(.p-calendar.p-focus:not(.p-calendar-timeonly)) {
-        height: 75%;
+        height: 100%;
     }
 }
 
 .p-overlay {
     min-width: 100% !important;
 }
+
 .p-dialog-content {
     overflow: unset !important;
     transition: 5s ease;
     flex-grow: unset;
 }
+
 html:lang(ar) .p-multiselect-panel .p-multiselect-header .p-checkbox,
-html:lang(ar)
-    .p-multiselect-panel
-    .p-multiselect-items
-    .p-multiselect-item
-    .p-checkbox {
+html:lang(ar) .p-multiselect-panel .p-multiselect-items .p-multiselect-item .p-checkbox {
     margin-left: 0.5rem;
     margin-right: unset;
 }
-html:lang(ar)
-    .p-multiselect-panel
-    .p-multiselect-header
-    .p-multiselect-filter-container
-    .p-multiselect-filter-icon {
+
+html:lang(ar) .p-multiselect-panel .p-multiselect-header .p-multiselect-filter-container .p-multiselect-filter-icon {
     right: unset;
     left: 10px;
 }
-html:lang(ar)
-    .p-multiselect-panel
-    .p-multiselect-header
-    .p-multiselect-filter-container
-    .p-inputtext {
+
+html:lang(ar) .p-multiselect-panel .p-multiselect-header .p-multiselect-filter-container .p-inputtext {
     padding-left: 1.5rem;
     padding-right: 0.5rem;
 }
-html:lang(ar)
-    .p-multiselect.p-multiselect-chip
-    .p-multiselect-token
-    .p-multiselect-token-icon {
+
+html:lang(ar) .p-multiselect.p-multiselect-chip .p-multiselect-token .p-multiselect-token-icon {
     margin-right: 0.5rem;
 }
+
 td:not(:first-child) {
     min-width: 100px;
 }
@@ -258,14 +259,17 @@ td:not(:first-child) {
 th:not(:first-child) {
     min-width: 140px;
 }
+
 .p-password {
     width: 100%;
 }
-html:lang(ar) .p-input-icon-right > .p-icon-wrapper,
-.p-input-icon-right > i:last-of-type {
+
+html:lang(ar) .p-input-icon-right>.p-icon-wrapper,
+.p-input-icon-right>i:last-of-type {
     right: unset;
     left: 0.5rem;
 }
+
 .layout-topbar .layout-topbar-logo {
     width: fit-content;
 }
@@ -284,56 +288,75 @@ html:lang(ar) .p-input-icon-right > .p-icon-wrapper,
         }
     }
 }
+
 .layout-topbar .layout-topbar-button:hover {
     background: none;
 }
+
 .layout-topbar .layout-topbar-button:focus {
     box-shadow: none;
 }
-html:lang(ar) .p-input-icon-right > .p-inputtext {
+
+html:lang(ar) .p-input-icon-right>.p-inputtext {
     padding-right: 0.5rem;
 }
+
 html:lang(ar) .p-calendar .p-datepicker {
     right: 0 !important;
     left: unset !important;
 }
+
+html:lang(ar) .p-calendar .p-datepicker-header {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
 html:lang(en) .p-calendar .p-datepicker {
     right: unset !important;
     left: 0 !important;
 }
+
 .p-calendar .p-datepicker {
     top: 100% !important;
     min-width: 100%;
 }
+
 .p-calendar td:not(:first-child),
 .p-calendar th:not(:first-child) {
     min-width: unset;
 }
+
 html:lang(ar) .p-panel .p-panel-icons-end {
     margin-left: unset;
     margin-right: auto;
 }
+
 .p-panel .p-panel-header .p-panel-header-icon:enabled {
     color: #495057;
     border-color: transparent;
     background: #e9ecef;
 }
+
 .p-panel .p-panel-header .p-panel-header-icon:enabled:hover {
     border-color: transparent;
     background: #b7b9bc;
 }
+
 html:lang(ar) .layout-menu ul a .layout-submenu-toggler {
     margin-left: unset;
     margin-right: auto;
 }
+
 html:lang(ar) .layout-menu ul ul li a {
     margin-left: unset;
     margin-right: 1rem;
 }
+
 .p-toast .p-toast-message .p-toast-message-content {
     align-items: center;
     gap: 15px;
 }
+
 html:lang(ar) .pi-sign-out:before {
     transform: rotate(180deg);
     margin-right: 5px;
@@ -343,29 +366,35 @@ html:lang(ar) .p-dropdown-panel .p-dropdown-header .p-dropdown-filter-icon {
     right: unset;
     left: 0.5rem;
 }
+
 html:lang(ar) .p-dropdown-panel .p-dropdown-header .p-dropdown-filter {
     margin-right: 0;
     padding-right: 0.5rem;
     padding-left: 1.5rem;
 }
+
 html:lang(ar) .p-multiselect-panel .p-multiselect-header .p-multiselect-close {
     margin-right: 0.5rem;
     margin-left: unset;
 }
+
 html:lang(ar) .mr-3 {
     margin-left: 1rem !important;
     margin-right: unset;
 }
+
 html:lang(ar) .p-dropdown.p-dropdown-clearable .p-dropdown-label {
     padding-left: 1.5rem;
     padding-right: 0.5rem;
 }
+
 .my-2 .p-button.p-button-info,
 form .p-button[type="submit"] {
     background: #f36f28;
     border: none;
     color: #fcfcfc;
 }
+
 form .p-button[type="button"],
 form .p-button[type="button"]:hover {
     color: #f36f28;
@@ -374,38 +403,44 @@ form .p-button[type="button"]:hover {
 }
 
 .my-2 .p-button.p-button-info:not(:disabled):hover,
-.p-buttonset.p-button-info > .p-button:not(:disabled):hover,
-.p-splitbutton.p-button-info > .p-button:not(:disabled):hover,
+.p-buttonset.p-button-info>.p-button:not(:disabled):hover,
+.p-splitbutton.p-button-info>.p-button:not(:disabled):hover,
 form .p-button:hover {
     background: #c0571f;
 }
+
 form .p-fileupload .p-button:hover {
     background: transparent;
 }
+
 .my-2 .p-button.p-button-danger,
-.p-buttonset.p-button-danger > .p-button,
-.p-splitbutton.p-button-danger > .p-button {
+.p-buttonset.p-button-danger>.p-button,
+.p-splitbutton.p-button-danger>.p-button {
     color: #f36f28;
     background: transparent;
     border: none;
 }
+
 .p-button.p-button-help,
-.p-buttonset.p-button-help > .p-button,
-.p-splitbutton.p-button-help > .p-button {
+.p-buttonset.p-button-help>.p-button,
+.p-splitbutton.p-button-help>.p-button {
     color: #f36f28;
     background: transparent;
     border: 1px solid #f36f28;
 }
+
 .p-checkbox .p-checkbox-box.p-highlight {
     border-color: #f36f28;
     background: #f36f28;
 }
+
 .p-checkbox .p-checkbox-box .p-checkbox-icon {
     color: #fff;
 }
+
 .p-button.p-button-help:not(:disabled):focus,
-.p-buttonset.p-button-help > .p-button:not(:disabled):focus,
-.p-splitbutton.p-button-help > .p-button:not(:disabled):focus {
+.p-buttonset.p-button-help>.p-button:not(:disabled):focus,
+.p-splitbutton.p-button-help>.p-button:not(:disabled):focus {
     box-shadow: 0 0 0 0.1rem #ff9029;
 }
 
@@ -420,29 +455,35 @@ form .p-fileupload .p-button:hover {
     box-shadow: none;
     border-radius: 0;
 }
-.layout-menu ul li > a {
+
+.layout-menu ul li>a {
     display: flex;
     gap: 8px;
     align-items: start;
 }
+
 .layout-menu ul a .layout-submenu-toggler {
     align-self: center;
 }
-.layout-menu ul li.active-menuitem > a {
+
+.layout-menu ul li.active-menuitem>a {
     background: #fff1eb;
     border-inline-start: 5px solid #f36f28;
     border-radius: 0;
     color: #2d3250;
     font-weight: 500;
 }
-.ng-trigger-children li.active-menuitem > a {
+
+.ng-trigger-children li.active-menuitem>a {
     background: transparent !important;
-    border-inline-start: 0px !important ;
+    border-inline-start: 0px !important;
     color: unset !important;
 }
+
 .layout-menu ul a.active-route {
     color: #f36f28 !important;
 }
+
 .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
     background: #f36f28;
 }
@@ -464,12 +505,25 @@ form .p-fileupload .p-button:hover {
     border: 1px solid #f36f28;
     color: #f36f28;
 }
+
 .p-dropdown-items-wrapper {
     max-height: unset;
 }
+
 .flex.crud-operations {
     justify-content: center;
 }
+
 .layout-menu ul ul ul {
     margin-inline-start: 16px;
+}
+
+.star-required {
+    color: red;
+    border: none;
+    padding: 0;
+}
+
+::ng-deep .p-button.button-required {
+    border: none;
 }

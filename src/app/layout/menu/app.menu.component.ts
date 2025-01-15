@@ -16,7 +16,7 @@ export class AppMenuComponent implements OnInit {
         public layoutService: LayoutService,
         private translate: TranslateService,
         private sanitizer: DomSanitizer
-    ) {}
+    ) { }
 
     toggleTab(index: number) {
         const selectedItem = this.model[index];
@@ -464,6 +464,11 @@ export class AppMenuComponent implements OnInit {
                                 label: this.translate.instant('getLoanPayment'),
                                 icon: 'pi pi-fw pi-home',
                                 routerLink: ['/info/getLoanPayment'],
+                            },
+                            {
+                                label: this.translate.instant('Mobile Version'),
+                                icon: 'pi pi-fw pi-home',
+                                routerLink: ['/info/mobileVersion'],
                             },
 
                             // {

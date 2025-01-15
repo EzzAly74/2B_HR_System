@@ -21,9 +21,9 @@ export class LoanRequestService extends LockupsService {
             `${this.baseurl}/${field}/getDropDown/?culture=${this.culture}`
         );
     }
-    getPageOfAcceptedLoan(body: any) : Observable<any> {
+    getPageOfAcceptedLoan(body: any): Observable<any> {
         return this.http.post(
-            `${this.baseurl}/LoanPayment/GetAcceptedLoan/?culture=${this.culture}`,
+            `${this.baseurl}/${this.endPoint}/?culture=${this.culture}`,
             body
         );
     }

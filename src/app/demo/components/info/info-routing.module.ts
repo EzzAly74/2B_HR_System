@@ -77,6 +77,7 @@ import { SalaryReportComponent } from './components/custom/salary-report/salary-
 import { EndOfServiceRequestComponent } from './components/custom/end-of-service-request/end-of-service-request.component';
 import { MonthlyPayrollSummaryReportComponent } from './components/custom/monthly-payroll-summary-report/monthly-payroll-summary-report.component';
 import { EmployeePaySlipReportComponent } from './components/custom/employee-pay-slip-report/employee-pay-slip-report.component';
+import { MobileVersionComponent } from './components/custom/mobile-version/mobile-version.component';
 
 @NgModule({
     imports: [
@@ -488,10 +489,15 @@ import { EmployeePaySlipReportComponent } from './components/custom/employee-pay
                 canActivate: [authGuard],
                 component: EmployeePaySlipReportComponent,
             },
+            {
+                path: 'mobileVersion',
+                canActivate: [authGuard],
+                component: MobileVersionComponent,
+            },
 
             { path: '**', component: NotfoundComponent },
         ]),
     ],
     exports: [RouterModule],
 })
-export class InfoRoutingModule {}
+export class InfoRoutingModule { }

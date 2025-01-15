@@ -734,5 +734,16 @@
     "Select Blood Types": "اختر فصيلة دمك",
     "Select Job Nature": "ادخل طبيعة الوظيفة",
     "Enter Description": "اختار وصف",
-    "Showing {first} to {last} of {totalRecords} entries": "عرض {first} الى {last} من {totalRecords} السجلات"
+    "Showing {first} to {last} of {totalRecords} entries": "عرض {first} الى {last} من {totalRecords} السجلات",
+    "Mobile Version": "كود نظام التشغيل",
+    "versionName": "اسم الاصدار",
+    "Enter Version Name": "ادخل اسم الاصدار",
+    "operatingSystemType": "نوع نظام التشغيل",
+    "serialNumber": "رقم الجهاز",
+    "Enter serialNumber Here": "ادخل رقم الجهاز هنا",
+    "this field is required": "هذا الحقل مطلوب",
+    "Enter Operating System Type": "ادخل نوع نظام التشغيل",
+    "Add New Mobile Version": "اضافة كود نظام التشغيل جديد",
+    "Accept All": "قبول الكل",
+    "Reject All": "رفض الكل"
 }

@@ -26,6 +26,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   exports: [
@@ -57,6 +58,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     FormsModule,
     ProgressBarModule,
     ConfirmDialogModule,
+    TooltipModule
   ]
 })
 export class PrimeNgModule { }

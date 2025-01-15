@@ -28,14 +28,19 @@
                     "Select Employee" | translate
                     }}</label>
                 <p-dropdown [(ngModel)]="selectedEmployee" [options]="dropdownItemsEmployee" optionLabel="name"
-                    formControlName="employeeId" [placeholder]="'Select Employee' | translate"></p-dropdown>
+                    formControlName="employeeId" [placeholder]="'Select Employee' | translate" [filter]="true"
+                    [filterBy]="'name'">
+                </p-dropdown>
+
             </div>
 
             <div class="field">
                 <label htmlFor="manager">{{ "Manager" | translate }}</label>
                 <p-dropdown [options]="managerDropDown" [(ngModel)]="selectedManager" (onChange)="onChangeManager()"
                     optionLabel="name" formControlName="mangerId" [placeholder]="'Select a manager' | translate"
-                    [showClear]="true"></p-dropdown>
+                    [showClear]="true" [filter]="true" [filterBy]="'name'">
+                </p-dropdown>
+
             </div>
 
             <div class="field">

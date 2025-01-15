@@ -28,6 +28,12 @@
                 [placeholder]="'Enter Person Name Here' | translate" type="text" />
         </div>
         <div class="field">
+            <label htmlFor="name-ar">{{ "BirthDate" | translate }}</label>
+
+            <p-calendar [showIcon]="true" [iconDisplay]="'input'" name="date" inputId="date" [(ngModel)]="birthdate"
+                [placeholder]="'Enter BirthDate Here' | translate"></p-calendar>
+        </div>
+        <div class="field">
             <label htmlFor="ContractType">{{
                 "Relative Relation Type" | translate
                 }}</label>
@@ -36,12 +42,7 @@
                 (onChange)="selectRelativeRelation($event)"></p-dropdown>
         </div>
 
-        <div class="field">
-            <label htmlFor="name-ar">{{ "BirthDate" | translate }}</label>
 
-            <p-calendar [showIcon]="true" [iconDisplay]="'input'" name="date" inputId="date" [(ngModel)]="birthdate"
-                [placeholder]="'Enter BirthDate Here' | translate"></p-calendar>
-        </div>
 
         <div class="field">
             <label htmlFor="new-notes">{{ "Discription" | translate }}</label>
@@ -204,6 +205,12 @@
                 [placeholder]="'Enter Person Name Here' | translate" type="text" />
         </div>
         <div class="field">
+            <label htmlFor="name-ar">{{ "BirthDate" | translate }} </label>
+
+            <p-calendar [showIcon]="true" [iconDisplay]="'input'" name="date" inputId="date"
+                [(ngModel)]="product.birthDate" [placeholder]="'Enter BirthDate Here' | translate"></p-calendar>
+        </div>
+        <div class="field">
             <label htmlFor="ContractType">{{
                 "Relative Relation Type" | translate
                 }}</label>
@@ -212,12 +219,7 @@
                 (onChange)="selectedRelativeRelationEditFun($event)"></p-dropdown>
         </div>
 
-        <div class="field">
-            <label htmlFor="name-ar">{{ "BirthDate" | translate }} </label>
 
-            <p-calendar [showIcon]="true" [iconDisplay]="'input'" name="date" inputId="date"
-                [(ngModel)]="product.birthDate" [placeholder]="'Enter BirthDate Here' | translate"></p-calendar>
-        </div>
 
         <div class="field">
             <label htmlFor="new-notes">{{ "Discription" | translate }}</label>

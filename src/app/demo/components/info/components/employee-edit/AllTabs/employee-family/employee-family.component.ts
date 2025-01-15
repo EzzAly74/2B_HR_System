@@ -15,7 +15,7 @@ import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
     imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService, DatePipe],
     templateUrl: './employee-family.component.html',
-    styleUrl: './employee-family.component.scss',
+    styleUrls: ['./employee-family.component.scss'],
 })
 export class EmployeeFamilyComponent {
     constructor(
@@ -23,7 +23,7 @@ export class EmployeeFamilyComponent {
         private messageService: MessageService,
         private route: ActivatedRoute,
         private DatePipe: DatePipe
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
@@ -141,9 +141,9 @@ export class EmployeeFamilyComponent {
             .join(' ');
     }
 
-    startAttendeesTimeClick(event: any) {}
+    startAttendeesTimeClick(event: any) { }
 
-    endAttendeesTimeClick(event: any) {}
+    endAttendeesTimeClick(event: any) { }
 
     confirmDelete(id: number) {
         // perform delete from sending request to api

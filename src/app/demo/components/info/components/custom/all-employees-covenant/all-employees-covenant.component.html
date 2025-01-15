@@ -28,7 +28,9 @@
                     }}</label>
                 <p-dropdown [(ngModel)]="selectedCovenant" formControlName="covenantId"
                     [options]="dropdownItemsCovenantType" optionLabel="name"
-                    [placeholder]="'Enter Covenant Type' | translate" (onChange)="selectCovenant($event)"></p-dropdown>
+                    [placeholder]="'Enter Covenant Type' | translate" [filter]="true"
+                    (onChange)="selectCovenant($event)" [filterBy]="'name'">
+                </p-dropdown>
             </div>
 
             <div class="field">
@@ -36,7 +38,9 @@
                     "Select Employee" | translate
                     }}</label>
                 <p-dropdown [(ngModel)]="selectedEmployee" [options]="dropdownItemsEmployee" optionLabel="name"
-                    formControlName="employeeId" [placeholder]="'Select Employee' | translate"></p-dropdown>
+                    [filterBy]="'name'" formControlName="employeeId" [placeholder]="'Select Employee' | translate"
+                    [filter]="true">
+                </p-dropdown>
             </div>
 
             <div class="field">
@@ -235,7 +239,8 @@
                     }}</label>
                 <p-dropdown [options]="dropdownItemsCovenantType" formControlName="covenantId" optionLabel="name"
                     optionValue="id" [placeholder]="'Enter Covenant Type' | translate"
-                    (onChange)="selectedCovenantEditFun($event)"></p-dropdown>
+                    (onChange)="selectedCovenantEditFun($event)" [filter]="true" filterBy="name" [showClear]="true">
+                </p-dropdown>
             </div>
 
             <div class="field">
@@ -243,7 +248,9 @@
                     "Select Employee" | translate
                     }}</label>
                 <p-dropdown [options]="dropdownItemsEmployee" formControlName="employeeId" optionLabel="name"
-                    optionValue="id" [placeholder]="'All Employees' | translate"></p-dropdown>
+                    optionValue="id" [placeholder]="'All Employees' | translate" [filter]="true"
+                    filterPlaceholder="Search...">
+                </p-dropdown>
             </div>
 
             <div class="field">

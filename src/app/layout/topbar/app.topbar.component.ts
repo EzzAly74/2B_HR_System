@@ -7,8 +7,6 @@ import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { UserDataService } from './user-data.service';
 import { environment } from 'src/environments/environment';
-import { EmployeeEditService } from 'src/app/demo/components/info/components/employee-edit/employee-edit.service';
-import { authGuard } from 'src/app/demo/components/auth/auth.guard';
 
 @Component({
     selector: 'app-topbar',

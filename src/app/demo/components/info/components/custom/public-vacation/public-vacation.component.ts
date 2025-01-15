@@ -58,15 +58,14 @@ export class PublicVacationComponent {
 
     addNewForm: FormGroup = new FormGroup({
         date: new FormControl(null, [Validators.required]),
-        shiftId: new FormControl(null, [Validators.required]),
+        shiftIds: new FormControl([], [Validators.required]),
         reason: new FormControl(null, [Validators.required]),
     });
 
     editForm: FormGroup = new FormGroup({
         date: new FormControl(null, [Validators.required]),
-        shiftId: new FormControl(null, [Validators.required]),
+        shiftIds: new FormControl([], [Validators.required]),
         reason: new FormControl(null, [Validators.required]),
-        id: new FormControl(null),
     });
 
     ngOnInit() {
@@ -141,19 +140,20 @@ export class PublicVacationComponent {
                 console.log('Shift Id => ');
                 console.log(res.data.shiftId);
 
+                this.product = { ...res.data };
                 console.log('shiftDropDown =>');
                 console.log(this.shiftDropDown);
 
-                // // get product.shiftId
+                // get product.shiftId
                 this.selectedShiftEdit = this.shiftDropDown.find(
-                    (shift: any) => res.data.shiftId == shift.id
+                    (shift: any) => this.product.shiftIds[0] == shift.id
                 );
 
                 // get product.date
-                res.data.date = this.convertDate(res.data.date, 'MM/dd/yyyy');
+                this.product.date = this.convertDate(this.product.date, 'MM/dd/yyyy');
 
                 // extract result inside public vacation
-                this.product = { ...res.data };
+
                 this.productDialog = true;
             },
             error: (err) => {
@@ -197,14 +197,16 @@ export class PublicVacationComponent {
     }
 
     addNew(form: FormGroup) {
-        form.patchValue({
+
+        let body = {
+            ...form.value,
             date: this.DatePipe.transform(
                 form.get('date').value,
                 'yyyy-MM-ddTHH:mm:ss'
             ),
-        });
+        }
 
-        this._PublicVacationService.Register(form.value).subscribe({
+        this._PublicVacationService.Register(body).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
@@ -321,20 +323,23 @@ export class PublicVacationComponent {
     }
 
     saveProduct(id: number, form: FormGroup) {
-        form.patchValue({
+
+        let body = {
+            ...form.value,
+            id: id,
+            ids: [id],
             date: this.DatePipe.transform(
                 form.get('date').value,
                 'yyyy-MM-ddTHH:mm:ss'
             ),
-            id: id,
-            shiftId: this.selectedShiftEdit.id,
-        });
+            shiftIds: [this.selectedShiftEdit.id],
+        }
 
         console.clear();
         console.log('body here ');
         console.log(form);
 
-        this._PublicVacationService.Edit(form.value).subscribe({
+        this._PublicVacationService.Edit(body).subscribe({
             next: (res) => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.

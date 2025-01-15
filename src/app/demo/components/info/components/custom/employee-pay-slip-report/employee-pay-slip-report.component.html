@@ -28,7 +28,16 @@
             <div class="field col-12 md:col-3">
               <label htmlFor="month">{{
                 "Month" | translate
-                }}</label>
+                }}
+                <span [pTooltip]="tooltipContent" class="button-required star-required" severity="secondary"
+                  tooltipPosition="bottom">*</span>
+                <ng-template #tooltipContent>
+                  <div class="flex items-center">
+                    <span> {{'this field is required' | translate}}</span>
+                  </div>
+                </ng-template>
+
+              </label>
               <p-dropdown formControlName="month" [options]="allMonths" inputId="month" optionLabel="name"
                 optionValue="id" [placeholder]="'Select a Month' | translate"></p-dropdown>
             </div>
@@ -36,7 +45,16 @@
             <div class="field col-12 md:col-3">
               <label htmlFor="yaer">{{
                 "Year" | translate
-                }}</label>
+                }}
+                <span [pTooltip]="tooltipContent" class="button-required star-required" severity="secondary"
+                  tooltipPosition="bottom">*</span>
+                <ng-template #tooltipContent>
+                  <div class="flex items-center">
+                    <span> {{'this field is required' | translate}}</span>
+                  </div>
+                </ng-template>
+
+              </label>
               <input pInputText formControlName="year" [placeholder]="'Enter Year Here' | translate" type="number" />
 
 

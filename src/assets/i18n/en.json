@@ -114,6 +114,7 @@
     "Vacation Type": "Vacation Type",
     "Months": "Months",
     "MONTH": "Month",
+    "Month": "Month",
     "managerApproved": "managerApproved",
     "hrApproved": "hrApproved",
     "stockVacation": "stockVacation",
@@ -714,7 +715,18 @@
     "Select Blood Types": "Select Blood Types",
     "Select Job Nature": "Select Job Nature",
     "Gender": "Gender",
+    "Misson Type": "Misson Type",
     "Change Status": "Change Status",
     "Enter Description": "Enter Description",
-    "Showing {first} to {last} of {totalRecords} entries": "Showing {first} to {last} of {totalRecords} entries"
+    "Showing {first} to {last} of {totalRecords} entries": "Showing {first} to {last} of {totalRecords} entries",
+    "Mobile Version": "Mobile Version",
+    "versionName": "Version Name",
+    "serialNumber": "Serial Number",
+    "Enter serialNumber Here": "Enter Serial Number Here",
+    "Enter Version Name": "Enter Version Name",
+    "operatingSystemType": "Operating System Type",
+    "this field is required": "this field is required",
+    "Add New Mobile Version": "Add New Mobile Version",
+    "Accept All": "Accept All",
+    "Reject All": "Reject All"
 }

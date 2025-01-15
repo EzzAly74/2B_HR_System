@@ -55,7 +55,7 @@ export class ShiftComponent {
 
     checkInBeforeTheShiftStarts: number;
     checkOutAfterTheShiftEnds: number;
-    checkOutAfterTheShiftStarts: number;
+    CheckInAfterTheShiftStarts: number;
 
     fileNew!: File;
 
@@ -64,7 +64,7 @@ export class ShiftComponent {
             Validators.required,
         ]),
         checkOutAfterTheShiftEnds: new FormControl(null, [Validators.required]),
-        checkOutAfterTheShiftStarts: new FormControl(null, [
+        CheckInAfterTheShiftStarts: new FormControl(null, [
             Validators.required,
         ]),
         endAttendeesTime: new FormControl(null, [Validators.required]),
@@ -80,7 +80,7 @@ export class ShiftComponent {
             Validators.required,
         ]),
         checkOutAfterTheShiftEnds: new FormControl(null, [Validators.required]),
-        checkOutAfterTheShiftStarts: new FormControl(null, [
+        CheckInAfterTheShiftStarts: new FormControl(null, [
             Validators.required,
         ]),
         endAttendeesTime: new FormControl(null, [Validators.required]),

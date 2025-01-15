@@ -29,7 +29,9 @@
                     "Select Employee" | translate
                     }}</label>
                 <p-dropdown [(ngModel)]="selectedEmployee" [options]="dropdownItemsEmployee" optionLabel="name"
-                    formControlName="EmployeeId" [placeholder]="'Select Employee' | translate"></p-dropdown>
+                    formControlName="EmployeeId" [placeholder]="'Select Employee' | translate" [filter]="true"
+                    filterBy="name" [showClear]="true">
+                </p-dropdown>
             </div>
 
             <div class="field">

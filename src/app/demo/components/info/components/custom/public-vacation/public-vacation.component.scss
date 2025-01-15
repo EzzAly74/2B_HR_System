@@ -1,6 +1,10 @@
-.btns
-{
+.btns {
     display: flex;
     gap: 8px;
     width: 50%;
+}
+
+::ng-deep .p-multiselect-clear-icon {
+    left: 2.3rem;
+    right: unset;
 }

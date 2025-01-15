@@ -1,0 +1,20 @@
+.null-color {
+    color: red;
+}
+
+
+.btns {
+    display: flex;
+    gap: 8px;
+    width: 50%;
+}
+
+.manageItems {
+    user-select: none;
+}
+
+::ng-deep .field-switch {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

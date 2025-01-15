@@ -1,7 +1,6 @@
 <p-toast></p-toast>
 <pre-loading *ngIf="loading"></pre-loading>
 
-
 <p-toolbar styleClass="mb-4">
     <ng-template pTemplate="left">
         <div class="my-2">
@@ -24,10 +23,10 @@
     <ng-template pTemplate="content">
         <form action="" [formGroup]="addNewForm" (submit)="addNew(addNewForm)">
             <div class="field">
-                <label htmlFor="shift">{{ "Select Shift" | translate }}</label>
-                <p-dropdown [options]="shiftDropDown" (onChange)="changedSelected()" formControlName="shiftId"
+                <label for="shift">{{ "Select Shift" | translate }}</label>
+                <p-multiSelect [options]="shiftDropDown" (onChange)="changedSelected()" formControlName="shiftIds"
                     [(ngModel)]="selectedShift" optionLabel="name" [placeholder]="'Select Shift' | translate"
-                    [showClear]="true" [filter]="true" [filterBy]="'name'" optionValue="id"></p-dropdown>
+                    [showClear]="true" [filter]="true" [filterBy]="'name'" optionValue="id"></p-multiSelect>
             </div>
 
             <div class="field">
@@ -153,15 +152,14 @@
 <p-dialog [(visible)]="productDialog" [style]="{ width: '450px' }" [header]="'Item Details' | translate" [modal]="true"
     class="p-fluid">
     <ng-template pTemplate="content">
-        <form action="" [formGroup]="editForm" (submit)="saveProduct(product.id , editForm)">
+        <form [formGroup]="editForm" (submit)="saveProduct(product.id , editForm)">
             <div class="field">
-                <label for="shiftId">{{ "Select Shift" | translate }}</label>
-                <p-dropdown formControlName="shiftId" [options]="shiftDropDown" [(ngModel)]="selectedShiftEdit"
+                <label for="Ids">{{ "Select Shift" | translate }}</label>
+                <p-dropdown formControlName="shiftIds" [options]="shiftDropDown" [(ngModel)]="selectedShiftEdit"
                     optionLabel="name" [placeholder]="'Select Shift' | translate" [showClear]="true" [filter]="true"
-                    [filterBy]="'name'">></p-dropdown>
-                <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.shiftId">{{ "Shift is required." |
-                    translate
-                    }}</small>
+                    [filterBy]="'name'"></p-dropdown>
+                <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.id">{{ "Shift is required." |
+                    translate }}</small>
             </div>
 
             <div class="field">
