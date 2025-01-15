@@ -734,5 +734,15 @@
     "Select Blood Types": "اختر فصيلة دمك",
     "Select Job Nature": "ادخل طبيعة الوظيفة",
     "Enter Description": "اختار وصف",
+    "Mobile Version": "نسخة الموبايل",
+    "Version Name": "اسم الإصدار",
+    "Serial Number": "الرقم التسلسلي",
+    "Enter Serial Number Here": "أدخل الرقم التسلسلي هنا",
+    "Enter Version Name": "أدخل اسم الإصدار",
+    "Operating System Type": "نوع نظام التشغيل",
+    "This field is required": "هذا الحقل مطلوب",
+    "Add New Mobile Version": "إضافة نسخة موبايل جديدة",
+    "Accept All": "قبول الكل",
+    "Reject All": "رفض الكل",
     "Showing {first} to {last} of {totalRecords} entries": "عرض {first} الى {last} من {totalRecords} السجلات"
 }
