@@ -641,7 +641,7 @@
     "Add New End Of Service Request": "إضافة طلب إنهاء خدمة جديدة",
     "internalJobStatusValue": "المسمى الوظيفي",
     "jobTitle": "حالة الطلب",
-    "internalJobApplicationStateValue": "قيمة حالة تطبيق الوظيفة الداخلية",
+    "internalJobApplicationStateValue": "حالة الوظيفة",
     "employeeId": "رقم الموظف",
     "Employee is Required": "الموظف مطلوب",
     "endOFServiceReasonRequired": "سبب نهاية الخدمة مطلوب",
