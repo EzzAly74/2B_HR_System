@@ -224,12 +224,14 @@ export class AllEmployeesManagerComponent {
     }
 
     loadFilteredData() {
+
         this.loadData(
             1,
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
-            this.sortOrder
+            this.sortOrder,
+            false
         );
     }
 
@@ -242,7 +244,8 @@ export class AllEmployeesManagerComponent {
         size: number,
         nameFilter: string,
         filterType: string,
-        sortType: string
+        sortType: string,
+        loadingVal?: boolean
     ) {
         // this.loading = true;
         let filteredData = {
@@ -255,7 +258,10 @@ export class AllEmployeesManagerComponent {
         filteredData.sortType = this.sortOrder;
 
         console.log('FilteredData');
-        this.loading = true
+
+        // set loading Val as this
+        loadingVal != null ? this.loading = loadingVal : this.loading = true;
+
         console.log(filteredData);
 
         this._EmployeeManagerService.GetPage(filteredData).subscribe({

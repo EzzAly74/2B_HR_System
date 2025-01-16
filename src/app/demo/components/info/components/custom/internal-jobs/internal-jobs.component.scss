@@ -10,27 +10,51 @@
 //  gap: 8px;
 // }
 
-.field-switch
-{
+.field-switch {
     display: flex;
     align-items: center;
     gap: 8px;
 }
-.field-switch > label 
-{
+
+.field-switch>label {
     margin-bottom: 0;
 }
-.requirements-container
-{
+
+.requirements-container {
     max-height: 150px;
     overflow: auto;
 }
-.requirements-container>div
-{
+
+.requirements-container>div {
     background-color: #eee;
     padding: 16px;
     margin-block: 8px;
 }
+
 .tableRow {
     cursor: pointer;
+}
+
+::ng-deep .p-dialog .p-dialog-header {
+    display: none;
+}
+
+::ng-deep .p-dialog .custom-header {
+    padding: 20px 0;
+
+    span.text {
+        font-weight: 600;
+        font-size: 1.25rem;
+    }
+
+    button {
+        width: 2rem;
+        height: 2rem;
+        color: #6c757d;
+        border: 0 none;
+        background: transparent;
+        border-radius: 50%;
+        transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+        margin-right: 0.5rem;
+    }
 }

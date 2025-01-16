@@ -19,9 +19,13 @@
     </ng-template>
 </p-toolbar>
 
-<p-dialog [(visible)]="showFormNew" [style]="{ width: '450px' }" [header]="'Add New' | translate" [modal]="true"
-    class="p-fluid">
+<p-dialog [(visible)]="showFormNew" [style]="{ width: '450px' }" [modal]="true" class="p-fluid">
     <ng-template pTemplate="content">
+        <div class="custom-header flex justify-content-between align-items-center">
+            <span class="text">{{ 'Add New' | translate }}</span>
+            <button type="button" pButton icon="pi pi-times" class="p-button-text p-button-sm"
+                (click)="showFormNew = false"></button>
+        </div>
         <form [formGroup]="jobForm" (submit)="addNew(jobForm)">
             <!-- nameOfJob -->
             <div class="field">
