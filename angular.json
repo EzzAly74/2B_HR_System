@@ -19,7 +19,7 @@
                     "options": {
                         "outputPath": "docs",
                         "index": "src/index.html",
-                        "baseHref": "/",
+                        "baseHref": "/2B_HR_System/",
                         "main": "src/main.ts",
                         "polyfills": [
                             "zone.js"
