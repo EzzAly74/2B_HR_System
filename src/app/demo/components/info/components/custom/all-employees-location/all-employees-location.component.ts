@@ -10,6 +10,7 @@ import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+import { Globals } from 'src/app/class/globals';
 
 @Component({
     selector: 'app-all-employees-location',
@@ -89,10 +90,32 @@ export class AllEmployeesLocationComponent {
             { field: 'lastModifierName', header: 'lastModifierName' },
         ];
 
-        // get dropdown for Employee
-        this.getLocation();
-        this.getDropDownEmployee();
-        this.initFormGroups();
+
+        Globals.getMainLangChanges().subscribe((mainLang) => {
+            console.log('Main language changed to:', mainLang);
+
+            // update mainLang at Service
+            this._EmployeeLocationService.setCulture(mainLang);
+
+            // update endpoint
+            this._EmployeeLocationService.setEndPoint(this.endPoint);
+
+            // then, load data again to lens on the changes of mainLang & endPoints Call
+            this.loadData(
+                this.page,
+                this.itemsPerPage,
+                this.nameFilter,
+                this.sortField,
+                this.sortOrder
+            );
+
+
+            // get dropdown for Employee
+            this.getLocation();
+            this.getDropDownEmployee();
+            this.initFormGroups();
+        });
+
     }
 
     initFormGroups() {

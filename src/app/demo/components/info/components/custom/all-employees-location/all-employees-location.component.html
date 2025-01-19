@@ -32,14 +32,16 @@
                 <label htmlFor="selectEmployee">{{
                     "Select Employee" | translate
                     }}</label>
-                <p-dropdown [(ngModel)]="selectedEmployee" [options]="dropdownItemsEmployee" optionLabel="name"
-                    formControlName="employeeId" [placeholder]="'Select Employee' | translate"></p-dropdown>
+                <p-dropdown [filter]="true" [showClear]="true" [filterBy]="'name'" [(ngModel)]="selectedEmployee"
+                    [options]="dropdownItemsEmployee" optionLabel="name" formControlName="employeeId"
+                    [placeholder]="'Select Employee' | translate"></p-dropdown>
             </div>
 
             <div class="field">
                 <label htmlFor="location">{{ "Location" | translate }}</label>
-                <p-dropdown [options]="locationDropDown" [(ngModel)]="selectedLocation" (onChange)="onChangeLocation()"
-                    optionLabel="name" formControlName="locationId" [placeholder]="'Select a Location' | translate"
+                <p-dropdown [filter]="true" [showClear]="true" [filterBy]="'name'" [options]="locationDropDown"
+                    [(ngModel)]="selectedLocation" (onChange)="onChangeLocation()" optionLabel="name"
+                    formControlName="locationId" [placeholder]="'Select a Location' | translate"
                     [showClear]="true"></p-dropdown>
             </div>
 
@@ -154,16 +156,18 @@
                 <label htmlFor="Employee">{{
                     "Select Employee" | translate
                     }}</label>
-                <p-dropdown [(ngModel)]="selectedEmployeeEdit" [options]="dropdownItemsEmployee" optionLabel="name"
-                    formControlName="employeeId" [placeholder]="'All Employees' | translate"
+                <p-dropdown [filter]="true" [showClear]="true" [filterBy]="'name'" [(ngModel)]="selectedEmployeeEdit"
+                    [options]="dropdownItemsEmployee" optionLabel="name" formControlName="employeeId"
+                    [placeholder]="'All Employees' | translate"
                     (onChange)="selectedCovenantEditFun($event)"></p-dropdown>
             </div>
 
             <div class="field">
                 <label htmlFor="location">{{ "Location" | translate }}</label>
-                <p-dropdown [options]="locationDropDown" [(ngModel)]="selectedLocationEdit"
-                    (onChange)="onChangeLocationEdit()" formControlName="locationId" optionLabel="name"
-                    placeholder="{{ 'Select a Location' | translate }}" [showClear]="true"></p-dropdown>
+                <p-dropdown [filter]="true" [showClear]="true" [filterBy]="'name'" [options]="locationDropDown"
+                    [(ngModel)]="selectedLocationEdit" (onChange)="onChangeLocationEdit()" formControlName="locationId"
+                    optionLabel="name" placeholder="{{ 'Select a Location' | translate }}"
+                    [showClear]="true"></p-dropdown>
 
                 <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.locationId">{{ "location is required." |
                     translate }}</small>

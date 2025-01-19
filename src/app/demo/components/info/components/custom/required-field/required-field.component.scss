@@ -1,0 +1,19 @@
+.star-required {
+    color: red;
+    border: none;
+    padding: 0;
+}
+
+::ng-deep .p-button.button-required {
+    border: none;
+}
+
+::ng-deep .required-field {
+
+    .p-dropdown,
+    select,
+    input {
+        background-color: #f7f7f7;
+    }
+
+}

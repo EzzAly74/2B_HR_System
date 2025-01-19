@@ -1,7 +1,7 @@
 import { environment } from './../../../../../../environments/environment';
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, Input, SimpleChanges, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { TranslateService } from '@ngx-translate/core';
@@ -129,42 +129,41 @@ export class EmployeeEditComponent {
     nationalId!: any;
     phone!: any;
     baseImgUrl: string = environment.mediaUrl;
-
     editForm: FormGroup = new FormGroup({
-        Id: new FormControl({ value: this.currentId, disabled: true }),
-        BirthDate: new FormControl(),
-        BloodTypes: new FormControl(),
-        DepartmentId: new FormControl(),
-        Gender: new FormControl(),
-        GovernmentId: new FormControl(),
-        HiringDate: new FormControl(),
-        JobId: new FormControl(),
-        JoiningDate: new FormControl(),
-        MaritalStatus: new FormControl(),
-        PartationId: new FormControl(),
-        QualificationId: new FormControl(),
-        ShiftId: new FormControl(),
-        ResignationDate: new FormControl(),
-        Ismanger: new FormControl(),
-        IsInsured: new FormControl(),
-        Religion: new FormControl(),
-        BankId: new FormControl(),
-        GradeId: new FormControl(),
-        JobNatureId: new FormControl(),
-        RecuritmentSourceId: new FormControl(),
-        ContractTypeId: new FormControl(),
-        Address: new FormControl(),
-        Discription: new FormControl(),
-        Email: new FormControl(),
-        EnglishName: new FormControl(),
-        NameAr: new FormControl(),
-        MachineCode: new FormControl(),
-        NationalId: new FormControl(),
-        Phone: new FormControl(),
-        StaticShift: new FormControl(),
-        StaticVacation: new FormControl(),
-        AttendanceConfigurationId: new FormControl(),
+        BirthDate: new FormControl(null, Validators.required),
+        BloodTypes: new FormControl(null),
+        DepartmentId: new FormControl(null, Validators.required),
+        Gender: new FormControl(null, Validators.required),
+        GovernmentId: new FormControl(null, Validators.required),
+        HiringDate: new FormControl(null, Validators.required),
+        JobId: new FormControl(null, Validators.required),
+        JoiningDate: new FormControl(null, Validators.required),
+        MaritalStatus: new FormControl(null, Validators.required),
+        PartationId: new FormControl(null, Validators.required),
+        QualificationId: new FormControl(null, Validators.required),
+        ShiftId: new FormControl(null, Validators.required),
+        ResignationDate: new FormControl(null),
+        Ismanger: new FormControl(false),
+        IsInsured: new FormControl(false),
+        Religion: new FormControl(null),
+        BankId: new FormControl(null),
+        GradeId: new FormControl(null),
+        JobNatureId: new FormControl(null),
+        RecuritmentSourceId: new FormControl(null),
+        ContractTypeId: new FormControl(null),
+        Address: new FormControl(null, Validators.required),
+        Discription: new FormControl(null),
+        Email: new FormControl(null),
+        EnglishName: new FormControl(null),
+        NameAr: new FormControl(null, Validators.required),
+        MachineCode: new FormControl(null),
+        NationalId: new FormControl(null, Validators.required),
+        Phone: new FormControl(null, Validators.required),
+        StaticShift: new FormControl(false),
+        StaticVacation: new FormControl(false),
+        AttendanceConfigurationId: new FormControl(null, Validators.required),
     });
+
 
     // Actions Tabs variable
     Actions: any[] = [];
@@ -602,7 +601,20 @@ export class EmployeeEditComponent {
         });
     }
 
+    mapToFormData(body: any) {
+        const formData: FormData = new FormData();
+
+        for (const key in body) {
+            if (body.hasOwnProperty(key)) {
+                formData.append(key, body[key]);
+            }
+        }
+
+        return formData;
+    }
+
     submitForm(formData: FormGroup) {
+
         formData.patchValue({
             BloodTypes: this.selectedBloodType?.id,
             GovernmentId: this.selectedGovernment?.id,
@@ -641,18 +653,19 @@ export class EmployeeEditComponent {
                 'yyyy-MM-dd'
             ),
         });
-        this.editForm.get('Id').enable();
+        // this.editForm.get('Id').enable();
 
         console.log(formData.value);
 
         this.loading = true;
-        let newFormData: FormData = new FormData();
-        let body = formData.value;
-        for (const key in body) {
-            if (body.hasOwnProperty(key)) {
-                newFormData.append(key, body[key]);
-            }
+
+
+        const bodyForm = {
+            ...formData.value,
+            Id: this.currentId,
         }
+
+        const newFormData = this.mapToFormData(bodyForm)
 
         this.employeeEditService.Edit(newFormData).subscribe({
             next: (res) => {
@@ -663,7 +676,7 @@ export class EmployeeEditComponent {
                 console.log(res);
                 this.loading = false;
 
-                this.editForm.get('Id').disable();
+                // this.editForm.get('Id').disable();
                 // this.employeeEditService.GetById(this.currentId).subscribe({
                 //     next: (res) => {
                 //         this.allData = res.data;
@@ -771,7 +784,7 @@ export class EmployeeEditComponent {
                 this.email = this.email;
             },
             error: (err) => {
-                this.editForm.get('Id').disable();
+                // this.editForm.get('Id').disable();
                 console.log(err);
                 this.loading = false;
 

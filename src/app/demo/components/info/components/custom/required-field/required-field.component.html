@@ -1,0 +1,7 @@
+<span [pTooltip]="tooltipContentId" class="button-required star-required" severity="secondary"
+    tooltipPosition="bottom">*</span>
+<ng-template #tooltipContentId>
+    <div class="flex items-center">
+        <span> {{'this field is required' | translate}}</span>
+    </div>
+</ng-template>
