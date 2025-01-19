@@ -323,7 +323,7 @@ export class EmployeeEditComponent {
                 'MM/dd/yyyy'
             ),
             joiningDate: this.DatePipe.transform(
-                this.allData.joininDate,
+                this.allData.joiningDate,
                 'MM/dd/yyyy'
             ),
             hiringDate: this.DatePipe.transform(
@@ -963,7 +963,7 @@ export class EmployeeEditComponent {
                                     'MM/dd/yyyy'
                                 ),
                                 joiningDate: this.DatePipe.transform(
-                                    data.data.joininDate,
+                                    data.data.joiningDate,
                                     'MM/dd/yyyy'
                                 ),
                                 hiringDate: this.DatePipe.transform(
