@@ -1,5 +1,5 @@
 import { isDevMode, NgModule } from '@angular/core';
-import { LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NotfoundComponent } from './demo/components/notfound/notfound.component';
@@ -65,6 +65,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     ],
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },
+        { provide: LocationStrategy, useClass: HashLocationStrategy },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerInterceptor, multi: true },
         CountryService,
         CustomerService,
@@ -80,4 +81,4 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     ],
     bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

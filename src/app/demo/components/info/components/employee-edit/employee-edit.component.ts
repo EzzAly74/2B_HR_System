@@ -117,8 +117,8 @@ export class EmployeeEditComponent {
 
     currentId!: number;
     birthDate!: any;
-    joinInDate!: any;
-    hiringData!: any;
+    joiningDate!: any;
+    hiringDate!: any;
     resignationDate!: any;
     address!: string;
     discription!: string;
@@ -137,9 +137,9 @@ export class EmployeeEditComponent {
         DepartmentId: new FormControl(),
         Gender: new FormControl(),
         GovernmentId: new FormControl(),
-        HirDate: new FormControl(),
+        HiringDate: new FormControl(),
         JobId: new FormControl(),
-        JoininDate: new FormControl(),
+        JoiningDate: new FormControl(),
         MaritalStatus: new FormControl(),
         PartationId: new FormControl(),
         QualificationId: new FormControl(),
@@ -289,12 +289,12 @@ export class EmployeeEditComponent {
                             data.data.birthDate,
                             'MM/dd/yyyy'
                         ),
-                        joinInDate: this.DatePipe.transform(
-                            data.data.joininDate,
+                        joiningDate: this.DatePipe.transform(
+                            data.data.joiningDate,
                             'MM/dd/yyyy'
                         ),
-                        hiringData: this.DatePipe.transform(
-                            data.data.hirDate,
+                        hiringDate: this.DatePipe.transform(
+                            data.data.hiringDate,
                             'MM/dd/yyyy'
                         ),
                         resignationDate: this.DatePipe.transform(
@@ -322,12 +322,12 @@ export class EmployeeEditComponent {
                 this.allData.birthDate,
                 'MM/dd/yyyy'
             ),
-            joinInDate: this.DatePipe.transform(
+            joiningDate: this.DatePipe.transform(
                 this.allData.joininDate,
                 'MM/dd/yyyy'
             ),
-            hiringData: this.DatePipe.transform(
-                this.allData.hirDate,
+            hiringDate: this.DatePipe.transform(
+                this.allData.hiringDate,
                 'MM/dd/yyyy'
             ),
             resignationDate: this.DatePipe.transform(
@@ -548,8 +548,8 @@ export class EmployeeEditComponent {
 
         // Apply transformed dates
         this.birthDate = transformedDates.birthDate;
-        this.joinInDate = transformedDates.joinInDate;
-        this.hiringData = transformedDates.hiringData;
+        this.joiningDate = transformedDates.joiningDate;
+        this.hiringDate = transformedDates.hiringDate;
         this.resignationDate = transformedDates.resignationDate;
 
         // Set other data fields
@@ -565,8 +565,12 @@ export class EmployeeEditComponent {
         this.getData().subscribe({
             next: (res) => {
                 this.allData = res.data;
+                this.loading = false;
                 this.patchFormValues(this.allData);
             },
+            error: (err) => {
+                this.loading = false;
+            }
         });
     }
 
@@ -574,8 +578,10 @@ export class EmployeeEditComponent {
         this.employeeEditService.getEnum(self.enum).subscribe({
             next: (res) => {
                 this[self.field] = res.data;
+                this.loading = false;
             },
             error: (err) => {
+                this.loading = false;
                 console.log(`error in ${self.field}`);
                 console.log(err);
             },
@@ -586,8 +592,10 @@ export class EmployeeEditComponent {
         this.employeeEditService.getDropdownField(self.enum).subscribe({
             next: (res) => {
                 this[self.field] = res.data;
+                this.loading = false;
             },
             error: (err) => {
+                this.loading = false;
                 console.log(`error in ${self.field}`);
                 console.log(err);
             },
@@ -613,8 +621,8 @@ export class EmployeeEditComponent {
             RecuritmentSourceId: this.selectedRecuritmentSource?.id,
             Religion: this.selectedReligin?.id,
 
-            JoininDate: this.DatePipe.transform(
-                this.editForm.get('JoininDate').value,
+            JoiningDate: this.DatePipe.transform(
+                this.editForm.get('JoiningDate').value,
                 'yyyy-MM-dd'
             ),
 
@@ -623,8 +631,8 @@ export class EmployeeEditComponent {
                 'yyyy-MM-dd'
             ),
 
-            HirDate: this.DatePipe.transform(
-                this.editForm.get('HirDate').value,
+            HiringDate: this.DatePipe.transform(
+                this.editForm.get('HiringDate').value,
                 'yyyy-MM-dd'
             ),
 
@@ -741,12 +749,12 @@ export class EmployeeEditComponent {
                     this.editForm.get('ContractTypeId').value,
                     this.dropdownItemsContractType
                 );
-                this.joinInDate = this.DatePipe.transform(
-                    this.editForm.get('JoininDate').value,
+                this.joiningDate = this.DatePipe.transform(
+                    this.editForm.get('JoiningDate').value,
                     'MM/dd/yyyy'
                 );
-                this.hiringData = this.DatePipe.transform(
-                    this.editForm.get('HirDate').value,
+                this.hiringDate = this.DatePipe.transform(
+                    this.editForm.get('HiringDate').value,
                     'MM/dd/yyyy'
                 );
                 this.resignationDate = this.DatePipe.transform(
@@ -765,6 +773,8 @@ export class EmployeeEditComponent {
             error: (err) => {
                 this.editForm.get('Id').disable();
                 console.log(err);
+                this.loading = false;
+
             },
         });
         console.log(formData.value);
@@ -779,10 +789,15 @@ export class EmployeeEditComponent {
         this.employeeEditService.GetById(this.currentId).subscribe({
             next: (res) => {
                 this.allData = res.data;
+
+                this.loading = false;
+
                 this.patchFormValues(this.allData);
             },
             error: () => {
+                this.loading = false;
             }
+
         });
         return this.employeeEditService.GetById(this.currentId);
     }
@@ -928,6 +943,8 @@ export class EmployeeEditComponent {
                 });
                 this.uploadImageDialog = false;
                 this.file = null;
+                this.loading = false;
+
                 this.getData()
                     .pipe(
                         tap((data) => {
@@ -945,12 +962,12 @@ export class EmployeeEditComponent {
                                     data.data.birthDate,
                                     'MM/dd/yyyy'
                                 ),
-                                joinInDate: this.DatePipe.transform(
+                                joiningDate: this.DatePipe.transform(
                                     data.data.joininDate,
                                     'MM/dd/yyyy'
                                 ),
-                                hiringData: this.DatePipe.transform(
-                                    data.data.hirDate,
+                                hiringDate: this.DatePipe.transform(
+                                    data.data.hiringDate,
                                     'MM/dd/yyyy'
                                 ),
                                 resignationDate: this.DatePipe.transform(
@@ -960,7 +977,6 @@ export class EmployeeEditComponent {
                             };
                         })
                     )
-
                     .subscribe((transformedDates) => {
                         console.log('transformedDates');
                         console.log(transformedDates);
@@ -970,6 +986,7 @@ export class EmployeeEditComponent {
             },
             error: (err) => {
                 console.log(err);
+                this.loading = false;
             },
         });
     }

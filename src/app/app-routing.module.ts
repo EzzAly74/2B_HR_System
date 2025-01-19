@@ -103,6 +103,7 @@ import { TestInputComponentComponent } from './demo/components/info/components/t
                 scrollPositionRestoration: 'enabled',
                 anchorScrolling: 'enabled',
                 onSameUrlNavigation: 'reload',
+                useHash: true
             }
         ),
     ],

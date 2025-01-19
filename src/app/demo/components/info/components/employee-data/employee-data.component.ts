@@ -105,9 +105,9 @@ export class EmployeeDataComponent {
         departmentId: new FormControl(null),
         gender: new FormControl(null),
         governmentId: new FormControl(null),
-        hirDate: new FormControl(null),
+        hiringDate: new FormControl(null),
         jobId: new FormControl(null),
-        joininDate: new FormControl(null),
+        joiningDate: new FormControl(null),
         maritalStatus: new FormControl(null),
         partationId: new FormControl(null),
         qualificationId: new FormControl(null),
@@ -710,8 +710,8 @@ export class EmployeeDataComponent {
             recuritmentSourceId: this.selectedRecuritmentSource?.id,
             religion: this.selectedReligin?.id,
 
-            joininDate: this.DatePipe.transform(
-                this.filterForm.get('joininDate').value,
+            joiningDate: this.DatePipe.transform(
+                this.filterForm.get('joiningDate').value,
                 'yyyy-MM-ddTHH:mm:ss'
             ),
 
@@ -720,8 +720,8 @@ export class EmployeeDataComponent {
                 'yyyy-MM-ddTHH:mm:ss'
             ),
 
-            hirDate: this.DatePipe.transform(
-                this.filterForm.get('hirDate').value,
+            hiringDate: this.DatePipe.transform(
+                this.filterForm.get('hiringDate').value,
                 'yyyy-MM-ddTHH:mm:ss'
             ),
 
