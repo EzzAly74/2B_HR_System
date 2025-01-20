@@ -728,5 +728,6 @@
     "Add New Mobile Version": "Add New Mobile Version",
     "Accept All": "Accept All",
     "this field is required": "this field is required",
-    "Reject All": "Reject All"
+    "Reject All": "Reject All",
+    "Number of Months of Hiring Date": "Months Since Hiring Date",
 }
