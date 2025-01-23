@@ -11,13 +11,10 @@
     "JOB": "Job",
     "Job": "Job Title",
     "LOCATION": "Location",
-<<<<<<< HEAD
     "PARTITION": "Employee Partition",
     "Qualifications": "Qualifications",
-=======
     "PARTITION": "Employee Departments",
     "Qualifications": "Skills and Certifications",
->>>>>>> a5b86c6debb0e82a94ac6a5d8b48b1f19d581d51
     "SHIFT": "Shift",
     "CONVENATCATEGORY": "Covenant Category",
     "CONVENAT": "Covenant",
@@ -104,11 +101,8 @@
     "Add New Shift Vacation": "Add New Shift Vacation",
     "Add New Location": "Add New Location",
     "Add New Partation": "Add New Partation",
-<<<<<<< HEAD
     "Add New Job Nature": "Add New Job Nature",
-=======
     "Add New Job Nature": "Add New Job Type",
->>>>>>> a5b86c6debb0e82a94ac6a5d8b48b1f19d581d51
     "Add New Recuritment Source": "Add New Recruitment Source",
     "Add New Uniform Codes": "Add New Uniform Codes",
     "Add New Covenant": "Add New Covenant",
@@ -130,11 +124,8 @@
     "dayCount": "dayCount",
     "Vacations Types": "Vacations Types",
     "vacation starts after": "vacation starts after",
-<<<<<<< HEAD
     "Employees": "Employee List",
-=======
     "Employees": "Employee Directory",
->>>>>>> a5b86c6debb0e82a94ac6a5d8b48b1f19d581d51
     "EMPLOYEE_DATA": "Employee data",
     "ADD_EMPLOYEE": "Add Employee",
     "EMPLOYEE_CERTIFICATION": "Employee Certification",
@@ -145,11 +136,8 @@
     "EMPLOYEE_LOCATION": "Employee Location",
     "EMPLOYEE_MANAGER": "Employee Manager",
     "EMPLOYEE_SALARY": "Employee Salary",
-<<<<<<< HEAD
     "EMPLOYEE_UNIFORM": "Employee Uniforms",
-=======
     "EMPLOYEE_UNIFORM": "Employee Uniform Management",
->>>>>>> a5b86c6debb0e82a94ac6a5d8b48b1f19d581d51
     "EMPLOYEE_VACATION_STOCK": "Employee Vacation Stock",
     "EMPLOYEE_VACATION_EXPERIENCE": "Employee Vacation Experience",
     "Search...": "Search...",
@@ -169,11 +157,7 @@
     "Qualification": "Qualification",
     "Is Insured": "Insured",
     "Is Manager": "Manager",
-<<<<<<< HEAD
-    "Partition": "Partition",
-=======
     "Partition": "Section",
->>>>>>> a5b86c6debb0e82a94ac6a5d8b48b1f19d581d51
     "Bank": "Bank",
     "Grade": "Grade",
     "job Nature": "job Nature",
@@ -314,15 +298,9 @@
     "Relative Relation Type": "Relative Relation Type",
     "Enter BirthDate Here": "Enter BirthDate Here",
     "Select Action": "Select Action",
-<<<<<<< HEAD
-    "Employees Assets": "Employee Assets",
-    "Employees Files": "Employee Files",
-    "Employees Locations": "Employee Locations",
-=======
     "Employees Assets": "Asset Management",
     "Employees Files": "Employee Documents",
     "Employees Locations": "Attendance Locations",
->>>>>>> a5b86c6debb0e82a94ac6a5d8b48b1f19d581d51
     "Employees Managers": "Employees Managers",
     "Employees Uniform": "Uniform Management",
     "Users": "Users",
@@ -418,11 +396,7 @@
     "Filter": "Filter",
     "Attendance Configuration": "Attendance Type",
     "Select Attendance Configuration": "Select Attendance Type",
-<<<<<<< HEAD
-    "Employees Shifts": "Employee Shifts",
-=======
     "Employees Shifts": "Shift Management",
->>>>>>> a5b86c6debb0e82a94ac6a5d8b48b1f19d581d51
     "Assign New Shift For Some Employees": "Assign New Shift For Some Employees",
     "check In Before The Shift Starts": "check In Before The Shift Starts",
     "Enter Check In Before The Shift Starts": "Enter Check In Before The Shift Starts",
@@ -430,11 +404,7 @@
     "Enter check Out After The Shift Ends": "Enter check Out After The Shift Ends",
     "check Out After The Shift Starts": "check Out After The Shift Starts",
     "Enter check Out Before The Shift Starts": "Enter check Out After The Shift Starts",
-<<<<<<< HEAD
-    "Employees Fingerprints": "Employee Fingerprints",
-=======
     "Employees Fingerprints": "Attendance Records",
->>>>>>> a5b86c6debb0e82a94ac6a5d8b48b1f19d581d51
     "KPIs": "KPIs",
     "ALLOWANCE": "Allowance",
     "Penalties & Deductions": "Penalties & Deductions",
@@ -471,44 +441,35 @@
     "HR Notes": "HR Notes",
     "Accept": "Accept",
     "Reject": "Reject",
-<<<<<<< HEAD
     "Payroll Overview": "Payroll Overview",
-=======
     "Payroll Overview": "Payroll Management",
->>>>>>> a5b86c6debb0e82a94ac6a5d8b48b1f19d581d51
     "Manage Requests": "Manage Employee Requests",
     "Manage Types": "Manage Types",
     "Permissions Types": "Permission Types",
     "Official Holidays": "Official Holidays",
     "Shifts Types": "Shift Types",
     "Vacations Shift Types": "Vacation Shift Types",
-<<<<<<< HEAD
     "Manage Structure": "Manage Company Structure",
     "Governorates": "Employee Governorates",
     "Banks": "Banks",
     "Departments": "Departments",
-=======
     "Manage Structure": "Company Structure Management",
     "Governorates": "Employee Governorates",
     "Banks": "Bank Accounts",
     "Departments": "Departments Management",
->>>>>>> a5b86c6debb0e82a94ac6a5d8b48b1f19d581d51
     "Administrations": "Administrations",
     "Company Policies": "Company Policies",
     "Locations": "Locations",
     "Source of Employment": "Source of Employment",
     "Jobs": "Employee Jobs",
-<<<<<<< HEAD
     "Job Types": "Job Types",
     "Contracts": "Contracts",
     "Academic Degrees": "Academic Degrees",
     "Company Assets Categories": "Company Assets Categories",
-=======
     "Job Types": "Job Titles Management",
     "Contracts": "Employment Contracts",
     "Academic Degrees": "Academic Qualifications",
     "Company Assets Categories": "Asset Categories",
->>>>>>> a5b86c6debb0e82a94ac6a5d8b48b1f19d581d51
     "Company Assets": "Company Assets",
     "Attendance Policy": "Attendance Policy",
     "Vacation Policy": "Vacation Policy",
@@ -782,7 +743,6 @@
     "Accept All": "Accept All",
     "this field is required": "this field is required",
     "Reject All": "Reject All",
-<<<<<<< HEAD
     "Arabic Title": "Arabic Title",
     "English Title": "English Title",
     "Arabic Body": "Arabic Body",
@@ -1523,9 +1483,6 @@
     "Reject All": "Reject All",
     "Number of Months of Hiring Date": "Months Since Hiring Date",
     "change status": "change status",
-    "serialNumber": "Serial Number"
-}
-=======
+    "serialNumber": "Serial Number",
     "Number of Months of Hiring Date": "Months Since Hiring Date"
 }
->>>>>>> a5b86c6debb0e82a94ac6a5d8b48b1f19d581d51

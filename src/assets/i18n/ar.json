@@ -746,7 +746,6 @@
     "Reject All": "رفض الكل",
     "Showing {first} to {last} of {totalRecords} entries": "عرض {first} الى {last} من {totalRecords} السجلات",
     "Number of Months of Hiring Date": "عدد الأشهر منذ تاريخ التعيين",
-<<<<<<< HEAD
     "value": "القيمة",
     "Select Religion": "اختر ديانة",
     "Add Late Setting": "إضافة إعداد متأخر",
@@ -772,9 +771,6 @@
     "Enter Arabic Body Here": "ادخل الموضوع بالعربى هنا",
     "Enter English Body Here": "ادخل الموضوع بالانجليزى هنا",
     "change status": "تغير الحالة",
-    "serialNumber": "الرقم التسلسلى"
-}
-=======
+    "serialNumber": "الرقم التسلسلى",
     "value": "القيمة"
 }
->>>>>>> a5b86c6debb0e82a94ac6a5d8b48b1f19d581d51
