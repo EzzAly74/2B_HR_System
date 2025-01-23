@@ -51,6 +51,7 @@ export class PartitionComponent {
     selectedDepartment: any = null;
     selectedDepartmentId: number = -1;
     selectedEditsDepartment: any;
+    fileNew!: File;
 
     addnewForm: FormGroup = new FormGroup({
         departmentId: new FormControl(null, [Validators.required]),
@@ -104,6 +105,64 @@ export class PartitionComponent {
 
         // get all drop downs departments
         this.getDropDownDepartment();
+    }
+
+
+    onFileSelect(event: any, fileUploader: any) {
+        console.log(event);
+        let file = event.files[0]; // Use `event.files` to get the uploaded file
+
+        if (file) {
+            this.fileNew = file;
+
+            const formData: FormData = new FormData();
+            formData.append('file', this.fileNew);
+
+            this._PartitionService.importExcel(formData).subscribe({
+                next: (res) => {
+                    console.log(res);
+                    console.log('Upload successful');
+
+                    // Reload data
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+
+                    // Show success message
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translate.instant('Success'),
+                        detail: res?.['message'],
+                        life: 3000,
+                    });
+
+                    // Clear the file uploader
+                    fileUploader.clear();
+                },
+                error: (err) => {
+                    console.error(err);
+
+                    // Clear the file uploader
+                    fileUploader.clear();
+
+                    // Show error message
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translate.instant('Error'),
+                        detail: this.translate.instant('UploadFailed'),
+                        life: 3000,
+                    });
+                },
+                complete: () => {
+                    // Clear the file uploader
+                    fileUploader.clear();
+                }
+            });
+        }
     }
 
     getDartmentNameById(id: number) {

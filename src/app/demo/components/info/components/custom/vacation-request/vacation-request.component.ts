@@ -15,6 +15,7 @@ import { environment } from 'src/environments/environment';
 import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { TranslateService } from '@ngx-translate/core';
 
 export const dateRangeValidator: ValidatorFn = (formGroup: FormGroup) => {
     const dateFrom = formGroup.get('FromDay')?.value;
@@ -40,7 +41,8 @@ export class VacationRequestComponent {
         private vacationRequestService: VacationRequestService,
         private messageService: MessageService,
         private route: ActivatedRoute,
-        private DatePipe: DatePipe
+        private DatePipe: DatePipe,
+        private translate: TranslateService
     ) { }
     @ViewChild('dt') dt: Table;
     @ViewChild('fileUpload') fileUpload: any;
@@ -90,6 +92,11 @@ export class VacationRequestComponent {
         RequestType: new FormControl(null),
     });
 
+
+
+    changeStatusForm: FormGroup = new FormGroup({
+        RequestType: new FormControl(null, Validators.required),
+    });
     addNewForm: FormGroup = new FormGroup(
         {
             EmployeeId: new FormControl(null, [Validators.required]),
@@ -101,6 +108,7 @@ export class VacationRequestComponent {
         },
         { validators: dateRangeValidator }
     );
+    all_Status_DropDown: any;
 
     ngOnInit() {
         this.endPoint = 'VacationRequest';
@@ -130,6 +138,22 @@ export class VacationRequestComponent {
             console.log('Dropdowns data :');
 
             this.getDropDowns();
+
+            if (mainLang == 'en') {
+
+                this.all_Status_DropDown = [
+                    { id: 0, name: 'pending' },
+                    { id: 1, name: 'Accepted' },
+                    { id: 2, name: 'Rejected' },
+                ];
+
+            } else {
+                this.all_Status_DropDown = [
+                    { id: 0, name: 'انتظار' },
+                    { id: 1, name: 'موافقة' },
+                    { id: 2, name: 'مرفوض' },
+                ];
+            }
         });
 
         this.cols = [
@@ -150,6 +174,77 @@ export class VacationRequestComponent {
             { field: 'lastModifierName', header: 'LastModifierName' },
         ];
     }
+
+
+    mapToFormData(body: any) {
+        const formData: FormData = new FormData();
+
+        for (const key in body) {
+            if (body.hasOwnProperty(key)) {
+                formData.append(key, body[key]);
+            }
+        }
+
+        return formData;
+    }
+
+
+    saveStatus(form: FormGroup, product: any) {
+        this.submitted = true;
+
+
+        let body = {
+            ...form.value,
+            Id: product.id
+        }
+
+
+        const formData = this.mapToFormData(body);
+
+
+        this.vacationRequestService.changeStatus(formData).subscribe({
+            next: (res) => {
+                if (res.success) {
+                    this.hideDialog();
+                    // show message for user to show processing of deletion.
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translate.instant('Success'),
+                        detail: res.message,
+                        life: 3000,
+                    });
+                }
+
+                this.loading = false;
+
+                // load data again
+                this.loadData(
+                    this.page,
+                    this.itemsPerPage,
+                    this.nameFilter,
+                    this.sortField,
+                    this.sortOrder
+                );
+            },
+            error: () => {
+                this.loading = false;
+            }
+        });
+    }
+
+    changeStatus(rowData: any) {
+        this.vacationRequestService.GetById(rowData.id).subscribe({
+            next: (res) => {
+                console.log(res.data);
+                this.product = { ...res.data };
+                this.productDialog = true;
+            },
+            error: (err) => {
+                console.log(err);
+            },
+        });
+    }
+
     getDropDowns() {
         this.vacationRequestService.getDropdownField('Employee').subscribe({
             next: (res) => {

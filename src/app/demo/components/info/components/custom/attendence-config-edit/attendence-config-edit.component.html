@@ -285,9 +285,12 @@
     [modal]="true" class="p-fluid">
     <ng-template pTemplate="display">
         <div class="inline-flex align-items-center">
-            <p-fileUpload mode="basic" [chooseLabel]="'Choose Image' | translate" class="p-button-info p-button-text"
-                chooseIcon="pi pi-image" name="demo[]" accept="image/*" maxFileSize="1000000"
-                (onSelect)="onSelect($event)" />
+            <p-fileUpload #fileUploader mode="basic" [chooseLabel]="'Import File' | translate"
+                chooseIcon="pi pi-download" name="demo[]" maxFileSize="1000000"
+                accept=".xls, .xlsx, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                (onSelect)="onFileSelect($event, fileUploader)" [auto]="true">
+            </p-fileUpload>
+
         </div>
     </ng-template>
     <ng-template pTemplate="footer">

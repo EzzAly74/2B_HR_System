@@ -136,7 +136,7 @@
 
 <p-table #dt [value]="allData" [paginator]="true" [rows]="itemsPerPage" [columns]="cols" [totalRecords]="totalItems"
     selectionMode="multiple" [(selection)]="selectedItems" [showCurrentPageReport]="true"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [lazy]="true"
+    [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries' | translate" [lazy]="true"
     (onLazyLoad)="onPageChange($event)" dataKey="id">
     <ng-template pTemplate="caption">
         <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
@@ -144,7 +144,7 @@
             <span class="block mt-2 md:mt-0 p-input-icon-left">
                 <i class="pi pi-search"></i>
                 <input pInputText [(ngModel)]="nameFilter" (input)="loadFilteredData()" id="filter-name" type="text"
-                    placeholder="Search..." class="w-full sm:w-auto" />
+                    [placeholder]="'Search...' | translate" class="w-full sm:w-auto" />
             </span>
         </div>
     </ng-template>
@@ -170,13 +170,13 @@
             <th>{{ "Date From" | translate }}</th>
             <th>{{ "Date To" | translate }}</th>
             <th>{{ "Misson Type" | translate }}</th>
-            <th>{{ "Respone" | translate }}</th>
+            <th>{{ "Response" | translate }}</th>
             <th>{{ "Location" | translate }}</th>
+            <th>{{ "change status" | translate }}</th>
 
-            <th>{{ "creationTime" | translate }}</th>
-            <th>{{ "lastModificationTime" | translate }}</th>
             <th>{{ "creatorName" | translate }}</th>
             <th>{{ "lastModifierName" | translate }}</th>
+
             <th>{{ "Actions" | translate }}</th>
         </tr>
     </ng-template>
@@ -211,10 +211,13 @@
                 <span class="p-column-title">toDay</span>
                 {{ rowData.toDay | date : "dd/MM/YYYY" }}
             </td>
-
-            <td style="min-width: 140px" [ngClass]="{ 'null-color': !rowData.missionTypeName }">
-                <span class="p-column-title">missionTypeName</span>
-                {{ rowData.missionTypeName }}
+            <td [ngClass]="{
+                'pending-missionType': rowData?.missionType == 0,
+                'accepted-missionType': rowData?.missionType == 1,
+                'rejected-missionType': rowData?.missionType == 2,
+                'complete-missionType': rowData?.missionType == 3
+            }">
+                <span> {{ rowData.missionTypeName }} </span>
             </td>
 
             <td [ngClass]="{
@@ -229,28 +232,27 @@
                 <span class="p-column-title">location</span>
                 {{ rowData.location ? rowData.location : "" }}
             </td>
-            <td [ngClass]="{ 'null-color': !rowData.creationTime }">
-                <span class="p-column-title">creationTime</span>
-                {{ rowData.creationTime ? rowData.creationTime : "" }}
-            </td>
 
-            <td [ngClass]="{ 'null-color': !rowData.lastModificationTime }">
-                <span class="p-column-title">lastModificationTime</span>
-                {{
-                rowData.lastModificationTime
-                ? rowData.lastModificationTime
-                : ""
-                }}
+
+            <td>
+                <div class="flex crud-operations">
+                    <!-- <pre>{{rowData | json}}</pre> -->
+                    <button pButton pRipple [label]="'Change Status' | translate" icon="pi pi-user-edit"
+                        class="p-button-help change-status-btn mx-2 px-1" (click)="changeStatus(rowData)"
+                        [disabled]="rowData?.requestType !== 0"></button>
+                </div>
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.creatorName }">
                 <span class="p-column-title">creatorName</span>
                 {{ rowData.creatorName ? rowData.creatorName : "" }}
             </td>
+
             <td [ngClass]="{ 'null-color': !rowData.lastModifierName }">
                 <span class="p-column-title">lastModifierName</span>
                 {{ rowData.lastModifierName ? rowData.lastModifierName : "" }}
             </td>
+
 
             <td>
                 <div class="flex crud-operations">
@@ -263,48 +265,29 @@
     </ng-template>
 </p-table>
 
-<p-dialog [(visible)]="productDialog" [style]="{ width: '450px' }" header="Product Details" [modal]="true"
+<p-dialog [(visible)]="productDialog" [style]="{ width: '450px' }" [header]="'Status' | translate" [modal]="true"
     class="p-fluid">
     <ng-template pTemplate="content">
-        <div class="field">
-            <label htmlFor="name-en">{{ "Course Name" | translate }} </label>
-            <input pInputText [(ngModel)]="product.courseName" [placeholder]="'Enter Course Name Here' | translate"
-                id="name-en" type="text" required autofocus />
-        </div>
+        <form [formGroup]="changeStatusForm" (ngSubmit)="saveStatus(changeStatusForm, product)">
 
-        <div class="field">
-            <label htmlFor="name-ar">{{ "Date From" | translate }} </label>
+            <div class="field col-12 md:12">
+                <label for="AllStatus">{{ 'All Status' | translate }}</label>
+                <p-dropdown [options]="all_Status_DropDown" optionValue="id" optionLabel="name" formControlName="Status"
+                    [(ngModel)]="selectedStatus" (ngModelChange)="print(changeStatusForm)"
+                    placeholder="{{ 'Select Status' | translate }}" showClear="true">
+                </p-dropdown>
+            </div>
 
-            <p-calendar [showIcon]="true" [iconDisplay]="'input'" name="dateFrom" inputId="dateFrom"
-                [(ngModel)]="product.dateFrom" [placeholder]="'From' | translate"></p-calendar>
-        </div>
-
-        <div class="field">
-            <label htmlFor="name-ar">{{ "Date To" | translate }} </label>
-
-            <p-calendar [showIcon]="true" [iconDisplay]="'input'" name="dateTo" inputId="dateTo"
-                [(ngModel)]="product.dateTo" [placeholder]="'To' | translate"></p-calendar>
-        </div>
-
-        <div class="field">
-            <label htmlFor="numberOfHours">{{ "Location" | translate }}</label>
-
-            <input pInputText [(ngModel)]="product.location" [placeholder]="'Enter Location Here' | translate"
-                id="location" type="text" />
-        </div>
-
-        <div class="field">
-            <label htmlFor="new-notes">{{ "Discription" | translate }}</label>
-            <textarea pInputTextarea [(ngModel)]="product.discription" id="new-notes"
-                [placeholder]="'Enter Discription Here' | translate" type="text"></textarea>
-        </div>
+            <div class="field col-12 md:12">
+                <div class="btns">
+                    <button pButton pRipple label="{{ 'Save' | translate }}" icon="pi pi-check" class="p-button-text"
+                        type="submit" [disabled]="changeStatusForm.invalid">
+                    </button>
+                </div>
+            </div>
+        </form>
     </ng-template>
-    <ng-template pTemplate="footer">
-        <button pButton pRipple [label]="'Cancel' | translate" icon="pi pi-times" class="p-button-text"
-            (click)="hideDialog()"></button>
-        <button pButton pRipple [label]="'Save' | translate" icon="pi pi-check" class="p-button-text"
-            (click)="saveProduct(product.id, product)"></button>
-    </ng-template>
+
 </p-dialog>
 
 <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{ width: '450px' }">

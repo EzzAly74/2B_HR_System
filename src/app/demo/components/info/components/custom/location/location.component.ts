@@ -114,28 +114,22 @@ export class LocationComponent {
     }
 
 
-
-    onFileSelect(event: any) {
+    onFileSelect(event: any, fileUploader: any) {
         console.log(event);
-        let file: any = event.currentFiles[0];
+        let file = event.files[0]; // Use `event.files` to get the uploaded file
 
         if (file) {
             this.fileNew = file;
 
-            let body = {
-                file: this.fileNew,
-            };
             const formData: FormData = new FormData();
+            formData.append('file', this.fileNew);
 
-            for (const key in body) {
-                if (body.hasOwnProperty(key)) {
-                    formData.append(key, body[key]);
-                }
-            }
             this._LocationService.importExcel(formData).subscribe({
                 next: (res) => {
                     console.log(res);
+                    console.log('Upload successful');
 
+                    // Reload data
                     this.loadData(
                         this.page,
                         this.itemsPerPage,
@@ -144,16 +138,32 @@ export class LocationComponent {
                         this.sortOrder
                     );
 
+                    // Show success message
                     this.messageService.add({
                         severity: 'success',
                         summary: this.translate.instant('Success'),
-                        detail: res?.["message"],
+                        detail: res?.['message'],
                         life: 3000,
                     });
+
+                    // Clear the file uploader
+                    fileUploader.clear();
                 },
+                error: (err) => {
+                    console.error(err);
+
+                    // Show error message
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translate.instant('Error'),
+                        detail: this.translate.instant('UploadFailed'),
+                        life: 3000,
+                    });
+                }
             });
         }
     }
+
 
     editProduct(rowData: any) {
         console.log(rowData.id);

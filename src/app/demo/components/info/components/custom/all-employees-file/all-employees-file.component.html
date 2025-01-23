@@ -75,7 +75,7 @@
 
 <p-table #dt [value]="allData" [paginator]="true" [rows]="itemsPerPage" [columns]="cols" [totalRecords]="totalItems"
     selectionMode="multiple" [(selection)]="selectedItems" [showCurrentPageReport]="true"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [lazy]="true"
+    [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries' | translate" [lazy]="true"
     (onLazyLoad)="onPageChange($event)" dataKey="id">
     <ng-template pTemplate="content">
         <div class="field col-12">
@@ -246,8 +246,12 @@
         </div>
         <div class="field">
             <label htmlFor="date"> {{ "Upload File" | translate }} </label>
-            <p-fileUpload mode="basic" [chooseLabel]="'Choose' | translate" chooseIcon="pi pi-upload" name="demo[]"
-                maxFileSize="1000000" accept=".pdf" (onSelect)="onFileSelect($event)" />
+            <p-fileUpload #fileUploader mode="basic" [chooseLabel]="'Import File' | translate"
+                chooseIcon="pi pi-download" name="demo[]" maxFileSize="1000000"
+                accept=".xls, .xlsx, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                (onSelect)="onFileSelect($event, fileUploader)" [auto]="true">
+            </p-fileUpload>
+
             <!-- <button (click)="uploadFile()">Upload</button> -->
         </div>
     </ng-template>

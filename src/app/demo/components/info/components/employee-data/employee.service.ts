@@ -24,8 +24,9 @@ export class EmployeeService extends LockupsService {
     }
 
     resetMacAddress(id: number) {
-        return this.http.get(
-            `${this.baseurl}/Employee/ResetMacAddres?Employeeid=${id}`
+        return this.http.post(
+            `${this.baseurl}/Employee/ResetMacAddres?Employeeid=${id}`,
+            {}
         );
     }
 }

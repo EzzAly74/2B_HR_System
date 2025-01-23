@@ -15,6 +15,10 @@ export class ExecuseRequestService extends LockupsService {
             `${this.baseurl}/Enums/getRequestType/?culture=${this.culture}`
         );
     }
+
+    changeStatus(body: any): Observable<any> {
+        return this.http.post(`${this.baseurl}/${this.endPoint}/UpdateRequestType`, body);
+    }
     getDropdownField(field: string): Observable<any> {
         return this.http.get(
             `${this.baseurl}/${field}/getDropDown/?culture=${this.culture}`

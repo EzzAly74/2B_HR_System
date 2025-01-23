@@ -16,7 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
     imports: [GlobalsModule, PrimeNgModule],
     providers: [MessageService, DatePipe],
     templateUrl: './public-vacation.component.html',
-    styleUrl: './public-vacation.component.scss',
+    styleUrls: ['./public-vacation.component.scss'],
 })
 export class PublicVacationComponent {
     constructor(

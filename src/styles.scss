@@ -527,3 +527,19 @@ form .p-fileupload .p-button:hover {
 ::ng-deep .p-button.button-required {
     border: none;
 }
+
+html[lang=ar] .p-paginator {
+    flex-direction: row-reverse;
+
+    .p-paginator-current {
+        order: 1;
+    }
+}
+
+.p-timepicker {
+    direction: ltr;
+}
+
+::ng-deep .p-dialog {
+    overflow: hidden;
+}

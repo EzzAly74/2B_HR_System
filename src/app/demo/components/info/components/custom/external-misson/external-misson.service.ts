@@ -26,6 +26,9 @@ export class ExternalMissonService extends LockupsService {
             `${this.baseurl}/Employee/GetMangerDropDown/?culture=${this.culture}`
         );
     }
+    changeStatus(body: any): Observable<any> {
+        return this.http.post(`${this.baseurl}/${this.endPoint}/UpdateRequestType`, body);
+    }
     addExternalMissonRequest(body: any): Observable<any> {
         return this.http.post(
             `${this.baseurl}/${this.endPoint}/AddRequest`,

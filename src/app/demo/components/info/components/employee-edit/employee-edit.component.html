@@ -124,14 +124,14 @@
                                 [(ngModel)]="selectedGovernment"></p-dropdown>
                         </div>
 
-                        <div class="field  required-field col-12 md:col-3">
+                        <div class="field  required-field col-12 md:col-4">
                             <label htmlFor="BirthDate">
                                 {{ "BirthDate" | translate }} <app-required-field></app-required-field></label>
                             <p-calendar [showIcon]="true" [iconDisplay]="'input'" inputId="BirthDate"
                                 formControlName="BirthDate" [(ngModel)]="birthDate"></p-calendar>
                         </div>
 
-                        <div class="field col-12 md:col-3">
+                        <div class="field col-12 md:col-4">
                             <label htmlFor="Religin">{{
                                 "Religin" | translate
                                 }}</label>
@@ -140,7 +140,7 @@
                                 [(ngModel)]="selectedReligin"></p-dropdown>
                         </div>
 
-                        <div class="field required-field col-12 md:col-3">
+                        <div class="field required-field col-12 md:col-4">
                             <label htmlFor="maritalStatus">{{
                                 "Martial Status" | translate
                                 }} <app-required-field></app-required-field></label>
@@ -149,7 +149,7 @@
                                 optionLabel="name" [(ngModel)]="selectedMaritalStatus"></p-dropdown>
                         </div>
 
-                        <div class="field col-12 md:col-3">
+                        <div class="field col-12 md:col-4">
                             <label htmlFor="Blood">{{
                                 "Blood Types" | translate
                                 }}</label>
@@ -158,7 +158,7 @@
                                 [(ngModel)]="selectedBloodType"></p-dropdown>
                         </div>
 
-                        <div class="field required-field col-12 md:col-3">
+                        <div class="field required-field col-12 md:col-4">
                             <label htmlFor="gender">{{
                                 "Gender Type" | translate
                                 }} <app-required-field></app-required-field></label>
@@ -167,7 +167,7 @@
                                 [(ngModel)]="selectedGender"></p-dropdown>
                         </div>
 
-                        <div class="field col-12 md:col-3">
+                        <div class="field col-12 md:col-4">
                             <label htmlFor="Qualification">{{
                                 "Qualification" | translate
                                 }}</label>
@@ -176,7 +176,7 @@
                                 optionLabel="name" [(ngModel)]="selectedQualification"></p-dropdown>
                         </div>
 
-                        <div class="field required-field col-12 md:col-3">
+                        <div class="field required-field col-12 md:col-4">
                             <label htmlFor="Attendance Configuration">{{
                                 "Attendance Configuration" | translate
                                 }} <app-required-field></app-required-field></label>
@@ -186,14 +186,14 @@
                                 [(ngModel)]="selectedAttendanceConfiguration"></p-dropdown>
                         </div>
 
-                        <div class="field  required-field col-12 md:col-3">
+                        <div class="field  required-field col-12 md:col-4">
                             <label htmlFor="Job">{{ "Job" | translate }}
                                 <app-required-field></app-required-field></label>
                             <p-dropdown [filter]="true" [showClear]="true" [filterBy]="'name'" formControlName="JobId"
                                 [options]="dropdownItemsJob" optionLabel="name" [(ngModel)]="selectedJob"></p-dropdown>
                         </div>
 
-                        <div class="field required-field col-12 md:col-3">
+                        <div class="field required-field col-12 md:col-4">
                             <label htmlFor="department">{{
                                 "Departments" | translate
                                 }} <app-required-field></app-required-field></label>
@@ -202,7 +202,7 @@
                                 [(ngModel)]="selectedDepartment"></p-dropdown>
                         </div>
 
-                        <div class="field required-field col-12 md:col-3">
+                        <div class="field required-field col-12 md:col-4">
                             <label htmlFor="Partition">{{
                                 "Partition" | translate
                                 }} <app-required-field></app-required-field> </label>
@@ -211,7 +211,7 @@
                                 [(ngModel)]="selectedPartitions"></p-dropdown>
                         </div>
 
-                        <div class="field required-field col-12 md:col-3">
+                        <div class="field required-field col-12 md:col-4">
                             <label htmlFor="Shift">{{
                                 "Shift" | translate
                                 }} <app-required-field></app-required-field> </label>
@@ -220,7 +220,7 @@
                                 [(ngModel)]="selectedShift"></p-dropdown>
                         </div>
 
-                        <div class="field col-12 md:col-3">
+                        <div class="field col-12 md:col-4">
                             <label htmlFor="Bank">{{
                                 "Bank" | translate
                                 }}</label>
@@ -229,7 +229,7 @@
                                 [(ngModel)]="selectedBank"></p-dropdown>
                         </div>
 
-                        <div class="field col-12 md:col-3">
+                        <div class="field col-12 md:col-4">
                             <label htmlFor="Grade">{{
                                 "Grade" | translate
                                 }}</label>
@@ -238,7 +238,7 @@
                                 [(ngModel)]="selectedGrade"></p-dropdown>
                         </div>
 
-                        <div class="field required-field col-12 md:col-3">
+                        <div class="field required-field col-12 md:col-4">
                             <label htmlFor="jobNature">{{
                                 "job Nature" | translate
                                 }} <app-required-field></app-required-field> </label>
@@ -246,40 +246,34 @@
                                 formControlName="JobNatureId" [options]="dropdownItemsJobNature" optionLabel="name"
                                 [(ngModel)]="selectedjobNature"></p-dropdown>
                         </div>
-                        <div class="field col-12 md:col-4">
-                            <label htmlFor="machineCode">{{
-                                "Machine Code" | translate
-                                }}</label>
-                            <input pInputText id="machineCode" formControlName="MachineCode"
-                                [(ngModel)]="machineCode" />
-                        </div>
 
-                        <div class="field col-12 md:col-3 flex gap-3 align-items-center">
+
+                        <div class="field col-12 md:col-4 flex gap-3 align-items-center">
                             <p-inputSwitch formControlName="IsInsured" [(ngModel)]="selectedIsInsured" />
                             <label htmlFor="isInsured">{{
                                 "Is Insured" | translate
                                 }}</label>
                         </div>
 
-                        <div class="field col-12 md:col-3 flex gap-3 align-items-center">
+                        <div class="field col-12 md:col-4 flex gap-3 align-items-center">
                             <p-inputSwitch formControlName="Ismanger" [(ngModel)]="selectedIsManager" />
                             <label htmlFor="ismanger">{{ "Is Manager" | translate }}
                             </label>
                         </div>
 
-                        <div class="field col-12 md:col-3 flex gap-3 align-items-center">
+                        <div class="field col-12 md:col-4 flex gap-3 align-items-center">
                             <p-inputSwitch formControlName="StaticShift" [(ngModel)]="selectedStaticShift" />
                             <label htmlFor="StaticShift">{{ "Is Static Shift" | translate }}
                             </label>
                         </div>
 
-                        <div class="field col-12 md:col-3 flex gap-3 align-items-center">
+                        <div class="field col-12 md:col-4 flex gap-3 align-items-center">
                             <p-inputSwitch formControlName="StaticVacation" [(ngModel)]="selectedStaticVacation" />
                             <label htmlFor="StaticVacation">{{ "Is Static Vacation" | translate }}
                             </label>
                         </div>
 
-                        <div class="field col-12 md:col-3">
+                        <div class="field col-12 md:col-4">
                             <label htmlFor="recuritmentSource">{{
                                 "Recuritment Source" | translate
                                 }}</label>
@@ -288,7 +282,15 @@
                                 optionLabel="name" [(ngModel)]="selectedRecuritmentSource"></p-dropdown>
                         </div>
 
-                        <div class="field col-12 md:col-3">
+
+                        <div class="field col-12 md:col-4">
+                            <label htmlFor="machineCode">{{
+                                "Machine Code" | translate
+                                }}</label>
+                            <input pInputText id="machineCode" formControlName="MachineCode"
+                                [(ngModel)]="machineCode" />
+                        </div>
+                        <div class="field col-12 md:col-4">
                             <label htmlFor="ContractType">{{
                                 "Contract Type" | translate
                                 }}</label>
@@ -297,7 +299,7 @@
                                 optionLabel="name" [(ngModel)]="selectedContactType"></p-dropdown>
                         </div>
 
-                        <div class="field required-field col-12 md:col-3">
+                        <div class="field required-field col-12 md:col-4">
                             <label htmlFor="JoininDate">{{
                                 "Join In Date" | translate
                                 }} <app-required-field></app-required-field></label>
@@ -305,7 +307,7 @@
                                 formControlName="JoiningDate" [(ngModel)]="joiningDate"></p-calendar>
                         </div>
 
-                        <div class="field required-field col-12 md:col-3">
+                        <div class="field required-field col-12 md:col-4">
                             <label htmlFor="HiringDate">{{
                                 "Contract Start Date" | translate
                                 }} <app-required-field></app-required-field></label>
@@ -313,7 +315,7 @@
                                 formControlName="HiringDate" [(ngModel)]="hiringDate"></p-calendar>
                         </div>
 
-                        <div class="field col-12 md:col-3">
+                        <div class="field col-12 md:col-4">
                             <label htmlFor="ResignationDate">{{
                                 "Contract End Date" | translate
                                 }}</label>
@@ -340,9 +342,12 @@
     [modal]="true" class="p-fluid">
     <ng-template pTemplate="display">
         <div class="inline-flex align-items-center">
-            <p-fileUpload mode="basic" [chooseLabel]="'Choose Image' | translate" class="p-button-info p-button-text"
-                chooseIcon="pi pi-image" name="demo[]" accept="image/*" maxFileSize="1000000"
-                (onSelect)="onSelect($event)" />
+            <p-fileUpload #fileUploader mode="basic" [chooseLabel]="'Import File' | translate"
+                chooseIcon="pi pi-download" name="demo[]" maxFileSize="1000000"
+                accept=".xls, .xlsx, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                (onSelect)="onFileSelect($event, fileUploader)" [auto]="true">
+            </p-fileUpload>
+
         </div>
     </ng-template>
     <ng-template pTemplate="footer">

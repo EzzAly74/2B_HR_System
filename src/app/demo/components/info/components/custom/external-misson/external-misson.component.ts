@@ -14,6 +14,7 @@ import { ExternalMissonService } from './external-misson.service';
 import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { TranslateService } from '@ngx-translate/core';
 export const dateRangeValidator: ValidatorFn = (formGroup: FormGroup) => {
     const dateFrom = formGroup.get('fromDay')?.value;
     const dateTo = formGroup.get('toDay')?.value;
@@ -38,7 +39,8 @@ export class ExternalMissonComponent {
         private externalMissonService: ExternalMissonService,
         private messageService: MessageService,
         private route: ActivatedRoute,
-        private DatePipe: DatePipe
+        private DatePipe: DatePipe,
+        private translate: TranslateService
     ) { }
 
     @ViewChild('dt') dt: Table;
@@ -76,12 +78,17 @@ export class ExternalMissonComponent {
     selectedEmployee: any = null;
     selectedManager: any = null;
     selectedRequstType: any = null;
+    all_Status_DropDown: any;
     filterForm: FormGroup = new FormGroup({
         EmployeeId: new FormControl(null),
         MangerId: new FormControl(null),
         DateFrom: new FormControl(null),
         DateTo: new FormControl(null),
         RequestType: new FormControl(null),
+    });
+
+    changeStatusForm: FormGroup = new FormGroup({
+        Status: new FormControl(null, Validators.required),
     });
 
     addNewForm: FormGroup = new FormGroup(
@@ -124,6 +131,23 @@ export class ExternalMissonComponent {
             console.log('Dropdowns data :');
 
             this.getDropDowns();
+
+
+            if (mainLang == 'en') {
+
+                this.all_Status_DropDown = [
+                    { id: 0, name: 'pending' },
+                    { id: 1, name: 'Accepted' },
+                    { id: 2, name: 'Rejected' },
+                ];
+
+            } else {
+                this.all_Status_DropDown = [
+                    { id: 0, name: 'انتظار' },
+                    { id: 1, name: 'موافقة' },
+                    { id: 2, name: 'مرفوض' },
+                ];
+            }
         });
 
         this.cols = [
@@ -193,6 +217,20 @@ export class ExternalMissonComponent {
             .split(' ')
             .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
             .join(' ');
+    }
+
+
+    changeStatus(rowData: any) {
+        this.externalMissonService.GetById(rowData.id).subscribe({
+            next: (res) => {
+                console.log(res.data);
+                this.product = { ...res.data };
+                this.productDialog = true;
+            },
+            error: (err) => {
+                console.log(err);
+            },
+        });
     }
 
     startAttendeesTimeClick(event: any) { }
@@ -453,6 +491,64 @@ export class ExternalMissonComponent {
             },
         });
     }
+
+
+    mapToFormData(body: any) {
+        const formData: FormData = new FormData();
+
+        for (const key in body) {
+            if (body.hasOwnProperty(key)) {
+                formData.append(key, body[key]);
+            }
+        }
+
+        return formData;
+    }
+
+
+    saveStatus(form: FormGroup, product: any) {
+        this.submitted = true;
+
+
+        let body = {
+            ...form.value,
+            Id: product.id
+        }
+
+
+        const formData = this.mapToFormData(body);
+
+
+        this.externalMissonService.changeStatus(formData).subscribe({
+            next: (res) => {
+                if (res.success) {
+                    this.hideDialog();
+                    // show message for user to show processing of deletion.
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translate.instant('Success'),
+                        detail: res.message,
+                        life: 3000,
+                    });
+                }
+
+                this.loading = false;
+
+                // load data again
+                this.loadData(
+                    this.page,
+                    this.itemsPerPage,
+                    this.nameFilter,
+                    this.sortField,
+                    this.sortOrder
+                );
+            },
+            error: () => {
+                this.loading = false;
+            }
+        });
+    }
+
     sortById(event: any) {
         this.sortField = 'id';
 

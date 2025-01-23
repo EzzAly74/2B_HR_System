@@ -28,8 +28,10 @@
                     "Select Employee" | translate
                     }}</label>
                 <p-dropdown [(ngModel)]="selectedEmployee" [options]="dropdownItemsEmployee"
-                    formControlName="employeeId" optionLabel="name"
-                    [placeholder]="'Select Employee' | translate"></p-dropdown>
+                    formControlName="employeeId" optionLabel="name" [placeholder]="'Select Employee' | translate"
+                    [filter]="true" filterBy="name">
+                </p-dropdown>
+
             </div>
 
             <div class="field">
@@ -70,7 +72,7 @@
 
 <p-table #dt [value]="allData" [paginator]="true" [rows]="itemsPerPage" [columns]="cols" [totalRecords]="totalItems"
     selectionMode="multiple" [(selection)]="selectedItems" [showCurrentPageReport]="true"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [lazy]="true"
+    [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries' | translate" [lazy]="true"
     (onLazyLoad)="onPageChange($event)" dataKey="id">
     <ng-template pTemplate="caption">
         <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
@@ -191,8 +193,10 @@
                     "Select Employee" | translate
                     }}</label>
                 <p-dropdown [(ngModel)]="selectedEmployeeEdit" [options]="dropdownItemsEmployee" optionLabel="name"
-                    formControlName="employeeId" [placeholder]="'All Employees' | translate"
-                    (onChange)="selectedCovenantEditFun($event)"></p-dropdown>
+                    formControlName="employeeId" [placeholder]="'All Employees' | translate" [filter]="true"
+                    filterBy="name" (onChange)="selectedCovenantEditFun($event)">
+                </p-dropdown>
+
             </div>
 
             <div class="field">
@@ -209,9 +213,12 @@
                     }}</label>
                 <p-dropdown [options]="uniformCodesDropDown" (onChange)="changedSelectedUniformCode()"
                     [(ngModel)]="selectedUnifromCodeEdit" optionLabel="name" formControlName="uniformCodeId"
-                    [placeholder]="'Select Uniform Code' | translate" [showClear]="true" [ngClass]="{
+                    [placeholder]="'Select Uniform Code' | translate" [showClear]="true" [filter]="true" filterBy="name"
+                    [ngClass]="{
                         'ng-invalid ng-dirty': submitted && !product.uniformCodeId
-                    }"></p-dropdown>
+                    }">
+                </p-dropdown>
+
             </div>
 
             <div class="field">

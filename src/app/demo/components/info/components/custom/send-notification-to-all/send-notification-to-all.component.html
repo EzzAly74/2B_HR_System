@@ -8,15 +8,27 @@
                 (submit)="sendAllNotification(sendAllNotificationForm)">
 
                 <div class="field col-12">
-                    <label htmlFor="name-ar">{{ "Title" | translate }} </label>
-                    <input pInputText formControlName="title" [placeholder]="'Enter Title Here' | translate"
+                    <label htmlFor="name-ar">{{ "Arabic Title" | translate }} </label>
+                    <input pInputText formControlName="title" [placeholder]="'Enter Arabic Title Here' | translate"
                         id="name-ar" type="text" />
                 </div>
 
                 <div class="field col-12">
-                    <label htmlFor="name-en">{{ "Body" | translate }} </label>
-                    <input pInputText formControlName="body" [placeholder]="'Enter Body Here' | translate" id="name-en"
-                        type="text" />
+                    <label htmlFor="name-ar">{{ "English Title" | translate }} </label>
+                    <input pInputText formControlName="titleEng" [placeholder]="'Enter English Title Here' | translate"
+                        id="name-ar" type="text" />
+                </div>
+
+                <div class="field col-12">
+                    <label htmlFor="name-en">{{ "Arabic Body" | translate }} </label>
+                    <input pInputText formControlName="body" [placeholder]="'Enter Arabic Body Here' | translate"
+                        id="name-en" type="text" />
+                </div>
+
+                <div class="field col-12">
+                    <label htmlFor="name-en">{{ "English Body" | translate }} </label>
+                    <input pInputText formControlName="bodyEng" [placeholder]="'Enter English Body Here' | translate"
+                        id="name-en" type="text" />
                 </div>
 
                 <div class="field col-12">

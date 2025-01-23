@@ -196,17 +196,18 @@ export class ShiftComponent {
     addNew(form: FormGroup) {
         // first convert from date full format to time only
         // why? because prime ng calender component returned the value as a full Date Format
-        form.patchValue({
-            startAttendeesTime: this._DatePipe.transform(form.get("startAttendeesTime").value, 'HH:mm:ss'), // Format time
-            endAttendeesTime: this._DatePipe.transform(form.get("endAttendeesTime").value, 'HH:mm:ss'),     // Format time
-        });
 
-        console.log(form);
 
         // set body of request
 
+        let body = {
+            ...form.value,
+            startAttendeesTime: this._DatePipe.transform(form.get("startAttendeesTime").value, 'HH:mm:ss'), // Format time
+            endAttendeesTime: this._DatePipe.transform(form.get("endAttendeesTime").value, 'HH:mm:ss'),     // Format time
+        }
+
         // Confirm add new
-        this._ShiftService.Register(form.value).subscribe({
+        this._ShiftService.Register(body).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
@@ -325,12 +326,25 @@ export class ShiftComponent {
         this.submitted = true;
         console.log(id);
 
+
+
         let body = {
             ...form.value,
-            // startAttendeesTime: this._DatePipe.transform(form.get('startAttendeesTime').value, "HH:mm:ss"),
-            // endAttendeesTime: this._DatePipe.transform(form.get('endAttendeesTime').value, "HH:mm:ss"),
+            // startAttendeesTime: this._DatePipe.transform(form.get("startAttendeesTime").value, 'HH:mm:ss'), // Format time
+            // endAttendeesTime: this._DatePipe.transform(form.get("endAttendeesTime").value, 'HH:mm:ss'),     // Format time
             id: id,
         }
+
+
+        if (form.get("startAttendeesTime").touched) {
+            body.startAttendeesTime = this._DatePipe.transform(form.get("startAttendeesTime").value, 'HH:mm:ss');
+        }
+
+
+        if (form.get("endAttendeesTime").touched) {
+            body.endAttendeesTime = this._DatePipe.transform(form.get("endAttendeesTime").value, 'HH:mm:ss');
+        }
+
 
         console.log(form);
 
@@ -452,28 +466,22 @@ export class ShiftComponent {
     }
 
 
-    onFileSelect(event: any) {
+    onFileSelect(event: any, fileUploader: any) {
         console.log(event);
-        let file: any = event.currentFiles[0];
+        let file = event.files[0]; // Use `event.files` to get the uploaded file
 
         if (file) {
             this.fileNew = file;
 
-            let body = {
-                file: this.fileNew,
-            };
             const formData: FormData = new FormData();
+            formData.append('file', this.fileNew);
 
-            for (const key in body) {
-                if (body.hasOwnProperty(key)) {
-                    formData.append(key, body[key]);
-                }
-            }
             this._ShiftService.importExcel(formData).subscribe({
                 next: (res) => {
                     console.log(res);
-                    console.log('ezzzz');
+                    console.log('Upload successful');
 
+                    // Reload data
                     this.loadData(
                         this.page,
                         this.itemsPerPage,
@@ -482,14 +490,30 @@ export class ShiftComponent {
                         this.sortOrder
                     );
 
+                    // Show success message
                     this.messageService.add({
                         severity: 'success',
                         summary: this.translate.instant('Success'),
-                        detail: res?.["message"],
+                        detail: res?.['message'],
                         life: 3000,
                     });
+
+                    // Clear the file uploader
+                    fileUploader.clear();
                 },
+                error: (err) => {
+                    console.error(err);
+
+                    // Show error message
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translate.instant('Error'),
+                        detail: this.translate.instant('UploadFailed'),
+                        life: 3000,
+                    });
+                }
             });
         }
     }
+
 }

@@ -145,7 +145,7 @@
 
 <p-table #dt [value]="allData" [paginator]="true" [rows]="itemsPerPage" [columns]="cols" [totalRecords]="totalItems"
     selectionMode="multiple" [(selection)]="selectedItems" [showCurrentPageReport]="true"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [lazy]="true"
+    [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries' | translate" [lazy]="true"
     (onLazyLoad)="onPageChange($event)" dataKey="id">
     <ng-template pTemplate="caption">
         <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
@@ -183,10 +183,10 @@
             <th>{{ "Reason" | translate }}</th>
             <th>{{ "File" | translate }}</th>
 
-            <th>{{ "creationTime" | translate }}</th>
-            <th>{{ "lastModificationTime" | translate }}</th>
             <th>{{ "creatorName" | translate }}</th>
             <th>{{ "lastModifierName" | translate }}</th>
+            <th>{{ "change status" | translate }}</th>
+
             <th>{{ "Actions" | translate }}</th>
         </tr>
     </ng-template>
@@ -244,19 +244,6 @@
                 <a *ngIf="rowData.fileUrl" class="text-white bg-blue-500 border-none" pButton pRipple
                     [href]="baseUrlFile.concat('/', rowData.fileUrl)">{{ "View" | translate }}</a>
             </td>
-            <td [ngClass]="{ 'null-color': !rowData.creationTime }">
-                <span class="p-column-title">creationTime</span>
-                {{ rowData.creationTime ? rowData.creationTime : "" }}
-            </td>
-
-            <td [ngClass]="{ 'null-color': !rowData.lastModificationTime }">
-                <span class="p-column-title">lastModificationTime</span>
-                {{
-                rowData.lastModificationTime
-                ? rowData.lastModificationTime
-                : ""
-                }}
-            </td>
 
             <td [ngClass]="{ 'null-color': !rowData.creatorName }">
                 <span class="p-column-title">creatorName</span>
@@ -269,7 +256,16 @@
 
             <td>
                 <div class="flex crud-operations">
-                    <button [disabled]="rowData.requestType !== 0" pButton pRipple icon="pi pi-trash"
+                    <!-- <pre>{{rowData | json}}</pre> -->
+                    <button pButton pRipple [label]="'Change Status' | translate" icon="pi pi-user-edit"
+                        class="p-button-help change-status-btn mx-2 px-1" (click)="changeStatus(rowData)"
+                        [disabled]="rowData?.requestType !== 0"></button>
+                </div>
+            </td>
+
+            <td>
+                <div class="flex crud-operations">
+                    <button pButton pRipple icon="pi pi-trash"
                         class="p-button-rounded p-button-outlined p-button-danger"
                         (click)="deleteProduct(rowData)"></button>
                 </div>
@@ -278,48 +274,29 @@
     </ng-template>
 </p-table>
 
-<p-dialog [(visible)]="productDialog" [style]="{ width: '450px' }" header="Product Details" [modal]="true"
+<p-dialog [(visible)]="productDialog" [style]="{ width: '450px' }" [header]="'Status' | translate" [modal]="true"
     class="p-fluid">
     <ng-template pTemplate="content">
-        <div class="field">
-            <label htmlFor="name-en">{{ "Course Name" | translate }} </label>
-            <input pInputText [(ngModel)]="product.courseName" [placeholder]="'Enter Course Name Here' | translate"
-                id="name-en" type="text" required autofocus />
-        </div>
+        <form [formGroup]="changeStatusForm" (ngSubmit)="saveStatus(changeStatusForm, product)">
 
-        <div class="field">
-            <label htmlFor="name-ar">{{ "Date From" | translate }} </label>
+            <div class="field col-12 md:12">
+                <label for="AllStatus">{{ 'All Status' | translate }}</label>
+                <p-dropdown [options]="all_Status_DropDown" optionValue="id" optionLabel="name"
+                    formControlName="RequestType" [(ngModel)]="selectedStatus" (ngModelChange)="print(changeStatusForm)"
+                    placeholder="{{ 'Select Status' | translate }}" showClear="true">
+                </p-dropdown>
+            </div>
 
-            <p-calendar [showIcon]="true" [iconDisplay]="'input'" name="dateFrom" inputId="dateFrom"
-                [(ngModel)]="product.dateFrom" [placeholder]="'From' | translate"></p-calendar>
-        </div>
-
-        <div class="field">
-            <label htmlFor="name-ar">{{ "Date To" | translate }} </label>
-
-            <p-calendar [showIcon]="true" [iconDisplay]="'input'" name="dateTo" inputId="dateTo"
-                [(ngModel)]="product.dateTo" [placeholder]="'To' | translate"></p-calendar>
-        </div>
-
-        <div class="field">
-            <label htmlFor="numberOfHours">{{ "Location" | translate }}</label>
-
-            <input pInputText [(ngModel)]="product.location" [placeholder]="'Enter Location Here' | translate"
-                id="location" type="text" />
-        </div>
-
-        <div class="field">
-            <label htmlFor="new-notes">{{ "Discription" | translate }}</label>
-            <textarea pInputTextarea [(ngModel)]="product.discription" id="new-notes"
-                [placeholder]="'Enter Discription Here' | translate" type="text"></textarea>
-        </div>
+            <div class="field col-12 md:12">
+                <div class="btns">
+                    <button pButton pRipple label="{{ 'Save' | translate }}" icon="pi pi-check" class="p-button-text"
+                        type="submit" [disabled]="changeStatusForm.invalid">
+                    </button>
+                </div>
+            </div>
+        </form>
     </ng-template>
-    <ng-template pTemplate="footer">
-        <button pButton pRipple [label]="'Cancel' | translate" icon="pi pi-times" class="p-button-text"
-            (click)="hideDialog()"></button>
-        <button pButton pRipple [label]="'Save' | translate" icon="pi pi-check" class="p-button-text"
-            (click)="saveProduct(product.id, product)"></button>
-    </ng-template>
+
 </p-dialog>
 
 <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{ width: '450px' }">

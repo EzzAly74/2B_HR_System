@@ -81,7 +81,7 @@
 
 <p-table #dt [value]="allData" [paginator]="true" [rows]="itemsPerPage" [columns]="cols" [totalRecords]="totalItems"
     selectionMode="multiple" [(selection)]="selectedItems" [showCurrentPageReport]="true"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [lazy]="true"
+    [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries' | translate" [lazy]="true"
     (onLazyLoad)="onPageChange($event)" dataKey="id">
     <ng-template pTemplate="content">
         <div class="field col-12">

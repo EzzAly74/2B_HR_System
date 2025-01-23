@@ -176,6 +176,19 @@ export class AllEmployeesCovenantComponent {
         });
     }
 
+
+    mapToFormData(body: any) {
+        const formData: FormData = new FormData();
+
+        for (const key in body) {
+            if (body.hasOwnProperty(key)) {
+                formData.append(key, body[key]);
+            }
+        }
+
+        return formData;
+    }
+
     splitCamelCase(str: any) {
         return str
             .replace(/([A-Z])/g, ' $1')
@@ -295,31 +308,35 @@ export class AllEmployeesCovenantComponent {
         sortType: string
     ) {
         let filteredData = {
-            pageNumber: page,
-            pageSize: size,
-            filterValue: nameFilter,
-            filterType: filterType,
-            sortType: sortType,
+            PageNumber: page,
+            PageSize: size,
+            FilterValue: nameFilter,
+            FilterType: filterType,
+            SortType: sortType,
         };
-        filteredData.sortType = this.sortOrder;
+        filteredData.SortType = this.sortOrder;
 
-        this.loading = true,
+        this.loading = true;
 
-            this.employeeConvenantService.GetPage(filteredData).subscribe({
-                next: (res) => {
-                    console.log(res);
-                    this.allData = res.data;
-                    console.log(res.data);
+        // map to form data
+        let bodyFormData = this.mapToFormData(filteredData)
 
-                    this.totalItems = res.totalItems;
-                    this.loading = false;
-                    console.log(this.selectedItems);
-                },
+        // get page from form data
+        this.employeeConvenantService.GetPage(bodyFormData).subscribe({
+            next: (res) => {
+                console.log(res);
+                this.allData = res.data;
+                console.log(res.data);
 
-                error: () => {
-                    this.loading = false;
-                }
-            });
+                this.totalItems = res.totalItems;
+                this.loading = false;
+                console.log(this.selectedItems);
+            },
+
+            error: () => {
+                this.loading = false;
+            }
+        });
     }
 
     onPageChange(event: any) {

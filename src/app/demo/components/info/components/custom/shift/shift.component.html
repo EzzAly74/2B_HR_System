@@ -13,17 +13,19 @@
         </div>
     </ng-template>
     <ng-template pTemplate="right">
-        <p-fileUpload mode="basic" [chooseLabel]="'Import File' | translate" chooseIcon="pi pi-upload" name="demo[]"
-            maxFileSize="1000000"
+        <p-fileUpload #fileUploader mode="basic" [chooseLabel]="'Import File' | translate" chooseIcon="pi pi-download"
+            name="demo[]" maxFileSize="1000000"
             accept=".xls, .xlsx, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            (onSelect)="onFileSelect($event)" [auto]="true" />
+            (onSelect)="onFileSelect($event, fileUploader)" [auto]="true">
+        </p-fileUpload>
+
 
         <button pButton pRipple [label]="'Export' | translate" icon="pi pi-upload" class="p-button-help mx-2 px-5"
             pTooltip="CSV" (click)="exportCSV()" [disabled]="!selectedItems || !selectedItems.length"></button>
     </ng-template>
 </p-toolbar>
 
-<p-dialog [(visible)]="showFormNew" [style]="{ width: '450px' }" [header]="'Add New' | translate" [modal]="true"
+<!-- <p-dialog [(visible)]="showFormNew" [style]="{ width: '450px' }" [header]="'Add New' | translate" [modal]="true"
     class="p-fluid">
     <ng-template pTemplate="content">
         <form action="" [formGroup]="addNewForm" (submit)="addNew(addNewForm)">
@@ -76,53 +78,145 @@
                     id="numberOfHours" type="number" />
             </div>
 
-            <!-- checkInBeforeTheShiftStarts -->
-            <div class="field">
-                <label htmlFor="checkInBeforeTheShiftStarts">{{
-                    "check In Before The Shift Starts" | translate
-                    }}</label>
-                <input formControlName="checkInBeforeTheShiftStarts" pInputText
-                    [placeholder]="'Enter Check In Before The Shift Starts' | translate"
-                    id="checkInBeforeTheShiftStarts" type="number" />
-            </div>
+<div class="field">
+    <label htmlFor="checkInBeforeTheShiftStarts">{{
+        "check In Before The Shift Starts" | translate
+        }}</label>
+    <input formControlName="checkInBeforeTheShiftStarts" pInputText
+        [placeholder]="'Enter Check In Before The Shift Starts' | translate" id="checkInBeforeTheShiftStarts"
+        type="number" />
+</div>
 
-            <!-- checkOutAfterTheShiftEnds -->
-            <div class="field">
-                <label htmlFor="checkOutAfterTheShiftEnds">{{
-                    "check Out After The Shift Ends" | translate
-                    }}</label>
-                <input pInputText formControlName="checkOutAfterTheShiftEnds"
-                    [placeholder]="'Enter check Out After The Shift Ends' | translate" id="checkOutAfterTheShiftEnds"
-                    type="number" />
-            </div>
+<div class="field">
+    <label htmlFor="checkOutAfterTheShiftEnds">{{
+        "check Out After The Shift Ends" | translate
+        }}</label>
+    <input pInputText formControlName="checkOutAfterTheShiftEnds"
+        [placeholder]="'Enter check Out After The Shift Ends' | translate" id="checkOutAfterTheShiftEnds"
+        type="number" />
+</div>
 
-            <!-- CheckInAfterTheShiftStarts -->
-            <div class="field">
-                <label htmlFor="CheckInAfterTheShiftStarts">{{
-                    "check Out After The Shift Starts" | translate
-                    }}</label>
-                <input pInputText formControlName="CheckInAfterTheShiftStarts"
-                    [placeholder]="'Enter check Out Before The Shift Starts' | translate"
-                    id="CheckInAfterTheShiftStarts" type="number" />
-            </div>
+<div class="field">
+    <label htmlFor="CheckInAfterTheShiftStarts">{{
+        "check Out After The Shift Starts" | translate
+        }}</label>
+    <input pInputText formControlName="CheckInAfterTheShiftStarts"
+        [placeholder]="'Enter check Out Before The Shift Starts' | translate" id="CheckInAfterTheShiftStarts"
+        type="number" />
+</div>
 
-            <div class="field">
-                <label htmlFor="new-notes">{{ "Notes" | translate }}</label>
-                <textarea pInputTextarea formControlName="notes" id="new-notes"
-                    [placeholder]="'Enter Notes Here' | translate" type="text"></textarea>
-            </div>
+<div class="field">
+    <label htmlFor="new-notes">{{ "Notes" | translate }}</label>
+    <textarea pInputTextarea formControlName="notes" id="new-notes" [placeholder]="'Enter Notes Here' | translate"
+        type="text"></textarea>
+</div>
 
-            <div class="field">
-                <button class="w-25" pButton [label]="'Insert New' | translate" type="submit"
-                    [disabled]="addNewForm.invalid"></button>
-            </div>
-        </form>
-    </ng-template>
+<div class="field">
+    <button class="w-25" pButton [label]="'Insert New' | translate" type="submit"
+        [disabled]="addNewForm.invalid"></button>
+</div>
+</form>
+</ng-template>
 </p-dialog>
+-->
+
+<div class="card p-fluid" *ngIf="showFormNew">
+    <form action="" [formGroup]="addNewForm" (submit)="addNew(addNewForm)">
+        <div class="field">
+            <label htmlFor="name-en">{{ "Name English" | translate }} </label>
+            <input pInputText formControlName="engName" [placeholder]="'Enter English Name Here' | translate"
+                id="name-en" type="text" />
+        </div>
+
+        <div class="field">
+            <label htmlFor="name-ar">{{ "Name Arabic" | translate }} </label>
+            <input pInputText formControlName="name" [placeholder]="'Enter Arabic Name Here' | translate" id="name-ar"
+                type="text" />
+        </div>
+
+        <div class="field">
+            <label for="startAttendeesTime">
+                {{ "start Attendees Time" | translate }}
+            </label>
+            <p-calendar formControlName="startAttendeesTime" [iconDisplay]="'input'" [showIcon]="true"
+                [showSeconds]="true" [timeOnly]="true" [placeholder]="'00:00:00' | translate"
+                inputId="startAttendeesTime">
+                <ng-template pTemplate="inputicon" let-clickCallBack="startAttendeesTimeClick">
+                    <i class="pi pi-clock pointer-events-none pointer-events-none"
+                        (click)="startAttendeesTimeClick($event)"></i>
+                </ng-template>
+            </p-calendar>
+        </div>
+
+        <div class="field">
+            <label for="endAttendeesTime">
+                {{ "End Attendees Time" | translate }}
+            </label>
+            <p-calendar formControlName="endAttendeesTime" [iconDisplay]="'input'" [showIcon]="true" [timeOnly]="true"
+                [showSeconds]="true" [placeholder]="'00:00:00' | translate" inputId="endAttendeesTime">
+                <ng-template pTemplate="inputicon" let-clickCallBack="endAttendeesTimeClick">
+                    <i class="pi pi-clock pointer-events-none pointer-events-none"
+                        (click)="endAttendeesTimeClick($event)"></i>
+                </ng-template>
+            </p-calendar>
+        </div>
+
+
+        <div class="field">
+            <label htmlFor="numberOfHours">{{
+                "number Of Hours" | translate
+                }}</label>
+            <input formControlName="numberOfHours" pInputText [placeholder]="'Enter number Of Hours' | translate"
+                id="numberOfHours" type="number" />
+        </div>
+
+        <!-- checkInBeforeTheShiftStarts -->
+        <div class="field">
+            <label htmlFor="checkInBeforeTheShiftStarts">{{
+                "check In Before The Shift Starts" | translate
+                }}</label>
+            <input formControlName="checkInBeforeTheShiftStarts" pInputText
+                [placeholder]="'Enter Check In Before The Shift Starts' | translate" id="checkInBeforeTheShiftStarts"
+                type="number" />
+        </div>
+
+        <!-- checkOutAfterTheShiftEnds -->
+        <div class="field">
+            <label htmlFor="checkOutAfterTheShiftEnds">{{
+                "check Out After The Shift Ends" | translate
+                }}</label>
+            <input pInputText formControlName="checkOutAfterTheShiftEnds"
+                [placeholder]="'Enter check Out After The Shift Ends' | translate" id="checkOutAfterTheShiftEnds"
+                type="number" />
+        </div>
+
+        <!-- CheckInAfterTheShiftStarts -->
+        <div class="field">
+            <label htmlFor="CheckInAfterTheShiftStarts">{{
+                "check Out After The Shift Starts" | translate
+                }}</label>
+            <input pInputText formControlName="CheckInAfterTheShiftStarts"
+                [placeholder]="'Enter check Out Before The Shift Starts' | translate" id="CheckInAfterTheShiftStarts"
+                type="number" />
+        </div>
+
+        <div class="field">
+            <label htmlFor="new-notes">{{ "Notes" | translate }}</label>
+            <textarea pInputTextarea formControlName="notes" id="new-notes"
+                [placeholder]="'Enter Notes Here' | translate" type="text"></textarea>
+        </div>
+
+        <div class="field">
+            <button class="w-25" pButton [label]="'Insert New' | translate" type="submit"
+                [disabled]="addNewForm.invalid"></button>
+        </div>
+    </form>
+</div>
+
 
 <p-table #dt [value]="allData" [paginator]="true" [rows]="itemsPerPage" [columns]="cols" [totalRecords]="totalItems"
     selectionMode="multiple" [(selection)]="selectedItems" [showCurrentPageReport]="true"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [lazy]="true"
+    [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries' | translate" [lazy]="true"
     (onLazyLoad)="onPageChange($event)" dataKey="id">
     <ng-template pTemplate="caption">
         <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
@@ -290,7 +384,7 @@
                     }}</label>
                 <p-calendar formControlName="startAttendeesTime" [(ngModel)]="product.startAttendeesTime"
                     [iconDisplay]="'input'" [showIcon]="true" [showSeconds]="true" [timeOnly]="true"
-                    [placeholder]="'00:00:00' | translate" inputId="startAttendeesTimeEdit">
+                    [placeholder]="'00:00:00' | translate" id="startAttendeesTimeEdit">
                     <ng-template pTemplate="inputicon" let-clickCallBack="startAttendeesTimeClickEdit">
                         <i class="pi pi-clock pointer-events-none pointer-events-none"
                             (click)="startAttendeesTimeClickEdit($event)"></i>
@@ -307,7 +401,7 @@
                     }}</label>
                 <p-calendar formControlName="endAttendeesTime" [(ngModel)]="product.endAttendeesTime"
                     [iconDisplay]="'input'" [showIcon]="true" [showSeconds]="true" [timeOnly]="true"
-                    [placeholder]="'00:00:00' | translate" inputId="endAttendeesTimeEdit">
+                    [placeholder]="'00:00:00' | translate" id="endAttendeesTimeEdit">
                     <ng-template pTemplate="inputicon" let-clickCallBack="endAttendeesTimeClickEdit">
                         <i class="pi pi-clock pointer-events-none pointer-events-none"
                             (click)="endAttendeesTimeClickEdit($event)"></i>

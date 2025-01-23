@@ -8,3 +8,7 @@
     left: 2.3rem;
     right: unset;
 }
+
+::ng-deep .p-dialog:has(.p-calendar.p-focus:not(.p-calendar-timeonly)) {
+    overflow: hidden !important;
+}

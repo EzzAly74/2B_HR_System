@@ -3,17 +3,38 @@
     display: flex;
     justify-content: end;
 }
+
 .btn-filter-submit-container .field {
     width: fit-content;
 }
-.accepted-request span {
+
+.accepted-missionType span {
     padding: 8px;
-    background-color: #cde8ce;
+    background-color: #e2e6eb;
     border-radius: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
+.accepted-request span {
+    padding: 8px;
+    background-color: #dcfadc;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rejected-missionType span {
+    padding: 8px;
+    background-color: #d2fcdc;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .rejected-request span {
     padding: 8px;
     background-color: #f8d7da;
@@ -22,6 +43,16 @@
     justify-content: center;
     align-items: center;
 }
+
+.pending-missionType span {
+    padding: 8px;
+    background-color: #cce5ff;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .pending-request span {
     padding: 8px;
     background-color: #cce5ff;

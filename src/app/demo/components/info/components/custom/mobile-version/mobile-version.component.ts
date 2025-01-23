@@ -56,9 +56,7 @@ export class MobileVersionComponent {
       Validators.required,
       Validators.maxLength(50),
     ]),
-    status: new FormControl(null, [
-      Validators.required,
-    ]),
+    status: new FormControl(false)
   });
 
   editForm: FormGroup = new FormGroup({
@@ -70,9 +68,7 @@ export class MobileVersionComponent {
       Validators.required,
       Validators.maxLength(50),
     ]),
-    status: new FormControl(null, [
-      Validators.required,
-    ]),
+    status: new FormControl(false),
   });
 
   ngOnInit() {
@@ -423,28 +419,22 @@ export class MobileVersionComponent {
     this.sortField = 'name';
   }
 
-  onFileSelect(event: any) {
+  onFileSelect(event: any, fileUploader: any) {
     console.log(event);
-    let file: any = event.currentFiles[0];
+    let file = event.files[0]; // Use `event.files` to get the uploaded file
 
     if (file) {
       this.fileNew = file;
 
-      let body = {
-        file: this.fileNew,
-      };
       const formData: FormData = new FormData();
+      formData.append('file', this.fileNew);
 
-      for (const key in body) {
-        if (body.hasOwnProperty(key)) {
-          formData.append(key, body[key]);
-        }
-      }
       this._MobileVersionService.importExcel(formData).subscribe({
         next: (res) => {
           console.log(res);
-          console.log('ezzzz');
+          console.log('Upload successful');
 
+          // Reload data
           this.loadData(
             this.page,
             this.itemsPerPage,
@@ -453,14 +443,30 @@ export class MobileVersionComponent {
             this.sortOrder
           );
 
+          // Show success message
           this.messageService.add({
             severity: 'success',
             summary: this.translate.instant('Success'),
-            detail: res?.["message"],
+            detail: res?.['message'],
             life: 3000,
           });
+
+          // Clear the file uploader
+          fileUploader.clear();
         },
+        error: (err) => {
+          console.error(err);
+
+          // Show error message
+          this.messageService.add({
+            severity: 'error',
+            summary: this.translate.instant('Error'),
+            detail: this.translate.instant('UploadFailed'),
+            life: 3000,
+          });
+        }
       });
     }
   }
+
 }

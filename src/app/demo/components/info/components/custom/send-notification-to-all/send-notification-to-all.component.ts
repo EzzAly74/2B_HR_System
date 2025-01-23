@@ -23,7 +23,9 @@ export class SendNotificationToAllComponent {
     @Input() endPoint!: string;
     sendAllNotificationForm: FormGroup = new FormGroup({
         title: new FormControl(null, [Validators.required]),
+        titleEng: new FormControl(null, [Validators.required]),
         body: new FormControl(null, [Validators.required]),
+        bodyEng: new FormControl(null, [Validators.required]),
         isOpened: new FormControl(false),
     });
     ngOnInit() {
@@ -42,9 +44,15 @@ export class SendNotificationToAllComponent {
     }
 
     sendAllNotification(form: FormGroup) {
+
+        let body = {
+            ...form.value,
+            isOpened: true,
+        }
+
         this.loading = true;
         this.sendToAllNotificationService
-            .SendNotificationToAll(form.value)
+            .SendNotificationToAll(body)
             .subscribe({
                 next: (res) => {
                     this.loading = false;
