@@ -1,16 +1,18 @@
-<p-breadcrumb class="max-w-full" [model]="items">
-    <ng-template pTemplate="item" let-item>
-        <ng-container *ngIf="item.route; else elseBlock">
-            <a [routerLink]="item.route" class="p-menuitem-link">
-                <span [ngClass]="[item.icon ? item.icon : '', 'text-color']"></span>
-                <span class="text-primary font-semibold" *ngIf="!item.start">{{ item.label }}</span>
-                <span class="text-color" *ngIf="item.start">{{ item.label }}</span>
-            </a>
-        </ng-container>
-        <ng-template #elseBlock>
-            <a [routerLink]="item.url">
-                <span class="text-color">{{ item.label }}</span>
-            </a>
+<div class="bread-crumb-container">
+    <p-breadcrumb class="max-w-full" [model]="items">
+        <ng-template pTemplate="item" let-item>
+            <ng-container *ngIf="item.route; else elseBlock">
+                <a [routerLink]="item.route" class="p-menuitem-link">
+                    <!-- <span [ngClass]="[item.icon ? item.icon : '', 'text-color', 'icon-home']"></span> -->
+                    <span class="text-primary font-semibold label-text" *ngIf="!item.start">{{ item.label }}</span>
+                    <span class="text-color" *ngIf="item.start">{{ item.label }}</span>
+                </a>
+            </ng-container>
+            <ng-template #elseBlock>
+                <a [routerLink]="item.url">
+                    <span class="text-color current-label">{{ item.label }}</span>
+                </a>
+            </ng-template>
         </ng-template>
-    </ng-template>
-</p-breadcrumb>
+    </p-breadcrumb>
+</div>

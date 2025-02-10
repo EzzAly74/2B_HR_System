@@ -37,6 +37,7 @@
                     "TaxRate": "معدل الضريبة",
                     "InternalJob": "وظائف داخل الشركة",
                     "GetLoanPayment": "القروض",
+                    "Department": "القسم",
                     "MobileVersion": "نسخة الموبايل"
                 }
             },

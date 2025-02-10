@@ -35,6 +35,7 @@
                     "ResignationSetting": "Resignation Setting",
                     "NetIncomeTax": "Net Income Tax",
                     "TaxRate": "Tax Rate",
+                    "Department": "Department",
                     "InternalJob": "Internal Job",
                     "GetLoanPayment": "Loan Payment",
                     "MobileVersion": "Mobile Version"

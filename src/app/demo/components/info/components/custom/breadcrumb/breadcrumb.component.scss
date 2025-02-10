@@ -1,8 +1,15 @@
 .bread-crumb-container {
+    // background-color: #fff;
 
     .pi:before {
         font-size: 24px;
     }
+
+}
+
+::ng-deep .p-breadcrumb-list li:first-of-type a span {
+    color: #f36f28 !important;
+    font-weight: 500;
 }
 
 ::ng-deep .p-breadcrumb {
@@ -11,13 +18,31 @@
     margin-bottom: 24px;
 
     & a span {
-        font-size: 24px;
+        font-size: 16px;
         margin-inline: 10px;
     }
+
+
 
     .pi-home:before {
         content: "\e925";
         font-size: 30px;
+        color: #808080;
+    }
+
+    .label-text {
+        color: #d6d6d6;
+    }
+
+    svg path {
+        fill: #cbcbcb;
+    }
+
+
+
+    .p-element:last-of-type .current-label {
+        color: #202020 !important;
+        font-weight: 500;
     }
 }
 
