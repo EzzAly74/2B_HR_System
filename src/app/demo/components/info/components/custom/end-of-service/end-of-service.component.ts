@@ -47,6 +47,7 @@ export class EndOfServiceComponent {
 
   fileNew!: File;
 
+  items!: any;
   addNewForm: FormGroup = new FormGroup({ // Initializing FormGroup using new FormGroup
     level: new FormControl('', Validators.required), // Level field is required
     rangeFrom: new FormControl('', [Validators.required, Validators.min(0)]), // Required and must be >= 0
@@ -88,6 +89,12 @@ export class EndOfServiceComponent {
         this.sortField,
         this.sortOrder
       );
+
+      this.translate.onLangChange.subscribe(() => {
+        this.updateTranslations();
+      });
+
+      this.updateTranslations();
     });
 
     this.cols = [
@@ -202,6 +209,21 @@ export class EndOfServiceComponent {
 
   setFieldsNulls() {
     (this.newNotes = null);
+  }
+
+  updateTranslations() {
+    this.items = [
+      {
+        icon: 'pi pi-home',
+        route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+      },
+      {
+        label: this.translate.instant('breadcrumb.cats.terminations.title'),
+        iconPath: ''
+      },
+      {
+        label: this.translate.instant(`breadcrumb.cats.terminations.items.${this.endPoint}`),
+      }];
   }
 
   loadData(

@@ -64,6 +64,7 @@ export class InternalJobsComponent {
     newDate!: string;
     newDescription!: string;
     newRequirment!: string;
+    items!: any;
 
     // for edit fields
     DateEdit: string;
@@ -89,28 +90,34 @@ export class InternalJobsComponent {
                 this.sortField,
                 this.sortOrder
             );
+            this.cols = [
+                // basic data
+                { field: 'nameOfJob', header: 'NameOfJob' },
+                { field: 'notes', header: 'Notes' },
+
+                // Generic Fields
+                { field: 'creationTime', header: 'CreationTime' },
+                { field: 'lastModificationTime', header: 'LastModificationTime' },
+                { field: 'creatorName', header: 'CreatorName' },
+                { field: 'lastModifierName', header: 'LastModifierName' },
+            ];
+
+            this.jobForm = this.fb.group({
+                nameOfJob: new FormControl(null, Validators.required),
+                description: new FormControl(null, Validators.required),
+                status: new FormControl(false, Validators.required),
+                notes: new FormControl(null),
+                date: new FormControl(null, Validators.required),
+                jobRequirements: this.fb.array([this.createRequirement()]), // FormArray for job requirements
+            });
+
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
         });
 
-        this.cols = [
-            // basic data
-            { field: 'nameOfJob', header: 'NameOfJob' },
-            { field: 'notes', header: 'Notes' },
-
-            // Generic Fields
-            { field: 'creationTime', header: 'CreationTime' },
-            { field: 'lastModificationTime', header: 'LastModificationTime' },
-            { field: 'creatorName', header: 'CreatorName' },
-            { field: 'lastModifierName', header: 'LastModifierName' },
-        ];
-
-        this.jobForm = this.fb.group({
-            nameOfJob: new FormControl(null, Validators.required),
-            description: new FormControl(null, Validators.required),
-            status: new FormControl(false, Validators.required),
-            notes: new FormControl(null),
-            date: new FormControl(null, Validators.required),
-            jobRequirements: this.fb.array([this.createRequirement()]), // FormArray for job requirements
-        });
     }
 
     splitCamelCase(str: any) {
@@ -121,6 +128,21 @@ export class InternalJobsComponent {
             .split(' ')
             .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
             .join(' ');
+    }
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.manageStructure.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.manageStructure.items.${this.endPoint}`),
+            }];
     }
 
     editProduct(rowData: any) {

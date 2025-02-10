@@ -53,6 +53,7 @@ export class VacationTypeComponent {
     hrApproved: boolean = false;
     stockVacation: boolean = false;
     fileNew!: File;
+    items!: any;
 
     addNewForm: FormGroup = new FormGroup({
         engName: new FormControl(null, [Validators.required]),
@@ -78,6 +79,24 @@ export class VacationTypeComponent {
         id: new FormControl(null),
     });
 
+
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.manageTypes.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.manageTypes.items.${this.endPoint}`),
+            }];
+    }
+
     ngOnInit() {
         this.endPoint = 'VacationType';
 
@@ -99,6 +118,13 @@ export class VacationTypeComponent {
                 this.sortField,
                 this.sortOrder
             );
+
+
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
         });
 
         this.cols = [

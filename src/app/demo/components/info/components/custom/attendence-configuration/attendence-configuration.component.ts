@@ -24,7 +24,8 @@ export class AttendenceConfigurationComponent {
         private messageService: MessageService,
         private attendenceConfigurationService: AttendenceConfigurationService,
         private fb: FormBuilder,
-        private router: Router
+        private router: Router,
+        private translate: TranslateService
     ) { }
 
     @ViewChild('dt') dt: Table;
@@ -52,7 +53,7 @@ export class AttendenceConfigurationComponent {
     attendanceForm: FormGroup;
     valCheck: boolean = false;
     execuseCalculationTypes!: any;
-
+    items!: any;
     selectedExecuseCalculationType!: any;
     selectedExecuseCalculationTypeId!: number;
 
@@ -85,35 +86,57 @@ export class AttendenceConfigurationComponent {
                 this.sortField,
                 this.sortOrder
             );
-        });
-        this.attendanceForm = this.fb.group({
-            includeDaysOffBetweenTwoAbsentDays: [false, Validators.required],
-            nameAr: ['', Validators.required],
-            englishName: ['', Validators.required],
-            firstDayPenaltyDeduction: [0, Validators.required],
-            secondDayPenaltyDeduction: [0, Validators.required],
-            thirdDayPenaltyDeduction: [0, Validators.required],
-            fourthDayPenaltyDeduction: [0, Validators.required],
-            fifthAndAboveDayPenaltyDeduction: [0, Validators.required],
-            calculateLateAttendanceInTime: [false, Validators.required],
-            calculateLateAttendancePerMonth: [false, Validators.required],
-            excuseCalculationType: [null, Validators.required],
-            earlyLeaveCalculationType: [null, Validators.required],
-            earlyLeavePenalityInDaysForEachHour: [0, Validators.required],
-            maxMonthlyLateMinutes: [0, Validators.required],
-            maxExuseDurationInMinutes: [0, Validators.required],
-            maxNumberOfExcusesPerMonth: [0, Validators.required],
-            firstMissingFingerprint: [0, Validators.required],
-            secondMissingFingerprint: [0, Validators.required],
-            thirdMissingFingerprint: [0, Validators.required],
-            fourthMissingFingerprint: [0, Validators.required],
-            fifthMissingFingerprint: [0, Validators.required],
-            lateSettingsList: this.fb.array([this.createLateSettingGroup()]),
-        });
-        this.getExecuseCalculationTypesDropdown();
-        this.getEarlyLeaveCalculationTypeDropDown();
+            this.attendanceForm = this.fb.group({
+                includeDaysOffBetweenTwoAbsentDays: [false, Validators.required],
+                nameAr: ['', Validators.required],
+                englishName: ['', Validators.required],
+                firstDayPenaltyDeduction: [0, Validators.required],
+                secondDayPenaltyDeduction: [0, Validators.required],
+                thirdDayPenaltyDeduction: [0, Validators.required],
+                fourthDayPenaltyDeduction: [0, Validators.required],
+                fifthAndAboveDayPenaltyDeduction: [0, Validators.required],
+                calculateLateAttendanceInTime: [false, Validators.required],
+                calculateLateAttendancePerMonth: [false, Validators.required],
+                excuseCalculationType: [null, Validators.required],
+                earlyLeaveCalculationType: [null, Validators.required],
+                earlyLeavePenalityInDaysForEachHour: [0, Validators.required],
+                maxMonthlyLateMinutes: [0, Validators.required],
+                maxExuseDurationInMinutes: [0, Validators.required],
+                maxNumberOfExcusesPerMonth: [0, Validators.required],
+                firstMissingFingerprint: [0, Validators.required],
+                secondMissingFingerprint: [0, Validators.required],
+                thirdMissingFingerprint: [0, Validators.required],
+                fourthMissingFingerprint: [0, Validators.required],
+                fifthMissingFingerprint: [0, Validators.required],
+                lateSettingsList: this.fb.array([this.createLateSettingGroup()]),
+            });
+            this.getExecuseCalculationTypesDropdown();
+            this.getEarlyLeaveCalculationTypeDropDown();
 
-        console.log(this.execuseCalculationTypes);
+            console.log(this.execuseCalculationTypes);
+
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
+        });
+    }
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.manageStructure.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.manageStructure.items.${this.endPoint}`),
+            }];
     }
     createLateSettingGroup(): FormGroup {
         return this.fb.group({

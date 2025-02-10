@@ -1,4 +1,158 @@
 {
+    "breadcrumb": {
+        "gen": {
+            "home": "الرئيسية"
+        },
+        "cats": {
+            "manageStructure": {
+                "title": "الهيكل التنظيمى",
+                "items": {
+                    "Government": "المحافظات",
+                    "Bank": "البنوك",
+                    "RecuritmentSource": "مصادر التوظيف",
+                    "Job": "الوظائف",
+                    "JobNature": "انواع الوظائف",
+                    "ContractType": "العقود",
+                    "grade": "الدرجة",
+                    "Qualification": "مؤهلات الموظفين",
+                    "RelativeRelation": "علاقة القرابة",
+                    "UniformCodes": "ارشادات الزى الرسمى ",
+                    "CovenantCategory": "انواع العهد",
+                    "DocumentRequired": "المستندات المطلوبة",
+                    "LoanTypes": "انواع السلف",
+                    "Allowance": "البدلات",
+                    "Partation": "الأقسام",
+                    "RepaymentTerms": "سياسات السلفة",
+                    "LoanSettings": "إعدادات السُلف",
+                    "LoanRequests": "طلبات السلفة",
+                    "CompanyPolicy": "سياسات الشركة",
+                    "CompanyBasicData": "البيانات الأساسية للشركة",
+                    "Location": "الموقع",
+                    "InsuranceConfiguration": "أنواع التأمينات",
+                    "Covenant": "العُهد",
+                    "AttendanceConfiguration": "سياسات الحضور",
+                    "VacationSetting": "سياسات الإجازات",
+                    "ResignationSetting": "إعدادات الاستقالة",
+                    "NetIncomeTax": "صافي ضريبة الدخل",
+                    "TaxRate": "معدل الضريبة",
+                    "InternalJob": "وظائف داخل الشركة",
+                    "GetLoanPayment": "القروض",
+                    "MobileVersion": "نسخة الموبايل"
+                }
+            },
+            "payrollManagement": {
+                "title": "ادارة الرواتب",
+                "items": {
+                    "PenaltiesAndDeduction": "الجزاءات والخصم",
+                    "Bouns": "مكافاءات",
+                    "Kpi": "مؤشر الاداء",
+                    "AllowanceValues": "البدلات كل شهر",
+                    "CloseMonth": "اغلاق الشهر"
+                }
+            },
+            "employeeProfiles": {
+                "title": "بيانات الموظفين",
+                "items": {
+                    "Employee": "الموظفين",
+                    "EmployeeFile": "مستندات الموظفين",
+                    "EmployeeCovenant": "عُهد الموظفين",
+                    "EmployeeManager": "الهيكل الإداري للموظفين",
+                    "FingerPrint": "بصمات الموظفين",
+                    "EmployeeLocation": "مواقع تسجيل البصمة",
+                    "EmployeeShift": "ورديات الموظفين",
+                    "EmployeeUniform": "الزى الرسمى للموظفين",
+                    "AssetCoordinator": "مسئوول العُهد",
+                    "AddEmployee": "اضافة موظف جديد"
+                }
+            },
+            "manageTypes": {
+                "title": "ادارة شئون الموظفين",
+                "items": {
+                    "PenaltiesType": "انواع العقوبات",
+                    "ExcuesType": "أنواع الإذن",
+                    "VacationType": "أنواع الإجازات",
+                    "PublicVacation": "أنواع الإجازات الرسمية",
+                    "Shift": "أنواع الوردية",
+                    "ShiftVacation": "أنواع إجازات الورديات",
+                    "LoanTypes": "انواع السلف"
+                }
+            },
+            "manageEmployeeRequest": {
+                "title": "ادارة طلبات الموظفين",
+                "items": {
+                    "ExcuesRequest": "طلبات الاذن",
+                    "ExternalMissionRequest": "طلبات الماموريات",
+                    "VacationRequest": "طلبات الاجازة",
+                    "Resignation": "طلبات الاستقالة",
+                    "LoanRequests": "طلبات السلفة",
+                    "HrLetter": "طلب خطاب الموارد البشرية",
+                    "ApplyingInternalJob": "التقدم للوظائف الداخلية"
+                }
+            },
+            "terminations": {
+                "title": "الاقالات",
+                "items": {
+                    "registerTermination": "إضافة إقالة",
+                    "allTermination": "كل الإقالات",
+                    "EndOfService": "إجراءات إنهاء الخدمة",
+                    "EndOfServiceRequest": "طلب إنهاء خدمة"
+                }
+            },
+            "notifications": {
+                "title": "الاشعارات",
+                "items": {
+                    "Notification": "إشعار لجميع الموظفين"
+                }
+            },
+            "reports": {
+                "title": "التقارير",
+                "items": {
+                    "attendanceReports": {
+                        "title": "تقارير الحضور",
+                        "items": {
+                            "AttendanceSheet": "تقرير الحضور",
+                            "MonthlyAttendanceSheet": "تقرير الحضور الشهرى",
+                            "MonthlyAbsenseReport": "تقرير الغياب الشهرى"
+                        }
+                    },
+                    "salaryReports": {
+                        "title": "تقارير المرتبات",
+                        "items": {
+                            "SalaryReport": "تقارير المرتب",
+                            "MonthlyPayrollSummaryReport": "تقرير ملخص الرواتب الشهرية",
+                            "EmployeePaySlipReport": "تقرير رواتب الموظفين"
+                        }
+                    }
+                }
+            }
+        },
+        "screens": {
+            "item1": "العنصر الاول"
+        }
+    },
+    "reports": {
+        "attendanceSheet": {
+            "employeeName": "اسم الموظف",
+            "shiftName": "اسم الوردية",
+            "date": "التاريخ",
+            "checkIn": "وقت الحضور",
+            "checkOut": "وقت الانصراف",
+            "publicVacationId": "معرف العطلة العامة",
+            "excuesTypeId": "معرف نوع العذر",
+            "excuseDuration": "مدة العذر",
+            "isDynamicWeekEndDay": "هل هو يوم عطلة نهاية الأسبوع الديناميكي",
+            "dynamicWeekEndDay": "يوم عطلة نهاية الأسبوع الديناميكي",
+            "lateMinutes": "دقائق التأخير",
+            "workingHoursTime": "ساعات العمل",
+            "earlyLeaveMinutes": "دقائق المغادرة المبكرة",
+            "missionType": "نوع المهمة",
+            "overtime": "العمل الإضافي",
+            "shiftCheckInTime": "وقت تسجيل الدخول للوردية",
+            "shiftCheckOutTime": "وقت تسجيل الخروج للوردية",
+            "status": "الحالة"
+        }
+    },
+    "Attendance Report": "تقرير الحضور",
     "lang": "ar",
     "DIR": "rtl",
     "Overview": "بيانات عامة",
@@ -409,6 +563,7 @@
     "Submenu 1.1": "قائمة فرعية 1.1",
     "Submenu 1.1.1": "قائمة فرعية 1.1.1",
     "Attendance Configuration": "نظام الحضور",
+    "EmployeesShifts": "ورديات الموظفين",
     "Employees Shifts": "ورديات الموظفين",
     "Assign New Shift For Some Employees": "اعدد وردية للموظفين",
     "Select Attendance Configuration": "اختار اعداد حضور",
@@ -506,6 +661,7 @@
     "Date And Times": "التاريخ والوقت",
     "Notifications": "الإشعارات",
     "Notify All Employees": "إشعار لجميع الموظفين",
+    "All Employees": "جميع الموظفين",
     "Send": "ارسال",
     "Title": "عنوان الاشعار",
     "Body": "مضمون الاشعار",
@@ -589,7 +745,8 @@
     "lastWorkingDate": "تاريخ آخر يوم عمل",
     "clearanceDate": "تاريخ المخالصة",
     "Terminations": "الإقالات",
-    "registerTermination": "تسجيل إقالة ",
+    "Off-Site Work Requests": "طلبات المأموريات",
+    "registerTermination": "إضافة إقالة",
     "allTerminations": "كل الإقالات",
     "Termination Date": "تاريخ الإقالة",
     "Last Working Date": "تاريخ آخر يوم عمل",
@@ -770,7 +927,20 @@
     "Enter English Title Here": "ادخل العنوان بالانجليزى هنا",
     "Enter Arabic Body Here": "ادخل الموضوع بالعربى هنا",
     "Enter English Body Here": "ادخل الموضوع بالانجليزى هنا",
-    "change status": "تغير الحالة",
+    "Change Status": "تغير الحالة",
     "serialNumber": "الرقم التسلسلى",
-    "value": "القيمة"
+    "value": "القيمة",
+    "PenaltiesType": "انواع العقوبات",
+    "Register Termination": "تسجيل إقالة",
+    "Add New Penalties Type": "اضافة نوع عقوبة",
+    "penaltieByDay": "خصم بالايام",
+    "penaltieByValue": "خصم بالقيمة",
+    "Reason English": "السبب بالإنجليزي",
+    "Enter English Reason Here": "أدخل السبب بالإنجليزي هنا",
+    "Reason Arabic": "السبب بالعربي",
+    "Enter Arabic Reason Here": "أدخل السبب بالعربي هنا",
+    "Penalty By Day": "الغرامة حسب اليوم",
+    "Enter Penalty By Day Here": "أدخل الغرامة حسب اليوم هنا",
+    "Penalty By Value": "الغرامة حسب القيمة",
+    "Enter Penalty By Value Here": "أدخل الغرامة حسب القيمة هنا"
 }

@@ -1,5 +1,6 @@
 <p-toast></p-toast>
 <pre-loading *ngIf="loading"></pre-loading>
+<app-breadcrumb [items]="items"></app-breadcrumb>
 
 <p-toolbar styleClass="mb-4">
     <ng-template pTemplate="left">
@@ -57,7 +58,8 @@
 <p-table #dt [value]="allData" [paginator]="true" [rows]="itemsPerPage" [columns]="cols" [totalRecords]="totalItems"
     selectionMode="multiple" [(selection)]="selectedItems" [showCurrentPageReport]="true"
     [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries' | translate" [lazy]="true"
-    (onLazyLoad)="onPageChange($event)" dataKey="id">
+    (onLazyLoad)="onPageChange($event)" dataKey="id" [scrollable]="true" scrollDirection="horizontal">
+
     <ng-template pTemplate="caption">
         <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
             <h5 class="m-0 manageItems">{{ "Manage Items" | translate }}</h5>
@@ -71,14 +73,11 @@
 
     <ng-template pTemplate="header">
         <tr>
-            <th style="width: 3rem">
+            <th style="width: 3rem" pFrozenColumn alignFrozen="right" [frozen]="isNameFreeze"
+                [ngClass]="{'frozen' : isNameFreeze}">
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
-            <!-- <th pSortableColumn="id" (click)="sortById($event)">
-                {{ "Id" | translate }}
-                <p-sortIcon field="id"></p-sortIcon>
-            </th> -->
-            <th pSortableColumn="name" (click)="sortByName($event)">
+            <th pFrozenColumn [frozen]="isNameFreeze" alignFrozen="right" [ngClass]="{'frozen' : isNameFreeze}">
                 {{ "Name" | translate }} <p-sortIcon field="name"></p-sortIcon>
             </th>
             <th>{{ "Notes" | translate }}</th>
@@ -86,49 +85,36 @@
             <th>{{ "lastModificationTime" | translate }}</th>
             <th>{{ "creatorName" | translate }}</th>
             <th>{{ "lastModifierName" | translate }}</th>
-            <th>{{ "Actions" | translate }}</th>
+            <th>
+                {{ "Actions" | translate }}
+            </th>
         </tr>
     </ng-template>
 
     <ng-template pTemplate="body" let-rowData>
         <tr>
-            <td>
+            <td pFrozenColumn [frozen]="isNameFreeze" alignFrozen="right" [ngClass]="{'frozen' : isNameFreeze}">
                 <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
             </td>
-            <!-- <td>
-                <span class="p-column-title">Id</span>
-                {{ rowData.id ? rowData.id : "" }}
-            </td> -->
-
-            <td [ngClass]="{ 'null-color': !rowData.name }">
-                <span class="p-column-title">name</span>
+            <td pFrozenColumn [frozen]="isNameFreeze" alignFrozen="right"
+                [ngClass]="{'frozen' : isNameFreeze, 'null-color': !rowData.name}">
                 {{ rowData.name ? rowData.name : "" }}
             </td>
             <td [ngClass]="{ 'null-color': !rowData.notes }">
-                <span class="p-column-title">notes</span>
                 {{ rowData.notes ? rowData.notes : "" }}
             </td>
-
             <td [ngClass]="{ 'null-color': !rowData.creationTime }">
-                <span class="p-column-title">creationTime</span>
-                {{
-                rowData.creationTime | date : "dd/MM/YYYY - h:mm a"
-                }}
+                {{ rowData.creationTime | date : "dd/MM/YYYY - h:mm a" }}
             </td>
             <td [ngClass]="{ 'null-color': !rowData.lastModificationTime }">
-                <span class="p-column-title">lastModificationTime</span>
                 {{ rowData.lastModificationTime | date : "dd/MM/YY - h:mm a" }}
             </td>
-
             <td [ngClass]="{ 'null-color': !rowData.creatorName }">
-                <span class="p-column-title">creatorName</span>
                 {{ rowData.creatorName ? rowData.creatorName : "" }}
             </td>
             <td [ngClass]="{ 'null-color': !rowData.lastModifierName }">
-                <span class="p-column-title">lastModifierName</span>
                 {{ rowData.lastModifierName ? rowData.lastModifierName : "" }}
             </td>
-
             <td>
                 <div class="flex crud-operations">
                     <button pButton pRipple icon="pi pi-pencil"
@@ -142,6 +128,7 @@
         </tr>
     </ng-template>
 </p-table>
+
 
 <p-dialog [(visible)]="productDialog" [style]="{ width: '450px' }" [header]="'Item Details' | translate" [modal]="true"
     class="p-fluid">

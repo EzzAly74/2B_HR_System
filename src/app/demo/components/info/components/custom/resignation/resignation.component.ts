@@ -89,6 +89,22 @@ export class ResignationComponent {
     acceptAllDialogue: boolean = false;
     rejectAllDialogue: boolean = false;
 
+    items!: any;
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.manageEmployeeRequest.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.manageEmployeeRequest.items.${this.endPoint}`),
+            }];
+    }
+
     ngOnInit() {
         this.endPoint = 'Resignation';
         this.route.parent?.paramMap.subscribe((params) => {
@@ -115,6 +131,15 @@ export class ResignationComponent {
                 this.sortOrder
             );
             console.log('Dropdowns data :');
+
+
+
+            // check for items for bread crumbs 
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
         });
 
         this.cols = [

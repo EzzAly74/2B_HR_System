@@ -55,6 +55,7 @@ export class PublicVacationComponent {
 
     selectedShiftEdit: any;
     oldDate: any;
+    items!: any;
 
     addNewForm: FormGroup = new FormGroup({
         date: new FormControl(null, [Validators.required]),
@@ -89,22 +90,28 @@ export class PublicVacationComponent {
                 this.sortField,
                 this.sortOrder
             );
+            this.cols = [
+                // custom fields
+                { field: 'date', header: 'Date' },
+                { field: 'reason', header: 'Reason' },
+                { field: 'shiftName', header: 'Shift' },
+
+                // Generic Fields
+                { field: 'creationTime', header: 'creationTime' },
+                { field: 'lastModificationTime', header: 'lastModificationTime' },
+                { field: 'creatorName', header: 'creatorName' },
+                { field: 'lastModifierName', header: 'lastModifierName' },
+            ];
+
+            this.gitAllShifts();
+            // check for items for bread crumbs 
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
         });
 
-        this.cols = [
-            // custom fields
-            { field: 'date', header: 'Date' },
-            { field: 'reason', header: 'Reason' },
-            { field: 'shiftName', header: 'Shift' },
-
-            // Generic Fields
-            { field: 'creationTime', header: 'creationTime' },
-            { field: 'lastModificationTime', header: 'lastModificationTime' },
-            { field: 'creatorName', header: 'creatorName' },
-            { field: 'lastModifierName', header: 'lastModifierName' },
-        ];
-
-        this.gitAllShifts();
     }
 
     gitAllShifts() {
@@ -128,6 +135,22 @@ export class PublicVacationComponent {
             .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
             .join(' ');
     }
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.manageTypes.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.manageTypes.items.${this.endPoint}`),
+            }];
+    }
+
 
     convertDate(date: any, format: string) {
         return this.DatePipe.transform(date, format);

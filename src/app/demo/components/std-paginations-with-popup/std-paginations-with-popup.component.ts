@@ -16,16 +16,44 @@ import { FormGroup } from '@angular/forms';
     selector: 'app-std-paginations-with-popup',
     standalone: true,
     imports: [GlobalsModule, PrimeNgModule],
-    providers: [MessageService],
+    providers: [MessageService, TranslateService],
     templateUrl: './std-paginations-with-popup.component.html',
     styleUrl: './std-paginations-with-popup.component.scss',
 })
 export class StdPaginationsWithPopupComponent {
+
+    // Toggle states for frozen columns
+    isNameFreeze: boolean = true;
+    isActionsFreeze: boolean = true;
     constructor(
         private _LockupsService: LockupsService,
         private messageService: MessageService,
         private translate: TranslateService
-    ) { }
+    ) {
+
+        this.translate.onLangChange.subscribe(() => {
+            this.updateTranslations();
+        });
+
+        this.updateTranslations();
+    }
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.manageStructure.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.manageStructure.items.${this.endPoint}`),
+            }];
+    }
+
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
@@ -51,6 +79,9 @@ export class StdPaginationsWithPopupComponent {
     newNameAr!: string;
     newNameEn!: string;
     fileNew!: File;
+    @Input() items!: any;
+    @Input() custom!: any;
+
     addNewForm: FormGroup = new FormGroup({
         name: new FormControl(null, [
             Validators.required,
@@ -94,6 +125,20 @@ export class StdPaginationsWithPopupComponent {
                 this.sortField,
                 this.sortOrder
             );
+            // this.updateTranslations();
+
+
+
+            if (!this.custom) {
+
+                this.translate.onLangChange.subscribe(() => {
+                    this.updateTranslations();
+                });
+
+
+                this.updateTranslations();
+            }
+
         });
 
         this.cols = [

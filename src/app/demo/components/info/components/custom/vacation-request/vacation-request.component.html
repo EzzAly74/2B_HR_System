@@ -1,5 +1,7 @@
 <p-toast></p-toast>
 <pre-loading *ngIf="loading"></pre-loading>
+<app-breadcrumb [items]="items"></app-breadcrumb>
+
 <p-panel [header]="'Filter' | translate" [toggleable]="true" [collapsed]="true">
     <form method="post" [formGroup]="filterForm" (submit)="submitForm(filterForm)">
         <div class="grid">

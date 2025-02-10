@@ -74,13 +74,11 @@ export class AllEmployeesFingerPrintComponent {
     selectedDateTo?: any = null;
 
     parentData!: TreeNode[];
+    items: any;
 
     ngOnInit() {
         this.endPoint = 'FingerPrint';
         this.isCollapsed = true; // closed
-
-
-
 
         Globals.getMainLangChanges().subscribe((mainLang) => {
             console.log('Main language changed to:', mainLang);
@@ -112,8 +110,30 @@ export class AllEmployeesFingerPrintComponent {
                 this.selectedJob,
             );
 
+            // update breadcrumb
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
+
         });
 
+    }
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.employeeProfiles.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.employeeProfiles.items.${this.endPoint}`),
+            }];
     }
 
     getDistinctNumberLocations(timelocations: any[]) {

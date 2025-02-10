@@ -9,6 +9,7 @@ import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     standalone: true,
@@ -23,7 +24,8 @@ export class AllEmployeesCovenantComponent {
         private employeeConvenantService: AllEmployeeCovenantService,
         private messageService: MessageService,
         private route: ActivatedRoute,
-        private DatePipe: DatePipe
+        private DatePipe: DatePipe,
+        private translate: TranslateService
     ) { }
 
     @ViewChild('dt') dt: Table;
@@ -67,6 +69,7 @@ export class AllEmployeesCovenantComponent {
     editForm!: FormGroup;
 
     serialNumber: any;
+    items: any;
 
     ngOnInit() {
         this.endPoint = 'EmployeeCovenant';
@@ -89,29 +92,37 @@ export class AllEmployeesCovenantComponent {
                 this.sortField,
                 this.sortOrder
             );
+            this.cols = [
+                // main field
+                { field: 'name', header: 'Name' },
+
+                // personal fields
+
+                { field: 'numberOfHours', header: 'NumberOfHours' },
+
+                // main field
+                { field: 'notes', header: 'Notes' },
+
+                // Generic Fields
+                { field: 'creationTime', header: 'CreationTime' },
+                { field: 'lastModificationTime', header: 'LastModificationTime' },
+                { field: 'creatorName', header: 'CreatorName' },
+                { field: 'lastModifierName', header: 'LastModifierName' },
+            ];
+
+            this.getCovenantTypes();
+            this.getDropDownEmployee();
+
+            this.initFormGroups();
+
+            // update breadcrumb
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
         });
 
-        this.cols = [
-            // main field
-            { field: 'name', header: 'Name' },
-
-            // personal fields
-
-            { field: 'numberOfHours', header: 'NumberOfHours' },
-
-            // main field
-            { field: 'notes', header: 'Notes' },
-
-            // Generic Fields
-            { field: 'creationTime', header: 'CreationTime' },
-            { field: 'lastModificationTime', header: 'LastModificationTime' },
-            { field: 'creatorName', header: 'CreatorName' },
-            { field: 'lastModifierName', header: 'LastModifierName' },
-        ];
-        this.getCovenantTypes();
-        this.getDropDownEmployee();
-
-        this.initFormGroups();
     }
 
     initFormGroups() {
@@ -288,6 +299,23 @@ export class AllEmployeesCovenantComponent {
             this.sortField,
             this.sortOrder
         );
+    }
+
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.employeeProfiles.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.employeeProfiles.items.${this.endPoint}`),
+            }];
     }
 
     setFieldsNulls() {

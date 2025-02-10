@@ -9,6 +9,7 @@ import { itemsPerPageGlobal } from 'src/main';
 import { KpiService } from './kpi.service';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-kpi',
@@ -23,7 +24,8 @@ export class KPIComponent {
         private kpiService: KpiService,
         private messageService: MessageService,
         private route: ActivatedRoute,
-        private DatePipe: DatePipe
+        private DatePipe: DatePipe,
+        private translate: TranslateService
     ) { }
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
@@ -81,6 +83,7 @@ export class KPIComponent {
         location: new FormControl(null),
     });
     notesAccept: string;
+    items: any = [];
     notesReject: string;
     acceptAllDialogue: boolean = false;
     rejectAllDialogue: boolean = false;
@@ -113,6 +116,14 @@ export class KPIComponent {
             console.log('Dropdowns data :');
 
             this.getDropDowns();
+
+            // check for breadCrumbs
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
+
         });
 
         this.cols = [
@@ -136,6 +147,22 @@ export class KPIComponent {
         this.selectedMonth = this.getMonthObjById(new Date().getMonth() + 1);
         console.log(this.selectedMonth);
     }
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.payrollManagement.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.payrollManagement.items.${this.endPoint}`),
+            }];
+    }
+
     getDropDowns() {
         this.kpiService.getDropdownField('Employee').subscribe({
             next: (res) => {

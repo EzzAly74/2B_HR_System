@@ -5,6 +5,7 @@ import { Globals } from 'src/app/class/globals';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 import { SendToAllServiceService } from './send-to-all-service.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-send-notification-to-all',
@@ -16,9 +17,11 @@ import { SendToAllServiceService } from './send-to-all-service.service';
 })
 export class SendNotificationToAllComponent {
     loading: boolean = false;
+    items!: any;
     constructor(
         private sendToAllNotificationService: SendToAllServiceService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private translate: TranslateService
     ) { }
     @Input() endPoint!: string;
     sendAllNotificationForm: FormGroup = new FormGroup({
@@ -40,8 +43,35 @@ export class SendNotificationToAllComponent {
 
             // update endpoint
             this.sendToAllNotificationService.setEndPoint(this.endPoint);
+
+
+            // add bread-crumbs
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
+
         });
+
     }
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.notifications.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.notifications.items.${this.endPoint}`),
+            }];
+    }
+
 
     sendAllNotification(form: FormGroup) {
 

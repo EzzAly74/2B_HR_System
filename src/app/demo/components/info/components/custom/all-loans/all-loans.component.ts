@@ -64,6 +64,7 @@ export class AllLoansComponent {
     notesReject: string;
     acceptAllDialogue: boolean = false;
     rejectAllDialogue: boolean = false;
+    items!: any;
 
     addNewForm: FormGroup = new FormGroup({
         EmployeeId: new FormControl(null, [Validators.required]),
@@ -84,6 +85,20 @@ export class AllLoansComponent {
         id: new FormControl(null),
     });
 
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.manageStructure.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.manageStructure.items.${this.endPoint}`),
+            }];
+    }
     ngOnInit() {
         this.endPoint = 'LoanRequests';
 
@@ -105,25 +120,31 @@ export class AllLoansComponent {
                 this.sortField,
                 this.sortOrder
             );
+            this.getAllDropdowns();
+
+            this.cols = [
+                // basic data
+                { field: 'name', header: 'Name' },
+
+                // custom fields
+                { field: 'latitude', header: 'Lotes' },
+                { field: 'longitude', header: 'Longitude' },
+                { field: 'discription', header: 'Discription' },
+                { field: 'notes', header: 'Notes' },
+
+                // Generic Fields
+                { field: 'creationTime', header: 'creationTime' },
+                { field: 'lastModificationTime', header: 'lastModificationTime' },
+                { field: 'creatorName', header: 'creatorName' },
+                { field: 'lastModifierName', header: 'lastModifierName' },
+            ];
+
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
         });
-        this.getAllDropdowns();
-
-        this.cols = [
-            // basic data
-            { field: 'name', header: 'Name' },
-
-            // custom fields
-            { field: 'latitude', header: 'Lotes' },
-            { field: 'longitude', header: 'Longitude' },
-            { field: 'discription', header: 'Discription' },
-            { field: 'notes', header: 'Notes' },
-
-            // Generic Fields
-            { field: 'creationTime', header: 'creationTime' },
-            { field: 'lastModificationTime', header: 'lastModificationTime' },
-            { field: 'creatorName', header: 'creatorName' },
-            { field: 'lastModifierName', header: 'lastModifierName' },
-        ];
     }
     getAllDropdowns() {
         this.allLoansService.getDropdownEnum('getRequestType').subscribe({

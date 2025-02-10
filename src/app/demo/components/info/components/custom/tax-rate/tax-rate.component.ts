@@ -65,7 +65,7 @@ export class TaxRateComponent {
     CovenantCategoryIdSelected: any;
     selectedCovenantCategory: any;
     selectedCovenantCategoryOnEdit: any;
-
+    items!: any;
     selectedItemsData: any;
     addNewForm: FormGroup = new FormGroup(
         {
@@ -143,26 +143,53 @@ export class TaxRateComponent {
                 this.sortField,
                 this.sortOrder
             );
+            this.cols = [
+                // basic fields
+                { field: 'name', header: 'Name' },
+                { field: 'notes', header: 'Notes' },
+
+                // custom fields
+                { field: 'category', header: 'Category' },
+
+                // Generic Fields
+                { field: 'creationTime', header: 'CreationTime' },
+                { field: 'lastModificationTime', header: 'LastModificationTime' },
+                { field: 'creatorName', header: 'CreatorName' },
+                { field: 'lastModifierName', header: 'LastModifierName' },
+            ];
+
+            // get drop down of CovenantCategory
+            this.getDropDown('NetIncomeTax');
+
+
+            // update breadcrumb
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
         });
 
-        this.cols = [
-            // basic fields
-            { field: 'name', header: 'Name' },
-            { field: 'notes', header: 'Notes' },
-
-            // custom fields
-            { field: 'category', header: 'Category' },
-
-            // Generic Fields
-            { field: 'creationTime', header: 'CreationTime' },
-            { field: 'lastModificationTime', header: 'LastModificationTime' },
-            { field: 'creatorName', header: 'CreatorName' },
-            { field: 'lastModifierName', header: 'LastModifierName' },
-        ];
-
-        // get drop down of CovenantCategory
-        this.getDropDown('NetIncomeTax');
     }
+
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.manageStructure.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.manageStructure.items.${this.endPoint}`),
+            }];
+    }
+
+
 
     getDropDown(field: string) {
         this.taxRateService.getDropDown(field).subscribe({

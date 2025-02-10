@@ -4,16 +4,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { LoadingComponent } from '../../components/info/components/loading/loading.component';
 import { RequiredFieldComponent } from '../../components/info/components/custom/required-field/required-field.component';
+import { BreadcrumbComponent } from '../../components/info/components/custom/breadcrumb/breadcrumb.component';
 
 @NgModule({
-  imports: [LoadingComponent, RequiredFieldComponent],
+  imports: [LoadingComponent, RequiredFieldComponent, BreadcrumbComponent],
   exports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
     LoadingComponent,
-    RequiredFieldComponent
+    RequiredFieldComponent,
+    BreadcrumbComponent
   ],
 })
 export class GlobalsModule { }

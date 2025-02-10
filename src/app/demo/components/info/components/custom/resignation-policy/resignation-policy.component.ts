@@ -11,6 +11,7 @@ import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 import { Globals } from 'src/app/class/globals';
 import { ResignationPolicyService } from './resignation-policy.service';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
     selector: 'app-resignation-policy',
     standalone: true,
@@ -21,9 +22,12 @@ import { ResignationPolicyService } from './resignation-policy.service';
 })
 export class ResignationPolicyComponent {
     loading: boolean = false;
+    items!: any;
+    endPoint!: any;
     constructor(
         private messageService: MessageService,
         private resignationPolicyService: ResignationPolicyService,
+        private translate: TranslateService,
         private fb: FormBuilder
     ) { }
 
@@ -35,9 +39,9 @@ export class ResignationPolicyComponent {
     ngOnInit(): void {
         // this.addInstruction();
         // set endpoint on service
+        this.endPoint = "ResignationSetting"
 
         this.loading = true
-        this.resignationPolicyService.setEndPoint('ResignationSetting');
         Globals.getMainLangChanges().subscribe((mainLang) => {
             console.log('Main language changed to:', mainLang);
 
@@ -45,7 +49,7 @@ export class ResignationPolicyComponent {
             this.resignationPolicyService.setCulture(mainLang);
 
             // update endpoint
-            this.resignationPolicyService.setEndPoint('ResignationSetting');
+            this.resignationPolicyService.setEndPoint(this.endPoint);
 
             // then, load data again to lens on the changes of mainLang & endPoints Call
             this.resignationPolicyService.GetAll().subscribe({
@@ -96,6 +100,14 @@ export class ResignationPolicyComponent {
                     this.loading = false;
                 },
             });
+
+
+            // add bread-crumbs
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
         });
 
         // use function get from custom service to get data;
@@ -143,6 +155,23 @@ export class ResignationPolicyComponent {
         //     },
         // });
     }
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.manageStructure.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.manageStructure.items.${this.endPoint}`),
+            }];
+    }
+
     get resignationInstructions(): FormArray {
         return this.resignationSettingForm.get(
             'resignationInstructions'

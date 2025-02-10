@@ -67,6 +67,7 @@ export class ExecuseRequestComponent {
     all_Status_DropDown: any;
     date3: Date | undefined;
     file!: File;
+    items!: any;
     filterForm: FormGroup = new FormGroup({
         EmployeeId: new FormControl(null),
         MangerId: new FormControl(null),
@@ -74,7 +75,6 @@ export class ExecuseRequestComponent {
         DateTo: new FormControl(null),
         RequestType: new FormControl(null),
     });
-
 
     changeStatusForm: FormGroup = new FormGroup({
         Status: new FormControl(null, Validators.required),
@@ -88,6 +88,22 @@ export class ExecuseRequestComponent {
         reason: new FormControl(null, [Validators.required]),
     });
 
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.manageEmployeeRequest.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.manageEmployeeRequest.items.${this.endPoint}`),
+            }];
+    }
     ngOnInit() {
         this.endPoint = 'ExcuesRequest';
         this.route.parent?.paramMap.subscribe((params) => {
@@ -132,6 +148,13 @@ export class ExecuseRequestComponent {
                     { id: 2, name: 'مرفوض' },
                 ];
             }
+
+            // check for items for bread crumbs 
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
         });
 
         this.cols = [

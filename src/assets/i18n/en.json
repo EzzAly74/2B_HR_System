@@ -1,4 +1,158 @@
 {
+    "breadcrumb": {
+        "gen": {
+            "home": "Home"
+        },
+        "cats": {
+            "manageStructure": {
+                "title": "Manage Structure",
+                "items": {
+                    "Government": "Government",
+                    "Bank": "Bank",
+                    "RecuritmentSource": "Recuritment Source",
+                    "Job": "job",
+                    "JobNature": "Job Nature",
+                    "ContractType": "Contract Type",
+                    "grade": "grade",
+                    "Qualification": "Qualification",
+                    "RelativeRelation": "Relative Relation",
+                    "UniformCodes": "Uniform Codes",
+                    "CovenantCategory": "Covenant Category",
+                    "DocumentRequired": "Document Required",
+                    "LoanTypes": "Loan Types",
+                    "Allowance": "Allowance",
+                    "Partation": "Partation",
+                    "RepaymentTerms": "Re-Payment Terms",
+                    "LoanSettings": "Loan Settings",
+                    "LoanRequests": "Loan Requests",
+                    "CompanyPolicy": "Company Policy",
+                    "CompanyBasicData": "Company Basic Data",
+                    "Location": "Location",
+                    "InsuranceConfiguration": "Insurance Configuration",
+                    "Covenant": "Covenant",
+                    "AttendanceConfiguration": "Attendance Configuration",
+                    "VacationSetting": "Vacation Setting",
+                    "ResignationSetting": "Resignation Setting",
+                    "NetIncomeTax": "Net Income Tax",
+                    "TaxRate": "Tax Rate",
+                    "InternalJob": "Internal Job",
+                    "GetLoanPayment": "Loan Payment",
+                    "MobileVersion": "Mobile Version"
+                }
+            },
+            "payrollManagement": {
+                "title": "payroll Management",
+                "items": {
+                    "PenaltiesAndDeduction": "Penalties And Deduction",
+                    "Bouns": "Bouns",
+                    "Kpi": "Kpi",
+                    "AllowanceValues": "Allowance Values",
+                    "CloseMonth": "Close Month"
+                }
+            },
+            "employeeProfiles": {
+                "title": "Employee Profiles",
+                "items": {
+                    "Employee": "Employee",
+                    "EmployeeFile": "Employee Files",
+                    "EmployeeCovenant": "Employee Covenant",
+                    "EmployeeManager": "Employee Manager",
+                    "FingerPrint": "Finger Print",
+                    "EmployeeLocation": "Employee Location",
+                    "EmployeeShift": "Employee Shift",
+                    "EmployeeUniform": "Employee Uniform",
+                    "AssetCoordinator": "Assets Coordinators",
+                    "AddEmployee": "Add Employee"
+                }
+            },
+            "manageTypes": {
+                "title": "Manage Types",
+                "items": {
+                    "PenaltiesType": "Penalties Type",
+                    "ExcuesType": "Excuse Type",
+                    "VacationType": "Vacation Type",
+                    "PublicVacation": "Public Vacation",
+                    "Shift": "Shift",
+                    "ShiftVacation": "Shift Vacation",
+                    "LoanTypes": "Loan Types"
+                }
+            },
+            "manageEmployeeRequest": {
+                "title": "Manage Employee Request",
+                "items": {
+                    "ExcuesRequest": "Excues Request",
+                    "ExternalMissionRequest": "External Mission Request",
+                    "VacationRequest": "Vacation Request",
+                    "Resignation": "Resignation",
+                    "LoanRequests": "Loan Requests",
+                    "HrLetter": "Hr Letter",
+                    "ApplyingInternalJob": "Applying Internal Job"
+                }
+            },
+            "terminations": {
+                "title": "Terminations",
+                "items": {
+                    "registerTermination": "Register Termination",
+                    "allTermination": "All Termination",
+                    "EndOfService": "End Of Service",
+                    "EndOfServiceRequest": "End Of Service Request"
+                }
+            },
+            "notifications": {
+                "title": "notifications",
+                "items": {
+                    "Notification": "Notification All Employees"
+                }
+            },
+            "reports": {
+                "title": "reports",
+                "items": {
+                    "attendanceReports": {
+                        "title": "Attendance Reports",
+                        "items": {
+                            "AttendanceSheet": "Attendance Sheet",
+                            "MonthlyAttendanceSheet": "Monthly Attendance Sheet",
+                            "MonthlyAbsenseReport": "Monthly Absense Report"
+                        }
+                    },
+                    "salaryReports": {
+                        "title": "Salary Reports",
+                        "items": {
+                            "SalaryReport": "Salary Report",
+                            "MonthlyPayrollSummaryReport": "Monthly Payroll Summary Report",
+                            "EmployeePaySlipReport": "Employee Payslip Report"
+                        }
+                    }
+                }
+            }
+        },
+        "screens": {
+            "item1": "item1"
+        }
+    },
+    "reports": {
+        "attendanceSheet": {
+            "employeeName": "Employee Name",
+            "shiftName": "Shift Name",
+            "date": "Date",
+            "checkIn": "Check In",
+            "checkOut": "Check Out",
+            "publicVacationId": "Public Vacation ID",
+            "excuesTypeId": "Excuse Type ID",
+            "excuseDuration": "Excuse Duration",
+            "isDynamicWeekEndDay": "Is Dynamic Weekend Day",
+            "dynamicWeekEndDay": "Dynamic Weekend Day",
+            "lateMinutes": "Late Minutes",
+            "workingHoursTime": "Working Hours",
+            "earlyLeaveMinutes": "Early Leave Minutes",
+            "missionType": "Mission Type",
+            "overtime": "Overtime",
+            "shiftCheckInTime": "Shift Check In Time",
+            "shiftCheckOutTime": "Shift Check Out Time",
+            "status": "Status"
+        }
+    },
+    "Attendance Report": "Attendance Report",
     "lang": "en",
     "DIR": "ltr",
     "Overview": "Overview",
@@ -586,7 +740,7 @@
     "lastWorkingDate": "Last Working Date",
     "clearanceDate": "Clearance Date",
     "Terminations": "Termination Management",
-    "registerTermination": "Register Employee Termination",
+    "registerTermination": "Add Employee Termination",
     "allTerminations": "View All Terminations",
     "Termination Date": "Termination Date",
     "Last Working Date": "Last Working Date",
@@ -603,6 +757,7 @@
     "level": "Level",
     "rangeFrom": "Range From",
     "rangeTo": "Range To",
+    "Off-Site Work Requests": "Off-Site Work Requests",
     "amountPerMonth": "Amount Per Month",
     "bouns": "bouns",
     "Add New Bonus": "Add New Bonus",
@@ -1324,7 +1479,6 @@
     "lastWorkingDate": "Last Working Date",
     "clearanceDate": "Clearance Date",
     "Terminations": "Termination Management",
-    "registerTermination": "Register Employee Termination",
     "allTerminations": "View All Terminations",
     "Termination Date": "Termination Date",
     "Last Working Date": "Last Working Date",
@@ -1482,7 +1636,22 @@
     "this field is required": "this field is required",
     "Reject All": "Reject All",
     "Number of Months of Hiring Date": "Months Since Hiring Date",
-    "change status": "change status",
+    "Change Status": "Change Status",
     "serialNumber": "Serial Number",
-    "Number of Months of Hiring Date": "Months Since Hiring Date"
+    "PenaltiesType": "Penalties Type",
+    "All Employees": "All Employees",
+    "Number of Months of Hiring Date": "Months Since Hiring Date",
+    "Register Termination": "Register Termination",
+    "Manage Structure": "Manage Structure",
+    "Add New Penalties Type": "Add New Penalties Type",
+    "penaltieByDay": "penaltie By Day",
+    "penaltieByValue": "penaltie By Value",
+    "Reason English": "Reason English",
+    "Enter English Reason Here": "Enter English Reason Here",
+    "Reason Arabic": "Reason Arabic",
+    "Enter Arabic Reason Here": "Enter Arabic Reason Here",
+    "Penalty By Day": "Penalty By Day",
+    "Enter Penalty By Day Here": "Enter Penalty By Day Here",
+    "Penalty By Value": "Penalty By Value",
+    "Enter Penalty By Value Here": "Enter Penalty By Value Here"
 }

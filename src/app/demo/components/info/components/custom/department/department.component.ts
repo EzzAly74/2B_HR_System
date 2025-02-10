@@ -47,6 +47,7 @@ export class DepartmentComponent {
     newNameAr!: string;
     newNameEn!: string;
     fileNew!: File;
+    items!: any;
     addNewForm: FormGroup = new FormGroup({
         name: new FormControl(null, [
             Validators.required,
@@ -73,6 +74,23 @@ export class DepartmentComponent {
         notes: new FormControl(null),
     });
 
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.manageStructure.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.manageStructure.items.${this.endPoint}`),
+            }];
+    }
+
     ngOnInit() {
 
         this.endPoint = "Department"
@@ -94,6 +112,12 @@ export class DepartmentComponent {
                 this.sortField,
                 this.sortOrder
             );
+
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
         });
 
         this.cols = [

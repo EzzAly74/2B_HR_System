@@ -1,20 +1,21 @@
 <p-toast></p-toast>
 <pre-loading *ngIf="loading"></pre-loading>
+<app-breadcrumb [items]="items"></app-breadcrumb>
+
 <div class="grid justify-content-center">
     <div class="col-12 lg:col-6">
         <div class="card">
-            <h5 class="text-center">{{'Notify All Employees' | translate}}</h5>
+            <h5 class="text-center">{{'Register Termination' | translate}}</h5>
             <form class="p-fluid p-formgrid grid" [formGroup]="TerminationForm"
                 (submit)="registerTermination(TerminationForm)">
 
                 <div class="field col-12 md:col-12">
                     <label htmlFor="employee">{{
-                        "Employees" | translate
+                        "All Employees" | translate
                         }}</label>
 
                     <p-dropdown formControlName="EmployeeId" [options]="dropdownItemsEmployee" optionLabel="name"
-                        optionVal="id" [placeholder]="'Select Employee' | translate"
-                        (onChange)="onSelectEmployee($event)" [filter]="true"
+                        optionVal="id" (onChange)="onSelectEmployee($event)" [filter]="true"
                         [filterPlaceholder]="'Search...' | translate" [filterBy]="'name'" [showClear]="true">
 
                         <ng-template pTemplate="item" let-item>

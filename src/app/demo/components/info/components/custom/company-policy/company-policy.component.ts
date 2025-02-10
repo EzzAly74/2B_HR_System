@@ -68,6 +68,7 @@ export class CompanyPolicyComponent {
     oldDate: any;
     baseUrlFile: string;
     CompanyPolicyUrl: string;
+    items!: any;
 
     addNewForm: FormGroup = new FormGroup({
         EngName: new FormControl(null, [Validators.required]),
@@ -85,6 +86,22 @@ export class CompanyPolicyComponent {
         File: new FormControl(null),
         Id: new FormControl(null),
     });
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.manageStructure.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.manageStructure.items.${this.endPoint}`),
+            }];
+    }
 
     ngOnInit() {
         this.endPoint = 'CompanyPolicy';
@@ -109,6 +126,12 @@ export class CompanyPolicyComponent {
                 this.sortField,
                 this.sortOrder
             );
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
+
         });
 
         this.cols = [

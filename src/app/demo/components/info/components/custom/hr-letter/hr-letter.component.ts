@@ -48,6 +48,7 @@ export class HrLetterComponent {
   newNameEn!: string;
   fileNew!: File;
   all_Status_DropDown: any;
+  items!: any;
 
   changeStatusForm: FormGroup = new FormGroup({
     Status: new FormControl(null, Validators.required),
@@ -93,6 +94,13 @@ export class HrLetterComponent {
           { id: 3, name: 'تم استلامه' },
         ];
       }
+
+      this.translate.onLangChange.subscribe(() => {
+        this.updateTranslations();
+      });
+
+      this.updateTranslations();
+
     });
 
     this.cols = [
@@ -109,6 +117,21 @@ export class HrLetterComponent {
 
   }
 
+
+  updateTranslations() {
+    this.items = [
+      {
+        icon: 'pi pi-home',
+        route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+      },
+      {
+        label: this.translate.instant('breadcrumb.cats.manageEmployeeRequest.title'),
+        iconPath: ''
+      },
+      {
+        label: this.translate.instant(`breadcrumb.cats.manageEmployeeRequest.items.${this.endPoint}`),
+      }];
+  }
   print(changeStatusForm: FormGroup) {
     console.log(changeStatusForm.value)
   }

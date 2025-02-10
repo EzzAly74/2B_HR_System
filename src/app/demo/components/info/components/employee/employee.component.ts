@@ -25,7 +25,8 @@ export class EmployeeComponent {
     constructor(
         private _EmployeeService: EmployeeService,
         private messageService: MessageService,
-        private DatePipe: DatePipe
+        private DatePipe: DatePipe,
+        private translate: TranslateService
     ) { }
 
     // => dropdown Arrays
@@ -53,6 +54,7 @@ export class EmployeeComponent {
 
     loading: boolean = false;
 
+    items!: any;
     uploadedFiles: any[] = [];
 
     ngOnInit(): void {
@@ -71,10 +73,35 @@ export class EmployeeComponent {
             // get All Drop Downs
             this.getAllDropDowns();
 
-        });
+            this.initFormGroups();
 
-        this.initFormGroups()
+            // update breadcrumb
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
+
+        });
     }
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.employeeProfiles.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.employeeProfiles.items.AddEmployee`),
+            }];
+    }
+
+
 
     initFormGroups() {
         this.registerForm = new FormGroup({

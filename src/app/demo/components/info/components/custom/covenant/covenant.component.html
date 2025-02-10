@@ -1,6 +1,6 @@
 <p-toast></p-toast>
 <pre-loading *ngIf="loading"></pre-loading>
-
+<app-breadcrumb [items]="items"></app-breadcrumb>
 
 <p-toolbar styleClass="mb-4">
     <ng-template pTemplate="left">
@@ -31,6 +31,16 @@
                     (onChange)="changeCovenantCategory()" [(ngModel)]="selectedCovenantCategory"
                     [placeholder]="'Select a Covenant Category' | translate" [showClear]="true" optionLabel="name"
                     optionValue="id" formControlName="covenantCategoryId" [filter]="true" filterBy="name"></p-dropdown>
+            </div>
+
+            <div class="field">
+                <label for="department">{{ "Department" | translate }}</label>
+
+                <p-dropdown [options]="departmentDropDown" id="department" (onChange)="changedSelected($event)"
+                    [(ngModel)]="selectedDepartment" formControlName="departmentId"
+                    [placeholder]="'Select a Department' | translate" [showClear]="true" optionValue="id"
+                    optionLabel="name" (onClear)="selectedDepartment = null" [filter]="true"
+                    filterBy="name"></p-dropdown>
             </div>
 
             <div class="field">
@@ -168,6 +178,16 @@
                     [(ngModel)]="selectedCovenantCategoryOnEdit"
                     [placeholder]="'Select a Covenant Category' | translate" [showClear]="true" optionLabel="name"
                     formControlName="covenantCategoryId" [filter]="true" filterBy="name"></p-dropdown>
+
+            </div>
+
+
+            <div class="field">
+                <label for="department">{{ "Department" | translate }}</label>
+                <p-dropdown autofocus [options]="departmentDropDown" id="department"
+                    [(ngModel)]="selecteddepartmentOnEdit" [placeholder]="'Select a Department' | translate"
+                    [showClear]="true" optionLabel="name" formControlName="departmentId" [filter]="true"
+                    filterBy="name"></p-dropdown>
 
             </div>
             <div class="field">

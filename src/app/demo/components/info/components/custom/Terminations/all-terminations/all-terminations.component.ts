@@ -48,6 +48,7 @@ export class AllTerminationsComponent {
   newNameAr!: string;
   newNameEn!: string;
   fileNew!: File;
+  items!: any;
   addNewForm: FormGroup = new FormGroup({
     name: new FormControl(null, [
       Validators.required,
@@ -92,7 +93,16 @@ export class AllTerminationsComponent {
         this.sortField,
         this.sortOrder
       );
+
+      this.translate.onLangChange.subscribe(() => {
+        this.updateTranslations();
+      });
+
+      this.updateTranslations();
+
     });
+
+
 
     this.cols = [
       // basic data
@@ -106,6 +116,25 @@ export class AllTerminationsComponent {
       { field: 'lastModifierName', header: 'LastModifierName' },
     ];
   }
+
+
+
+
+  updateTranslations() {
+    this.items = [
+      {
+        icon: 'pi pi-home',
+        route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+      },
+      {
+        label: this.translate.instant('breadcrumb.cats.terminations.title'),
+        iconPath: ''
+      },
+      {
+        label: this.translate.instant(`breadcrumb.cats.terminations.items.allTermination`),
+      }];
+  }
+
 
   splitCamelCase(str: any) {
     return str

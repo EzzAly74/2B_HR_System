@@ -29,7 +29,7 @@ export class SetAssetCoordinatorComponent {
     selectedShift: any;
     selectedEmployee: any;
     selectedEmployeeIds: any[] = [];
-
+    items: any;
     endPoint: string;
 
     ngOnInit(): void {
@@ -47,6 +47,14 @@ export class SetAssetCoordinatorComponent {
 
             // get all Drop Down Fields
             this.getALlDropDown();
+
+
+            // update breadcrumb
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
         });
     }
 
@@ -74,6 +82,26 @@ export class SetAssetCoordinatorComponent {
             },
         });
     }
+
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.employeeProfiles.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.employeeProfiles.items.${this.endPoint}`),
+            }];
+    }
+
+
+
 
     getALlDropDown() {
         // get Department Dropdown

@@ -73,6 +73,8 @@ export class AllEmployeesLocationComponent {
     addNewForm!: FormGroup;
     editForm!: FormGroup;
 
+    items!: any;
+
     ngOnInit() {
         this.endPoint = 'EmployeeLocation';
 
@@ -89,7 +91,6 @@ export class AllEmployeesLocationComponent {
             { field: 'creatorName', header: 'creatorName' },
             { field: 'lastModifierName', header: 'lastModifierName' },
         ];
-
 
         Globals.getMainLangChanges().subscribe((mainLang) => {
             console.log('Main language changed to:', mainLang);
@@ -109,11 +110,17 @@ export class AllEmployeesLocationComponent {
                 this.sortOrder
             );
 
-
             // get dropdown for Employee
             this.getLocation();
             this.getDropDownEmployee();
             this.initFormGroups();
+
+            // update breadcrumb
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
         });
 
     }
@@ -129,6 +136,21 @@ export class AllEmployeesLocationComponent {
             employeeId: new FormControl(null, Validators.required),
             locationId: new FormControl(null, Validators.required),
         });
+    }
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.employeeProfiles.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.employeeProfiles.items.${this.endPoint}`),
+            }];
     }
 
     getDropDownEmployee() {

@@ -62,6 +62,7 @@ export class ShiftVacationComponent {
     dayEdit: number;
     oldDate: any;
     AllDays: any;
+    items!: any;
 
     addNewForm: FormGroup = new FormGroup({
         day: new FormControl(null, [Validators.required]),
@@ -98,32 +99,55 @@ export class ShiftVacationComponent {
                 this.sortField,
                 this.sortOrder
             );
+            this.cols = [
+                // custom fields
+                { field: 'dayName', header: 'Day' },
+                { field: 'shiftName', header: 'Shift' },
+
+                // Generic Fields
+                { field: 'creationTime', header: 'creationTime' },
+                { field: 'lastModificationTime', header: 'lastModificationTime' },
+                { field: 'creatorName', header: 'creatorName' },
+                { field: 'lastModifierName', header: 'lastModifierName' },
+            ];
+
+            this.AllDays = [
+                { id: 0, name: 'Sunday' },
+                { id: 1, name: 'Monday' },
+                { id: 2, name: 'Tuesday' },
+                { id: 3, name: 'Wednesday' },
+                { id: 4, name: 'Thursday' },
+                { id: 5, name: 'Friday' },
+                { id: 6, name: 'Saturday' },
+            ];
+
+            this.gitAllShifts();
+
+            // check for items for bread crumbs 
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
+
         });
-
-        this.cols = [
-            // custom fields
-            { field: 'dayName', header: 'Day' },
-            { field: 'shiftName', header: 'Shift' },
-
-            // Generic Fields
-            { field: 'creationTime', header: 'creationTime' },
-            { field: 'lastModificationTime', header: 'lastModificationTime' },
-            { field: 'creatorName', header: 'creatorName' },
-            { field: 'lastModifierName', header: 'lastModifierName' },
-        ];
-
-        this.AllDays = [
-            { id: 0, name: 'Sunday' },
-            { id: 1, name: 'Monday' },
-            { id: 2, name: 'Tuesday' },
-            { id: 3, name: 'Wednesday' },
-            { id: 4, name: 'Thursday' },
-            { id: 5, name: 'Friday' },
-            { id: 6, name: 'Saturday' },
-        ];
-
-        this.gitAllShifts();
     }
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.manageTypes.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.manageTypes.items.${this.endPoint}`),
+            }];
+    }
+
 
     gitAllShifts() {
         this._ShiftVacationService.getDropDown('shift').subscribe({

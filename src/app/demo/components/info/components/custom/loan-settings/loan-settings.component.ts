@@ -5,6 +5,7 @@ import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 import { LoanSettingsService } from './loan-settings.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Globals } from 'src/app/class/globals';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-loan-settings',
@@ -21,6 +22,8 @@ export class LoanSettingsComponent {
     casualVacationNumber!: number;
     id!: number;
     loading: boolean = false;
+    items!: any;
+    endPoint!: any;
 
     loansConfigForm: FormGroup = new FormGroup({
         name: new FormControl(null, [Validators.required]),
@@ -36,10 +39,12 @@ export class LoanSettingsComponent {
 
     constructor(
         private messageService: MessageService,
-        private loanSettingsService: LoanSettingsService
+        private loanSettingsService: LoanSettingsService,
+        private translate: TranslateService,
     ) { }
 
     ngOnInit(): void {
+        this.endPoint = "LoanSettings"
         // set endpoint on service
         this.loanSettingsService.setEndPoint('LoansConfiguration');
         Globals.getMainLangChanges().subscribe((mainLang) => {
@@ -83,34 +88,58 @@ export class LoanSettingsComponent {
                     this.loading = false;
                 }
             });
-        });
 
-        // use function get from custom service to get data;
-        this.loanSettingsService.GetAll({}).subscribe({
-            next: (res) => {
-                let data = res.data[res.data.length - 1];
-                console.log(data);
-                this.loading = false;
+            // use function get from custom service to get data;
+            this.loanSettingsService.GetAll({}).subscribe({
+                next: (res) => {
+                    let data = res.data[res.data.length - 1];
+                    console.log(data);
+                    this.loading = false;
 
-                if (data) {
-                    this.loansConfigForm.patchValue({
-                        name: data.name || null,
-                        loansIsOpened: data.loansIsOpened || null,
-                        loansPerSalary: data.loansPerSalary || null,
-                        numOfMonthsOfHiringDate:
-                            data.numOfMonthsOfHiringDate || null,
-                        maximumLoanAmount: data.maximumLoanAmount || null,
-                        termsAgreement: data.termsAgreement || null,
-                        notes: data.notes || null,
-                        id: data.id || null,
-                    });
+                    if (data) {
+                        this.loansConfigForm.patchValue({
+                            name: data.name || null,
+                            loansIsOpened: data.loansIsOpened || null,
+                            loansPerSalary: data.loansPerSalary || null,
+                            numOfMonthsOfHiringDate:
+                                data.numOfMonthsOfHiringDate || null,
+                            maximumLoanAmount: data.maximumLoanAmount || null,
+                            termsAgreement: data.termsAgreement || null,
+                            notes: data.notes || null,
+                            id: data.id || null,
+                        });
+                    }
+                },
+
+                error: () => {
+                    this.loading = false;
                 }
-            },
+            });
 
-            error: () => {
-                this.loading = false;
-            }
+
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
         });
+    }
+
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.manageStructure.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.manageStructure.items.${this.endPoint}`),
+            }];
     }
 
     onSubmit(form: FormGroup) {

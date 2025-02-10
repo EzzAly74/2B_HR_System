@@ -83,6 +83,7 @@ export class VacationRequestComponent {
     selectedRequstType: any = null;
     selectedVacationType: any = null;
     file!: File;
+    items!: any;
     filterForm: FormGroup = new FormGroup({
         EmployeeId: new FormControl(null),
         MangerId: new FormControl(null),
@@ -109,6 +110,22 @@ export class VacationRequestComponent {
         { validators: dateRangeValidator }
     );
     all_Status_DropDown: any;
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.manageEmployeeRequest.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.manageEmployeeRequest.items.${this.endPoint}`),
+            }];
+    }
 
     ngOnInit() {
         this.endPoint = 'VacationRequest';
@@ -154,6 +171,12 @@ export class VacationRequestComponent {
                     { id: 2, name: 'مرفوض' },
                 ];
             }
+
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
         });
 
         this.cols = [

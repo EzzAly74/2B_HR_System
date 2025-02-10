@@ -98,6 +98,7 @@ export class EmployeeDataComponent {
 
     uploadedFiles: any[] = [];
     files: File[];
+    items: any;
 
     filterForm: FormGroup = new FormGroup({
         birthDate: new FormControl(null),
@@ -122,6 +123,10 @@ export class EmployeeDataComponent {
         recuritmentSourceId: new FormControl(null),
         contractTypeId: new FormControl(null),
     });
+
+
+    isNameFreeze: boolean = true;
+
     ngOnInit() {
         this.endPoint = 'Employee';
 
@@ -144,19 +149,43 @@ export class EmployeeDataComponent {
                 this.sortOrder
             );
             this.getDropDowns();
+
+            this.cols = [
+                // basic data
+                { field: 'name', header: 'Name' },
+                { field: 'notes', header: 'Notes' },
+
+                // Generic Fields
+                { field: 'creationTime', header: 'creationTime' },
+                { field: 'lastModificationTime', header: 'lastModificationTime' },
+                { field: 'creatorName', header: 'creatorName' },
+                { field: 'lastModifierName', header: 'lastModifierName' },
+            ];
+
+            // update breadcrumb
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
+
         });
 
-        this.cols = [
-            // basic data
-            { field: 'name', header: 'Name' },
-            { field: 'notes', header: 'Notes' },
+    }
 
-            // Generic Fields
-            { field: 'creationTime', header: 'creationTime' },
-            { field: 'lastModificationTime', header: 'lastModificationTime' },
-            { field: 'creatorName', header: 'creatorName' },
-            { field: 'lastModifierName', header: 'lastModifierName' },
-        ];
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.employeeProfiles.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.employeeProfiles.items.${this.endPoint}`),
+            }];
     }
 
 

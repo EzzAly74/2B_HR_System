@@ -22,6 +22,7 @@ import { Table } from 'primeng/table';
 export class GetLoanPaymentComponent {
   constructor(
     private _GetLoanPaymentService: GetLoanPaymentService,
+    private translate: TranslateService
   ) { }
 
   @ViewChild('dt') dt: Table;
@@ -38,6 +39,7 @@ export class GetLoanPaymentComponent {
 
   endPoint: string;
   registerForm: any = {};
+  items!: any;
   allData: any;
   loanPaymentGetDtos!: any[];
   totalItems: any = 0;
@@ -57,6 +59,13 @@ export class GetLoanPaymentComponent {
 
       // get all Drop Down Fields
       this.getALlDropDown()
+
+
+      this.translate.onLangChange.subscribe(() => {
+        this.updateTranslations();
+      });
+
+      this.updateTranslations();
 
     });
 
@@ -80,6 +89,21 @@ export class GetLoanPaymentComponent {
 
     // get loan Dropdown
     this.getDropDownField({ field: 'dropdownLoanRequests', enum: 'LoanRequests' });
+  }
+
+  updateTranslations() {
+    this.items = [
+      {
+        icon: 'pi pi-home',
+        route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+      },
+      {
+        label: this.translate.instant('breadcrumb.cats.manageStructure.title'),
+        iconPath: ''
+      },
+      {
+        label: this.translate.instant(`breadcrumb.cats.manageStructure.items.GetLoanPayment`),
+      }];
   }
 
   onSelectEmployee(event: any) {

@@ -7,6 +7,7 @@ import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 import { DatePipe } from '@angular/common';
 import { jwtDecode } from 'jwt-decode';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register-termination',
@@ -22,12 +23,14 @@ export class RegisterTerminationComponent {
   loading: boolean = false;
   selectedEmployeeId: any[] = [];
   dropdownItemsEmployee: any;
+  items!: any;
 
 
   constructor(
     private _RegisterTerminationService: RegisterTerminationService,
     private messageService: MessageService,
     private DatePipe: DatePipe,
+    private translate: TranslateService
   ) { }
   @Input() endPoint!: string;
 
@@ -55,7 +58,32 @@ export class RegisterTerminationComponent {
 
       // get all DropDowns
       this.getALlDropDown();
+
+
+
+      this.translate.onLangChange.subscribe(() => {
+        this.updateTranslations();
+      });
+
+      this.updateTranslations();
+
     });
+  }
+
+
+  updateTranslations() {
+    this.items = [
+      {
+        icon: 'pi pi-home',
+        route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+      },
+      {
+        label: this.translate.instant('breadcrumb.cats.terminations.title'),
+        iconPath: ''
+      },
+      {
+        label: this.translate.instant(`breadcrumb.cats.terminations.items.registerTermination`),
+      }];
   }
 
   getDropDownField(self: { field: any; enum: string }) {

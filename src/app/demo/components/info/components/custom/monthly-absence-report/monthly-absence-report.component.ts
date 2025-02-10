@@ -62,6 +62,7 @@ export class MonthlyAbsenceReportComponent {
     dropdownItemsEmployees: any;
     dropdownItemsDepartments: any;
     selectedYearAdd: any = null;
+    items: any = [];
     filterForm: FormGroup = new FormGroup({
         employeeId: new FormControl(null),
         departmentId: new FormControl(null),
@@ -79,6 +80,28 @@ export class MonthlyAbsenceReportComponent {
         ]),
         notes: new FormControl(null),
     });
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.reports.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.reports.items.attendanceReports.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.reports.items.attendanceReports.items.MonthlyAbsenseReport`),
+            }];
+    }
+
+
 
     editForm: FormGroup = new FormGroup({
         employeeId: new FormControl(null, [Validators.required]),
@@ -118,6 +141,13 @@ export class MonthlyAbsenceReportComponent {
             //     this.sortField,
             //     this.sortOrder
             // );
+
+            // check for bread crumbs
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
         });
 
         this.cols = [

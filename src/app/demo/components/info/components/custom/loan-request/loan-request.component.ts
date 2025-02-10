@@ -64,6 +64,7 @@ export class LoanRequestComponent {
     acceptAllDialogue: boolean = false;
     rejectAllDialogue: boolean = false;
 
+    items!: any;
     addNewForm: FormGroup = new FormGroup({
         EmployeeId: new FormControl(null, [Validators.required]),
         LoanTypeId: new FormControl(null, [Validators.required]),
@@ -104,8 +105,14 @@ export class LoanRequestComponent {
                 this.sortField,
                 this.sortOrder
             );
+            this.getAllDropdowns();
+
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
         });
-        this.getAllDropdowns();
 
         this.cols = [
             // basic data
@@ -168,6 +175,22 @@ export class LoanRequestComponent {
                 console.log(err);
             },
         });
+    }
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.manageEmployeeRequest.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.manageEmployeeRequest.items.${this.endPoint}`),
+            }];
     }
 
     editProduct(rowData: any) {

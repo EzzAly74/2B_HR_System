@@ -39,6 +39,7 @@ export class MobileVersionComponent {
   productDialog: boolean = false;
   product: any;
   event!: any;
+  items!: any;
   newName!: string;
   newNotes!: string;
   showFormNew: boolean = false;
@@ -91,6 +92,13 @@ export class MobileVersionComponent {
         this.sortField,
         this.sortOrder
       );
+
+
+      this.translate.onLangChange.subscribe(() => {
+        this.updateTranslations();
+      });
+
+      this.updateTranslations();
     });
 
     this.cols = [
@@ -105,6 +113,23 @@ export class MobileVersionComponent {
       { field: 'lastModifierName', header: 'LastModifierName' },
     ];
   }
+
+
+  updateTranslations() {
+    this.items = [
+      {
+        icon: 'pi pi-home',
+        route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+      },
+      {
+        label: this.translate.instant('breadcrumb.cats.manageStructure.title'),
+        iconPath: ''
+      },
+      {
+        label: this.translate.instant(`breadcrumb.cats.manageStructure.items.${this.endPoint}`),
+      }];
+  }
+
 
   splitCamelCase(str: any) {
     return str

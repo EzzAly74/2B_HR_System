@@ -49,6 +49,7 @@ export class AllowanceComponent {
   sortOrder: string = 'asc';
   newNameAr!: string;
   newNameEn!: string;
+  items!: any;
 
   addNewForm: FormGroup = new FormGroup({
     name: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
@@ -83,6 +84,13 @@ export class AllowanceComponent {
         this.sortField,
         this.sortOrder
       );
+
+      this.translate.onLangChange.subscribe(() => {
+        this.updateTranslations();
+      });
+
+      this.updateTranslations();
+
     });
 
     this.cols = [
@@ -105,6 +113,21 @@ export class AllowanceComponent {
       .split(' ')
       .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
+  }
+
+  updateTranslations() {
+    this.items = [
+      {
+        icon: 'pi pi-home',
+        route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+      },
+      {
+        label: this.translate.instant('breadcrumb.cats.manageStructure.title'),
+        iconPath: ''
+      },
+      {
+        label: this.translate.instant(`breadcrumb.cats.manageStructure.items.${this.endPoint}`),
+      }];
   }
 
   editProduct(rowData: any) {

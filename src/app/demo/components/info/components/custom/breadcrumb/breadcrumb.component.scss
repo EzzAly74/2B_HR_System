@@ -1,0 +1,27 @@
+.bread-crumb-container {
+
+    .pi:before {
+        font-size: 24px;
+    }
+}
+
+::ng-deep .p-breadcrumb {
+    background: transparent;
+    border: none;
+    margin-bottom: 24px;
+
+    & a span {
+        font-size: 24px;
+        margin-inline: 10px;
+    }
+
+    .pi-home:before {
+        content: "\e925";
+        font-size: 30px;
+    }
+}
+
+
+::ng-deep html:lang(ar) chevronrighticon.p-element.p-icon-wrapper.ng-star-inserted {
+    rotate: 180deg;
+}

@@ -1,5 +1,7 @@
 <p-toast></p-toast>
 <pre-loading *ngIf="loading"></pre-loading>
+<app-breadcrumb [items]="items"></app-breadcrumb>
+
 <!-- 
 <p-toolbar styleClass="mb-4">
     <ng-template pTemplate="left">
@@ -80,9 +82,9 @@
             </th> -->
 
 
-            <th>{{ "nameOfJob" | translate }}</th>
-            <th>{{ "internalJobStatusValue" | translate }}</th>
-            <th>{{ "internalJobApplicationStateValue" | translate }}</th>
+            <th>{{ "jobTitle" | translate }}</th>
+            <th>{{ "statusOfTheJob" | translate }}</th>
+            <th>{{ "internalJobState" | translate }}</th>
             <th>{{ "jobTitle" | translate }}</th>
 
             <th>{{ "creationTime" | translate }}</th>

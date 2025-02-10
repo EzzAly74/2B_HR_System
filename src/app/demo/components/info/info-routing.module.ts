@@ -78,6 +78,8 @@ import { EndOfServiceRequestComponent } from './components/custom/end-of-service
 import { MonthlyPayrollSummaryReportComponent } from './components/custom/monthly-payroll-summary-report/monthly-payroll-summary-report.component';
 import { EmployeePaySlipReportComponent } from './components/custom/employee-pay-slip-report/employee-pay-slip-report.component';
 import { MobileVersionComponent } from './components/custom/mobile-version/mobile-version.component';
+import { AttendanceReportComponent } from './components/custom/attendance-report/attendance-report.component';
+import { PenaltiesTypeComponent } from './components/custom/penalties-type/penalties-type.component';
 
 @NgModule({
     imports: [
@@ -493,6 +495,17 @@ import { MobileVersionComponent } from './components/custom/mobile-version/mobil
                 path: 'mobileVersion',
                 canActivate: [authGuard],
                 component: MobileVersionComponent,
+            },
+            {
+                path: 'attendanceSheet',
+                canActivate: [authGuard],
+                component: AttendanceReportComponent,
+            },
+
+            {
+                path: 'penaltiesType',
+                canActivate: [authGuard],
+                component: PenaltiesTypeComponent
             },
 
             { path: '**', component: NotfoundComponent },

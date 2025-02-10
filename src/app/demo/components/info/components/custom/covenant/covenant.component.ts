@@ -51,10 +51,15 @@ export class CovenantComponent {
     CovenantCategoryIdSelected: any;
     selectedCovenantCategory: any;
     selectedCovenantCategoryOnEdit: any;
+    selecteddepartmentOnEdit: any;
+
+    departmentDropDown: any;
+    items!: any;
 
     selectedItemsData: any;
     addNewForm: FormGroup = new FormGroup({
         covenantCategoryId: new FormControl(null, [Validators.required]),
+        departmentId: new FormControl(null, [Validators.required]),
         engName: new FormControl(null, [Validators.required]),
         name: new FormControl(null, [Validators.required]),
         notes: new FormControl(null),
@@ -62,6 +67,7 @@ export class CovenantComponent {
 
     editForm: FormGroup = new FormGroup({
         covenantCategoryId: new FormControl(null, [Validators.required]),
+        departmentId: new FormControl(null, [Validators.required]),
         engName: new FormControl(null, [Validators.required]),
         name: new FormControl(null, [Validators.required]),
         notes: new FormControl(null),
@@ -89,29 +95,41 @@ export class CovenantComponent {
                 this.sortField,
                 this.sortOrder
             );
+            this.cols = [
+                // basic fields
+                { field: 'name', header: 'Name' },
+                { field: 'notes', header: 'Notes' },
+
+                // custom fields
+                { field: 'category', header: 'Category' },
+
+                // Generic Fields
+                { field: 'creationTime', header: 'CreationTime' },
+                { field: 'lastModificationTime', header: 'LastModificationTime' },
+                { field: 'creatorName', header: 'CreatorName' },
+                { field: 'lastModifierName', header: 'LastModifierName' },
+            ];
+
+            // get drop down of CovenantCategory
+            this.getDropDownCovenantCategory();
+
+
+            // get drop down of Department
+            this.getDropDownDepartment();
+
+
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
         });
 
-        this.cols = [
-            // basic fields
-            { field: 'name', header: 'Name' },
-            { field: 'notes', header: 'Notes' },
-
-            // custom fields
-            { field: 'category', header: 'Category' },
-
-            // Generic Fields
-            { field: 'creationTime', header: 'CreationTime' },
-            { field: 'lastModificationTime', header: 'LastModificationTime' },
-            { field: 'creatorName', header: 'CreatorName' },
-            { field: 'lastModifierName', header: 'LastModifierName' },
-        ];
-
-        // get drop down of CovenantCategory
-        this.getDropDown('CovenantCategory');
     }
 
-    getDropDown(field: string) {
-        this._CovenantService.getDropDown(field).subscribe({
+
+    getDropDownCovenantCategory() {
+        this._CovenantService.getDropDown("CovenantCategory").subscribe({
             next: (res: any) => {
                 console.log(res.data);
                 this.CovenantCategoryDropDown = res.data;
@@ -121,6 +139,36 @@ export class CovenantComponent {
             },
         });
     }
+
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.manageStructure.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.manageStructure.items.${this.endPoint}`),
+            }];
+    }
+    getDropDownDepartment() {
+        this._CovenantService.getDropDown("Department").subscribe({
+            next: (res: any) => {
+                console.log(res.data);
+                this.departmentDropDown = res.data;
+            },
+            error: (err) => {
+                console.log(err);
+            },
+        });
+    }
+
+
 
     splitCamelCase(str: any) {
         return str
@@ -146,6 +194,10 @@ export class CovenantComponent {
                 this.selectedCovenantCategoryOnEdit =
                     this.CovenantCategoryDropDown.find(
                         (cat: any) => this.product.covenantCategoryId == cat.id
+                    );
+                this.selecteddepartmentOnEdit =
+                    this.departmentDropDown.find(
+                        (cat: any) => this.product.departmentId == cat.id
                     );
             },
             error: (err) => {
@@ -303,13 +355,16 @@ export class CovenantComponent {
     saveProduct(id: number, form: FormGroup) {
         this.submitted = true;
         console.log(id);
-        form.patchValue({
-            id: id,
-            covenantCategoryId: this.selectedCovenantCategoryOnEdit.id,
-        });
         console.log(form.value);
 
-        this._CovenantService.Edit(form.value).subscribe({
+        let body = {
+            ...form.value,
+            id: id,
+            covenantCategoryId: this.selectedCovenantCategoryOnEdit.id,
+            departmentId: this.selecteddepartmentOnEdit.id,
+        }
+
+        this._CovenantService.Edit(body).subscribe({
             next: (res) => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.

@@ -1,15 +1,47 @@
 .p-panel-container {
     margin-bottom: 15px;
 }
+
 .btn-filter-submit-container {
     width: 100%;
     display: flex;
     justify-content: end;
     margin-top: 48px;
 }
+
 .btn-filter-submit-container button {
     width: fit-content;
 }
+
 .tableRow {
     cursor: pointer;
+}
+
+.p-datatable-frozen-view {
+    background-color: #f9f9f9;
+    /* Optional for visual distinction */
+}
+
+.p-datatable-scrollable-body {
+    overflow-x: auto;
+}
+
+
+::ng-deep .p-datatable-tbody>tr>td {
+    right: 0px !important;
+}
+
+::ng-deep .p-datatable .p-datatable-thead>tr>th {
+    right: 0px !important;
+}
+
+
+::ng-deep html:lang(en) .p-datatable-tbody>tr>td {
+    right: unset !important;
+    left: 0px !important;
+}
+
+::ng-deep html:lang(en) .p-datatable .p-datatable-thead>tr>th {
+    right: unset !important;
+    left: 0px !important;
 }

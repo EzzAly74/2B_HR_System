@@ -47,6 +47,7 @@ export class LocationComponent {
     newNameAr!: string;
     newNameEn!: string;
 
+    items!: any;
     fileNew!: File;
 
     newLatitude: DoubleRange;
@@ -72,6 +73,23 @@ export class LocationComponent {
         id: new FormControl(null),
     });
 
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.manageStructure.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.manageStructure.items.${this.endPoint}`),
+            }];
+    }
+
     ngOnInit() {
         this.endPoint = 'Location';
 
@@ -93,24 +111,32 @@ export class LocationComponent {
                 this.sortField,
                 this.sortOrder
             );
+
+            this.cols = [
+                // basic data
+                { field: 'name', header: 'Name' },
+
+                // custom fields
+                { field: 'latitude', header: 'Lotes' },
+                { field: 'longitude', header: 'Longitude' },
+                { field: 'discription', header: 'Discription' },
+                { field: 'notes', header: 'Notes' },
+
+                // Generic Fields
+                { field: 'creationTime', header: 'creationTime' },
+                { field: 'lastModificationTime', header: 'lastModificationTime' },
+                { field: 'creatorName', header: 'creatorName' },
+                { field: 'lastModifierName', header: 'lastModifierName' },
+            ];
+
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
         });
 
-        this.cols = [
-            // basic data
-            { field: 'name', header: 'Name' },
 
-            // custom fields
-            { field: 'latitude', header: 'Lotes' },
-            { field: 'longitude', header: 'Longitude' },
-            { field: 'discription', header: 'Discription' },
-            { field: 'notes', header: 'Notes' },
-
-            // Generic Fields
-            { field: 'creationTime', header: 'creationTime' },
-            { field: 'lastModificationTime', header: 'lastModificationTime' },
-            { field: 'creatorName', header: 'creatorName' },
-            { field: 'lastModifierName', header: 'lastModifierName' },
-        ];
     }
 
 

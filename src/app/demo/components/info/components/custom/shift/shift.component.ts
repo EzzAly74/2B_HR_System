@@ -53,6 +53,7 @@ export class ShiftComponent {
     startAttendeesTime: Date;
     endAttendeesTime: Date;
 
+    items!: any;
     checkInBeforeTheShiftStarts: number;
     checkOutAfterTheShiftEnds: number;
     CheckInAfterTheShiftStarts: number;
@@ -113,6 +114,13 @@ export class ShiftComponent {
                 this.sortField,
                 this.sortOrder
             );
+
+            // check for items for bread crumbs 
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
         });
 
         this.cols = [
@@ -148,6 +156,23 @@ export class ShiftComponent {
             },
         });
     }
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.manageTypes.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.manageTypes.items.${this.endPoint}`),
+            }];
+    }
+
 
     splitCamelCase(str: any) {
         return str

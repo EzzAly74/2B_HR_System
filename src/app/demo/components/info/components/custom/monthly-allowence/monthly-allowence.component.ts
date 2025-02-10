@@ -8,6 +8,8 @@ import { Table } from 'primeng/table';
 import { itemsPerPageGlobal } from 'src/main';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MonthlyAllowenceService } from './monthly-allowence.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Globals } from 'src/app/class/globals';
 
 @Component({
     selector: 'app-monthly-allowence',
@@ -25,6 +27,7 @@ export class MonthlyAllowenceComponent {
     constructor(
         private _MonthlyAllowenceService: MonthlyAllowenceService,
         private messageService: MessageService,
+        private translate: TranslateService
     ) { }
 
     @ViewChild('dt') dt: Table;
@@ -49,6 +52,7 @@ export class MonthlyAllowenceComponent {
     sortField: string = 'id';
     sortOrder: string = 'asc';
 
+    items: any = [];
     // allowence dropdown
     allowanceDropDown: any;
 
@@ -67,30 +71,57 @@ export class MonthlyAllowenceComponent {
     editForm!: FormGroup;
 
     ngOnInit() {
+
         this.endPoint = 'AllowanceValues';
+        Globals.getMainLangChanges().subscribe((mainLang) => {
 
-        this._MonthlyAllowenceService.setEndPoint(this.endPoint);
+            this._MonthlyAllowenceService.setEndPoint(this.endPoint);
 
-        this.cols = [
-            // custom fields
-            { field: 'employeeName', header: 'Employee' },
-            { field: 'allowanceName', header: 'Allowance' },
-            { field: 'year', header: 'Year' },
-            { field: 'month', header: 'Month' },
-            { field: 'value', header: 'Value' },
+            this.cols = [
+                // custom fields
+                { field: 'employeeName', header: 'Employee' },
+                { field: 'allowanceName', header: 'Allowance' },
+                { field: 'year', header: 'Year' },
+                { field: 'month', header: 'Month' },
+                { field: 'value', header: 'Value' },
 
-            // Generic Fields
-            { field: 'creationTime', header: 'creationTime' },
-            { field: 'lastModificationTime', header: 'lastModificationTime' },
-            { field: 'creatorName', header: 'creatorName' },
-            { field: 'lastModifierName', header: 'lastModifierName' },
-        ];
+                // Generic Fields
+                { field: 'creationTime', header: 'creationTime' },
+                { field: 'lastModificationTime', header: 'lastModificationTime' },
+                { field: 'creatorName', header: 'creatorName' },
+                { field: 'lastModifierName', header: 'lastModifierName' },
+            ];
 
-        // get dropdown for Employee
-        this.getDropDownEmployee();
-        this.getDropDownAllowance()
-        this.initFormGroups()
+            // get dropdown for Employee
+            this.getDropDownEmployee();
+            this.getDropDownAllowance()
+            this.initFormGroups()
+
+            // check for bread crumbs
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
+        });
     }
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.payrollManagement.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.payrollManagement.items.${this.endPoint}`),
+            }];
+    }
+
 
     initFormGroups() {
         this.addNewForm = new FormGroup({

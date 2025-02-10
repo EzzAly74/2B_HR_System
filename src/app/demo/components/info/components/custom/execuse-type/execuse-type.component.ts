@@ -64,6 +64,8 @@ export class ExecuseTypeComponent {
         id: new FormControl(null),
     });
 
+    items!: any;
+
     ngOnInit() {
         this.endPoint = 'ExcuesType';
 
@@ -104,6 +106,14 @@ export class ExecuseTypeComponent {
             { field: 'creatorName', header: 'CreatorName' },
             { field: 'lastModifierName', header: 'LastModifierName' },
         ];
+
+
+
+        this.translate.onLangChange.subscribe(() => {
+            this.updateTranslations();
+        });
+
+        this.updateTranslations();
     }
 
     editProduct(rowData: any) {
@@ -118,6 +128,22 @@ export class ExecuseTypeComponent {
                 console.log(err);
             },
         });
+    }
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.manageTypes.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.manageTypes.items.${this.endPoint}`),
+            }];
     }
 
     splitCamelCase(str: any) {

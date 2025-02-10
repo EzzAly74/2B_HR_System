@@ -25,7 +25,7 @@ export class EmployeeCovenantComponent {
         private messageService: MessageService,
         private route: ActivatedRoute,
         private DatePipe: DatePipe
-    ) {}
+    ) { }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
@@ -60,6 +60,7 @@ export class EmployeeCovenantComponent {
 
     addNewForm!: FormGroup;
     editForm!: FormGroup;
+    departmentDropDown!: any;
 
     ngOnInit() {
         this.endPoint = 'EmployeeCovenant';
@@ -112,16 +113,24 @@ export class EmployeeCovenantComponent {
         this.initFormGroups();
     }
 
+    getDropDownDepartment() {
+        this.employeeConvenantService.getDropdownField('Department').subscribe({
+            next: (res: any) => {
+                this.departmentDropDown = res.data;
+            },
+        });
+    }
+
     initFormGroups() {
         this.addNewForm = new FormGroup({
-            covenantId: new FormControl(null, Validators.required),
+            covenantCategoryId: new FormControl(null, Validators.required),
             date: new FormControl(null, Validators.required),
             cost: new FormControl(null, Validators.required),
             notes: new FormControl(null),
         })
 
         this.editForm = new FormGroup({
-            covenantId: new FormControl(null, Validators.required),
+            covenantCategoryId: new FormControl(null, Validators.required),
             date: new FormControl(null, Validators.required),
             cost: new FormControl(null, Validators.required),
             notes: new FormControl(null),
@@ -148,7 +157,7 @@ export class EmployeeCovenantComponent {
                 this.product.date = this.convertDate(this.product.date, 'MM/dd/yyyy');
                 console.log(this.product.date);
 
-            
+
                 this.productDialog = true;
 
             },
@@ -168,9 +177,9 @@ export class EmployeeCovenantComponent {
             .join(' ');
     }
 
-    startAttendeesTimeClick(event: any) {}
+    startAttendeesTimeClick(event: any) { }
 
-    endAttendeesTimeClick(event: any) {}
+    endAttendeesTimeClick(event: any) { }
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
@@ -215,37 +224,37 @@ export class EmployeeCovenantComponent {
 
         console.log(body);
 
-        if(form.valid) {
+        if (form.valid) {
             // Confirm add new
-        this.employeeConvenantService.Register(body).subscribe({
-            next: (res) => {
-                console.log(res);
-                this.showFormNew = false;
-                // show message for success inserted
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'inserted success',
-                    life: 3000,
-                });
+            this.employeeConvenantService.Register(body).subscribe({
+                next: (res) => {
+                    console.log(res);
+                    this.showFormNew = false;
+                    // show message for success inserted
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: 'inserted success',
+                        life: 3000,
+                    });
 
-                // set fields is empty
-                this.setFieldsNulls();
+                    // set fields is empty
+                    this.setFieldsNulls();
 
-                // load data again
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
-            error: (err) => {
-                this.showFormNew = false;
+                    // load data again
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+                },
+                error: (err) => {
+                    this.showFormNew = false;
 
-            },
-        });
+                },
+            });
         }
 
 
@@ -348,32 +357,32 @@ export class EmployeeCovenantComponent {
             date: this.convertDate(product.date, 'yyyy-MM-ddTHH:mm:ss'),
             id: product.id,
         };
-        if(form.valid) {
+        if (form.valid) {
 
-        this.employeeConvenantService.Edit(body).subscribe({
-            next: () => {
-                this.hideDialog();
-                // show message for user to show processing of deletion.
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'You Edit This Item',
-                    life: 3000,
-                });
+            this.employeeConvenantService.Edit(body).subscribe({
+                next: () => {
+                    this.hideDialog();
+                    // show message for user to show processing of deletion.
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: 'You Edit This Item',
+                        life: 3000,
+                    });
 
-                // load data again
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
-            error: (err) => {
-                console.log(err);
-            },
-        });
+                    // load data again
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+                },
+                error: (err) => {
+                    console.log(err);
+                },
+            });
         }
 
     }

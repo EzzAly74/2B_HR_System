@@ -1,6 +1,7 @@
 import { BonusService } from './bonus.service';
 import { Component, Input, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Globals } from 'src/app/class/globals';
@@ -28,7 +29,8 @@ export class BonusComponent {
     selectedMonthAdd: any;
     constructor(
         private bonusService: BonusService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private translate: TranslateService
     ) { }
 
     @ViewChild('dt') dt: Table;
@@ -54,6 +56,7 @@ export class BonusComponent {
     allMonths: any = [];
     month!: number;
     year!: number;
+    items: any = [];
     closed: boolean = false;
     selectedMonth: any = null;
     selectedMonthEdit: any;
@@ -95,6 +98,22 @@ export class BonusComponent {
         id: new FormControl(null),
     });
 
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.payrollManagement.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.payrollManagement.items.${this.endPoint}`),
+            }];
+    }
+
     ngOnInit() {
         this.endPoint = 'Bouns';
 
@@ -118,6 +137,15 @@ export class BonusComponent {
                 this.sortField,
                 this.sortOrder
             );
+
+
+            // check for items for bread crumbs 
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
+
         });
 
         this.cols = [

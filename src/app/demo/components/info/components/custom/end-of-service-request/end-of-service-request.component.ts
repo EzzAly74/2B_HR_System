@@ -50,6 +50,7 @@ export class EndOfServiceRequestComponent {
   newNameEn!: string;
   fileNew!: File;
   dropdownItemsEmployee: any;
+  items!: any;
 
   addNewForm = new FormGroup({
     employeeId: new FormControl(null, Validators.required), // Set initial value to null
@@ -57,6 +58,22 @@ export class EndOfServiceRequestComponent {
     endOfServiceDate: new FormControl('', Validators.required),
     lastWorkingDate: new FormControl('', Validators.required),
   });
+
+
+  updateTranslations() {
+    this.items = [
+      {
+        icon: 'pi pi-home',
+        route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+      },
+      {
+        label: this.translate.instant('breadcrumb.cats.terminations.title'),
+        iconPath: ''
+      },
+      {
+        label: this.translate.instant(`breadcrumb.cats.terminations.items.${this.endPoint}`),
+      }];
+  }
 
   ngOnInit() {
 
@@ -83,6 +100,11 @@ export class EndOfServiceRequestComponent {
         this.sortOrder
       );
 
+      this.translate.onLangChange.subscribe(() => {
+        this.updateTranslations();
+      });
+
+      this.updateTranslations();
     });
 
     this.cols = [

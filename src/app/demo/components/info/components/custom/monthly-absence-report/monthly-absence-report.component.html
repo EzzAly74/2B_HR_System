@@ -1,4 +1,6 @@
 <p-toast></p-toast>
+<app-breadcrumb [items]="items"></app-breadcrumb>
+
 <p-panel [header]="'Filter' | translate" [toggleable]="true" [collapsed]="false">
     <form method="post" [formGroup]="filterForm" (submit)="submitForm(filterForm)">
         <div class="grid">

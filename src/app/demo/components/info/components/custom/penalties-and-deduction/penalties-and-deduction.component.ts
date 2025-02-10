@@ -10,6 +10,7 @@ import { itemsPerPageGlobal } from 'src/main';
 import { PenaltiesAndDeductionService } from './penalties-and-deduction.service';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-penalties-and-deduction',
@@ -20,12 +21,31 @@ import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
     styleUrl: './penalties-and-deduction.component.scss',
 })
 export class PenaltiesAndDeductionComponent {
+    items: any = [];
+
     constructor(
         private penaltiesAndDeductionService: PenaltiesAndDeductionService,
         private messageService: MessageService,
+        private translate: TranslateService,
         private route: ActivatedRoute,
         private DatePipe: DatePipe
     ) { }
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.payrollManagement.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.payrollManagement.items.${this.endPoint}`),
+            }];
+    }
+
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
@@ -116,6 +136,13 @@ export class PenaltiesAndDeductionComponent {
             console.log('Dropdowns data :');
 
             this.getDropDowns();
+
+            // check for items for bread crumbs 
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
         });
 
         this.cols = [
@@ -123,7 +150,6 @@ export class PenaltiesAndDeductionComponent {
             { field: 'name', header: 'Name' },
 
             // personal fields
-
             { field: 'numberOfHours', header: 'NumberOfHours' },
 
             // main field
@@ -139,6 +165,7 @@ export class PenaltiesAndDeductionComponent {
         this.selectedMonth = this.getMonthObjById(new Date().getMonth() + 1);
         console.log(this.selectedMonth);
     }
+
     getDropDowns() {
         this.penaltiesAndDeductionService
             .getDropdownField('Employee')

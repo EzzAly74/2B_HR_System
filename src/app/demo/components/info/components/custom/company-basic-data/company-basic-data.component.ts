@@ -41,10 +41,29 @@ export class CompanyBasicDataComponent {
     payRollAccountantPhone: ""
   }
 
+  items!: any;
+
   constructor(private _CompanyBasicDataService: CompanyBasicDataService,
     private messageService: MessageService,
     private translate: TranslateService
   ) { }
+
+
+
+  updateTranslations() {
+    this.items = [
+      {
+        icon: 'pi pi-home',
+        route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+      },
+      {
+        label: this.translate.instant('breadcrumb.cats.manageStructure.title'),
+        iconPath: ''
+      },
+      {
+        label: this.translate.instant(`breadcrumb.cats.manageStructure.items.${this.endPoint}`),
+      }];
+  }
 
   ngOnInit() {
 
@@ -62,6 +81,12 @@ export class CompanyBasicDataComponent {
 
       // then, load data again to lens on the changes of mainLang & endPoints Call
       this.getCompanyDate();
+
+      this.translate.onLangChange.subscribe(() => {
+        this.updateTranslations();
+      });
+
+      this.updateTranslations();
     });
   }
 

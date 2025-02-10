@@ -9,6 +9,8 @@ import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Globals } from 'src/app/class/globals';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-all-employees-uniform',
@@ -23,7 +25,8 @@ export class AllEmployeesUniformComponent {
         private _EmployeeUniformService: AllEmployeeUniformService,
         private messageService: MessageService,
         private route: ActivatedRoute,
-        private DatePipe: DatePipe
+        private DatePipe: DatePipe,
+        private translate: TranslateService
     ) { }
 
     @ViewChild('dt') dt: Table;
@@ -69,6 +72,7 @@ export class AllEmployeesUniformComponent {
 
     addNewForm!: FormGroup;
     editForm!: FormGroup;
+    items!: any;
 
     ngOnInit() {
         this.route.parent?.paramMap.subscribe((params) => {
@@ -78,30 +82,58 @@ export class AllEmployeesUniformComponent {
 
         this.endPoint = 'EmployeeUniform';
 
-        this._EmployeeUniformService.setEndPoint(this.endPoint);
 
-        this.cols = [
-            // custom fields
-            { field: 'employeeName', header: 'Employee' },
-            { field: 'uniformCodeName', header: 'UniformCodeName' },
-            { field: 'date', header: 'Date' },
-            { field: 'cost', header: 'Cost' },
-            { field: 'notes', header: 'notes' },
+        // adding this Configurations in each Component Customized
+        Globals.getMainLangChanges().subscribe((mainLang) => {
+            this._EmployeeUniformService.setEndPoint(this.endPoint);
 
-            // Generic Fields
-            { field: 'creationTime', header: 'CreationTime' },
-            { field: 'lastModificationTime', header: 'LastModificationTime' },
-            { field: 'creatorName', header: 'CreatorName' },
-            { field: 'lastModifierName', header: 'LastModifierName' },
-        ];
+            this.cols = [
+                // custom fields
+                { field: 'employeeName', header: 'Employee' },
+                { field: 'uniformCodeName', header: 'UniformCodeName' },
+                { field: 'date', header: 'Date' },
+                { field: 'cost', header: 'Cost' },
+                { field: 'notes', header: 'notes' },
 
-        // get Drop Down of Unifrom Codes
-        this.getDropDown();
+                // Generic Fields
+                { field: 'creationTime', header: 'CreationTime' },
+                { field: 'lastModificationTime', header: 'LastModificationTime' },
+                { field: 'creatorName', header: 'CreatorName' },
+                { field: 'lastModifierName', header: 'LastModifierName' },
+            ];
 
-        this.getDropDownEmployee();
-        this.initFormGroups();
+            // get Drop Down of Unifrom Codes
+            this.getDropDown();
+
+            this.getDropDownEmployee();
+            this.initFormGroups();
+
+            // update breadcrumb
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
+
+        });
     }
 
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.employeeProfiles.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.employeeProfiles.items.${this.endPoint}`),
+            }];
+    }
     initFormGroups() {
         this.addNewForm = new FormGroup({
             employeeId: new FormControl(null, Validators.required),

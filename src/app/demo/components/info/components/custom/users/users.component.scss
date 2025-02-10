@@ -72,3 +72,11 @@
         height: 50%;
     }
 }
+
+
+:host ::ng-deep .p-datatable .p-datatable-tbody>tr>td.p-frozen-column {
+    background-color: #ffffff;
+    /* Ensure the frozen column has a solid background */
+    z-index: 1;
+    /* Ensure the frozen column stays above other columns */
+}

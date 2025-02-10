@@ -60,6 +60,7 @@ export class EmployeePaySlipReportComponent {
     dropdownItemsVacationTypes: any;
     dropdownItemsManagers: any;
     dropdownItemsEmployees: any;
+    items: any;
     dropdownItemsDepartments: any;
     selectedYearAdd: any = null;
     filterForm: FormGroup = new FormGroup({
@@ -93,6 +94,9 @@ export class EmployeePaySlipReportComponent {
         id: new FormControl(null),
     });
 
+
+
+
     ngOnInit() {
         this.endPoint = 'Salary';
 
@@ -109,7 +113,12 @@ export class EmployeePaySlipReportComponent {
             this.getDropDowns();
 
             this.loadFilteredData();
+            // check for bread crumbs
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
 
+            this.updateTranslations();
         });
         this.cols = [
             { field: 'designation', header: 'Designation' },
@@ -129,6 +138,26 @@ export class EmployeePaySlipReportComponent {
             { field: 'paymentDate', header: 'Payment Date' }
         ];
         this.selectedYear = null;
+    }
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.reports.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.reports.items.salaryReports.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.reports.items.salaryReports.items.EmployeePaySlipReport`),
+            }];
     }
 
     editProduct(rowData: any) {

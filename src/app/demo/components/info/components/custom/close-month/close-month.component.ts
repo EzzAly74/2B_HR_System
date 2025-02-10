@@ -2,6 +2,7 @@ import { CloseMonthService } from './close-month.service';
 
 import { Component, Input, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 import { MessageService } from 'primeng/api';
 
@@ -23,7 +24,8 @@ import { itemsPerPageGlobal } from 'src/main';
 export class CloseMonthComponent {
     constructor(
         private closeMonthService: CloseMonthService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private translate: TranslateService
     ) { }
 
     @ViewChild('dt') dt: Table;
@@ -55,6 +57,7 @@ export class CloseMonthComponent {
     allYears: number[] = [];
     selectedYear: number;
     selectedYearEdit: number;
+    items: any = [];
 
     addNewForm: FormGroup = new FormGroup({
         month: new FormControl(null, [Validators.required]),
@@ -68,6 +71,23 @@ export class CloseMonthComponent {
         closed: new FormControl(false, [Validators.required]),
         id: new FormControl(null, [Validators.required]),
     });
+
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.payrollManagement.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.payrollManagement.items.${this.endPoint}`),
+            }];
+    }
 
     ngOnInit() {
         this.endPoint = 'CloseMonth';
@@ -100,6 +120,14 @@ export class CloseMonthComponent {
                     console.log(err);
                 },
             });
+
+            // check for bread crumbs
+
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
         });
 
         this.cols = [

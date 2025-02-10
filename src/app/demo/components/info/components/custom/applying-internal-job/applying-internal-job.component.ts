@@ -47,6 +47,7 @@ export class ApplyingInternalJobComponent {
     sortOrder: string = 'asc';
     newNameAr!: string;
     newNameEn!: string;
+    items!: any;
     fileNew!: File;
     all_Status_DropDown: any;
     changeStatusForm: FormGroup = new FormGroup({
@@ -89,7 +90,17 @@ export class ApplyingInternalJobComponent {
                     { id: 3, name: 'لم يتم التعيين' },
                 ];
             }
+
+
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
+
         });
+
+
 
         this.cols = [
             // basic data
@@ -102,6 +113,21 @@ export class ApplyingInternalJobComponent {
             { field: 'creatorName', header: 'CreatorName' },
             { field: 'lastModifierName', header: 'LastModifierName' },
         ];
+    }
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.manageEmployeeRequest.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.manageEmployeeRequest.items.${this.endPoint}`),
+            }];
     }
 
     splitCamelCase(str: any) {

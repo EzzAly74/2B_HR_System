@@ -196,7 +196,7 @@ export class AppMenuComponent implements OnInit {
                             },
                             {
                                 label: this.translate.instant(
-                                    'Errands Requests'
+                                    'Off-Site Work Requests'
                                 ),
                                 routerLink: ['/info/externalMisson'],
                             },
@@ -269,6 +269,11 @@ export class AppMenuComponent implements OnInit {
                             {
                                 label: this.translate.instant('Loan Types'),
                                 routerLink: ['/info/loanTypes'],
+                            },
+
+                            {
+                                label: this.translate.instant('PenaltiesType'),
+                                routerLink: ['/info/penaltiesType'],
                             },
                         ],
                     },
@@ -522,6 +527,12 @@ export class AppMenuComponent implements OnInit {
                                     'Attendance Reports'
                                 ),
                                 items: [
+                                    {
+                                        label: this.translate.instant(
+                                            'Attendance Report'
+                                        ),
+                                        routerLink: ['/info/attendanceSheet'],
+                                    },
                                     {
                                         label: this.translate.instant(
                                             'Monthly Report'

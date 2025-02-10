@@ -5,7 +5,6 @@ import { Table } from 'primeng/table';
 import { Globals } from 'src/app/class/globals';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
-import { itemsPerPageGlobal } from 'src/main';
 import { MonthlyReportService } from './monthly-report.service';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -17,6 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
     templateUrl: './monthly-report.component.html',
     styleUrl: './monthly-report.component.scss',
 })
+
 export class MonthlyReportComponent {
     constructor(
         private monthlyReportService: MonthlyReportService,
@@ -81,6 +81,7 @@ export class MonthlyReportComponent {
         notes: new FormControl(null),
     });
 
+    items!: any;
     editForm: FormGroup = new FormGroup({
         employeeId: new FormControl(null, [Validators.required]),
         month: new FormControl(null, [Validators.required]),
@@ -94,6 +95,24 @@ export class MonthlyReportComponent {
         id: new FormControl(null),
     });
 
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.reports.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.reports.items.attendanceReports.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.reports.items.attendanceReports.items.Monthly${this.endPoint}`),
+            }];
+    }
     ngOnInit() {
         this.endPoint = 'AttendanceSheet';
 
@@ -118,6 +137,13 @@ export class MonthlyReportComponent {
             //     this.sortField,
             //     this.sortOrder
             // );
+
+            // check for bread crumbs
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
         });
 
         this.cols = [

@@ -91,6 +91,8 @@ export class ExternalMissonComponent {
         Status: new FormControl(null, Validators.required),
     });
 
+    items: any;
+
     addNewForm: FormGroup = new FormGroup(
         {
             employeeId: new FormControl(null, [Validators.required]),
@@ -102,6 +104,24 @@ export class ExternalMissonComponent {
         },
         { validators: dateRangeValidator }
     );
+
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.manageEmployeeRequest.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.manageEmployeeRequest.items.${this.endPoint}`),
+            }];
+    }
+
 
     ngOnInit() {
         this.endPoint = 'ExternalMissionRequest';
@@ -134,20 +154,27 @@ export class ExternalMissonComponent {
 
 
             if (mainLang == 'en') {
-
                 this.all_Status_DropDown = [
                     { id: 0, name: 'pending' },
                     { id: 1, name: 'Accepted' },
                     { id: 2, name: 'Rejected' },
                 ];
-
-            } else {
+            }
+            else {
                 this.all_Status_DropDown = [
                     { id: 0, name: 'انتظار' },
                     { id: 1, name: 'موافقة' },
                     { id: 2, name: 'مرفوض' },
                 ];
             }
+
+            // update bread crumb
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
+
         });
 
         this.cols = [

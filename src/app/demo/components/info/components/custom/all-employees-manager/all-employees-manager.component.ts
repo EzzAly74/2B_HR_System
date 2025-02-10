@@ -9,6 +9,8 @@ import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { Globals } from 'src/app/class/globals';
 
 @Component({
     selector: 'app-all-employees-manager',
@@ -22,7 +24,8 @@ export class AllEmployeesManagerComponent {
     constructor(
         private _EmployeeManagerService: AllEmployeeManagerService,
         private messageService: MessageService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private translate: TranslateService
     ) { }
 
     @ViewChild('dt') dt: Table;
@@ -66,30 +69,67 @@ export class AllEmployeesManagerComponent {
 
     addNewForm!: FormGroup;
     editForm!: FormGroup;
+    items!: any;
 
     ngOnInit() {
         this.endPoint = 'EmployeeManager';
 
-        this._EmployeeManagerService.setEndPoint(this.endPoint);
+        // adding this Configurations in each Component Customized
+        Globals.getMainLangChanges().subscribe((mainLang) => {
+            console.log('Main language changed to:', mainLang);
 
-        this.cols = [
-            // custom fields
-            { field: 'employeeName', header: 'Employee' },
-            { field: 'locationName', header: 'Location' },
+            // update mainLang at Service
+            this._EmployeeManagerService.setCulture(mainLang);
 
-            // Generic Fields
-            { field: 'creationTime', header: 'creationTime' },
-            { field: 'lastModificationTime', header: 'lastModificationTime' },
-            { field: 'creatorName', header: 'creatorName' },
-            { field: 'lastModifierName', header: 'lastModifierName' },
-        ];
+            // update endpoint
+            this._EmployeeManagerService.setEndPoint(this.endPoint);
 
-        // get dropdown for Employee
-        this.getLocation();
+            this._EmployeeManagerService.setEndPoint(this.endPoint);
 
-        this.getDropDownEmployee();
+            this.cols = [
+                // custom fields
+                { field: 'employeeName', header: 'Employee' },
+                { field: 'locationName', header: 'Location' },
 
-        this.initFormGroups();
+                // Generic Fields
+                { field: 'creationTime', header: 'creationTime' },
+                { field: 'lastModificationTime', header: 'lastModificationTime' },
+                { field: 'creatorName', header: 'creatorName' },
+                { field: 'lastModifierName', header: 'lastModifierName' },
+            ];
+
+            // get dropdown for Employee
+            this.getLocation();
+
+            this.getDropDownEmployee();
+
+            this.initFormGroups();
+
+
+            // update breadcrumb
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
+
+        });
+    }
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.employeeProfiles.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.employeeProfiles.items.${this.endPoint}`),
+            }];
     }
 
     getLocation() {

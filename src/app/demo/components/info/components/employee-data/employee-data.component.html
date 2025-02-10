@@ -1,5 +1,6 @@
 <p-toast></p-toast>
 <pre-loading *ngIf="loading"></pre-loading>
+<app-breadcrumb [items]="items"></app-breadcrumb>
 
 <p-panel [header]="'Filter' | translate" [toggleable]="true" [collapsed]="true">
     <form method="post" [formGroup]="filterForm" (submit)="submitForm(filterForm)">
@@ -258,8 +259,8 @@
     </ng-template>
 </p-dialog>
 
-<p-table #dt [value]="allData" [paginator]="true" [rows]="itemsPerPage" [columns]="cols" [totalRecords]="totalItems"
-    selectionMode="multiple" [(selection)]="selectedItems" [showCurrentPageReport]="true"
+<p-table #dt [value]="allData" [scrollable]="true" [paginator]="true" [rows]="itemsPerPage" [columns]="cols"
+    [totalRecords]="totalItems" selectionMode="multiple" [(selection)]="selectedItems" [showCurrentPageReport]="true"
     [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries' | translate" [lazy]="true"
     (onLazyLoad)="onPageChange($event)" dataKey="id">
     <ng-template pTemplate="caption">
@@ -277,14 +278,11 @@
 
     <ng-template pTemplate="header">
         <tr>
-            <th style="width: 3rem">
+            <th style="width: 3rem" pFrozenColumn alignFrozen="left" [frozen]="isNameFreeze"
+                [ngClass]="{'frozen' : isNameFreeze}">
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
-            <!-- <th pSortableColumn="id" (click)="sortById($event)">
-                {{ "Id" | translate }}
-                <p-sortIcon field="id"></p-sortIcon>
-            </th> -->
-            <th pSortableColumn="name" (click)="sortByName($event)">
+            <th pFrozenColumn [frozen]="isNameFreeze" alignFrozen="left" [ngClass]="{'frozen' : isNameFreeze}">
                 {{ "Name" | translate }} <p-sortIcon field="name"></p-sortIcon>
             </th>
 
@@ -308,21 +306,17 @@
 
     <ng-template pTemplate="body" let-rowData>
         <tr class="tableRow" (click)="editProduct(rowData)">
-            <td>
-                <p-tableCheckbox (click)="$event.stopPropagation()" [value]="rowData"></p-tableCheckbox>
-            </td>
-            <!-- <td>
-                <span class="p-column-title">Id</span>
-                {{ rowData.id ? rowData.id : "" }}
-            </td> -->
 
-            <td [ngClass]="{ 'null-color': !rowData.name }">
-                <span class="p-column-title">Name</span>
+            <td pFrozenColumn [frozen]="isNameFreeze" alignFrozen="left" [ngClass]="{'frozen' : isNameFreeze}">
+                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+            </td>
+
+            <td pFrozenColumn [frozen]="isNameFreeze" alignFrozen="left"
+                [ngClass]="{'frozen' : isNameFreeze, 'null-color': !rowData.name}">
                 {{ rowData.name ? rowData.name : "" }}
             </td>
 
             <!-- personal fields -->
-
             <td [ngClass]="{ 'null-color': !rowData.phone }">
                 <span class="p-column-title">phone</span>
                 {{ rowData.phone ? rowData.phone : "" }}

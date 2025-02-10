@@ -27,8 +27,8 @@
                     "Covenant Type" | translate
                     }}</label>
                 <p-dropdown [options]="dropdownItemsCovenantType" [(ngModel)]="selectedCovenant" optionLabel="name"
-                    optionValue="id" formControlName="covenantId" [placeholder]="'Enter Covenant Type' | translate"
-                    (onChange)="selectCovenant($event)"></p-dropdown>
+                    optionValue="id" formControlName="covenantCategoryId"
+                    [placeholder]="'Enter Covenant Type' | translate" (onChange)="selectCovenant($event)"></p-dropdown>
             </div>
 
             <div class="field">
@@ -74,6 +74,7 @@
             </span>
         </div>
     </ng-template>
+
     <ng-template pTemplate="content">
         <div class="field">
             <label htmlFor="ContractType">{{
@@ -219,7 +220,7 @@
                     "Covenant Type" | translate
                     }}</label>
                 <p-dropdown [(ngModel)]="product.covenantId" [options]="dropdownItemsCovenantType"
-                    formControlName="covenantId" optionLabel="name" optionValue="id"
+                    formControlName="covenantCategoryId" optionLabel="name" optionValue="id"
                     [placeholder]="'Enter Covenant Type' | translate"></p-dropdown>
             </div>
 

@@ -62,6 +62,7 @@ export class MonthlyPayrollSummaryReportComponent {
     dropdownItemsManagers: any;
     dropdownItemsEmployees: any;
     dropdownItemsDepartments: any;
+    items!: any;
     selectedYearAdd: any = null;
     filterForm: FormGroup = new FormGroup({
         employeeId: new FormControl(null),
@@ -110,6 +111,13 @@ export class MonthlyPayrollSummaryReportComponent {
             this.getDropDowns();
 
             this.loadFilteredData();
+
+            // check for bread crumbs
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
         });
 
         this.cols = [
@@ -148,6 +156,24 @@ export class MonthlyPayrollSummaryReportComponent {
         });
     }
 
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.reports.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.reports.items.salaryReports.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.reports.items.salaryReports.items.MonthlyPayrollSummaryReport`),
+            }];
+    }
     splitCamelCase(str: any) {
         return str
             .replace(/([A-Z])/g, ' $1')

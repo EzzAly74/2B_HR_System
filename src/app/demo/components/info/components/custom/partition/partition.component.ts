@@ -68,6 +68,8 @@ export class PartitionComponent {
         id: new FormControl(null),
     });
 
+    items!: any;
+
     ngOnInit() {
         this.endPoint = 'Partation';
 
@@ -89,24 +91,47 @@ export class PartitionComponent {
                 this.sortField,
                 this.sortOrder
             );
+            this.cols = [
+                // basic fields
+                { field: 'name', header: 'Name' },
+                { field: 'notes', header: 'Notes' },
+
+                // Generic Fields
+                { field: 'creationTime', header: 'creationTime' },
+                { field: 'lastModificationTime', header: 'lastModificationTime' },
+                { field: 'creatorName', header: 'creatorName' },
+                { field: 'lastModifierName', header: 'lastModifierName' },
+            ];
+
+            // get all drop downs departments
+            this.getDropDownDepartment();
+
+
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
         });
 
-        this.cols = [
-            // basic fields
-            { field: 'name', header: 'Name' },
-            { field: 'notes', header: 'Notes' },
-
-            // Generic Fields
-            { field: 'creationTime', header: 'creationTime' },
-            { field: 'lastModificationTime', header: 'lastModificationTime' },
-            { field: 'creatorName', header: 'creatorName' },
-            { field: 'lastModifierName', header: 'lastModifierName' },
-        ];
-
-        // get all drop downs departments
-        this.getDropDownDepartment();
     }
 
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.manageStructure.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.manageStructure.items.${this.endPoint}`),
+            }];
+    }
 
     onFileSelect(event: any, fileUploader: any) {
         console.log(event);

@@ -66,6 +66,7 @@ export class NetIncomeTaxComponent {
     newLatitude: DoubleRange;
     newLongitude: DoubleRange;
     newDiscription: string;
+    items: any;
 
     addNewForm: FormGroup = new FormGroup(
         {
@@ -131,24 +132,31 @@ export class NetIncomeTaxComponent {
                 this.sortField,
                 this.sortOrder
             );
+
+            this.cols = [
+                // basic data
+                { field: 'name', header: 'Name' },
+
+                // custom fields
+                { field: 'latitude', header: 'Lotes' },
+                { field: 'longitude', header: 'Longitude' },
+                { field: 'discription', header: 'Discription' },
+                { field: 'notes', header: 'Notes' },
+
+                // Generic Fields
+                { field: 'creationTime', header: 'creationTime' },
+                { field: 'lastModificationTime', header: 'lastModificationTime' },
+                { field: 'creatorName', header: 'creatorName' },
+                { field: 'lastModifierName', header: 'lastModifierName' },
+            ];
+
+            this.translate.onLangChange.subscribe(() => {
+                this.updateTranslations();
+            });
+
+            this.updateTranslations();
         });
 
-        this.cols = [
-            // basic data
-            { field: 'name', header: 'Name' },
-
-            // custom fields
-            { field: 'latitude', header: 'Lotes' },
-            { field: 'longitude', header: 'Longitude' },
-            { field: 'discription', header: 'Discription' },
-            { field: 'notes', header: 'Notes' },
-
-            // Generic Fields
-            { field: 'creationTime', header: 'creationTime' },
-            { field: 'lastModificationTime', header: 'lastModificationTime' },
-            { field: 'creatorName', header: 'creatorName' },
-            { field: 'lastModifierName', header: 'lastModifierName' },
-        ];
     }
 
     editProduct(rowData: any) {
@@ -158,6 +166,22 @@ export class NetIncomeTaxComponent {
             this.product = { ...rowData };
             console.log(this.product);
         }
+    }
+
+
+    updateTranslations() {
+        this.items = [
+            {
+                icon: 'pi pi-home',
+                route: '/', label: this.translate.instant("breadcrumb.gen.home"), start: true
+            },
+            {
+                label: this.translate.instant('breadcrumb.cats.manageStructure.title'),
+                iconPath: ''
+            },
+            {
+                label: this.translate.instant(`breadcrumb.cats.manageStructure.items.${this.endPoint}`),
+            }];
     }
 
     confirmDelete(id: number) {
