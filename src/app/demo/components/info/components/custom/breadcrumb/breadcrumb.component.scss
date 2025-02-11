@@ -27,11 +27,11 @@
     .pi-home:before {
         content: "\e925";
         font-size: 30px;
-        color: #808080;
+        color: #495057;
     }
 
     .label-text {
-        color: #d6d6d6;
+        color: #495057;
     }
 
     svg path {
@@ -41,8 +41,8 @@
 
 
     .p-element:last-of-type .current-label {
-        color: #202020 !important;
-        font-weight: 500;
+        color: #495057 !important;
+        // font-weight: 500;
     }
 }
 
