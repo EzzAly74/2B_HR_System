@@ -1654,5 +1654,11 @@
     "Penalty By Day": "Penalty By Day",
     "Enter Penalty By Day Here": "Enter Penalty By Day Here",
     "Penalty By Value": "Penalty By Value",
-    "Enter Penalty By Value Here": "Enter Penalty By Value Here"
+    "Enter Penalty By Value Here": "Enter Penalty By Value Here",
+    "paymentLoans": {
+        "Month": "Month : ",
+        "Year": "Year : ",
+        "AmountPaid": "Amount Paid : ",
+        "RemainingAmount": "Remaining Amount : "
+    }
 }

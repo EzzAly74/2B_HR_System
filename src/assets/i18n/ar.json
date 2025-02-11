@@ -943,5 +943,11 @@
     "Penalty By Day": "الغرامة حسب اليوم",
     "Enter Penalty By Day Here": "أدخل الغرامة حسب اليوم هنا",
     "Penalty By Value": "الغرامة حسب القيمة",
-    "Enter Penalty By Value Here": "أدخل الغرامة حسب القيمة هنا"
+    "Enter Penalty By Value Here": "أدخل الغرامة حسب القيمة هنا",
+    "paymentLoans": {
+        "Month": ":الشهر",
+        "Year": ":السنة",
+        "AmountPaid": ":القيمة المدفوعة",
+        "RemainingAmount": ":القيمة المتبقية"
+    }
 }

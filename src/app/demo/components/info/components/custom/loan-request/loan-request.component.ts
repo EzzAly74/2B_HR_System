@@ -64,6 +64,9 @@ export class LoanRequestComponent {
     acceptAllDialogue: boolean = false;
     rejectAllDialogue: boolean = false;
 
+    payments!: any;
+
+    tableLoans: boolean = false;
     items!: any;
     addNewForm: FormGroup = new FormGroup({
         EmployeeId: new FormControl(null, [Validators.required]),
@@ -310,13 +313,13 @@ export class LoanRequestComponent {
         this.loading = true;
         let filteredData = {
             pageNumber: page,
-            pageSize: size,
-            filterValue: nameFilter,
-            filterType: filterType,
-            sortType: sortType,
-            status: 0,
+            pageSize: size
+            // filterValue: nameFilter,
+            // filterType: filterType,
+            // sortType: sortType,
+            // status: 0,
         };
-        filteredData.sortType = this.sortOrder;
+        // filteredData.sortType = this.sortOrder;
 
         this.loanRequestService.getPageOfAcceptedLoan(filteredData).subscribe({
             next: (res) => {
@@ -517,7 +520,7 @@ export class LoanRequestComponent {
         };
 
         this.loanRequestService.updateRequestType(body).subscribe({
-            next: (res) => {
+            next: (res: any) => {
                 console.log(res);
                 this.messageService.add({
                     severity: 'success',
@@ -533,9 +536,18 @@ export class LoanRequestComponent {
                     this.sortField,
                     this.sortOrder
                 );
+                this.payments = res?.data;
+                this.tableLoans = true;
             },
         });
         this.notesAccept = '';
+    }
+
+    getColor(amountPaid: number, totalAmount: number): string {
+        const percentage = amountPaid / totalAmount;
+        const green = Math.round(255 * percentage);
+        const yellow = Math.round(255 * (1 - percentage));
+        return `rgb(${yellow}, ${green}, 0)`; // Yellow to Green gradient
     }
     confirmReject(rowData: any) {
         console.log(rowData);

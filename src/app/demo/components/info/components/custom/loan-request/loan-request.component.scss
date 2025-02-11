@@ -3,6 +3,7 @@
     gap: 8px;
     width: 50%;
 }
+
 .accepted-request span {
     padding: 8px;
     background-color: #cde8ce;
@@ -11,6 +12,7 @@
     justify-content: center;
     align-items: center;
 }
+
 .rejected-request span {
     padding: 8px;
     background-color: #f8d7da;
@@ -19,6 +21,7 @@
     justify-content: center;
     align-items: center;
 }
+
 .pending-request span {
     padding: 8px;
     background-color: #cce5ff;
@@ -27,13 +30,73 @@
     justify-content: center;
     align-items: center;
 }
+
 .notes-container {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
+
 .notes-container .field {
     display: flex;
     flex-direction: column;
     width: 100%;
+}
+
+:host html[lang=ar] .notes-container {
+    display: flex;
+    align-items: flex-start;
+}
+
+
+::ng-deep .p-dialog-header {
+    margin-top: 40px;
+}
+
+
+::ng-deep .p-dialog-content {
+    overflow: auto !important;
+}
+
+
+
+.payment-box {
+    border: 1px solid #ccc;
+    /* Light gray border */
+    border-radius: 8px;
+    /* Rounded corners */
+    padding: 16px;
+    /* Space inside the box */
+    margin: 10px 0;
+    /* Space between boxes */
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+    transition: background-color 0.3s ease;
+    /* Smooth transition for background color */
+}
+
+.payment-isPaid {
+    background-color: rgba(76, 175, 80, 0.2);
+    /* Light green background for paid */
+}
+
+.payment-box strong {
+    display: block;
+    /* Each label on a new line */
+    margin-bottom: 5px;
+    /* Space below labels */
+    font-weight: bold;
+    /* Bold text */
+}
+
+.payment-box:hover {
+    background-color: rgba(255, 255, 0, 0.1);
+    /* Light yellow background on hover */
+    cursor: pointer;
+    /* Pointer cursor on hover */
+}
+
+.payment-item {
+    display: flex;
+    gap: 10px;
 }

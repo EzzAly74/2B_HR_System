@@ -24,9 +24,7 @@
     class="p-fluid">
     <ng-template pTemplate="content">
         <form action="" [formGroup]="addNewForm" (submit)="addNew(addNewForm)">
-
             <div class="field">
-
                 <label htmlFor="government">{{
                     "Employee" | translate
                     }}</label>
@@ -61,18 +59,11 @@
                 "></p-dropdown>
             </div>
 
-
-
-
             <div class="field">
                 <label htmlFor="name-ar">{{ "Reason" | translate }} </label>
                 <input pInputText formControlName="Reason" [placeholder]="'Enter Reason Here' | translate" id="name-ar"
                     type="text" />
             </div>
-
-
-
-
 
             <div class="field">
                 <label htmlFor="new-latitude">{{ "Amount" | translate }}</label>
@@ -80,13 +71,12 @@
                     [placeholder]="'Enter Amount Here' | translate" type="number" />
             </div>
 
-
-
             <div class="field">
                 <label htmlFor="new-notes">{{ "Notes" | translate }}</label>
                 <textarea pInputTextarea formControlName="Notes" id="new-notes"
                     [placeholder]="'Enter Notes Here' | translate" type="text"></textarea>
             </div>
+
             <div class="field">
                 <button [disabled]="addNewForm.invalid" class="w-25" pButton [label]="'Insert New' | translate"
                     type="submit"></button>
@@ -343,7 +333,6 @@
     </ng-template>
 </p-dialog>
 
-
 <p-dialog [(visible)]="acceptRequestDialogue" header="Confirm" [modal]="true" [style]="{ width: '450px' }">
     <div class="notes-container">
         <div class="flex align-items-center justify-content-center">
@@ -374,6 +363,64 @@
             <label for="notesReject">Notes</label>
             <input pInputText type="text" [(ngModel)]="notesReject" id="notesReject"
                 [placeholder]="'Enter Notes Here' | translate" />
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+            (click)="rejectRequestDialogue = false"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+            (click)="confirmReject(product)"></button>
+    </ng-template>
+</p-dialog>
+
+
+<p-dialog [(visible)]="tableLoans" header="Confirm" [modal]="true" [style]="{ width: '450px' }">
+    <div class="notes-container">
+        <!-- Payment Data Boxes -->
+        <div class="payment-boxes">
+            <div *ngFor="let payment of payments" class="payment-box" [class.payment-isPaid]="isPaid-payment">
+
+                <div class="payment-item">
+                    <span class="attr">
+                        <strong>{{'paymentLoans.Month' | translate}}</strong>
+                    </span>
+
+                    <span>
+                        {{ payment.month }}
+                    </span>
+                </div>
+
+
+                <div class="payment-item">
+
+                    <span class="attr">
+                        <strong>{{'paymentLoans.Year' | translate}}</strong>
+                    </span>
+                    <span>
+                        {{ payment.year }}
+                    </span>
+                </div>
+
+                <div class="payment-item">
+                    <span class="attr">
+                        <strong> {{'paymentLoans.AmountPaid:' | translate}} </strong>
+                    </span>
+
+                    <span>
+                        {{ payment.amountPaid | currency }}
+                    </span>
+
+                </div>
+
+                <div class="payment-item">
+                    <span class="attr">
+                        <strong>{{'paymentLoans.RemainingAmount:' | translate}} </strong>
+                    </span>
+                    <span>
+                        {{ payment.remainingAmount | currency }}
+                    </span>
+                </div>
+            </div>
         </div>
     </div>
     <ng-template pTemplate="footer">
