@@ -471,6 +471,11 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/getLoanPayment'],
                             },
                             {
+                                label: this.translate.instant('getLoanPaymentDetails'),
+                                icon: 'pi pi-fw pi-home',
+                                routerLink: ['/info/getLoanPaymentDetails'],
+                            },
+                            {
                                 label: this.translate.instant('Mobile Version'),
                                 icon: 'pi pi-fw pi-home',
                                 routerLink: ['/info/mobileVersion'],

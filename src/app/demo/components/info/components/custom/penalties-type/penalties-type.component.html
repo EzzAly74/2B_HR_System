@@ -92,7 +92,10 @@
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
             <th pFrozenColumn [frozen]="isNameFreeze" alignFrozen="right" [ngClass]="{'frozen' : isNameFreeze}">
-                {{ "reason" | translate }} <p-sortIcon field="name"></p-sortIcon>
+                {{ "reason Arabic" | translate }} <p-sortIcon field="name"></p-sortIcon>
+            </th>
+            <th pFrozenColumn [frozen]="isNameFreeze" alignFrozen="right" [ngClass]="{'frozen' : isNameFreeze}">
+                {{ "reason English" | translate }} <p-sortIcon field="name"></p-sortIcon>
             </th>
             <th>{{ "penaltieByDay" | translate }}</th>
             <th>{{ "penaltieByValue" | translate }}</th>
@@ -112,8 +115,12 @@
                 <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
             </td>
             <td pFrozenColumn [frozen]="isNameFreeze" alignFrozen="right"
-                [ngClass]="{'frozen' : isNameFreeze, 'null-color': !rowData.reason}">
-                {{ rowData.reason ? rowData.reason : "" }}
+                [ngClass]="{'frozen' : isNameFreeze, 'null-color': !rowData.reasonArabic}">
+                {{ rowData.reasonArabic ? rowData.reasonArabic : "" }}
+            </td>
+            <td pFrozenColumn [frozen]="isNameFreeze" alignFrozen="right"
+                [ngClass]="{'frozen' : isNameFreeze, 'null-color': !rowData.reasonEnglish}">
+                {{ rowData.reasonEnglish ? rowData.reasonEnglish : "" }}
             </td>
             <td [ngClass]="{ 'null-color': !rowData.penaltieByDay }">
                 {{ rowData.penaltieByDay ? rowData.penaltieByDay : "" }}

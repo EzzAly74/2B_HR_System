@@ -80,6 +80,7 @@ import { EmployeePaySlipReportComponent } from './components/custom/employee-pay
 import { MobileVersionComponent } from './components/custom/mobile-version/mobile-version.component';
 import { AttendanceReportComponent } from './components/custom/attendance-report/attendance-report.component';
 import { PenaltiesTypeComponent } from './components/custom/penalties-type/penalties-type.component';
+import { GetLoanPaymentDetailsComponent } from './components/custom/get-loan-payment-details/get-loan-payment-details.component';
 
 @NgModule({
     imports: [
@@ -439,6 +440,11 @@ import { PenaltiesTypeComponent } from './components/custom/penalties-type/penal
                 path: 'getLoanPayment',
                 canActivate: [authGuard],
                 component: GetLoanPaymentComponent,
+            },
+            {
+                path: 'getLoanPaymentDetails',
+                canActivate: [authGuard],
+                component: GetLoanPaymentDetailsComponent,
             },
 
             {
