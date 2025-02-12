@@ -4,12 +4,13 @@
 
 export const environment = {
     production: false,
-    baseurl: 'https://shantafactory.com/HR/api',
-    mediaUrl: 'https://shantafactory.com/HR/AppMedia',
+    // baseurl: 'https://shantafactory.com/HR/api',
+    // mediaUrl: 'https://shantafactory.com/HR/AppMedia',
 
-    // baseurl: 'https://hr.2begypt.com/api',
-    // mediaUrl: 'https://hr.2begypt.com/AppMedia',
+    baseurl: 'https://hr.2begypt.com/api',
+    mediaUrl: 'https://hr.2begypt.com/AppMedia',
 };
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
