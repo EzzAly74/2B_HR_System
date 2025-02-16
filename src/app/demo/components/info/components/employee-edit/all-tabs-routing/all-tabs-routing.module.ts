@@ -14,6 +14,7 @@ import { EmployeeVacationStockComponent } from '../AllTabs/employee-vacation-sto
 import { TranslateModule } from '@ngx-translate/core';
 import { EmployeeWeekendComponent } from '../AllTabs/employee-weekend/employee-weekend.component';
 import { EmployeeShiftComponent } from '../AllTabs/employee-shift/employee-shift.component';
+import { EmployeePartTimeSalaryComponent } from '../AllTabs/employee-part-time-salary/employee-part-time-salary.component';
 
 const routes: Routes = [
     {
@@ -68,10 +69,14 @@ const routes: Routes = [
         path: 'EmployeeShift',
         component: EmployeeShiftComponent,
     },
+    {
+        path: 'EmployeePartTimeSalary',
+        component: EmployeePartTimeSalaryComponent,
+    },
 ];
 
 @NgModule({
     imports: [RouterModule.forChild(routes), TranslateModule],
     exports: [RouterModule],
 })
-export class AllTabsRoutingModule {}
+export class AllTabsRoutingModule { }

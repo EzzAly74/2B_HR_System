@@ -84,7 +84,6 @@ export class AllEmployeesManagerComponent {
             // update endpoint
             this._EmployeeManagerService.setEndPoint(this.endPoint);
 
-            this._EmployeeManagerService.setEndPoint(this.endPoint);
 
             this.cols = [
                 // custom fields
@@ -112,6 +111,15 @@ export class AllEmployeesManagerComponent {
             });
 
             this.updateTranslations();
+
+            // load data again
+            this.loadData(
+                this.page,
+                this.itemsPerPage,
+                this.nameFilter,
+                this.sortField,
+                this.sortOrder
+            );
 
         });
     }

@@ -247,6 +247,11 @@ export class EmployeeEditComponent {
                     name: this.translate.instant('Employee Shift'),
                     action: 'EmployeeShift',
                 },
+                {
+                    id: 14,
+                    name: this.translate.instant('Employee Part Time Salary'),
+                    action: 'EmployeePartTimeSalary',
+                },
             ];
 
             // update endpoint
@@ -339,57 +344,57 @@ export class EmployeeEditComponent {
         this.Actions = [
             {
                 id: 1,
-                name: 'Employee Certificates',
+                name: this.translate.instant('Employee Certificates'),
                 action: 'EmployeeCertification',
             },
             {
                 id: 2,
-                name: 'Employee Course',
+                name: this.translate.instant('Employee Course'),
                 action: 'EmployeeCourse',
             },
             {
                 id: 3,
-                name: 'Employee Covenent',
+                name: this.translate.instant('Employee Covenent'),
                 action: 'EmployeeCovenant',
             },
             {
                 id: 4,
-                name: 'Employee Experience',
+                name: this.translate.instant('Employee Experience'),
                 action: 'EmployeeExperience',
             },
             {
                 id: 5,
-                name: 'Employee Family',
+                name: this.translate.instant('Employee Family'),
                 action: 'EmployeeFamily',
             },
             {
                 id: 6,
-                name: 'Employee File',
+                name: this.translate.instant('Employee File'),
                 action: 'EmployeeFile',
             },
             {
                 id: 7,
-                name: 'Employee Location',
+                name: this.translate.instant('Employee Location'),
                 action: 'EmployeeLocation',
             },
             {
                 id: 8,
-                name: 'Employee Manager',
+                name: this.translate.instant('Employee Manager'),
                 action: 'EmployeeManager',
             },
             {
                 id: 9,
-                name: 'Employee Salary',
+                name: this.translate.instant('Employee Salary'),
                 action: 'EmployeeSalary',
             },
             {
                 id: 10,
-                name: 'Employee Uniform',
+                name: this.translate.instant('Employee Uniform'),
                 action: 'EmployeeUniform',
             },
             {
                 id: 11,
-                name: 'Employee Vacation Stock',
+                name: this.translate.instant('Employee Vacation Stock'),
                 action: 'EmployeeVacationStock',
             },
             {
@@ -401,6 +406,11 @@ export class EmployeeEditComponent {
                 id: 13,
                 name: this.translate.instant('Employee Shift'),
                 action: 'EmployeeShift',
+            },
+            {
+                id: 14,
+                name: this.translate.instant('Employee Part Time Salary'),
+                action: 'EmployeePartTimeSalary',
             },
         ];
 

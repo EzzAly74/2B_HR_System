@@ -1660,5 +1660,14 @@
         "Year": "Year : ",
         "AmountPaid": "Amount Paid : ",
         "RemainingAmount": "Remaining Amount : "
-    }
+    },
+    "getLoanPaymentDetails": "Loan Payment Details",
+    "EmployeeName": "Employee Name",
+    "totalAmount": "Total Amount",
+    "isPaid": "Paid",
+    "remainingAmount": "Remaining Amount",
+    "amountPaid": "Amount Paid",
+    "year": "Year",
+    "month": "Month",
+    "EmployeeId": "Employee ID"
 }

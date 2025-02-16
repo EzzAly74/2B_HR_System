@@ -167,6 +167,9 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/allEmployeesUniform'],
                             },
 
+
+
+
                             {
                                 label: this.translate.instant(
                                     'Add New Employee'

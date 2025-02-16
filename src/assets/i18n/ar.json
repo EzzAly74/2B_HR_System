@@ -949,5 +949,14 @@
         "Year": ":السنة",
         "AmountPaid": ":القيمة المدفوعة",
         "RemainingAmount": ":القيمة المتبقية"
-    }
+    },
+    "getLoanPaymentDetails": "تفاصيل سداد القرض",
+    "EmployeeName": "اسم الموظف",
+    "totalAmount": "المبلغ الإجمالي",
+    "isPaid": "مدفوع",
+    "remainingAmount": "المبلغ المتبقي",
+    "amountPaid": "المبلغ المدفوع",
+    "year": "السنة",
+    "month": "الشهر",
+    "EmployeeId": "معرف الموظف"
 }
