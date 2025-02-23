@@ -9,6 +9,7 @@ import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 import { DatePipe } from '@angular/common';
 import { DayNamePipe } from '../../../custom/shift-vacation/day-name.pipe';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-employee-part-time-salary',
@@ -28,7 +29,8 @@ export class EmployeePartTimeSalaryComponent {
   constructor(
     private _PartTimeSalaryService: PartTimeSalaryService,
     private messageService: MessageService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private route: ActivatedRoute
   ) {
 
     this.translate.onLangChange.subscribe(() => {
@@ -55,6 +57,7 @@ export class EmployeePartTimeSalaryComponent {
   }
 
 
+  empId: number;
   @ViewChild('dt') dt: Table;
   @Input() endPoint!: string;
   allData: any;
@@ -133,6 +136,11 @@ export class EmployeePartTimeSalaryComponent {
   });
 
   ngOnInit() {
+    this.route.parent?.paramMap.subscribe((params) => {
+      this.empId = Number(params.get('id'));
+      console.log('empId:', this.empId); // This should print the ID from the parent route
+    });
+
     this.endPoint = "EmployeePartTimeSalary"
     // adding this Configurations in each Component Customized
     Globals.getMainLangChanges().subscribe((mainLang) => {
@@ -295,6 +303,7 @@ export class EmployeePartTimeSalaryComponent {
       filterValue: nameFilter,
       filterType: filterType,
       sortType: sortType,
+      employeeId: this.empId
     };
     filteredData.sortType = this.sortOrder;
 

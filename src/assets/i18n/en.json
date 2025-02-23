@@ -928,5 +928,11 @@
     "year": "Year",
     "month": "Month",
     "EmployeeId": "Employee ID",
-    "CalculateMonthSalary": "Calculate Month Salary"
+    "CalculateMonthSalary": "Calculate Month Salary",
+    "Employee Part Time Salary": "Employee Part Time Salary",
+    "Add New Employee Part Time Salary": "Add New Employee Part Time Salary",
+    "hourValue": "Hour Value",
+    "minHour": "Minimum Hour",
+    "maxHour": "Maximum Hour",
+    "jobNatureId": "Job Nature ID"
 }

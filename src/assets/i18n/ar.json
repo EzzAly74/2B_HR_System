@@ -962,5 +962,11 @@
     "amountPaid": "المبلغ المدفوع",
     "year": "السنة",
     "month": "الشهر",
-    "EmployeeId": "معرف الموظف"
+    "EmployeeId": "معرف الموظف",
+    "Employee Part Time Salary": "راتب الموظف بدوام جزئي",
+    "Add New Employee Part Time Salary": "أضافة راتب الموظف بدوام جزئي",
+    "hourValue": "القيمة بالساعة",
+    "minHour": "الحد الأدنى للساعة",
+    "maxHour": "الحد الأقصى للساعة",
+    "jobNatureId": "معرف نوع العمل"
 }
