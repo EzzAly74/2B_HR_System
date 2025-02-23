@@ -1,0 +1,60 @@
+<p-toast />
+<pre-loading *ngIf="loading"></pre-loading>
+<app-breadcrumb [items]="items"></app-breadcrumb>
+
+<div class="grid justify-content-center">
+    <div class="col-10">
+        <div class="card">
+            <h5 class="pt-2 pb-5">{{ "CalculateMonthSalary" | translate }}</h5>
+            <form [formGroup]="calculateMonthForm" (ngSubmit)="registerSubmit(calculateMonthForm)">
+                <div class="p-fluid grid">
+
+                    <!-- Month Dropdown -->
+                    <div class="field col-12">
+                        <div class="p-fluid grid">
+                            <div class="field col-12 md:col-6">
+                                <label for="month">{{ "Month" | translate }}
+
+                                    <app-required-field></app-required-field>
+                                </label>
+                                <p-dropdown formControlName="month" [options]="MonthsDropDown" optionLabel="name"
+                                    optionValue="id" [placeholder]="'select a Month' | translate">
+                                </p-dropdown>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Year Dropdown -->
+                    <div class="field col-12">
+                        <div class="p-fluid grid">
+                            <div class="field col-12 md:col-6">
+                                <label for="year">{{ "Year" | translate }}
+
+                                    <app-required-field></app-required-field>
+                                </label>
+                                <p-dropdown formControlName="year" [options]="YearsDropDown" optionLabel="name"
+                                    optionValue="id" [placeholder]="'select a Year' | translate">
+                                </p-dropdown>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="field col-12 md:col-12 py-5">
+                        <div class="p-fluid grid">
+                            <div class="col-2">
+                                <button pButton type="submit" class="flex justify-content-center"
+                                    [disabled]="calculateMonthForm.invalid">
+                                    {{ "Save" | translate }}
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

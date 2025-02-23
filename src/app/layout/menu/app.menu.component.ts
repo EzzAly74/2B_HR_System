@@ -311,6 +311,13 @@ export class AppMenuComponent implements OnInit {
                                 ),
                                 routerLink: ['/info/endOfServiceRequest'],
                             },
+
+                            {
+                                label: this.translate.instant(
+                                    'fixedPenality'
+                                ),
+                                routerLink: ['/info/fixedPenality'],
+                            },
                         ],
                     },
 
@@ -468,27 +475,31 @@ export class AppMenuComponent implements OnInit {
                                 icon: 'pi pi-fw pi-home',
                                 routerLink: ['/info/documentRequired'],
                             },
+
                             {
                                 label: this.translate.instant('getLoanPayment'),
                                 icon: 'pi pi-fw pi-home',
                                 routerLink: ['/info/getLoanPayment'],
                             },
+
                             {
                                 label: this.translate.instant('getLoanPaymentDetails'),
                                 icon: 'pi pi-fw pi-home',
                                 routerLink: ['/info/getLoanPaymentDetails'],
                             },
+
                             {
                                 label: this.translate.instant('Mobile Version'),
                                 icon: 'pi pi-fw pi-home',
                                 routerLink: ['/info/mobileVersion'],
                             },
 
-                            // {
-                            //     label: this.translate.instant('RESIGNATIONSETTINGS'),
-                            //     icon: 'pi pi-fw pi-home',
-                            //     routerLink: ['/info/resignationSetting'],
-                            // },
+                            {
+                                label: this.translate.instant('CalculateMonthSalary'),
+                                icon: 'pi pi-fw pi-home',
+                                routerLink: ['/info/calculateMonthSalary'],
+                            },
+
                         ],
                     },
 

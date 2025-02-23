@@ -38,7 +38,8 @@
                     "InternalJob": "وظائف داخل الشركة",
                     "GetLoanPayment": "القروض",
                     "Department": "القسم",
-                    "MobileVersion": "نسخة الموبايل"
+                    "MobileVersion": "نسخة الموبايل",
+                    "CalculateMonthSalary": "حساب مرتب الشهر"
                 }
             },
             "payrollManagement": {
@@ -96,7 +97,8 @@
                     "registerTermination": "إضافة إقالة",
                     "allTermination": "كل الإقالات",
                     "EndOfService": "إجراءات إنهاء الخدمة",
-                    "EndOfServiceRequest": "طلب إنهاء خدمة"
+                    "EndOfServiceRequest": "طلب إنهاء خدمة",
+                    "FixedPenality": "عقوبة ثابتة"
                 }
             },
             "notifications": {
@@ -153,6 +155,7 @@
             "status": "الحالة"
         }
     },
+    "fixedPenality": "العقوبات الثابتة",
     "Attendance Report": "تقرير الحضور",
     "lang": "ar",
     "DIR": "rtl",
@@ -954,6 +957,7 @@
     "EmployeeName": "اسم الموظف",
     "totalAmount": "المبلغ الإجمالي",
     "isPaid": "مدفوع",
+    "CalculateMonthSalary": "حساب مرتب الشهر",
     "remainingAmount": "المبلغ المتبقي",
     "amountPaid": "المبلغ المدفوع",
     "year": "السنة",

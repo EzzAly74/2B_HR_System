@@ -81,6 +81,9 @@ import { MobileVersionComponent } from './components/custom/mobile-version/mobil
 import { AttendanceReportComponent } from './components/custom/attendance-report/attendance-report.component';
 import { PenaltiesTypeComponent } from './components/custom/penalties-type/penalties-type.component';
 import { GetLoanPaymentDetailsComponent } from './components/custom/get-loan-payment-details/get-loan-payment-details.component';
+import { FixedPenalityComponent } from './components/custom/fixed-penality/fixed-penality.component';
+import { CalculateMonthSalaryService } from './components/custom/calculate-month-salary/calculate-month-salary.service';
+import { CalculateMonthSalaryComponent } from './components/custom/calculate-month-salary/calculate-month-salary.component';
 
 @NgModule({
     imports: [
@@ -273,6 +276,13 @@ import { GetLoanPaymentDetailsComponent } from './components/custom/get-loan-pay
                 component: AllEmployeesLocationComponent,
             },
 
+
+            {
+                path: 'allEmployeesLocation',
+                canActivate: [authGuard],
+                component: AllEmployeesLocationComponent,
+            },
+
             {
                 path: 'allEmployeesManager',
                 canActivate: [authGuard],
@@ -289,6 +299,12 @@ import { GetLoanPaymentDetailsComponent } from './components/custom/get-loan-pay
                 path: 'employees',
                 canActivate: [authGuard],
                 component: EmployeeDataComponent,
+            },
+
+            {
+                path: 'fixedPenality',
+                canActivate: [authGuard],
+                component: FixedPenalityComponent,
             },
 
             {
@@ -513,6 +529,13 @@ import { GetLoanPaymentDetailsComponent } from './components/custom/get-loan-pay
                 canActivate: [authGuard],
                 component: PenaltiesTypeComponent
             },
+
+            {
+                path: 'calculateMonthSalary',
+                canActivate: [authGuard],
+                component: CalculateMonthSalaryComponent,
+            },
+
 
             { path: '**', component: NotfoundComponent },
         ]),
