@@ -263,17 +263,17 @@
 
             <td [ngClass]="{ 'null-color': !rowData.date }">
                 <span class="p-column-title">date</span>
-                {{ rowData.date }}
+                {{ rowData.date | date:'yyyy-MM-dd HH:mm:ss' }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.checkIn }">
                 <span class="p-column-title">checkIn</span>
-                {{ rowData.checkIn | date }}
+                {{ rowData.checkIn | date:'yyyy-MM-dd HH:mm:ss' }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.checkOut }">
                 <span class="p-column-title">checkOut</span>
-                {{ rowData.checkOut |date }}
+                {{ rowData.checkOut | date:'yyyy-MM-dd HH:mm:ss' }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.publicVacationId }">
