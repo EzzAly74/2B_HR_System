@@ -140,6 +140,7 @@
             "date": "Date",
             "checkIn": "Check In",
             "checkOut": "Check Out",
+            "code": "code",
             "publicVacationId": "Public Vacation ID",
             "excuesTypeId": "Excuse Type ID",
             "excuseDuration": "Excuse Duration",

@@ -27,7 +27,7 @@ export class AttendanceReportComponent {
     allDataWithoutPagination: any[] = [];
     showTable = false;
     page: number = 1;
-    itemsPerPage = 5;
+    itemsPerPage = 10;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
@@ -108,12 +108,17 @@ export class AttendanceReportComponent {
 
             this.getDropDowns();
 
+            // get All Data
+            this.getAllRows();
+
+
             if (this.month && this.year)
                 this.loadFilteredData();
 
             this.loadFilteredData()
             this.cols = [
                 { field: 'employeeName', header: 'Name' },
+                { field: 'code', header: 'Code' },
                 { field: 'shiftName', header: 'Shift Name' },
                 { field: 'date', header: 'Date' },
                 { field: 'checkIn', header: 'Check In' },
@@ -376,7 +381,7 @@ export class AttendanceReportComponent {
         }
     }
     exportAllCSV() {
-        const csvData = this.convertToCSV(this.allData);
+        const csvData = this.convertToCSV(this.allDataWithoutPagination);
 
         // Adding UTF-8 BOM
         const bom = '\uFEFF';
@@ -512,6 +517,7 @@ export class AttendanceReportComponent {
         };
 
         let filteredData = { ...paginationData, ...form.value };
+
         console.log(filteredData);
 
         if (form.status == 'VALID') {
@@ -536,6 +542,30 @@ export class AttendanceReportComponent {
             // this.getAllData(form.value);
         }
     }
+
+
+    getAllRows() {
+        let paginationData = {
+            pageNumber: 1,
+        };
+
+        let filteredData = { ...paginationData };
+
+        console.log(filteredData);
+
+        this.attendanceReportService.GetPage(filteredData).subscribe({
+            next: (res) => {
+                console.log(res);
+                this.allDataWithoutPagination = res.data;
+            },
+            error: (err) => {
+                console.log(err);
+            },
+        });
+    }
+
+
+
     getDropDowns() {
         this.attendanceReportService.getMonths().subscribe({
             next: (res) => {
@@ -589,6 +619,7 @@ export class AttendanceReportComponent {
             next: (res) => {
                 console.log(res);
                 this.allDataWithoutPagination = res.data;
+                console.log("Hello, All Data Without Paginations: ", this.allDataWithoutPagination)
                 console.log(res.data);
             },
         });
@@ -596,7 +627,7 @@ export class AttendanceReportComponent {
 
     printTable() {
         const printContents =
-            document.getElementById('printableTable')?.outerHTML || '';
+            document.getElementById('printableTableForAllData')?.outerHTML || '';
         const printWindow = window.open('', '_blank');
 
         if (printWindow) {

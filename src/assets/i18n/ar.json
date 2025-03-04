@@ -139,6 +139,7 @@
             "shiftName": "اسم الوردية",
             "date": "التاريخ",
             "checkIn": "وقت الحضور",
+            "code": "كود",
             "checkOut": "وقت الانصراف",
             "publicVacationId": "معرف العطلة العامة",
             "excuesTypeId": "معرف نوع العذر",

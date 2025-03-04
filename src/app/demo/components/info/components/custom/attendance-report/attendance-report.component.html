@@ -93,112 +93,178 @@
             <th *ngFor="let col of cols">{{'reports.attendanceSheet.'+col.field | translate}} </th>
         </tr>
     </ng-template>
-
     <ng-template pTemplate="body" let-rowData>
         <tr>
-
             <td [ngClass]="{ 'null-color': !rowData.employeeName }">
-                <span class="p-column-title">employeeName</span>
                 {{ rowData.employeeName ? rowData.employeeName : "" }}
             </td>
 
+            <td [ngClass]="{ 'null-color': !rowData.code }">
+                {{ rowData.code ? rowData.code : "" }}
+            </td>
+
             <td [ngClass]="{ 'null-color': !rowData.shiftName }">
-                <span class="p-column-title">shiftName</span>
                 {{ rowData.shiftName ? rowData.shiftName : "" }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.date }">
-                <span class="p-column-title">date</span>
                 {{ rowData.date ? rowData.date : "" }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.checkIn }">
-                <span class="p-column-title">checkIn</span>
                 {{ rowData.checkIn ? rowData.checkIn : "" }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.checkOut }">
-                <span class="p-column-title">checkOut</span>
                 {{ rowData.checkOut ? rowData.checkOut : "" }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.publicVacationId }">
-                <span class="p-column-title">publicVacationId</span>
                 {{ rowData.publicVacationId ? rowData.publicVacationId : "" }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.excuesTypeId }">
-                <span class="p-column-title">excuesTypeId</span>
                 {{ rowData.excuesTypeId ? rowData.excuesTypeId : "" }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.excuseDuration }">
-                <span class="p-column-title">excuseDuration</span>
                 {{ rowData.excuseDuration ? rowData.excuseDuration : "" }}
             </td>
 
             <td [ngClass]="{ 'null-color': rowData.isDynamicWeekEndDay === null }">
-                <span class="p-column-title">isDynamicWeekEndDay</span>
                 {{ rowData.isDynamicWeekEndDay ? 'Yes' : 'No' }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.dynamicWeekEndDay }">
-                <span class="p-column-title">dynamicWeekEndDay</span>
                 {{ rowData.dynamicWeekEndDay ? rowData.dynamicWeekEndDay : "" }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.lateMinutes }">
-                <span class="p-column-title">lateMinutes</span>
                 {{ rowData.lateMinutes ? rowData.lateMinutes : "" }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.workingHoursTime }">
-                <span class="p-column-title">workingHoursTime</span>
                 {{ rowData.workingHoursTime ? rowData.workingHoursTime : "" }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.earlyLeaveMinutes }">
-                <span class="p-column-title">earlyLeaveMinutes</span>
                 {{ rowData.earlyLeaveMinutes ? rowData.earlyLeaveMinutes : "" }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.missionType }">
-                <span class="p-column-title">missionType</span>
                 {{ rowData.missionType ? rowData.missionType : "" }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.overtime }">
-                <span class="p-column-title">overtime</span>
                 {{ rowData.overtime ? rowData.overtime : "" }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.shiftCheckInTime }">
-                <span class="p-column-title">shiftCheckInTime</span>
                 {{ rowData.shiftCheckInTime ? rowData.shiftCheckInTime : "" }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.shiftCheckOutTime }">
-                <span class="p-column-title">shiftCheckOutTime</span>
                 {{ rowData.shiftCheckOutTime ? rowData.shiftCheckOutTime : "" }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.status }">
-                <span class="p-column-title">status</span>
                 {{ rowData.status ? rowData.status : "" }}
             </td>
+        </tr>
+    </ng-template>
+</p-table>
 
+<p-table id="printableTableForAllData" *ngIf="allDataWithoutPagination.length" #dt [value]="allDataWithoutPagination">
 
-            <!-- <td>
-                <div class="flex crud-operations">
-                    <button pButton pRipple icon="pi pi-pencil"
-                        class="p-button-rounded p-button-info p-button-outlined mr-2"
-                        (click)="editProduct(rowData)"></button>
+    <ng-template pTemplate="caption">
+        <h2 class="d-print-block">
+            {{'Attendance Report' | translate}}
+        </h2>
+    </ng-template>
 
-                    <button pButton pRipple icon="pi pi-trash"
-                        class="p-button-rounded p-button-outlined p-button-danger"
-                        (click)="deleteProduct(rowData)"></button>
-                </div>
-            </td> -->
+    <ng-template pTemplate="header">
+        <tr>
+            <th *ngFor="let col of cols">{{'reports.attendanceSheet.'+col.field | translate}} </th>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-rowData>
+        <tr>
+            <td [ngClass]="{ 'null-color': !rowData.employeeName }">
+                {{ rowData.employeeName ? rowData.employeeName : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.code }">
+                {{ rowData.code ? rowData.code : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.shiftName }">
+                {{ rowData.shiftName ? rowData.shiftName : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.date }">
+                {{ rowData.date ? rowData.date : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.checkIn }">
+                {{ rowData.checkIn ? rowData.checkIn : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.checkOut }">
+                {{ rowData.checkOut ? rowData.checkOut : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.publicVacationId }">
+                {{ rowData.publicVacationId ? rowData.publicVacationId : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.excuesTypeId }">
+                {{ rowData.excuesTypeId ? rowData.excuesTypeId : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.excuseDuration }">
+                {{ rowData.excuseDuration ? rowData.excuseDuration : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': rowData.isDynamicWeekEndDay === null }">
+                {{ rowData.isDynamicWeekEndDay ? 'Yes' : 'No' }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.dynamicWeekEndDay }">
+                {{ rowData.dynamicWeekEndDay ? rowData.dynamicWeekEndDay : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.lateMinutes }">
+                {{ rowData.lateMinutes ? rowData.lateMinutes : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.workingHoursTime }">
+                {{ rowData.workingHoursTime ? rowData.workingHoursTime : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.earlyLeaveMinutes }">
+                {{ rowData.earlyLeaveMinutes ? rowData.earlyLeaveMinutes : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.missionType }">
+                {{ rowData.missionType ? rowData.missionType : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.overtime }">
+                {{ rowData.overtime ? rowData.overtime : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.shiftCheckInTime }">
+                {{ rowData.shiftCheckInTime ? rowData.shiftCheckInTime : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.shiftCheckOutTime }">
+                {{ rowData.shiftCheckOutTime ? rowData.shiftCheckOutTime : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.status }">
+                {{ rowData.status ? rowData.status : "" }}
+            </td>
         </tr>
     </ng-template>
 </p-table>
@@ -206,7 +272,7 @@
 <p-table *ngIf="showTable" #dt [value]="allData" [paginator]="true" [rows]="itemsPerPage" [columns]="cols"
     [totalRecords]="totalItems" selectionMode="multiple" [(selection)]="selectedItems" [showCurrentPageReport]="true"
     [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries'|translate" [lazy]="true"
-    (onLazyLoad)="onPageChange($event)" dataKey="employeeId">
+    dataKey="employeeId">
 
     <ng-template pTemplate="caption">
         <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
@@ -250,10 +316,14 @@
                 <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
             </td>
 
-
             <td [ngClass]="{ 'null-color': !rowData.employeeName }">
                 <span class="p-column-title">employeeName</span>
                 {{ rowData.employeeName }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.code }">
+                <span class="p-column-title">code</span>
+                {{ rowData.code }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.shiftName }">

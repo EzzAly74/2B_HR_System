@@ -33,7 +33,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
         Globals.setLoading(false);
 
         if (localStorage.getItem("userToken"))
-          this.displayErrorMessage(defaultMessage); // Attempt to display default error message
+          this.displayTradeErrorMessage(defaultMessage); // Attempt to display default error message
 
         return throwError(error);
       })
@@ -42,6 +42,30 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
 
   // Function to display error message only if no message is currently active
   private displayErrorMessage(message: string): void {
+    // Check if a message is already active
+    if (!this.isMessageActive) {
+      this.isMessageActive = true; // Mark that a message is being displayed
+
+      if (!localStorage.getItem("userToken"))
+        // Show the message using PrimeNG messageService
+        this.messageService.add({
+          severity: 'error',
+          summary: this.translate.instant('Error'),
+          detail: message,
+          life: 3000 // Show for 3 seconds
+        });
+
+      // After 3 seconds, reset the flag to allow a new message to be displayed
+      setTimeout(() => {
+        this.isMessageActive = false;
+      }, 3000); // Wait for the message life to finish (3 seconds)
+    }
+    // If a message is already active, do nothing until the current one finishes
+  }
+
+
+  // Function to display error message only if no message is currently active
+  private displayTradeErrorMessage(message: string): void {
     // Check if a message is already active
     if (!this.isMessageActive) {
       this.isMessageActive = true; // Mark that a message is being displayed

@@ -58,6 +58,7 @@
     background-color: #a0a0a0;
 }
 
+#printableTableForAllData,
 #printableTable {
     display: none !important;
 
@@ -66,6 +67,7 @@
         margin: auto;
     }
 }
+
 
 .exportBtns {
     display: flex;
