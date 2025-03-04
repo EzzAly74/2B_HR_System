@@ -1,4 +1,5 @@
 <p-toast></p-toast>
+<pre-loading *ngIf="loading"></pre-loading>
 
 <app-breadcrumb [items]="items"></app-breadcrumb>
 <p-panel [header]="'Filter' | translate" [toggleable]="true" [collapsed]="false">
@@ -108,15 +109,15 @@
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.date }">
-                {{ rowData.date ? rowData.date : "" }}
+                {{ rowData.date | date:'yyyy-MM-dd' }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.checkIn }">
-                {{ rowData.checkIn ? rowData.checkIn : "" }}
+                {{ rowData.checkIn | date:'HH:mm:ss' }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.checkOut }">
-                {{ rowData.checkOut ? rowData.checkOut : "" }}
+                {{ rowData.checkOut | date:'HH:mm:ss' }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.publicVacationId }">
@@ -206,13 +207,15 @@
                 {{ rowData.date ? rowData.date : "" }}
             </td>
 
+
             <td [ngClass]="{ 'null-color': !rowData.checkIn }">
-                {{ rowData.checkIn ? rowData.checkIn : "" }}
+                {{ rowData.checkIn | date:'HH:mm:ss' }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.checkOut }">
-                {{ rowData.checkOut ? rowData.checkOut : "" }}
+                {{ rowData.checkOut | date:'HH:mm:ss' }}
             </td>
+
 
             <td [ngClass]="{ 'null-color': !rowData.publicVacationId }">
                 {{ rowData.publicVacationId ? rowData.publicVacationId : "" }}
@@ -272,7 +275,7 @@
 <p-table *ngIf="showTable" #dt [value]="allData" [paginator]="true" [rows]="itemsPerPage" [columns]="cols"
     [totalRecords]="totalItems" selectionMode="multiple" [(selection)]="selectedItems" [showCurrentPageReport]="true"
     [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries'|translate" [lazy]="true"
-    dataKey="employeeId">
+    (onLazyLoad)="onPageChange($event)" dataKey="employeeId">
 
     <ng-template pTemplate="caption">
         <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
@@ -333,17 +336,17 @@
 
             <td [ngClass]="{ 'null-color': !rowData.date }">
                 <span class="p-column-title">date</span>
-                {{ rowData.date | date:'yyyy-MM-dd HH:mm:ss' }}
+                {{ rowData.date | date:'yyyy-MM-dd' }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.checkIn }">
                 <span class="p-column-title">checkIn</span>
-                {{ rowData.checkIn | date:'yyyy-MM-dd HH:mm:ss' }}
+                {{ rowData.checkIn | date:'HH:mm:ss' }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.checkOut }">
                 <span class="p-column-title">checkOut</span>
-                {{ rowData.checkOut | date:'yyyy-MM-dd HH:mm:ss' }}
+                {{ rowData.checkOut | date:'HH:mm:ss' }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.publicVacationId }">

@@ -108,10 +108,6 @@ export class AttendanceReportComponent {
 
             this.getDropDowns();
 
-            // get All Data
-            this.getAllRows();
-
-
             if (this.month && this.year)
                 this.loadFilteredData();
 
@@ -260,12 +256,13 @@ export class AttendanceReportComponent {
         let filteredData = { ...employeeData, ...paginationData };
         filteredData.sortType = this.sortOrder;
 
+        this.loading = true;
         this.attendanceReportService.GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
                 console.log(res.data);
-
+                this.loading = false;
                 this.totalItems = res.totalItems;
                 this.loading = false;
                 console.log(this.selectedItems);
@@ -295,6 +292,8 @@ export class AttendanceReportComponent {
         this.itemsPerPage = event.rows;
         // console.log(this.sortOrder);
 
+        this.loading = true;
+
         let paginationData = {
             pageNumber: this.page,
             pageSize: this.itemsPerPage,
@@ -318,6 +317,8 @@ export class AttendanceReportComponent {
                 console.log(res);
                 this.totalItems = res.totalItems;
                 console.log(res.data.length);
+                this.loading = false;
+
             },
             error: (err) => {
                 console.log(err);
@@ -380,8 +381,17 @@ export class AttendanceReportComponent {
             this.showFormNew = true;
         }
     }
+
     exportAllCSV() {
-        const csvData = this.convertToCSV(this.allDataWithoutPagination);
+        // Format the data
+        const formattedData = this.allDataWithoutPagination.map(item => ({
+            ...item,
+            date: item.date ? new Date(item.date).toISOString().split('T')[0] : '', // Format date as yyyy-MM-dd
+            checkIn: item.checkIn ? new Date(item.checkIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '', // Format time
+            checkOut: item.checkOut ? new Date(item.checkOut).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '' // Format time
+        }));
+
+        const csvData = this.convertToCSV(formattedData);
 
         // Adding UTF-8 BOM
         const bom = '\uFEFF';
@@ -398,8 +408,16 @@ export class AttendanceReportComponent {
     }
 
     exportCSV() {
+
+        // Format the data
+        const formattedData = this.selectedItems.map(item => ({
+            ...item,
+            date: item.date ? new Date(item.date).toISOString().split('T')[0] : '', // Format date as yyyy-MM-dd
+            checkIn: item.checkIn ? new Date(item.checkIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '', // Format time
+            checkOut: item.checkOut ? new Date(item.checkOut).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '' // Format time
+        }));
         // Convert data to CSV format
-        const csvData = this.convertToCSV(this.selectedItems);
+        const csvData = this.convertToCSV(formattedData);
 
         // Adding UTF-8 BOM
         const bom = '\uFEFF';
@@ -516,6 +534,11 @@ export class AttendanceReportComponent {
             sortType: this.sortOrder,
         };
 
+        // get All Data
+        this.getAllRows(form);
+
+        this.loading = true;
+
         let filteredData = { ...paginationData, ...form.value };
 
         console.log(filteredData);
@@ -526,6 +549,7 @@ export class AttendanceReportComponent {
                     console.log(res);
                     this.showTable = true;
                     this.allData = res.data;
+                    this.loading = false;
                     console.log(res.data);
                     this.totalItems = res.totalItems;
                     this.employeeId = form.value.employeeId;
@@ -544,19 +568,22 @@ export class AttendanceReportComponent {
     }
 
 
-    getAllRows() {
+    getAllRows(form: FormGroup) {
         let paginationData = {
             pageNumber: 1,
+            ...form.value
         };
 
         let filteredData = { ...paginationData };
 
+        console.log("body of get all data : ")
         console.log(filteredData);
 
         this.attendanceReportService.GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allDataWithoutPagination = res.data;
+                console.log("from get all rows: ", this.allDataWithoutPagination)
             },
             error: (err) => {
                 console.log(err);
