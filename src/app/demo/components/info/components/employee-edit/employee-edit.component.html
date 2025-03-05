@@ -69,84 +69,79 @@
                                 (click)="showUploadImgDialg()"></button>
                         </div>
 
-                        <!-- <div class="field field-id col-12 md:col-4">
-                            <label htmlFor="id">{{ "Id" | translate }}</label>
-                            <input pInputText id="id" formControlName="Id" [(ngModel)]="currentId" />
-                        </div> -->
-                        <div class="field  required-field col-12 md:col-4">
+                        <div class="field required-field col-12 md:col-4">
                             <label htmlFor="nameAr">{{
                                 "Arabic Name" | translate
                                 }} <app-required-field></app-required-field></label>
-                            <input pInputText id="nameAr" formControlName="NameAr" [(ngModel)]="nameAr" />
+                            <input pInputText id="nameAr" formControlName="NameAr" [(ngModel)]="current.nameAr" />
                         </div>
-                        <div class="field  required-field col-12 md:col-4">
+                        <div class="field required-field col-12 md:col-4">
                             <label htmlFor="englishName">{{
                                 "English Name" | translate
                                 }} <app-required-field></app-required-field></label>
                             <input pInputText id="englishName" formControlName="EnglishName"
-                                [(ngModel)]="englishName" />
+                                [(ngModel)]="current.englishName" />
                         </div>
-                        <div class="field  required-field col-12 md:col-4">
+                        <div class="field required-field col-12 md:col-4">
                             <label htmlFor="nationalId">{{
                                 "National Id" | translate
                                 }} <app-required-field></app-required-field></label>
-                            <input pInputText id="nationalId" formControlName="NationalId" [(ngModel)]="nationalId" />
+                            <input pInputText id="nationalId" formControlName="NationalId"
+                                [(ngModel)]="current.nationalId" />
                         </div>
 
-                        <div class="field  required-field col-12 md:col-4">
+                        <div class="field required-field col-12 md:col-4">
                             <label htmlFor="phone">{{
                                 "Phone" | translate
                                 }} <app-required-field></app-required-field></label>
-                            <input pInputText id="phone" formControlName="Phone" [(ngModel)]="phone" />
+                            <input pInputText id="phone" formControlName="Phone" [(ngModel)]="current.phone" />
                         </div>
 
-
-
-                        <div class="field  required-field col-12 md:col-4">
+                        <div class="field required-field col-12 md:col-4">
                             <label htmlFor="email">{{
                                 "Email" | translate
                                 }} <app-required-field></app-required-field></label>
-                            <input pInputText id="email" formControlName="Email" [(ngModel)]="email" />
+                            <input pInputText id="email" formControlName="Email" [(ngModel)]="current.email" />
                         </div>
-                        <div class="field  required-field col-12 md:col-4">
+                        <div class="field required-field col-12 md:col-4">
                             <label htmlFor="address">{{
                                 "Address" | translate
                                 }} <app-required-field></app-required-field> </label>
-                            <input pInputText id="address" formControlName="Address" [(ngModel)]="address" />
+                            <input pInputText id="address" formControlName="Address" [(ngModel)]="current.address" />
                         </div>
 
-                        <div class="field  required-field col-12 md:col-4">
+                        <div class="field required-field col-12 md:col-4">
                             <label htmlFor="government">{{
                                 "Government" | translate
                                 }} <app-required-field></app-required-field></label>
                             <p-dropdown [filter]="true" [showClear]="true" [filterBy]="'name'"
                                 [options]="dropdownItemsGovernment" optionLabel="name" formControlName="GovernmentId"
-                                [(ngModel)]="selectedGovernment"></p-dropdown>
+                                [(ngModel)]="current.governmentId" optionValue="id"></p-dropdown>
                         </div>
 
-                        <div class="field  required-field col-12 md:col-4">
+                        <div class="field required-field col-12 md:col-4">
                             <label htmlFor="BirthDate">
                                 {{ "BirthDate" | translate }} <app-required-field></app-required-field></label>
                             <p-calendar [showIcon]="true" [iconDisplay]="'input'" inputId="BirthDate"
-                                formControlName="BirthDate" [(ngModel)]="birthDate"></p-calendar>
+                                formControlName="BirthDate" [(ngModel)]="current.birthDate"></p-calendar>
                         </div>
 
                         <div class="field col-12 md:col-4">
                             <label htmlFor="Religin">{{
                                 "Religin" | translate
                                 }}</label>
-                            <p-dropdown [filter]="true" [showClear]="true" [filterBy]="'name'"
+                            <p-dropdown [filter]="true" [showClear]="true" [filterBy]="'name'" optionValue="id"
                                 formControlName="Religion" [options]="dropdownItemsReligin" optionLabel="name"
-                                [(ngModel)]="selectedReligin"></p-dropdown>
+                                [(ngModel)]="current.religion"></p-dropdown>
                         </div>
 
                         <div class="field required-field col-12 md:col-4">
                             <label htmlFor="maritalStatus">{{
                                 "Martial Status" | translate
                                 }} <app-required-field></app-required-field></label>
-                            <p-dropdown [filter]="true" [showClear]="true" [filterBy]="'name'"
+                            <p-dropdown [filter]="true" [showClear]="true" [filterBy]="'name'" optionValue="id"
                                 formControlName="MaritalStatus" [options]="dropdownItemsMaritalStatus"
-                                optionLabel="name" [(ngModel)]="selectedMaritalStatus"></p-dropdown>
+                                optionLabel="name" [(ngModel)]="current.maritalStatus"></p-dropdown>
                         </div>
 
                         <div class="field col-12 md:col-4">
@@ -155,7 +150,7 @@
                                 }}</label>
                             <p-dropdown [filter]="true" [showClear]="true" [filterBy]="'name'"
                                 formControlName="BloodTypes" [options]="dropdownItemsBloodTypes" optionLabel="name"
-                                [(ngModel)]="selectedBloodType"></p-dropdown>
+                                [(ngModel)]="current.bloodTypes" optionValue="id"></p-dropdown>
                         </div>
 
                         <div class="field required-field col-12 md:col-4">
@@ -163,17 +158,17 @@
                                 "Gender Type" | translate
                                 }} <app-required-field></app-required-field></label>
                             <p-dropdown [filter]="true" [showClear]="true" [filterBy]="'name'" formControlName="Gender"
-                                [options]="dropdownItemsGender" optionLabel="name"
-                                [(ngModel)]="selectedGender"></p-dropdown>
+                                optionValue="id" [options]="dropdownItemsGender" optionLabel="name"
+                                [(ngModel)]="current.gender"></p-dropdown>
                         </div>
 
                         <div class="field col-12 md:col-4">
                             <label htmlFor="Qualification">{{
                                 "Qualification" | translate
                                 }}</label>
-                            <p-dropdown [filter]="true" [showClear]="true" [filterBy]="'name'"
+                            <p-dropdown [filter]="true" optionValue="id" [showClear]="true" [filterBy]="'name'"
                                 formControlName="QualificationId" [options]="dropdownItemsQualification"
-                                optionLabel="name" [(ngModel)]="selectedQualification"></p-dropdown>
+                                optionLabel="name" [(ngModel)]="current.qualificationId"></p-dropdown>
                         </div>
 
                         <div class="field required-field col-12 md:col-4">
@@ -181,16 +176,17 @@
                                 "Attendance Configuration" | translate
                                 }} <app-required-field></app-required-field></label>
                             <p-dropdown [filter]="true" [showClear]="true" [filterBy]="'name'"
-                                formControlName="AttendanceConfigurationId"
+                                formControlName="AttendanceConfigurationId" optionValue="id"
                                 [options]="dropdownItemsAttendanceConfiguration" optionLabel="name"
-                                [(ngModel)]="selectedAttendanceConfiguration"></p-dropdown>
+                                [(ngModel)]="current.attendanceConfigurationId"></p-dropdown>
                         </div>
 
-                        <div class="field  required-field col-12 md:col-4">
+                        <div class="field required-field col-12 md:col-4">
                             <label htmlFor="Job">{{ "Job" | translate }}
                                 <app-required-field></app-required-field></label>
                             <p-dropdown [filter]="true" [showClear]="true" [filterBy]="'name'" formControlName="JobId"
-                                [options]="dropdownItemsJob" optionLabel="name" [(ngModel)]="selectedJob"></p-dropdown>
+                                optionValue="id" [options]="dropdownItemsJob" optionLabel="name"
+                                [(ngModel)]="current.jobId"></p-dropdown>
                         </div>
 
                         <div class="field required-field col-12 md:col-4">
@@ -199,7 +195,7 @@
                                 }} <app-required-field></app-required-field></label>
                             <p-dropdown [filter]="true" [showClear]="true" [filterBy]="'name'"
                                 formControlName="DepartmentId" [options]="dropdownItemsDepartment" optionLabel="name"
-                                [(ngModel)]="selectedDepartment"></p-dropdown>
+                                optionValue="id" [(ngModel)]="current.departmentId"></p-dropdown>
                         </div>
 
                         <div class="field required-field col-12 md:col-4">
@@ -208,7 +204,7 @@
                                 }} <app-required-field></app-required-field> </label>
                             <p-dropdown [filter]="true" [showClear]="true" [filterBy]="'name'"
                                 formControlName="PartationId" [options]="dropdownItemsPartition" optionLabel="name"
-                                [(ngModel)]="selectedPartitions"></p-dropdown>
+                                optionValue="id" [(ngModel)]="current.partationId"></p-dropdown>
                         </div>
 
                         <div class="field required-field col-12 md:col-4">
@@ -216,8 +212,8 @@
                                 "Shift" | translate
                                 }} <app-required-field></app-required-field> </label>
                             <p-dropdown [filter]="true" [showClear]="true" [filterBy]="'name'" formControlName="ShiftId"
-                                [options]="dropdownItemsShift" optionLabel="name"
-                                [(ngModel)]="selectedShift"></p-dropdown>
+                                [options]="dropdownItemsShift" optionLabel="name" optionValue="id"
+                                [(ngModel)]="current.shiftId"></p-dropdown>
                         </div>
 
                         <div class="field col-12 md:col-4">
@@ -225,8 +221,8 @@
                                 "Bank" | translate
                                 }}</label>
                             <p-dropdown [filter]="true" [showClear]="true" [filterBy]="'name'" formControlName="BankId"
-                                [options]="dropdownItemsBank" optionLabel="name"
-                                [(ngModel)]="selectedBank"></p-dropdown>
+                                [options]="dropdownItemsBank" optionLabel="name" optionValue="id"
+                                [(ngModel)]="current.bankId"></p-dropdown>
                         </div>
 
                         <div class="field col-12 md:col-4">
@@ -234,8 +230,8 @@
                                 "Grade" | translate
                                 }}</label>
                             <p-dropdown [filter]="true" [showClear]="true" [filterBy]="'name'" formControlName="GradeId"
-                                [options]="dropdownItemsGrade" optionLabel="name"
-                                [(ngModel)]="selectedGrade"></p-dropdown>
+                                [options]="dropdownItemsGrade" optionLabel="name" optionValue="id"
+                                [(ngModel)]="current.gradeId"></p-dropdown>
                         </div>
 
                         <div class="field required-field col-12 md:col-4">
@@ -244,31 +240,30 @@
                                 }} <app-required-field></app-required-field> </label>
                             <p-dropdown [filter]="true" [showClear]="true" [filterBy]="'name'"
                                 formControlName="JobNatureId" [options]="dropdownItemsJobNature" optionLabel="name"
-                                [(ngModel)]="selectedjobNature"></p-dropdown>
+                                optionValue="id" [(ngModel)]="current.jobNatureId"></p-dropdown>
                         </div>
 
-
                         <div class="field col-12 md:col-4 flex gap-3 align-items-center">
-                            <p-inputSwitch formControlName="IsInsured" [(ngModel)]="selectedIsInsured" />
+                            <p-inputSwitch formControlName="IsInsured" [(ngModel)]="current.isInsured" />
                             <label htmlFor="isInsured">{{
                                 "Is Insured" | translate
                                 }}</label>
                         </div>
 
                         <div class="field col-12 md:col-4 flex gap-3 align-items-center">
-                            <p-inputSwitch formControlName="Ismanger" [(ngModel)]="selectedIsManager" />
+                            <p-inputSwitch formControlName="Ismanger" [(ngModel)]="current.ismanger" />
                             <label htmlFor="ismanger">{{ "Is Manager" | translate }}
                             </label>
                         </div>
 
                         <div class="field col-12 md:col-4 flex gap-3 align-items-center">
-                            <p-inputSwitch formControlName="StaticShift" [(ngModel)]="selectedStaticShift" />
+                            <p-inputSwitch formControlName="StaticShift" [(ngModel)]="current.staticShift" />
                             <label htmlFor="StaticShift">{{ "Is Static Shift" | translate }}
                             </label>
                         </div>
 
                         <div class="field col-12 md:col-4 flex gap-3 align-items-center">
-                            <p-inputSwitch formControlName="StaticVacation" [(ngModel)]="selectedStaticVacation" />
+                            <p-inputSwitch formControlName="StaticVacation" [(ngModel)]="current.staticVacation" />
                             <label htmlFor="StaticVacation">{{ "Is Static Vacation" | translate }}
                             </label>
                         </div>
@@ -277,26 +272,25 @@
                             <label htmlFor="recuritmentSource">{{
                                 "Recuritment Source" | translate
                                 }}</label>
-                            <p-dropdown [filter]="true" [showClear]="true" [filterBy]="'name'"
+                            <p-dropdown [filter]="true" [showClear]="true" [filterBy]="'name'" optionValue="id"
                                 formControlName="RecuritmentSourceId" [options]="dropdownItemsRecuritmentSource"
-                                optionLabel="name" [(ngModel)]="selectedRecuritmentSource"></p-dropdown>
+                                optionLabel="name" [(ngModel)]="current.recuritmentSourceId"></p-dropdown>
                         </div>
-
 
                         <div class="field col-12 md:col-4">
                             <label htmlFor="machineCode">{{
                                 "Machine Code" | translate
                                 }}</label>
                             <input pInputText id="machineCode" formControlName="MachineCode"
-                                [(ngModel)]="machineCode" />
+                                [(ngModel)]="current.machineCode" />
                         </div>
                         <div class="field col-12 md:col-4">
                             <label htmlFor="ContractType">{{
                                 "Contract Type" | translate
                                 }}</label>
                             <p-dropdown [filter]="true" [showClear]="true" [filterBy]="'name'"
-                                formControlName="ContractTypeId" [options]="dropdownItemsContractType"
-                                optionLabel="name" [(ngModel)]="selectedContactType"></p-dropdown>
+                                formControlName="ContractTypeId" [options]="dropdownItemsContractType" optionValue="id"
+                                optionLabel="name" [(ngModel)]="current.contractTypeId"></p-dropdown>
                         </div>
 
                         <div class="field required-field col-12 md:col-4">
@@ -304,7 +298,7 @@
                                 "Join In Date" | translate
                                 }} <app-required-field></app-required-field></label>
                             <p-calendar [showIcon]="true" [iconDisplay]="'input'" inputId="JoininDate"
-                                formControlName="JoiningDate" [(ngModel)]="joiningDate"></p-calendar>
+                                formControlName="JoiningDate" [(ngModel)]="current.joiningDate"></p-calendar>
                         </div>
 
                         <div class="field required-field col-12 md:col-4">
@@ -312,7 +306,7 @@
                                 "Contract Start Date" | translate
                                 }} <app-required-field></app-required-field></label>
                             <p-calendar [showIcon]="true" [iconDisplay]="'input'" inputId="HiringDate"
-                                formControlName="HiringDate" [(ngModel)]="hiringDate"></p-calendar>
+                                formControlName="HiringDate" [(ngModel)]="current.hiringDate"></p-calendar>
                         </div>
 
                         <div class="field col-12 md:col-4">
@@ -320,7 +314,7 @@
                                 "Contract End Date" | translate
                                 }}</label>
                             <p-calendar [showIcon]="true" [iconDisplay]="'input'" inputId="ResignationDate"
-                                formControlName="ResignationDate" [(ngModel)]="resignationDate"></p-calendar>
+                                formControlName="ResignationDate" [(ngModel)]="current.resignationDate"></p-calendar>
                         </div>
 
                         <div class="btn-filter-submit-container col-12">

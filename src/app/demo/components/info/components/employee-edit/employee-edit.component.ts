@@ -64,28 +64,6 @@ export class EmployeeEditComponent {
     sortOrder: string = 'asc';
     newNameAr!: string;
     newNameEn!: string;
-    selectedState: any = null;
-    selectedGovernment!: any;
-    selectedNationalId: any = null;
-    selectedPartitions: any = null;
-    selectedGender: any = null;
-    selectedMaritalStatus: any = null;
-    selectedQualification: any = null;
-    selectedJob: any = null;
-    selectedReligin: any = null;
-    selectedShift: any = null;
-    selectedBank: any = null;
-    selectedGrade: any = null;
-    selectedjobNature: any = null;
-    selectedRecuritmentSource: any = null;
-    selectedContactType: any = null;
-    selectedIsInsured: any = null;
-    selectedIsManager: any = null;
-    selectedStaticShift: any = false;
-    selectedStaticVacation: any = false;
-    selectedDepartment: any = null;
-    selectedBloodType: any = null;
-    selectedAttendanceConfiguration: any = null;
 
     filterData!: FormGroup;
     uploadImageDialog: boolean = false;
@@ -115,6 +93,7 @@ export class EmployeeEditComponent {
 
     uploadedFiles: any[] = [];
 
+    transformedBooleans: any = {}
     currentId!: number;
     birthDate!: any;
     joiningDate!: any;
@@ -127,6 +106,7 @@ export class EmployeeEditComponent {
     nameAr!: string;
     machineCode!: any;
     nationalId!: any;
+    current: any = {};
     phone!: any;
     baseImgUrl: string = environment.mediaUrl;
     editForm: FormGroup = new FormGroup({
@@ -143,8 +123,6 @@ export class EmployeeEditComponent {
         QualificationId: new FormControl(null, Validators.required),
         ShiftId: new FormControl(null, Validators.required),
         ResignationDate: new FormControl(null),
-        Ismanger: new FormControl(false),
-        IsInsured: new FormControl(false),
         Religion: new FormControl(null),
         BankId: new FormControl(null),
         GradeId: new FormControl(null),
@@ -159,11 +137,13 @@ export class EmployeeEditComponent {
         MachineCode: new FormControl(null),
         NationalId: new FormControl(null, Validators.required),
         Phone: new FormControl(null, Validators.required),
+        AttendanceConfigurationId: new FormControl(null, Validators.required),
+        Ismanger: new FormControl(false),
+        IsInsured: new FormControl(false),
         StaticShift: new FormControl(false),
         StaticVacation: new FormControl(false),
-        AttendanceConfigurationId: new FormControl(null, Validators.required),
     });
-
+    transformedDates!: any;
 
     // Actions Tabs variable
     Actions: any[] = [];
@@ -272,74 +252,10 @@ export class EmployeeEditComponent {
             { field: 'creatorName', header: 'creatorName' },
             { field: 'lastModifierName', header: 'lastModifierName' },
         ];
+
+        this.getCurrentData()
         this.getDropDownsData();
 
-        this.loading = true;
-        this.getData()
-            .pipe(
-                tap((data) => {
-                    this.allData = data.data;
-                    this.patchFormValues(this.allData, transformedDates);
-
-                    console.log('Data fetched:', this.allData);
-
-                    // Perform any additional operations if needed
-                    // ...
-                }),
-                map((data) => {
-                    // Compute transformedDates here
-                    return {
-                        birthDate: this.DatePipe.transform(
-                            data.data.birthDate,
-                            'MM/dd/yyyy'
-                        ),
-                        joiningDate: this.DatePipe.transform(
-                            data.data.joiningDate,
-                            'MM/dd/yyyy'
-                        ),
-                        hiringDate: this.DatePipe.transform(
-                            data.data.hiringDate,
-                            'MM/dd/yyyy'
-                        ),
-                        resignationDate: this.DatePipe.transform(
-                            data.data.resignationDate,
-                            'MM/dd/yyyy'
-                        ),
-                    };
-                })
-            )
-
-            .subscribe({
-                next: (transformedDates: any) => {
-                    console.log('transformedDates');
-                    console.log(transformedDates);
-                    this.patchFormValues(this.allData, transformedDates);
-                    this.loading = false
-                },
-                error: () => {
-                    this.loading = false
-                }
-            });
-
-        const transformedDates = {
-            birthDate: this.DatePipe.transform(
-                this.allData.birthDate,
-                'MM/dd/yyyy'
-            ),
-            joiningDate: this.DatePipe.transform(
-                this.allData.joiningDate,
-                'MM/dd/yyyy'
-            ),
-            hiringDate: this.DatePipe.transform(
-                this.allData.hiringDate,
-                'MM/dd/yyyy'
-            ),
-            resignationDate: this.DatePipe.transform(
-                this.allData.resignationDate,
-                'MM/dd/yyyy'
-            ),
-        };
-        this.patchFormValues(this.allData, transformedDates);
 
         this.Actions = [
             {
@@ -413,10 +329,59 @@ export class EmployeeEditComponent {
                 action: 'EmployeePartTimeSalary',
             },
         ];
-
-        console.log('this.allData');
-        console.log(this.allData);
     }
+
+    getCurrentData() {
+        this.loading = true;
+        this.getData()
+            .subscribe({
+                next: (res: any) => {
+                    console.log('res');
+                    console.log(res);
+                    this.current = res.data
+                    console.log(this.current);
+
+                    // map Dates
+                    this.transformedDates = {
+                        birthDate: this.DatePipe.transform(
+                            this.current.birthDate,
+                            'MM/dd/yyyy'
+                        ),
+                        joiningDate: this.DatePipe.transform(
+                            this.current.joiningDate,
+                            'MM/dd/yyyy'
+                        ),
+                        hiringDate: this.DatePipe.transform(
+                            this.current.hiringDate,
+                            'MM/dd/yyyy'
+                        ),
+                        resignationDate: this.DatePipe.transform(
+                            this.current.resignationDate,
+                            'MM/dd/yyyy'
+                        ),
+                    };
+
+                    // map booleans
+                    this.transformedBooleans = {
+                        ismanger: this.current.ismanger ? this.current.ismanger : false,
+                        isInsured: this.current.isInsured ? this.current.isInsured : true,
+                        staticShift: this.current.staticShift ? this.current.staticShift : true,
+                        staticVacation: this.current.staticVacation ? this.current.staticVacation : true,
+                    }
+
+                    this.current = {
+                        ... this.current,
+                        ... this.transformedDates,
+                        ... this.transformedBooleans
+                    }
+                    this.loading = false
+                },
+                error: () => {
+                    this.loading = false
+                }
+            });
+    }
+
 
     getObject(id: number, dropdown: any[]) {
         console.log('getObject - dropdown =>', dropdown);
@@ -439,149 +404,6 @@ export class EmployeeEditComponent {
         }
     }
 
-
-    patchFormValues(data: any, transformedDates?: any) {
-        // console.clear();
-        console.log('data => ', data);
-
-        if (data.imageUrl)
-            this.imageUrl = `${this.baseImgUrl}/${data.imageUrl}`;
-
-        this.selectedReligin = this.getObject(
-            data.religion,
-            this.dropdownItemsReligin
-        );
-        console.log('this.selectedReligin : ', this.selectedReligin);
-
-
-        this.selectedGovernment = this.getObject(
-            data.governmentId,
-            this.dropdownItemsGovernment
-        );
-        console.log('this.selectedGovernment : ', this.selectedGovernment);
-
-        this.selectedMaritalStatus = this.getObject(
-            data.maritalStatus,
-            this.dropdownItemsMaritalStatus
-        );
-        console.log(
-            'this.selectedMaritalStatus : ',
-            this.selectedMaritalStatus
-        );
-
-        this.selectedBloodType = this.getObject(
-            data.bloodTypes,
-            this.dropdownItemsBloodTypes
-        );
-        console.log('this.selectedBloodType : ', this.selectedBloodType);
-
-        this.selectedGender = this.getObject(
-            data.gender,
-            this.dropdownItemsGender
-        );
-        console.log('this.selectedGender : ', this.selectedGender);
-
-        this.selectedQualification = this.getObject(
-            data.qualificationId,
-            this.dropdownItemsQualification
-        );
-        console.log(
-            'this.selectedQualification : ',
-            this.selectedQualification
-        );
-
-        this.selectedAttendanceConfiguration = this.getObject(
-            data.attendanceConfigurationId,
-            this.dropdownItemsAttendanceConfiguration
-        );
-        console.log(
-            'this.selectedAttendanceConfiguration : ',
-            this.selectedAttendanceConfiguration
-        );
-
-        this.selectedJob = this.getObject(data.jobId, this.dropdownItemsJob);
-        console.log('this.selectedJob : ', this.selectedJob);
-        this.selectedDepartment = this.getObject(
-            data.departmentId,
-            this.dropdownItemsDepartment
-        );
-        console.log('this.selectedDepartment : ', this.selectedDepartment);
-
-        this.selectedPartitions = this.getObject(
-            data.partationId,
-            this.dropdownItemsPartition
-        );
-        console.log('this.selectedPartitions : ', this.selectedPartitions);
-        this.selectedShift = this.getObject(
-            data.shiftId,
-            this.dropdownItemsShift
-        );
-
-        console.log('this.selectedShift : ', this.selectedShift);
-
-        this.selectedBank = this.getObject(data.bankId, this.dropdownItemsBank);
-        console.log('this.selectedBank : ', this.selectedBank);
-
-        this.selectedGrade = this.getObject(
-            data.gradeId,
-            this.dropdownItemsGrade
-        );
-
-        console.log('this.selectedGrade : ', this.selectedGrade);
-
-        this.selectedjobNature = this.getObject(
-            data.jobNatureId,
-            this.dropdownItemsJobNature
-        );
-        console.log('this.selectedjobNature : ', this.selectedjobNature);
-
-        this.selectedIsInsured = data.isInsured;
-        this.selectedIsManager = data.ismanger;
-        this.selectedStaticShift = data.staticShift;
-        this.selectedStaticVacation = data.staticVacation;
-        this.selectedRecuritmentSource = this.getObject(
-            data.recuritmentSourceId,
-            this.dropdownItemsRecuritmentSource
-        );
-
-        console.log(
-            'this.selectedRecuritmentSource : ',
-            this.selectedRecuritmentSource
-        );
-
-        this.selectedContactType = this.getObject(
-            data.contractTypeId,
-            this.dropdownItemsContractType
-        );
-        console.log('this.selectedContactType : ', this.selectedContactType);
-
-        // Apply transformed dates
-        this.birthDate = transformedDates.birthDate;
-        this.joiningDate = transformedDates.joiningDate;
-        this.hiringDate = transformedDates.hiringDate;
-        this.resignationDate = transformedDates.resignationDate;
-
-        // Set other data fields
-        this.address = data.address;
-        this.nameAr = data.nameAr;
-        this.englishName = data.englishName;
-        this.discription = data.discription;
-        this.nationalId = data.nationalId;
-        this.phone = data.phone;
-        this.machineCode = data.machineCode;
-        this.email = data.email;
-
-        this.getData().subscribe({
-            next: (res) => {
-                this.allData = res.data;
-                this.loading = false;
-                this.patchFormValues(this.allData);
-            },
-            error: (err) => {
-                this.loading = false;
-            }
-        });
-    }
 
     getDropDownEnum(self: { field: any; enum: string }) {
         this.employeeEditService.getEnum(self.enum).subscribe({
@@ -625,24 +447,11 @@ export class EmployeeEditComponent {
 
     submitForm(formData: FormGroup) {
 
-        formData.patchValue({
-            BloodTypes: this.selectedBloodType?.id,
-            GovernmentId: this.selectedGovernment?.id,
-            QualificationId: this.selectedQualification?.id,
-            AttendanceConfigurationId: this.selectedAttendanceConfiguration?.id,
-            Gender: this.selectedGender?.id,
-            MaritalStatus: this.selectedMaritalStatus?.id,
-            JobId: this.selectedJob?.id,
-            JobNatureId: this.selectedjobNature?.id,
-            DepartmentId: this.selectedDepartment?.id,
-            PartationId: this.selectedPartitions?.id,
-            ShiftId: this.selectedShift?.id,
-            BankId: this.selectedBank?.id,
-            GradeId: this.selectedGrade?.id,
-            ContractTypeId: this.selectedContactType?.id,
-            RecuritmentSourceId: this.selectedRecuritmentSource?.id,
-            Religion: this.selectedReligin?.id,
+        // Open Loading
+        this.loading = true;
 
+        const bodyForm = {
+            ...formData.value,
             JoiningDate: this.DatePipe.transform(
                 this.editForm.get('JoiningDate').value,
                 'yyyy-MM-dd'
@@ -662,16 +471,6 @@ export class EmployeeEditComponent {
                 this.editForm.get('ResignationDate').value,
                 'yyyy-MM-dd'
             ),
-        });
-        // this.editForm.get('Id').enable();
-
-        console.log(formData.value);
-
-        this.loading = true;
-
-
-        const bodyForm = {
-            ...formData.value,
             Id: this.currentId,
         }
 
@@ -686,104 +485,7 @@ export class EmployeeEditComponent {
                 console.log(res);
                 this.loading = false;
 
-                // this.editForm.get('Id').disable();
-                // this.employeeEditService.GetById(this.currentId).subscribe({
-                //     next: (res) => {
-                //         this.allData = res.data;
-                //         console.clear();
-                //         console.log('allData : ');
-                //         console.log(this.allData);
-                this.birthDate = this.DatePipe.transform(
-                    this.editForm.get('BirthDate').value,
-                    'MM/dd/yyyy'
-                );
-                this.selectedReligin = this.getObject(
-                    this.editForm.get('Religion').value,
-                    this.dropdownItemsReligin
-                );
-                this.selectedGovernment = this.getObject(
-                    this.editForm.get('GovernmentId').value,
-                    this.dropdownItemsGovernment
-                );
-                this.selectedMaritalStatus = this.getObject(
-                    this.editForm.get('MaritalStatus').value,
-                    this.dropdownItemsMaritalStatus
-                );
 
-                this.selectedBloodType = this.getObject(
-                    this.editForm.get('BloodTypes').value,
-                    this.dropdownItemsBloodTypes
-                );
-                this.selectedGender = this.getObject(
-                    this.editForm.get('Gender').value,
-                    this.dropdownItemsGender
-                );
-                this.selectedQualification = this.getObject(
-                    this.editForm.get('QualificationId').value,
-                    this.dropdownItemsQualification
-                );
-
-
-
-                this.selectedJob = this.getObject(
-                    this.editForm.get('JobId').value,
-                    this.dropdownItemsJob
-                );
-
-                this.selectedDepartment = this.getObject(
-                    this.editForm.get('DepartmentId').value,
-                    this.dropdownItemsDepartment
-                );
-                this.selectedPartitions = this.getObject(
-                    this.editForm.get('PartationId').value,
-                    this.dropdownItemsPartition
-                );
-                this.selectedShift = this.getObject(
-                    this.editForm.get('ShiftId').value,
-                    this.dropdownItemsShift
-                );
-                this.selectedBank = this.getObject(
-                    this.editForm.get('BankId').value,
-                    this.dropdownItemsBank
-                );
-                this.selectedGrade = this.getObject(
-                    this.editForm.get('GradeId').value,
-                    this.dropdownItemsGrade
-                );
-                this.selectedjobNature = this.getObject(
-                    this.editForm.get('JobNatureId').value,
-                    this.dropdownItemsJobNature
-                );
-                this.selectedAttendanceConfiguration = this.getObject(
-                    this.editForm.get('AttendanceConfigurationId').value,
-                    this.dropdownItemsAttendanceConfiguration);
-
-                this.selectedIsInsured = this.selectedIsInsured;
-                this.selectedIsManager = this.selectedIsManager;
-                this.selectedStaticShift = this.selectedStaticShift;
-                this.selectedStaticVacation = this.selectedStaticVacation;
-
-                this.selectedRecuritmentSource = this.getObject(
-                    this.editForm.get('RecuritmentSourceId').value,
-                    this.dropdownItemsRecuritmentSource
-                );
-
-                this.selectedContactType = this.getObject(
-                    this.editForm.get('ContractTypeId').value,
-                    this.dropdownItemsContractType
-                );
-                this.joiningDate = this.DatePipe.transform(
-                    this.editForm.get('JoiningDate').value,
-                    'MM/dd/yyyy'
-                );
-                this.hiringDate = this.DatePipe.transform(
-                    this.editForm.get('HiringDate').value,
-                    'MM/dd/yyyy'
-                );
-                this.resignationDate = this.DatePipe.transform(
-                    this.editForm.get('ResignationDate').value,
-                    'MM/dd/yyyy'
-                );
                 this.address = this.address;
                 this.nameAr = this.nameAr;
                 this.englishName = this.englishName;
@@ -814,8 +516,6 @@ export class EmployeeEditComponent {
                 this.allData = res.data;
 
                 this.loading = false;
-
-                this.patchFormValues(this.allData);
             },
             error: () => {
                 this.loading = false;
@@ -973,7 +673,6 @@ export class EmployeeEditComponent {
                         tap((data) => {
                             this.allData = data.data;
                             console.log('Data fetched:', this.allData);
-                            this.patchFormValues(this.allData);
 
                             // Perform any additional operations if needed
                             // ...
@@ -1003,8 +702,6 @@ export class EmployeeEditComponent {
                     .subscribe((transformedDates) => {
                         console.log('transformedDates');
                         console.log(transformedDates);
-
-                        this.patchFormValues(this.allData, transformedDates);
                     });
             },
             error: (err) => {
