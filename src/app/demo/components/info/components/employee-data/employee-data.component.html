@@ -203,6 +203,10 @@
 
         <button pButton pRipple [label]="'Export' | translate" icon="pi pi-upload" class="p-button-help mx-2 px-5"
             pTooltip="CSV" (click)="exportCSV()" [disabled]="!selectedItems || !selectedItems.length"></button>
+
+
+        <button pButton pRipple [label]="'Export All' | translate" icon="pi pi-upload" class="p-button-help mx-2 px-5"
+            pTooltip="CSV" (click)="exportAllCSV()"></button>
     </ng-template>
 </p-toolbar>
 

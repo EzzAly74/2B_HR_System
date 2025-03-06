@@ -44,6 +44,7 @@ export class EmployeeDataComponent {
     submitted: boolean = false;
     productDialog: boolean = false;
     product: any;
+    allDataWithoutPagination!: any;
     event!: any;
     newName!: string;
     newNotes!: string;
@@ -150,17 +151,25 @@ export class EmployeeDataComponent {
             );
             this.getDropDowns();
 
+            this.loadAllData();
+
+            // alert(this.translate.instant('Name'));
+
             this.cols = [
                 // basic data
-                { field: 'name', header: 'Name' },
-                { field: 'notes', header: 'Notes' },
+                { field: 'name', header: this.translate.instant('Name') },
+                { field: 'notes', header: this.translate.instant('Notes') },
 
                 // Generic Fields
-                { field: 'creationTime', header: 'creationTime' },
-                { field: 'lastModificationTime', header: 'lastModificationTime' },
-                { field: 'creatorName', header: 'creatorName' },
-                { field: 'lastModifierName', header: 'lastModifierName' },
+                { field: 'creationTime', header: this.translate.instant('creationTime') },
+                { field: 'lastModificationTime', header: this.translate.instant('lastModificationTime') },
+                { field: 'creatorName', header: this.translate.instant('creatorName') },
+                { field: 'lastModifierName', header: this.translate.instant('lastModifierName') },
             ];
+
+            // are you show it? 
+
+
 
             // update breadcrumb
             this.translate.onLangChange.subscribe(() => {
@@ -340,18 +349,19 @@ export class EmployeeDataComponent {
             );
         });
 
-        this.cols = [
-            // basic data
-            { field: 'name', header: 'Name' },
-            { field: 'notes', header: 'Notes' },
+        // this.cols = [
+        //     // basic data
+        //     { field: 'name', header: 'Name' },
+        //     { field: 'notes', header: 'Notes' },
 
-            // Generic Fields
-            { field: 'creationTime', header: 'creationTime' },
-            { field: 'lastModificationTime', header: 'lastModificationTime' },
-            { field: 'creatorName', header: 'creatorName' },
-            { field: 'lastModifierName', header: 'lastModifierName' },
-        ];
+        //     // Generic Fields
+        //     { field: 'creationTime', header: 'creationTime' },
+        //     { field: 'lastModificationTime', header: 'lastModificationTime' },
+        //     { field: 'creatorName', header: 'creatorName' },
+        //     { field: 'lastModifierName', header: 'lastModifierName' },
+        // ];
     }
+
     getDropDownEnum(self: { field: any; enum: string }) {
         this._EmployeeService.getEnum(self.enum).subscribe({
             next: (res) => {
@@ -557,6 +567,23 @@ export class EmployeeDataComponent {
         });
     }
 
+
+    loadAllData() {
+        // this.loading = true;
+        let filteredData = {};
+        this._EmployeeService.GetPage(filteredData).subscribe({
+            next: (res) => {
+
+                this.allDataWithoutPagination = res.data
+            },
+            error: (err) => {
+                console.log(err);
+                this.loading = false;
+            },
+        });
+    }
+
+
     onPageChange(event: any) {
         let x: string;
         console.log(event);
@@ -658,6 +685,26 @@ export class EmployeeDataComponent {
         link.download = `${this.endPoint}_${new Date().getTime()}.csv`;
         link.click();
     }
+
+    exportAllCSV() {
+        // Convert data to CSV format
+        const csvData = this.convertToCSV(this.allDataWithoutPagination);
+
+        // Adding UTF-8 BOM
+        const bom = '\uFEFF';
+        const csvContent = bom + csvData;
+
+        // Create a Blob with UTF-8 encoding
+        const blob = new Blob([csvContent], {
+            type: 'text/csv;charset=utf-8;',
+        });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `${this.endPoint}_${new Date().getTime()}.csv`;
+        link.click();
+    }
+
+
 
     convertToCSV(data: any[]): string {
         if (!data || !data.length) return '';
