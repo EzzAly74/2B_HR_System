@@ -521,7 +521,8 @@ export class EmployeeDataComponent {
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
-            this.sortOrder
+            this.sortOrder,
+            false
         );
     }
 
@@ -536,7 +537,8 @@ export class EmployeeDataComponent {
         size: number,
         nameFilter: string,
         filterType: string,
-        sortType: string
+        sortType: string,
+        loading?: boolean
     ) {
         // this.loading = true;
         let filteredData = {
@@ -548,7 +550,7 @@ export class EmployeeDataComponent {
         };
         filteredData.sortType = this.sortOrder;
 
-        this.loading = true;
+        loading ? this.loading = loading : this.loading = true;
 
         this._EmployeeService.GetPage(filteredData).subscribe({
             next: (res) => {

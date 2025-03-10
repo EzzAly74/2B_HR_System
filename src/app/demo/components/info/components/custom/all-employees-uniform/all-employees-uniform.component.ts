@@ -87,6 +87,12 @@ export class AllEmployeesUniformComponent {
         Globals.getMainLangChanges().subscribe((mainLang) => {
             this._EmployeeUniformService.setEndPoint(this.endPoint);
 
+
+
+            // update mainLang at Service
+            this._EmployeeUniformService.setCulture(mainLang);
+
+
             this.cols = [
                 // custom fields
                 { field: 'employeeName', header: 'Employee' },

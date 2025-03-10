@@ -53,4 +53,10 @@
     height: 100%;
     box-shadow: none;
     justify-content: center;
+    overflow: hidden;
+}
+
+::ng-deep html:lang(ar) .p-paginator-pages {
+    display: flex;
+    flex-direction: row-reverse;
 }

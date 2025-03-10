@@ -469,39 +469,42 @@ export class AllEmployeesFileComponent {
     }
 
     exportCSV() {
-        // Convert data to CSV format
-        const csvData = this.convertToCSV(this.selectedItems);
+        // Translate column headers
+        this.translate.get(this.cols.map(col => col.header)).subscribe(translations => {
+            const translatedHeaders = this.cols.map(col => translations[col.header]);
 
-        // Adding UTF-8 BOM
-        const bom = '\uFEFF';
-        const csvContent = bom + csvData;
+            // Convert data to CSV format with translated headers
+            const csvData = this.convertToCSV(this.selectedItems, translatedHeaders);
 
-        // Create a Blob with UTF-8 encoding
-        const blob = new Blob([csvContent], {
-            type: 'text/csv;charset=utf-8;',
+
+
+            // Adding UTF-8 BOM
+            const bom = '\uFEFF';
+            const csvContent = bom + csvData;
+
+            // Create a Blob with UTF-8 encoding
+            const blob = new Blob([csvContent], {
+                type: 'text/csv;charset=utf-8;',
+            });
+
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${this.endPoint}_${new Date().getTime()}.csv`;
+            link.click();
         });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'data_export_' + new Date().getTime() + '.csv';
-        link.click();
     }
 
-    convertToCSV(data: any[]): string {
+    convertToCSV(data: any[], headers: string[]): string {
         if (!data || !data.length) return '';
 
         const separator = ',';
-        let keys = [];
+        let keys = this.cols.map(row => row.field); // Extract fields from `cols`
 
-        this.cols.forEach((row) => {
-            keys.push(row.field);
-        });
-        console.log(keys);
-
-        const csvContent = data.map((row) =>
-            keys.map((key) => `"${row[key]}"`).join(separator)
+        const csvContent = data.map(row =>
+            keys.map(key => `"${row[key] ?? ''}"`).join(separator) // Handle undefined values
         );
 
-        csvContent.unshift(keys.join(separator)); // Add header row
+        csvContent.unshift(headers.join(separator)); // Add translated headers as the first row
         return csvContent.join('\r\n'); // Join all rows
     }
 

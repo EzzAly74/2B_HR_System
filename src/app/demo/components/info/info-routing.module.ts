@@ -84,6 +84,7 @@ import { GetLoanPaymentDetailsComponent } from './components/custom/get-loan-pay
 import { FixedPenalityComponent } from './components/custom/fixed-penality/fixed-penality.component';
 import { CalculateMonthSalaryService } from './components/custom/calculate-month-salary/calculate-month-salary.service';
 import { CalculateMonthSalaryComponent } from './components/custom/calculate-month-salary/calculate-month-salary.component';
+import { AllEmployeeVacationStockComponent } from './components/custom/all-employee-vacation-stock/all-employee-vacation-stock.component';
 
 @NgModule({
     imports: [
@@ -293,6 +294,12 @@ import { CalculateMonthSalaryComponent } from './components/custom/calculate-mon
                 path: 'allEmployeesUniform',
                 canActivate: [authGuard],
                 component: AllEmployeesUniformComponent,
+            },
+
+            {
+                path: 'allEmployeesVacationStock',
+                canActivate: [authGuard],
+                component: AllEmployeeVacationStockComponent,
             },
 
             {

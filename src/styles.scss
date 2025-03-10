@@ -540,6 +540,15 @@ html[lang=ar] .p-paginator {
     direction: ltr;
 }
 
-::ng-deep .p-dialog {
+:host ::ng-deep .p-dialog {
     overflow: hidden !important;
+}
+
+:host ::ng-deep [role="dialog"] {
+    overflow: hidden !important;
+}
+
+:host ::ng-deep .p-paginator-pages {
+    display: flex;
+    flex-direction: row-reverse;
 }

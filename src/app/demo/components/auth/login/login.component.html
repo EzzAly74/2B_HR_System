@@ -69,8 +69,15 @@
 
 
                         </div>
-                        <button pButton pRipple [label]="'Sign In' | translate" class="w-full p-3 text-xl"
-                            [disabled]="loginForm.invalid" type="submit"></button>
+                        <button pButton pRipple class="w-full p-3 text-xl" [disabled]="loginForm.invalid && !loading"
+                            type="submit">
+
+                            <span class="text" *ngIf="!loading">{{'Sign In' | translate}}</span>
+                            <span *ngIf="loading" class="loader flex justify-content-center">
+                                <i class="fas fa-spinner fa-spin loading-icon"></i>
+                            </span>
+
+                        </button>
                     </div>
                 </form>
             </div>

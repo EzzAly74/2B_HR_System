@@ -49,8 +49,9 @@ export class AllEmployeesManagerComponent {
     showFormNew: boolean = false;
     sortField: string = 'id';
     sortOrder: string = 'asc';
-
+    fileNew!: File;
     managerDropDown: any;
+
     // for new
     selectedManager: string;
     selectedManagerId: number;
@@ -157,6 +158,58 @@ export class AllEmployeesManagerComponent {
                 console.log(this.dropdownItemsEmployee);
             },
         });
+    }
+
+
+
+    onFileSelect(event: any, fileUploader: any) {
+        console.log(event);
+        let file = event.files[0]; // Use `event.files` to get the uploaded file
+
+        if (file) {
+            this.fileNew = file;
+
+            const formData: FormData = new FormData();
+            formData.append('file', this.fileNew);
+
+            this._EmployeeManagerService.importExcel(formData).subscribe({
+                next: (res) => {
+                    console.log(res);
+                    console.log('Upload successful');
+
+                    // Reload data
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+
+                    // Show success message
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translate.instant('Success'),
+                        detail: res?.['message'],
+                        life: 3000,
+                    });
+
+                    // Clear the file uploader
+                    fileUploader.clear();
+                },
+                error: (err) => {
+                    console.error(err);
+
+                    // Show error message
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translate.instant('Error'),
+                        detail: this.translate.instant('UploadFailed'),
+                        life: 3000,
+                    });
+                }
+            });
+        }
     }
 
     initFormGroups() {

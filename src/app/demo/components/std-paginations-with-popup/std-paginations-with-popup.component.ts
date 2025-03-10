@@ -139,19 +139,22 @@ export class StdPaginationsWithPopupComponent {
                 this.updateTranslations();
             }
 
+
+            this.cols = [
+                // basic data
+                { field: 'name', header: this.translate.instant('Name') },
+                { field: 'notes', header: this.translate.instant('Notes') },
+
+                // Generic Fields
+                { field: 'creationTime', header: this.translate.instant('CreationTime') },
+                { field: 'lastModificationTime', header: this.translate.instant('LastModificationTime') },
+                { field: 'creatorName', header: this.translate.instant('CreatorName') },
+                { field: 'lastModifierName', header: this.translate.instant('LastModifierName') },
+            ];
+
         });
 
-        this.cols = [
-            // basic data
-            { field: 'name', header: 'Name' },
-            { field: 'notes', header: 'Notes' },
 
-            // Generic Fields
-            { field: 'creationTime', header: 'CreationTime' },
-            { field: 'lastModificationTime', header: 'LastModificationTime' },
-            { field: 'creatorName', header: 'CreatorName' },
-            { field: 'lastModifierName', header: 'LastModifierName' },
-        ];
     }
 
     splitCamelCase(str: any) {
@@ -376,42 +379,45 @@ export class StdPaginationsWithPopupComponent {
     }
 
     exportCSV() {
-        // Convert data to CSV format
-        const csvData = this.convertToCSV(this.selectedItems);
+        // Translate column headers
+        this.translate.get(this.cols.map(col => col.header)).subscribe(translations => {
+            const translatedHeaders = this.cols.map(col => translations[col.header]);
 
-        // Adding UTF-8 BOM
-        const bom = '\uFEFF';
-        const csvContent = bom + csvData;
+            // Convert data to CSV format with translated headers
+            const csvData = this.convertToCSV(this.selectedItems, translatedHeaders);
 
-        // Create a Blob with UTF-8 encoding
-        const blob = new Blob([csvContent], {
-            type: 'text/csv;charset=utf-8;',
+
+
+            // Adding UTF-8 BOM
+            const bom = '\uFEFF';
+            const csvContent = bom + csvData;
+
+            // Create a Blob with UTF-8 encoding
+            const blob = new Blob([csvContent], {
+                type: 'text/csv;charset=utf-8;',
+            });
+
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${this.endPoint}_${new Date().getTime()}.csv`;
+            link.click();
         });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = `${this.endPoint}_${new Date().getTime()}.csv`;
-        link.click();
     }
 
-    convertToCSV(data: any[]): string {
-        console.log(data);
+    convertToCSV(data: any[], headers: string[]): string {
         if (!data || !data.length) return '';
 
         const separator = ',';
-        let keys = [];
+        let keys = this.cols.map(row => row.field); // Extract fields from `cols`
 
-        this.cols.forEach((row) => {
-            keys.push(row.field);
-        });
-        console.log(keys);
-
-        const csvContent = data.map((row) =>
-            keys.map((key) => `"${row[key]}"`).join(separator)
+        const csvContent = data.map(row =>
+            keys.map(key => `"${row[key] ?? ''}"`).join(separator) // Handle undefined values
         );
 
-        csvContent.unshift(keys.join(separator)); // Add header row
+        csvContent.unshift(headers.join(separator)); // Add translated headers as the first row
         return csvContent.join('\r\n'); // Join all rows
     }
+
     confirmDeleteSelected() {
         let selectedIds = [];
         console.log('Selected Items :');

@@ -10,16 +10,7 @@ import { Globals } from 'src/app/class/globals';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
-    styles: [
-        `
-            :host ::ng-deep .pi-eye,
-            :host ::ng-deep .pi-eye-slash {
-                transform: scale(1.6);
-                margin-right: 1rem;
-                color: var(--primary-color) !important;
-            }
-        `,
-    ],
+    styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
     loginForm: FormGroup = new FormGroup({
@@ -27,7 +18,6 @@ export class LoginComponent {
         password: new FormControl(null, [Validators.required]),
     });
     valCheck: string[] = ['remember'];
-
     password!: string;
     theme: string;
     loading: boolean = false;

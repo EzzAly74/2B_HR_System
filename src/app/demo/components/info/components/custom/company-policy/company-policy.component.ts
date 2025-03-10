@@ -498,33 +498,108 @@ export class CompanyPolicyComponent {
             this.sortOrder = 'asc';
         }
     }
+
     sortByName(event: any) {
         this.sortField = 'name';
     }
-    onFileSelect(event: any) {
+
+    onFileSelect(event: any, fileUploader: any) {
         console.log(event);
-        let file: any = event.currentFiles[0];
+        let file = event.files[0]; // Use `event.files` to get the uploaded file
 
         if (file) {
             this.fileNew = file;
-            this.addNewForm.patchValue({
-                File: file,
+
+            const formData: FormData = new FormData();
+            formData.append('file', this.fileNew);
+
+            this.companyPolicyService.importExcel(formData).subscribe({
+                next: (res) => {
+                    console.log(res);
+                    console.log('Upload successful');
+
+                    // Reload data
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+
+                    // Show success message
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translate.instant('Success'),
+                        detail: res?.['message'],
+                        life: 3000,
+                    });
+
+                    // Clear the file uploader
+                    fileUploader.clear();
+                },
+                error: (err) => {
+                    console.error(err);
+
+                    // Show error message
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translate.instant('Error'),
+                        detail: this.translate.instant('UploadFailed'),
+                        life: 3000,
+                    });
+                }
             });
-            this.addNewForm.get('File')?.updateValueAndValidity();
         }
     }
-    onFileSelectEdit(event: any) {
+
+    onFileSelectEdit(event: any, fileUploader: any) {
         console.log(event);
-        let file: any = event.currentFiles[0];
+        let file = event.files[0]; // Use `event.files` to get the uploaded file
 
         if (file) {
-            this.fileEdit = file;
-            console.log(this.product);
+            this.fileNew = file;
 
-            this.editForm.patchValue({
-                File: file,
+            const formData: FormData = new FormData();
+            formData.append('file', this.fileNew);
+
+            this.companyPolicyService.importExcel(formData).subscribe({
+                next: (res) => {
+                    console.log(res);
+                    console.log('Upload successful');
+
+                    // Reload data
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+
+                    // Show success message
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translate.instant('Success'),
+                        detail: res?.['message'],
+                        life: 3000,
+                    });
+
+                    // Clear the file uploader
+                    fileUploader.clear();
+                },
+                error: (err) => {
+                    console.error(err);
+
+                    // Show error message
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translate.instant('Error'),
+                        detail: this.translate.instant('UploadFailed'),
+                        life: 3000,
+                    });
+                }
             });
-            this.editForm.get('File')?.updateValueAndValidity();
         }
     }
 }

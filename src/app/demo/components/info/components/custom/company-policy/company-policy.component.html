@@ -47,7 +47,6 @@
                 <label htmlFor="upload">{{ "Upload File" | translate }} </label>
                 <p-fileUpload #fileUploader mode="basic" [chooseLabel]="'Import File' | translate"
                     chooseIcon="pi pi-download" name="demo[]" maxFileSize="1000000"
-                    accept=".xls, .xlsx, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                     (onSelect)="onFileSelect($event, fileUploader)" [auto]="true">
                 </p-fileUpload>
 

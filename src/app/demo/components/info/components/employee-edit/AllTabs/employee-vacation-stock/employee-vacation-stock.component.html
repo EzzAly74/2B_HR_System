@@ -50,7 +50,7 @@
         </div>
 
         <div class="field">
-            <button class="w-25" pButton label="Insert New" (click)="addNew()"></button>
+            <button class="w-25" pButton [label]="'Insert New' | translate" (click)="addNew()"></button>
         </div>
     </ng-template>
 </p-dialog>
@@ -81,7 +81,7 @@
 
             <!-- Custom fields -->
             <th>{{ "Start Date" | translate }}</th>
-            <th>{{ "vacation Type" | translate }}</th>
+            <th>{{ "Vacation Type" | translate }}</th>
             <th>{{ "vacation Balance" | translate }}</th>
             <th>{{ "Year" | translate }}</th>
 
