@@ -45,11 +45,10 @@
 
             <div class="field">
                 <label htmlFor="upload">{{ "Upload File" | translate }} </label>
-                <p-fileUpload #fileUploader mode="basic" [chooseLabel]="'Import File' | translate"
-                    chooseIcon="pi pi-download" name="demo[]" maxFileSize="1000000"
-                    (onSelect)="onFileSelect($event, fileUploader)" [auto]="true">
+                <p-fileUpload #fileUploader mode="basic" [chooseLabel]="fileNew || ('Import File' | translate)"
+                    chooseIcon="pi pi-download" name="demo[]" maxFileSize="1000000" [auto]="true"
+                    (onUpload)="onFileUpload()" (onSelect)="onFileSelect($event)">
                 </p-fileUpload>
-
             </div>
 
             <div class="field insertNew">

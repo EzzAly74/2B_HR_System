@@ -502,104 +502,24 @@ export class CompanyPolicyComponent {
     sortByName(event: any) {
         this.sortField = 'name';
     }
-
-    onFileSelect(event: any, fileUploader: any) {
-        console.log(event);
-        let file = event.files[0]; // Use `event.files` to get the uploaded file
-
-        if (file) {
-            this.fileNew = file;
-
-            const formData: FormData = new FormData();
-            formData.append('file', this.fileNew);
-
-            this.companyPolicyService.importExcel(formData).subscribe({
-                next: (res) => {
-                    console.log(res);
-                    console.log('Upload successful');
-
-                    // Reload data
-                    this.loadData(
-                        this.page,
-                        this.itemsPerPage,
-                        this.nameFilter,
-                        this.sortField,
-                        this.sortOrder
-                    );
-
-                    // Show success message
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: this.translate.instant('Success'),
-                        detail: res?.['message'],
-                        life: 3000,
-                    });
-
-                    // Clear the file uploader
-                    fileUploader.clear();
-                },
-                error: (err) => {
-                    console.error(err);
-
-                    // Show error message
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translate.instant('Error'),
-                        detail: this.translate.instant('UploadFailed'),
-                        life: 3000,
-                    });
-                }
-            });
+    onFileSelect(event: any) {
+        if (event.files.length > 0) {
+            let size = event.files.length - 1;
+            this.fileNew = event.files[size].name;
         }
     }
 
-    onFileSelectEdit(event: any, fileUploader: any) {
-        console.log(event);
-        let file = event.files[0]; // Use `event.files` to get the uploaded file
 
-        if (file) {
-            this.fileNew = file;
-
-            const formData: FormData = new FormData();
-            formData.append('file', this.fileNew);
-
-            this.companyPolicyService.importExcel(formData).subscribe({
-                next: (res) => {
-                    console.log(res);
-                    console.log('Upload successful');
-
-                    // Reload data
-                    this.loadData(
-                        this.page,
-                        this.itemsPerPage,
-                        this.nameFilter,
-                        this.sortField,
-                        this.sortOrder
-                    );
-
-                    // Show success message
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: this.translate.instant('Success'),
-                        detail: res?.['message'],
-                        life: 3000,
-                    });
-
-                    // Clear the file uploader
-                    fileUploader.clear();
-                },
-                error: (err) => {
-                    console.error(err);
-
-                    // Show error message
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translate.instant('Error'),
-                        detail: this.translate.instant('UploadFailed'),
-                        life: 3000,
-                    });
-                }
-            });
+    onFileSelectEdit(event: any) {
+        if (event.files.length > 0) {
+            let size = event.files.length - 1;
+            this.fileEdit = event.files[size].name;
         }
+        event = null;
     }
+
+    onFileUpload() {
+
+    }
+
 }
