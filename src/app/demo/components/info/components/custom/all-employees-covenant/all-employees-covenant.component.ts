@@ -257,7 +257,7 @@ export class AllEmployeesCovenantComponent {
 
         this.addNewForm.patchValue({
             covenantId: this.selectedCovenant?.id,
-            employeeId: this.selectedCovenant?.id,
+            employeeId: this.selectedEmployee?.id,
         })
 
         if (this.addNewForm.valid) {
