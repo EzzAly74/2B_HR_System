@@ -7,7 +7,7 @@
         "start": "ng serve",
         "build": "ng build --base-href /2B_HR_System/ --output-path ./docs",
         "build-dev": "ng build --base-href /2B_HR_System/ --output-path ./docs",
-        "build-prod": "ng build --base-href /2B_HR_System/ --output-path ./live",
+        "build-prod": "ng build --configuration=production --base-href /2B_HR_System/ --output-path ./live",
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e"
