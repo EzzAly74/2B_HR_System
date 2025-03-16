@@ -297,6 +297,7 @@ export class CloseMonthComponent {
 
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
     }

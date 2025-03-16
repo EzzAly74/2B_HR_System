@@ -204,6 +204,14 @@ export class ResignationComponent {
                         detail: res.message,
                         life: 3000,
                     });
+                    alert("true")
+                } else {
+                    this.messageService.add({
+                        severity: 'warn',
+                        summary: this.translate.instant('Warning'),
+                        detail: res.message,
+                        life: 3000,
+                    });
                 }
 
                 this.acceptRequestDialogue = false;
@@ -240,6 +248,14 @@ export class ResignationComponent {
                     this.messageService.add({
                         severity: 'success',
                         summary: this.translate.instant('Success'),
+                        detail: res.message,
+                        life: 3000,
+                    });
+                    alert("true")
+                } else {
+                    this.messageService.add({
+                        severity: 'warn',
+                        summary: this.translate.instant('Warning'),
                         detail: res.message,
                         life: 3000,
                     });

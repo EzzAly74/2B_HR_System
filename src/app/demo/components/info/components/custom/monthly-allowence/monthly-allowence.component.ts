@@ -75,6 +75,11 @@ export class MonthlyAllowenceComponent {
         this.endPoint = 'AllowanceValues';
         Globals.getMainLangChanges().subscribe((mainLang) => {
 
+            console.log('Main language changed to:', mainLang);
+
+            // update mainLang at Service
+            this._MonthlyAllowenceService.setCulture(mainLang);
+
             this._MonthlyAllowenceService.setEndPoint(this.endPoint);
 
             this.cols = [
@@ -160,7 +165,6 @@ export class MonthlyAllowenceComponent {
                 this.allowanceDropDown = res.data;
                 console.log(this.allowanceDropDown);
             },
-
         });
     }
 
@@ -324,6 +328,7 @@ export class MonthlyAllowenceComponent {
 
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
     }

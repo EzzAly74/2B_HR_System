@@ -227,12 +227,19 @@ export class VacationRequestComponent {
 
         this.vacationRequestService.changeStatus(formData).subscribe({
             next: (res) => {
+                this.hideDialog();
                 if (res.success) {
-                    this.hideDialog();
                     // show message for user to show processing of deletion.
                     this.messageService.add({
                         severity: 'success',
                         summary: this.translate.instant('Success'),
+                        detail: res.message,
+                        life: 3000,
+                    });
+                } else {
+                    this.messageService.add({
+                        severity: 'warn',
+                        summary: this.translate.instant('Warnning'),
                         detail: res.message,
                         life: 3000,
                     });
@@ -251,6 +258,7 @@ export class VacationRequestComponent {
             },
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
     }
@@ -264,6 +272,7 @@ export class VacationRequestComponent {
             },
             error: (err) => {
                 console.log(err);
+
             },
         });
     }

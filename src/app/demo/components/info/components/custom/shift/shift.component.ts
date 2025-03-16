@@ -309,6 +309,7 @@ export class ShiftComponent {
 
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
     }

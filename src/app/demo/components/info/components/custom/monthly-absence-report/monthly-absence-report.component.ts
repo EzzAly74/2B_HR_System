@@ -413,80 +413,69 @@ export class MonthlyAbsenceReportComponent {
         }
     }
     exportAllCSV() {
-        const csvData = this.convertToCSV(this.allDataWithoutPagination);
+        // Translate column headers
+        this.translate.get(this.cols.map(col => col.header)).subscribe(translations => {
+            const translatedHeaders = this.cols.map(col => translations[col.header]);
 
-        // Adding UTF-8 BOM
-        const bom = '\uFEFF';
-        const csvContent = bom + csvData;
+            // Convert data to CSV format with translated headers
+            const csvData = this.convertToCSV(this.allDataWithoutPagination, translatedHeaders);
 
-        // Create a Blob with UTF-8 encoding
-        const blob = new Blob([csvContent], {
-            type: 'text/csv;charset=utf-8;',
+
+
+            // Adding UTF-8 BOM
+            const bom = '\uFEFF';
+            const csvContent = bom + csvData;
+
+            // Create a Blob with UTF-8 encoding
+            const blob = new Blob([csvContent], {
+                type: 'text/csv;charset=utf-8;',
+            });
+
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${this.endPoint}_${new Date().getTime()}.csv`;
+            link.click();
         });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'data_export_' + new Date().getTime() + '.csv';
-        link.click();
     }
 
     exportCSV() {
-        // Convert data to CSV format
-        const csvData = this.convertToCSV(this.selectedItems);
+        // Translate column headers
+        this.translate.get(this.cols.map(col => col.header)).subscribe(translations => {
+            const translatedHeaders = this.cols.map(col => translations[col.header]);
 
-        // Adding UTF-8 BOM
-        const bom = '\uFEFF';
-        const csvContent = bom + csvData;
+            // Convert data to CSV format with translated headers
+            const csvData = this.convertToCSV(this.selectedItems, translatedHeaders);
 
-        // Create a Blob with UTF-8 encoding
-        const blob = new Blob([csvContent], {
-            type: 'text/csv;charset=utf-8;',
+
+
+            // Adding UTF-8 BOM
+            const bom = '\uFEFF';
+            const csvContent = bom + csvData;
+
+            // Create a Blob with UTF-8 encoding
+            const blob = new Blob([csvContent], {
+                type: 'text/csv;charset=utf-8;',
+            });
+
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${this.endPoint}_${new Date().getTime()}.csv`;
+            link.click();
         });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'data_export_' + new Date().getTime() + '.csv';
-        link.click();
     }
 
-    convertToCSV(data: any[]): string {
+    convertToCSV(data: any[], headers: string[]): string {
         if (!data || !data.length) return '';
 
         const separator = ',';
+        let keys = this.cols.map(row => row.field); // Extract fields from `cols`
 
-        // Get the headers from the `cols` array
-        const headers = this.cols
-            .map((col) => `"${col.header}"`)
-            .join(separator);
-
-        // Get the field names for mapping data
-        const keys = this.cols.map((col) => col.field);
-
-        // Map the data rows
-        const csvContent = data.map((row) =>
-            keys
-                .map((key) => {
-                    if (key === 'absentDates' && Array.isArray(row[key])) {
-                        // Format absentDates
-                        return `"${row[key]
-                            .map((date: string) =>
-                                new Date(date).toLocaleDateString('en-US', {
-                                    year: 'numeric',
-                                    month: 'short',
-                                    day: '2-digit',
-                                })
-                            )
-                            .join('  -  ')}"`;
-                    } else {
-                        return `"${row[key] || ''}"`; // Handle other fields
-                    }
-                })
-                .join(separator)
+        const csvContent = data.map(row =>
+            keys.map(key => `"${row[key] ?? ''}"`).join(separator) // Handle undefined values
         );
 
-        // Add the header row at the beginning
-        csvContent.unshift(headers);
-
-        // Join all rows with newline
-        return csvContent.join('\r\n');
+        csvContent.unshift(headers.join(separator)); // Add translated headers as the first row
+        return csvContent.join('\r\n'); // Join all rows
     }
 
     confirmDeleteSelected() {

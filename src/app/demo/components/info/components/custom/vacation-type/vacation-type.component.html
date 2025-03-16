@@ -65,6 +65,18 @@
                     'Enter number of months to start vacation' | translate
                 " type="number" />
             </div>
+
+            <div class="field">
+                <label htmlFor="new-notes">{{
+                    "vacation Request Number After day" | translate
+                    }}</label>
+                <input pInputText formControlName="vacationRequestNumAfterday" id="vacationRequestNumAfterday"
+                    [placeholder]="
+                    'Enter vacation Request Number After day' | translate
+                " type="number" />
+            </div>
+
+
             <div class="fields-aprrove">
                 <div class="field field-approve">
                     <label for="mangerApproved">{{
@@ -141,6 +153,7 @@
             <th>{{ "managerApproved" | translate }}</th>
             <th>{{ "hrApproved" | translate }}</th>
             <th>{{ "stockVacation" | translate }}</th>
+            <th>{{ "vacationRequestNumAfterday" | translate }}</th>
             <th>{{ "creationTime" | translate }}</th>
             <th>{{ "lastModificationTime" | translate }}</th>
             <th>{{ "creatorName" | translate }}</th>
@@ -199,6 +212,11 @@
             <td [ngClass]="{ 'null-color': !rowData.stockVacation }">
                 <span class="p-column-title">stockVacation</span>
                 {{ rowData.stockVacation }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.vacationRequestNumAfterday }">
+                <span class="p-column-title">vacationRequestNumAfterday</span>
+                {{ rowData.vacationRequestNumAfterday }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.creationTime }">
@@ -306,6 +324,14 @@
                         }}</label>
                     <p-checkbox formControlName="stockVacation" binary="true"
                         [(ngModel)]="product.stockVacation"></p-checkbox>
+                </div>
+
+                <div class="field field-approve">
+                    <label for="vacationRequestNumAfterday">{{
+                        "vacation Request Num After day" | translate
+                        }}</label>
+                    <p-checkbox formControlName="vacationRequestNumAfterday" binary="true"
+                        [(ngModel)]="product.vacationRequestNumAfterday"></p-checkbox>
                 </div>
 
                 <div class="field field-approve">

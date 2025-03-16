@@ -378,6 +378,7 @@ export class AllEmployeesManagerComponent {
 
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
     }

@@ -166,6 +166,7 @@ export class HrLetterComponent {
         this.productDialog = true;
       },
       error: (err) => {
+        this.hideDialog();
         console.log(err);
       },
     });

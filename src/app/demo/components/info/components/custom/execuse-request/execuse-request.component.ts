@@ -213,6 +213,7 @@ export class ExecuseRequestComponent {
             },
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
     }
@@ -436,6 +437,7 @@ export class ExecuseRequestComponent {
 
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
     }

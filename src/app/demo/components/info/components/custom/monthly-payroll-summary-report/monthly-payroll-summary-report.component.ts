@@ -122,7 +122,7 @@ export class MonthlyPayrollSummaryReportComponent {
 
         this.cols = [
             { field: 'employeeName', header: 'Name' },
-            { field: 'departmentName', header: 'Department Name' },
+            { field: 'departmentName', header: 'Department' },
             { field: 'designation', header: 'Designation' },
             { field: 'grossSalary', header: 'Gross Salary' },
             { field: 'totalDeductions', header: 'Total Deductions' },
@@ -174,6 +174,7 @@ export class MonthlyPayrollSummaryReportComponent {
                 label: this.translate.instant(`breadcrumb.cats.reports.items.salaryReports.items.MonthlyPayrollSummaryReport`),
             }];
     }
+
     splitCamelCase(str: any) {
         return str
             .replace(/([A-Z])/g, ' $1')
@@ -407,80 +408,86 @@ export class MonthlyPayrollSummaryReportComponent {
             this.showFormNew = true;
         }
     }
-    exportAllCSV() {
-        const csvData = this.convertToCSV(this.allDataWithoutPagination);
-
-        // Adding UTF-8 BOM
-        const bom = '\uFEFF';
-        const csvContent = bom + csvData;
-
-        // Create a Blob with UTF-8 encoding
-        const blob = new Blob([csvContent], {
-            type: 'text/csv;charset=utf-8;',
-        });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'data_export_' + new Date().getTime() + '.csv';
-        link.click();
-    }
 
     exportCSV() {
-        // Convert data to CSV format
-        const csvData = this.convertToCSV(this.selectedItems);
+        // Translate column headers
+        this.translate.get(this.cols.map(col => col.header)).subscribe(translations => {
+            const translatedHeaders = this.cols.map(col => translations[col.header]);
 
-        // Adding UTF-8 BOM
-        const bom = '\uFEFF';
-        const csvContent = bom + csvData;
+            // Convert data to CSV format with translated headers
+            const csvData = this.convertToCSV(this.selectedItems, translatedHeaders);
 
-        // Create a Blob with UTF-8 encoding
-        const blob = new Blob([csvContent], {
-            type: 'text/csv;charset=utf-8;',
+
+
+            // Adding UTF-8 BOM
+            const bom = '\uFEFF';
+            const csvContent = bom + csvData;
+
+            // Create a Blob with UTF-8 encoding
+            const blob = new Blob([csvContent], {
+                type: 'text/csv;charset=utf-8;',
+            });
+
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${this.endPoint}_${new Date().getTime()}.csv`;
+            link.click();
         });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'data_export_' + new Date().getTime() + '.csv';
-        link.click();
     }
 
-    convertToCSV(data: any[]): string {
+
+    exportAllCSV() {
+
+        // Translate column headers
+        this.translate.get(this.cols.map(col => col.header)).subscribe(translations => {
+            const translatedHeaders = this.cols.map(col => translations[col.header]);
+
+            // Convert data to CSV format with translated headers
+            const csvData = this.convertToCSV(this.allDataWithoutPagination, translatedHeaders);
+
+            // Adding UTF-8 BOM
+            const bom = '\uFEFF';
+            const csvContent = bom + csvData;
+
+            // Create a Blob with UTF-8 encoding
+            const blob = new Blob([csvContent], {
+                type: 'text/csv;charset=utf-8;',
+            });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${this.endPoint}_${new Date().getTime()}.csv`;
+            link.click();
+        })
+    }
+
+    convertToCSV(data: any[], headers?: string[]): string {
         if (!data || !data.length) return '';
 
         const separator = ',';
+        const keys = this.cols.map(col => col.field);
 
-        // Get the headers from the `cols` array
-        const headers = this.cols
-            .map((col) => `"${col.header}"`)
-            .join(separator);
+        // Determine headers: use provided ones or extract from `cols`
+        const csvHeaders = headers?.length ? headers : this.cols.map(col => `"${col.header}"`);
 
-        // Get the field names for mapping data
-        const keys = this.cols.map((col) => col.field);
-
-        // Map the data rows
-        const csvContent = data.map((row) =>
-            keys
-                .map((key) => {
-                    if (key === 'absentDates' && Array.isArray(row[key])) {
-                        // Format absentDates
-                        return `"${row[key]
-                            .map((date: string) =>
-                                new Date(date).toLocaleDateString('en-US', {
-                                    year: 'numeric',
-                                    month: 'short',
-                                    day: '2-digit',
-                                })
-                            )
-                            .join('  -  ')}"`;
-                    } else {
-                        return `"${row[key] || ''}"`; // Handle other fields
-                    }
-                })
-                .join(separator)
+        // Format CSV rows
+        const csvContent = data.map(row =>
+            keys.map(key => {
+                if (key === 'absentDates' && Array.isArray(row[key])) {
+                    return `"${row[key].map((date: string) =>
+                        new Date(date).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: '2-digit',
+                        })
+                    ).join('  -  ')}"`;
+                }
+                return `"${row[key] ?? ''}"`;
+            }).join(separator)
         );
 
-        // Add the header row at the beginning
-        csvContent.unshift(headers);
+        // Insert headers at the beginning
+        csvContent.unshift(csvHeaders.join(separator));
 
-        // Join all rows with newline
         return csvContent.join('\r\n');
     }
 

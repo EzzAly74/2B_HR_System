@@ -26,13 +26,17 @@
                     "Select Employee" | translate
                     }}</label>
                 <p-dropdown [options]="dropdownItemsEmployee" optionLabel="name" [(ngModel)]="selectedEmployee"
-                    formControlName="employeeId" [placeholder]="'All Employees' | translate"></p-dropdown>
+                    formControlName="employeeId" [placeholder]="'All Employees' | translate" [showClear]="true"
+                    [filter]="true" [filterBy]="'name'">
+                </p-dropdown>
+
             </div>
 
             <div class="field">
-                <label htmlFor="allowance">{{ "allowance" | translate }}</label>
+                <label htmlFor="allowance">{{ "Allowance" | translate }}</label>
                 <p-dropdown [options]="allowanceDropDown" [(ngModel)]="selectedAllowance" formControlName="allowanceId"
-                    optionLabel="name" [placeholder]=" 'Select Allowance' | translate" [showClear]="true"></p-dropdown>
+                    optionLabel="name" [placeholder]=" 'Select Allowance' | translate" [showClear]="true"
+                    [filter]="true" [filterBy]="'name'"></p-dropdown>
             </div>
 
             <div class="field">
@@ -158,11 +162,23 @@
                     "Select Employee" | translate
                     }}</label>
                 <p-dropdown [options]="dropdownItemsEmployee" optionLabel="name" [(ngModel)]="selectedEmployeeEdit"
-                    formControlName="employeeId" [placeholder]="'All Employees' | translate"></p-dropdown>
+                    formControlName="employeeId">
+
+                    <!-- Custom Placeholder Template -->
+                    <ng-template pTemplate="selectedItem">
+                        {{ selectedEmployeeEdit ? selectedEmployeeEdit.name : ("Select Employee" | translate) }}
+                    </ng-template>
+
+                    <!-- Placeholder when nothing is selected -->
+                    <ng-template pTemplate="empty">
+                        {{ "Select Employee" | translate }}
+                    </ng-template>
+                </p-dropdown>
+
             </div>
 
             <div class="field">
-                <label htmlFor="allowance">{{ "allowance" | translate }}</label>
+                <label htmlFor="allowance">{{ "Allowance" | translate }}</label>
                 <p-dropdown [options]="allowanceDropDown" [(ngModel)]="selectedAllowanceEdit"
                     formControlName="allowanceId" optionLabel="name" [placeholder]=" 'Select Allowance' | translate"
                     [showClear]="true"></p-dropdown>

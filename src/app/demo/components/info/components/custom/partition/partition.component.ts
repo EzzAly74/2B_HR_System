@@ -336,6 +336,7 @@ export class PartitionComponent {
 
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
     }

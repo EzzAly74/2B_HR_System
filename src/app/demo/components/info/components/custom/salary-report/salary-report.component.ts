@@ -129,26 +129,26 @@ export class SalaryReportComponent {
             this.updateTranslations();
         });
         this.cols = [
-            { field: 'employeeName', header: 'Name' },
-            { field: 'departmentName', header: 'Department Name' },
-            { field: 'year', header: 'Year' },
-            { field: 'basicSalary', header: 'basicSalry' }, // Ensure to use the correct translation key
-            { field: 'changing', header: 'changing' },
-            { field: 'badal', header: 'badal' },
-            { field: 'hawafez', header: 'hawafez' },
-            { field: 'kpi', header: 'kpi' },
-            { field: 'penaltiesAndDeduction', header: 'penaltiesAndDeduction' },
-            { field: 'bonus', header: 'bonus' },
-            { field: 'daysOfAbsence', header: 'daysOfAbsence' },
-            { field: 'daysOfAbsenceValue', header: 'daysOfAbsenceValue' },
-            { field: 'daysOfDelay', header: 'daysOfDelay' },
-            { field: 'daysOfDelayValue', header: 'daysOfDelayValue' },
-            { field: 'fingerPrintForgetting', header: 'fingerPrintForgetting' },
-            { field: 'fingerPrintForgettingValue', header: 'fingerPrintForgettingValue' },
-            { field: 'overTimeValue', header: 'overTimeValue' },
-            { field: 'initialPayment', header: 'initialpayment' },
-            { field: 'insuranceAmount', header: 'insuranceAmount' },
-            { field: 'totalMonthlyAllowance', header: 'totalMonthlyAllowance' },
+            { field: 'employeeName', header: this.translate.instant('Name') },
+            { field: 'departmentName', header: this.translate.instant('Department Name') },
+            { field: 'year', header: this.translate.instant('Year') },
+            { field: 'basicSalary', header: this.translate.instant('basicSalry') }, // Ensure to use the correct translation key
+            { field: 'changing', header: this.translate.instant('changing') },
+            { field: 'badal', header: this.translate.instant('badal') },
+            { field: 'hawafez', header: this.translate.instant('hawafez') },
+            { field: 'kpi', header: this.translate.instant('kpi') },
+            { field: 'penaltiesAndDeduction', header: this.translate.instant('penaltiesAndDeduction') },
+            { field: 'bonus', header: this.translate.instant('bonus') },
+            { field: 'daysOfAbsence', header: this.translate.instant('daysOfAbsence') },
+            { field: 'daysOfAbsenceValue', header: this.translate.instant('daysOfAbsenceValue') },
+            { field: 'daysOfDelay', header: this.translate.instant('daysOfDelay') },
+            { field: 'daysOfDelayValue', header: this.translate.instant('daysOfDelayValue') },
+            { field: 'fingerPrintForgetting', header: this.translate.instant('fingerPrintForgetting') },
+            { field: 'fingerPrintForgettingValue', header: this.translate.instant('fingerPrintForgettingValue') },
+            { field: 'overTimeValue', header: this.translate.instant('overTimeValue') },
+            { field: 'initialPayment', header: this.translate.instant('initialpayment') },
+            { field: 'insuranceAmount', header: this.translate.instant('insuranceAmount') },
+            { field: 'totalMonthlyAllowance', header: this.translate.instant('totalMonthlyAllowance') },
         ];
         this.selectedYear = null;
     }
@@ -438,80 +438,68 @@ export class SalaryReportComponent {
         }
     }
     exportAllCSV() {
-        const csvData = this.convertToCSV(this.allDataWithoutPagination);
+        this.translate.get(this.cols.map(col => col.header)).subscribe(translations => {
+            const translatedHeaders = this.cols.map(col => translations[col.header]);
 
-        // Adding UTF-8 BOM
-        const bom = '\uFEFF';
-        const csvContent = bom + csvData;
+            // Convert data to CSV format with translated headers
+            const csvData = this.convertToCSV(this.allDataWithoutPagination, translatedHeaders);
 
-        // Create a Blob with UTF-8 encoding
-        const blob = new Blob([csvContent], {
-            type: 'text/csv;charset=utf-8;',
+
+
+            // Adding UTF-8 BOM
+            const bom = '\uFEFF';
+            const csvContent = bom + csvData;
+
+            // Create a Blob with UTF-8 encoding
+            const blob = new Blob([csvContent], {
+                type: 'text/csv;charset=utf-8;',
+            });
+
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${this.endPoint}_${new Date().getTime()}.csv`;
+            link.click();
         });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = this.endPoint + '_' + new Date().getTime() + '.csv';
-        link.click();
     }
 
     exportCSV() {
-        // Convert data to CSV format
-        const csvData = this.convertToCSV(this.selectedItems);
+        // Translate column headers
+        this.translate.get(this.cols.map(col => col.header)).subscribe(translations => {
+            const translatedHeaders = this.cols.map(col => translations[col.header]);
 
-        // Adding UTF-8 BOM
-        const bom = '\uFEFF';
-        const csvContent = bom + csvData;
+            // Convert data to CSV format with translated headers
+            const csvData = this.convertToCSV(this.selectedItems, translatedHeaders);
 
-        // Create a Blob with UTF-8 encoding
-        const blob = new Blob([csvContent], {
-            type: 'text/csv;charset=utf-8;',
+
+
+            // Adding UTF-8 BOM
+            const bom = '\uFEFF';
+            const csvContent = bom + csvData;
+
+            // Create a Blob with UTF-8 encoding
+            const blob = new Blob([csvContent], {
+                type: 'text/csv;charset=utf-8;',
+            });
+
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${this.endPoint}_${new Date().getTime()}.csv`;
+            link.click();
         });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = this.endPoint + '_' + new Date().getTime() + '.csv';
-        link.click();
     }
 
-    convertToCSV(data: any[]): string {
+    convertToCSV(data: any[], headers: string[]): string {
         if (!data || !data.length) return '';
 
         const separator = ',';
+        let keys = this.cols.map(row => row.field); // Extract fields from `cols`
 
-        // Get the headers from the `cols` array
-        const headers = this.cols
-            .map((col) => `"${col.header}"`)
-            .join(separator);
-
-        // Get the field names for mapping data
-        const keys = this.cols.map((col) => col.field);
-
-        // Map the data rows
-        const csvContent = data.map((row) =>
-            keys
-                .map((key) => {
-                    if (key === 'absentDates' && Array.isArray(row[key])) {
-                        // Format absentDates
-                        return `"${row[key]
-                            .map((date: string) =>
-                                new Date(date).toLocaleDateString('en-US', {
-                                    year: 'numeric',
-                                    month: 'short',
-                                    day: '2-digit',
-                                })
-                            )
-                            .join('  -  ')}"`;
-                    } else {
-                        return `"${row[key] || ''}"`; // Handle other fields
-                    }
-                })
-                .join(separator)
+        const csvContent = data.map(row =>
+            keys.map(key => `"${row[key] ?? ''}"`).join(separator) // Handle undefined values
         );
 
-        // Add the header row at the beginning
-        csvContent.unshift(headers);
-
-        // Join all rows with newline
-        return csvContent.join('\r\n');
+        csvContent.unshift(headers.join(separator)); // Add translated headers as the first row
+        return csvContent.join('\r\n'); // Join all rows
     }
 
     confirmDeleteSelected() {
@@ -543,6 +531,7 @@ export class SalaryReportComponent {
             },
         });
     }
+
     sortById(event: any) {
         this.sortField = 'id';
 

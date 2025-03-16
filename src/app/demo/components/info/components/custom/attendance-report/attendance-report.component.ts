@@ -383,97 +383,96 @@ export class AttendanceReportComponent {
     }
 
     exportAllCSV() {
-        // Format the data
-        const formattedData = this.allDataWithoutPagination.map(item => ({
-            ...item,
-            date: item.date ? new Date(item.date).toISOString().split('T')[0] : '', // Format date as yyyy-MM-dd
-            checkIn: item.checkIn ? new Date(item.checkIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '', // Format time
-            checkOut: item.checkOut ? new Date(item.checkOut).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '' // Format time
-        }));
+        // Translate column headers
+        this.translate.get(this.cols.map(col => col.header)).subscribe(translations => {
+            const translatedHeaders = this.cols.map(col => translations[col.header]);
 
-        const csvData = this.convertToCSV(formattedData);
+            // Format the data
+            const formattedData = this.allDataWithoutPagination.map(item => ({
+                ...item,
+                date: item.date ? new Date(item.date).toISOString().split('T')[0] : '', // Format date as yyyy-MM-dd
+                checkIn: item.checkIn ? new Date(item.checkIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '', // Format time
+                checkOut: item.checkOut ? new Date(item.checkOut).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '' // Format time
+            }));
 
-        // Adding UTF-8 BOM
-        const bom = '\uFEFF';
-        const csvContent = bom + csvData;
+            // Convert data to CSV format with translated headers
+            const csvData = this.convertToCSV(formattedData, translatedHeaders);
 
-        // Create a Blob with UTF-8 encoding
-        const blob = new Blob([csvContent], {
-            type: 'text/csv;charset=utf-8;',
+            // Adding UTF-8 BOM
+            const bom = '\uFEFF';
+            const csvContent = bom + csvData;
+
+            // Create a Blob with UTF-8 encoding
+            const blob = new Blob([csvContent], {
+                type: 'text/csv;charset=utf-8;',
+            });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${this.endPoint}_${new Date().getTime()}.csv`;
+            link.click();
         });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = this.endPoint + '_' + new Date().getTime() + '.csv';
-        link.click();
     }
 
     exportCSV() {
+        // Translate column headers
+        this.translate.get(this.cols.map(col => col.header)).subscribe(translations => {
+            const translatedHeaders = this.cols.map(col => translations[col.header]);
 
-        // Format the data
-        const formattedData = this.selectedItems.map(item => ({
-            ...item,
-            date: item.date ? new Date(item.date).toISOString().split('T')[0] : '', // Format date as yyyy-MM-dd
-            checkIn: item.checkIn ? new Date(item.checkIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '', // Format time
-            checkOut: item.checkOut ? new Date(item.checkOut).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '' // Format time
-        }));
-        // Convert data to CSV format
-        const csvData = this.convertToCSV(formattedData);
+            // Format the data
+            const formattedData = this.selectedItems.map(item => ({
+                ...item,
+                date: item.date ? new Date(item.date).toISOString().split('T')[0] : '', // Format date as yyyy-MM-dd
+                checkIn: item.checkIn ? new Date(item.checkIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '', // Format time
+                checkOut: item.checkOut ? new Date(item.checkOut).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '' // Format time
+            }));
 
-        // Adding UTF-8 BOM
-        const bom = '\uFEFF';
-        const csvContent = bom + csvData;
+            // Convert data to CSV format with translated headers
+            const csvData = this.convertToCSV(formattedData, translatedHeaders);
 
-        // Create a Blob with UTF-8 encoding
-        const blob = new Blob([csvContent], {
-            type: 'text/csv;charset=utf-8;',
+            // Adding UTF-8 BOM
+            const bom = '\uFEFF';
+            const csvContent = bom + csvData;
+
+            // Create a Blob with UTF-8 encoding
+            const blob = new Blob([csvContent], {
+                type: 'text/csv;charset=utf-8;',
+            });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${this.endPoint}_${new Date().getTime()}.csv`;
+            link.click();
         });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = this.endPoint + '_' + new Date().getTime() + '.csv';
-        link.click();
     }
 
-    convertToCSV(data: any[]): string {
+    convertToCSV(data: any[], headers: string[]): string {
         if (!data || !data.length) return '';
 
         const separator = ',';
+        const keys = this.cols.map(col => col.field); // Extract fields from `cols`
 
-        // Get the headers from the `cols` array
-        const headers = this.cols
-            .map((col) => `"${col.header}"`)
-            .join(separator);
-
-        // Get the field names for mapping data
-        const keys = this.cols.map((col) => col.field);
-
-        // Map the data rows
-        const csvContent = data.map((row) =>
-            keys
-                .map((key) => {
-                    if (key === 'absentDates' && Array.isArray(row[key])) {
-                        // Format absentDates
-                        return `"${row[key]
-                            .map((date: string) =>
-                                new Date(date).toLocaleDateString('en-US', {
-                                    year: 'numeric',
-                                    month: 'short',
-                                    day: '2-digit',
-                                })
-                            )
-                            .join('  -  ')}"`;
-                    } else {
-                        return `"${row[key] || ''}"`; // Handle other fields
-                    }
-                })
-                .join(separator)
+        const csvContent = data.map(row =>
+            keys.map(key => {
+                if (key === 'absentDates' && Array.isArray(row[key])) {
+                    // Format absentDates
+                    return `"${row[key]
+                        .map((date: string) =>
+                            new Date(date).toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'short',
+                                day: '2-digit',
+                            })
+                        )
+                        .join('  -  ')}"`;
+                } else {
+                    return `"${row[key] || ''}"`; // Handle other fields
+                }
+            }).join(separator)
         );
 
-        // Add the header row at the beginning
-        csvContent.unshift(headers);
-
-        // Join all rows with newline
-        return csvContent.join('\r\n');
+        csvContent.unshift(headers.join(separator)); // Add translated headers as the first row
+        return csvContent.join('\r\n'); // Join all rows
     }
+
 
     confirmDeleteSelected() {
         let selectedIds = [];

@@ -195,6 +195,7 @@ export class AllEmployeesFileComponent {
 
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
     }
@@ -244,6 +245,7 @@ export class AllEmployeesFileComponent {
 
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
     }
@@ -374,6 +376,7 @@ export class AllEmployeesFileComponent {
 
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
     }
@@ -542,6 +545,7 @@ export class AllEmployeesFileComponent {
 
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
     }

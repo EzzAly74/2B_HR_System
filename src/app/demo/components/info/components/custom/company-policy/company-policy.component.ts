@@ -88,6 +88,22 @@ export class CompanyPolicyComponent {
     });
 
 
+
+    onFileSelect(event: any, fileUploader: any) {
+        console.log(event);
+        if (event.currentFiles.length > 0) {
+            let size = event.currentFiles.length - 1;
+            this.fileNew = event.currentFiles[size].name;
+            this.addNewForm.get('File')?.updateValueAndValidity(); // ✅ Validate
+            fileUploader.clear();
+
+            this.addNewForm.get('File')?.setValue(this.fileNew);
+            this.addNewForm.get('File')?.markAsDirty();
+            this.addNewForm.get('File')?.markAsTouched();
+        }
+    }
+
+
     updateTranslations() {
         this.items = [
             {
@@ -502,24 +518,31 @@ export class CompanyPolicyComponent {
     sortByName(event: any) {
         this.sortField = 'name';
     }
-    onFileSelect(event: any) {
-        if (event.files.length > 0) {
-            let size = event.files.length - 1;
-            this.fileNew = event.files[size].name;
+    // onFileSelect(event: any) {
+    //     if (event.files.length > 0) {
+    //         let size = event.files.length - 1;
+    //         this.fileNew = event.files[size].name;
+    //     }
+    // }
+
+
+
+    onFileSelectEdit(event: any, fileUploader: any) {
+        console.log(event);
+        if (event.currentFiles.length > 0) {
+            let size = event.currentFiles.length - 1;
+            this.fileEdit = event.currentFiles[size].name;
+            this.addNewForm.get('File')?.updateValueAndValidity(); // ✅ Validate
+            fileUploader.clear();
+
+            this.addNewForm.get('File')?.setValue(this.fileEdit);
+            this.addNewForm.get('File')?.markAsDirty();
+            this.addNewForm.get('File')?.markAsTouched();
         }
     }
 
-
-    onFileSelectEdit(event: any) {
-        if (event.files.length > 0) {
-            let size = event.files.length - 1;
-            this.fileEdit = event.files[size].name;
-        }
-        event = null;
-    }
-
-    onFileUpload() {
-
-    }
 
 }
+
+
+

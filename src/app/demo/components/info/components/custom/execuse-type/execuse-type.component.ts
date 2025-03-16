@@ -271,6 +271,7 @@ export class ExecuseTypeComponent {
 
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
     }

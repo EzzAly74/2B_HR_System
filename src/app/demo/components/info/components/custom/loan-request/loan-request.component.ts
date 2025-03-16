@@ -240,6 +240,7 @@ export class LoanRequestComponent {
         });
     }
 
+
     addNew(form: FormGroup) {
         console.log(form);
 
@@ -278,7 +279,7 @@ export class LoanRequestComponent {
             },
             error: (err) => {
                 this.showFormNew = false;
-
+                this.hideDialog();
                 console.log(err);
             },
         });
@@ -364,6 +365,8 @@ export class LoanRequestComponent {
     hideDialog() {
         this.productDialog = false;
         this.submitted = false;
+        this.acceptAllDialogue = false;
+        this.acceptRequestDialogue = false;
     }
 
     deleteProduct(product: any) {
@@ -403,6 +406,7 @@ export class LoanRequestComponent {
             },
             error: (err) => {
                 console.log(err);
+                this.hideDialog();
             },
         });
     }
@@ -539,6 +543,9 @@ export class LoanRequestComponent {
                 this.payments = res?.data;
                 this.tableLoans = true;
             },
+            error: (err) => {
+                this.hideDialog();
+            }
         });
         this.notesAccept = '';
     }

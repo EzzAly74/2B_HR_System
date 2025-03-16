@@ -284,6 +284,7 @@ export class AllEmployeesLocationComponent {
 
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
     }
@@ -393,6 +394,7 @@ export class AllEmployeesLocationComponent {
 
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
     }
@@ -574,6 +576,7 @@ export class AllEmployeesLocationComponent {
 
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
     }

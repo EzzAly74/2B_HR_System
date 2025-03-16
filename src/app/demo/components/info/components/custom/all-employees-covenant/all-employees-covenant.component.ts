@@ -183,6 +183,7 @@ export class AllEmployeesCovenantComponent {
 
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
     }
@@ -245,6 +246,7 @@ export class AllEmployeesCovenantComponent {
 
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
     }
@@ -363,6 +365,7 @@ export class AllEmployeesCovenantComponent {
 
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
     }

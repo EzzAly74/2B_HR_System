@@ -364,6 +364,7 @@ export class StdPaginationsWithPopupComponent {
             },
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
     }

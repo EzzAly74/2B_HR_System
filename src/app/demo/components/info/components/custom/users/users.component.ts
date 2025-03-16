@@ -216,6 +216,7 @@ export class UsersComponent {
 
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             },
         });
     }

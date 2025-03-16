@@ -203,6 +203,7 @@ export class ExternalMissonComponent {
             },
             error: (err) => {
                 console.log(err);
+
             },
         });
 
@@ -406,6 +407,7 @@ export class ExternalMissonComponent {
 
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
     }
@@ -572,6 +574,7 @@ export class ExternalMissonComponent {
             },
             error: () => {
                 this.loading = false;
+                this.hideDialog()
             }
         });
     }

@@ -258,6 +258,7 @@ export class PenaltiesAndDeductionComponent {
 
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
         this.notesAccept = '';
@@ -295,6 +296,7 @@ export class PenaltiesAndDeductionComponent {
 
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
         this.notesReject = '';

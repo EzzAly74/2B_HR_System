@@ -64,8 +64,10 @@ export class VacationTypeComponent {
         mangerApproved: new FormControl(false, [Validators.required]),
         hrApproved: new FormControl(false, [Validators.required]),
         stockVacation: new FormControl(false, [Validators.required]),
+        vacationRequestNumAfterday: new FormControl(false, [Validators.required]),
         isAttachementRequired: new FormControl(false, [Validators.required]),
     });
+
     editForm: FormGroup = new FormGroup({
         engName: new FormControl(null, [Validators.required]),
         name: new FormControl(null, [Validators.required]),
@@ -75,6 +77,7 @@ export class VacationTypeComponent {
         mangerApproved: new FormControl(false, [Validators.required]),
         hrApproved: new FormControl(false, [Validators.required]),
         stockVacation: new FormControl(false, [Validators.required]),
+        vacationRequestNumAfterday: new FormControl(false, [Validators.required]),
         isAttachementRequired: new FormControl(false, [Validators.required]),
         id: new FormControl(null),
     });
@@ -292,6 +295,7 @@ export class VacationTypeComponent {
 
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
     }

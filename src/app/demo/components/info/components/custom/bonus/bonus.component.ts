@@ -315,6 +315,7 @@ export class BonusComponent {
 
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
     }

@@ -109,51 +109,6 @@ export class ResignationPolicyComponent {
 
             this.updateTranslations();
         });
-
-        // use function get from custom service to get data;
-        // this.resignationPolicyService.GetAll().subscribe({
-        //     next: (res) => {
-        //         let data = res.data;
-        //         console.log(data);
-
-        //         if (data) {
-        //             // Patch other form controls
-        //             this.resignationSettingForm.patchValue({
-        //                 noticePeriodInDays: data.noticePeriodInDays || null,
-        //             });
-
-        //             // Populate resignationInstructions (FormArray)
-        //             const instructionsArray = this.resignationSettingForm.get(
-        //                 'resignationInstructions'
-        //             ) as FormArray;
-        //             instructionsArray.clear(); // Clear existing FormArray items if any
-
-        //             if (
-        //                 data.resignationInstructions &&
-        //                 Array.isArray(data.resignationInstructions)
-        //             ) {
-        //                 data.resignationInstructions.forEach((instruction) => {
-        //                     instructionsArray.push(
-        //                         new FormGroup({
-        //                             instructionArabic: new FormControl(
-        //                                 instruction.instructionArabic || null,
-        //                                 [Validators.required]
-        //                             ),
-        //                             instructionEnglish: new FormControl(
-        //                                 instruction.instructionEnglish || null,
-        //                                 [Validators.required]
-        //                             ),
-        //                         })
-        //                     );
-        //                 });
-        //             }
-        //         }
-        //     },
-        //     error: (err) => {
-        //         console.log(err);
-        //         // show an error msg here
-        //     },
-        // });
     }
 
 

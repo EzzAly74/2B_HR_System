@@ -279,6 +279,7 @@ export class AttendenceConfigurationComponent {
 
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
     }

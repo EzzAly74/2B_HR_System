@@ -46,13 +46,13 @@
             <div class="field">
                 <label htmlFor="upload">{{ "Upload File" | translate }} </label>
                 <p-fileUpload #fileUploader mode="basic" [chooseLabel]="fileNew || ('Import File' | translate)"
-                    chooseIcon="pi pi-download" name="demo[]" maxFileSize="1000000" [auto]="true"
-                    (onUpload)="onFileUpload()" (onSelect)="onFileSelect($event)">
+                    formControlName="File" chooseIcon="pi pi-download" name="demo[]" maxFileSize="1000000" [auto]="true"
+                    (onUpload)="onFileUpload()" (onSelect)="onFileSelect($event, fileUploader)">
                 </p-fileUpload>
             </div>
 
             <div class="field insertNew">
-                <button [disabled]="addNewForm.invalid" type="submit" class="w-25" pButton
+                <button [disabled]="!addNewForm.valid" type="submit" class="w-25" pButton
                     [label]="'Insert New' | translate"></button>
             </div>
         </form>
@@ -189,7 +189,8 @@
             <div class="field">
                 <label htmlFor="date">{{ "Upload File" | translate }} </label>
                 <p-fileUpload mode="basic" [chooseLabel]="'Choose File' | translate" chooseIcon="pi pi-upload"
-                    name="demo[]" maxFileSize="1000000" accept=".pdf" (onSelect)="onFileSelectEdit($event)" />
+                    name="demo[]" maxFileSize="1000000" accept=".pdf"
+                    (onSelect)="onFileSelectEdit($event, fileUploader)" />
                 <!-- <button (click)="uploadFile()">Upload</button> -->
             </div>
             <div class="field btns">

@@ -333,6 +333,7 @@ export class ApplyingInternalJobComponent {
             },
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             },
         });
     }

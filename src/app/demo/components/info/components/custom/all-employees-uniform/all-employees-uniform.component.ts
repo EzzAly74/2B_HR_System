@@ -338,6 +338,7 @@ export class AllEmployeesUniformComponent {
 
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
     }

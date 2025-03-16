@@ -368,6 +368,7 @@ export class AllEmployeesFingerPrintComponent {
 
             error: () => {
                 this.loading = false;
+                this.hideDialog();
             }
         });
     }
@@ -417,6 +418,10 @@ export class AllEmployeesFingerPrintComponent {
         );
 
         // this.selectedItems = this.allData;
+    }
+    hideDialog() {
+        this.productDialog = false;
+        this.submitted = false;
     }
     exportCSV() {
         // Translate column headers
